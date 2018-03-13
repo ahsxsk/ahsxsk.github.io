@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：CharArrayWriter使用及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="使用方法CharArrayWriter即字符数组输出流，用于向输出流写写入字符，和ByteArrayOutputStream的区别就是前者写入的是字符后者写入的是字节。
+方法介绍CharArrayWriter提供的API如下：
+//构造方法
+CharArrayWriter()
+CharArrayWr">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：CharArrayWriter使用及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：CharArrayWriter使用及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>CharArrayWriter即字符数组输出流，用于向输出流写写入字符，和ByteArrayOutputStream的区别就是前者写入的是字符后者写入的是字<br>节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>CharArrayWriter提供的API如下：</p>
+<pre><code>//构造方法
+CharArrayWriter()
+CharArrayWriter(int initialSize)
+
+//追加写
+CharArrayWriter     append(CharSequence csq, int start, int end)
+CharArrayWriter     append(char c)
+CharArrayWriter     append(CharSequence csq)
+//关闭,未做实现
+void     close()
+//未做实现
+void     flush()
+//清空输出流
+void     reset()
+//输出流大小
+int     size()
+//返回char数组
+char[]     toCharArray()
+//返回String
+String     toString()
+//写入
+void     write(char[] buffer, int offset, int len)
+void     write(int oneChar)
+void     write(String str, int offset, int count)
+//写入到其他Writer
+void     writeTo(Writer out)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testCharArrayWriter() {
+    try {
+        char [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        //创建输出流Writer
+        CharArrayWriter writer = new CharArrayWriter();
+        //写入&apos;1&apos;
+        writer.write(&apos;1&apos;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入字符串&apos;2345&apos;
+        writer.write(&quot;2345&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //追加4567
+        writer.append(&quot;456&quot;).append(&quot;7&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入abc
+        writer.write(letters, 0, 3);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>输出流的内容为: 1
+输出流的内容为: 12345
+输出流的内容为: 123454567
+输出流的内容为: 123454567abc
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>CharArrayWriter的构造方法有两个，区别是字符数组大小设置。</p>
+<pre><code>/**
+ * Creates a new CharArrayWriter.
+ */
+public CharArrayWriter() {
+    this(32);
+}
+
+/**
+ * Creates a new CharArrayWriter with the specified initial size.
+ *
+ * @param initialSize  an int specifying the initial buffer size.
+ * @exception IllegalArgumentException if initialSize is negative
+ */
+public CharArrayWriter(int initialSize) {
+    if (initialSize &lt; 0) {
+        throw new IllegalArgumentException(&quot;Negative initial size: &quot;
+                + initialSize);
+    }
+    buf = new char[initialSize];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write有多种重载方法，重点分析其中一种。</p>
+<pre><code>/**
+ * Writes characters to the buffer.
+ * @param c the data to be written
+ * @param off       the start offset in the data
+ * @param len       the number of chars that are written
+ */
+public void write(char c[], int off, int len) {
+    if ((off &lt; 0) || (off &gt; c.length) || (len &lt; 0) ||
+            ((off + len) &gt; c.length) || ((off + len) &lt; 0)) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return;
+    }
+    synchronized (lock) { //线程安全
+        int newcount = count + len;
+        if (newcount &gt; buf.length) {
+            //数组扩容方案是: 2倍和实际需要大小中的最大值
+            buf = Arrays.copyOf(buf, Math.max(buf.length &lt;&lt; 1, newcount));
+        }
+        System.arraycopy(c, off, buf, count, len); //写入
+        count = newcount;
+    }
+}
+</code></pre><h3 id="append方法"><a href="#append方法" class="headerlink" title="append方法"></a>append方法</h3><p>将要追加的字符（串）写在输出流最后。</p>
+<pre><code>/**
+ * Appends the specified character sequence to this writer.
+ * @param  csq
+ *         The character sequence to append.  If &lt;tt&gt;csq&lt;/tt&gt; is
+ *         &lt;tt&gt;null&lt;/tt&gt;, then the four characters &lt;tt&gt;&quot;null&quot;&lt;/tt&gt; are
+ *         appended to this writer.
+ *
+ * @return  This writer
+ *
+ * @since  1.5
+ */
+public CharArrayWriter append(CharSequence csq) {
+    String s = (csq == null ? &quot;null&quot; : csq.toString());
+    write(s, 0, s.length()); //写入
+    return this; //可以拼接追加
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_19.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_19.html
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java_IO：CharArrayReader使用及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

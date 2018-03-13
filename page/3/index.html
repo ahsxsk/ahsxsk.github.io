@@ -1,0 +1,3344 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 3 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header page-header-inverse ">
+  <h1 class="title title-inverse ">史可的博客</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+        <!-- render top articles firstly -->
+        
+        <!-- render other articles -->
+        
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程同步机制/" >Java并发编程：线程同步机制</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p><strong> Java中线程同步可以通过wait、notify、notifyAll等方法实现。这几个方法在最顶级的父类Object中实现，并且被声明为final，所以子类无法重写这几个方法。在实现线程同步时，一般需要配合synchronized关键字使用，定义同步代码块或者方法。JDK 1.5以后提供了Condition来实现线程间的协作，Condition提供的await、signal、signalAll方法相对于wait、notify、notifyAll的方法更加安全高效，Condition所使用的是ReentrantLock锁。 </strong></p>
+<h2 id="1-synchronized关键字和ReentrantLock类"><a href="#1-synchronized关键字和ReentrantLock类" class="headerlink" title="1 synchronized关键字和ReentrantLock类"></a>1 synchronized关键字和ReentrantLock类</h2><p>理解synchronized关键字必须首先了解下Java的内存模型。<br><strong> Java中每一个进程都有自己的主内存，进程中的每个线程有自己的线程内存，线程从主内存中获取数据在线程内存中计算完成后回写到主内存中。在并发情况下就可能造成数据过期数据的问题。 </strong> 具体例子看如下代码： </p>
+<pre><code>public class TestSync {
+    public static int sum = 0;
+    public static class MyThreadA implements Runnable {
+        @Override
+        public void run() {
+            for (int j = 0; j &lt; 10000; j++) {
+                sum++;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i &lt; 10; i++) { //10个任务交给线程池, 返回的数据预期为10*10000
+            MyThreadA myThreadA = new MyThreadA();
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+        System.out.println(sum);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>88625
+</code></pre><p>从执行结果可以看出，并不是预期中的100000。原因就在数据过期的问题。例如线程A和线程B同时从主内存中获取sum的值为1500。线程A计算了1000次，此<br>时线程A内存中的sum为2500，并向主内存回写sum=2500，后交出CPU;线程B获得CPU开始计算了900次，此时线程B内存中的sum=2400,并向<br>主内存回写sum=2400,后交出CPU。此时主内存的sum=2400,而预期是1500+1000+900=3400。<br>使用synchronized关键字改进代码如下：</p>
+<pre><code>public class TestSync {
+    public static int sum = 0;
+    public static Object lock = new Object(); //自定义锁对象,代价较小
+    public static class MyThreadA implements Runnable {
+        @Override
+        public void run() {
+            synchronized (lock) { //同步代码块
+                for (int j = 0; j &lt; 10000; j++) {
+                    sum++;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i &lt; 10; i++) { //10个任务交给线程池, 返回的数据预期为10*10000
+            MyThreadA myThreadA = new MyThreadA();
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+        System.out.println(sum);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>100000
+</code></pre><p>执行结果符合预期。原因是线程进入同步代码块后会获取对象锁，阻止其他线程进入执行，线程执行完for循环并向主内存回写sum后才会退出退出同步代码块，其他线程才<br>会执行。<br>ReentrantLock类提供的锁机制可以完成所有synchronized关键字能实现的功能并且针对synchronized的限制 —<br>它无法中断一个正在等候获得锁的线程，也无法通过投票得到锁，如果不想等下去，也就没法得到锁，做出了改进，提高了高争用条件下的执行效率。具体分析请参考（ <a href="https://www.ibm.com/developerworks/cn/java/j-jtp10264/" target="_blank" rel="noopener"><br>https://www.ibm.com/developerworks/cn/java/j-jtp10264/
+</a> ）；</p>
+<h2 id="2-wait-、notify-、notifyAll-介绍及代码演示（介绍纯属copy其他博客，-地址："><a href="#2-wait-、notify-、notifyAll-介绍及代码演示（介绍纯属copy其他博客，-地址：" class="headerlink" title="2 wait()、notify()、notifyAll() 介绍及代码演示（介绍纯属copy其他博客， 地址： ["></a>2 wait()、notify()、notifyAll() 介绍及代码演示（介绍纯属copy其他博客， 地址： [</h2><p><a href="http://blog.csdn.net/ns_code/article/details/17225469" target="_blank" rel="noopener">http://blog.csdn.net/ns_code/article/details/17225469</a><br>](<a href="http://blog.csdn.net/ns_code/article/details/17225469" target="_blank" rel="noopener">http://blog.csdn.net/ns_code/article/details/17225469</a>) ）</p>
+<h3 id="2-1-wait方法介绍"><a href="#2-1-wait方法介绍" class="headerlink" title="2.1 wait方法介绍"></a>2.1 wait方法介绍</h3><p><strong> 该方法用来将当前线程置入休眠状态，直到接到通知或被中断为止。在调用wait（）之前，线程必须要获得该对象的对象级别锁，即只能在同步方法或同步块中调用wait（）方法。进入wait（）方法后，当前线程释放锁。在从wait（）返回前，线程与其他线程竞争重新获得锁。如果调用wait（）时，没有持有适当的锁，则抛出IllegalMonitorStateException，它是RuntimeException的一个子类，因此，不需要try-catch结构。 </strong></p>
+<h3 id="2-2-notify方法介绍"><a href="#2-2-notify方法介绍" class="headerlink" title="2.2 notify方法介绍"></a>2.2 notify方法介绍</h3><p><strong> 该方法用来通知那些可能等待该对象的对象锁的其他线程。如果有多个线程等待，则线程规划器任意挑选出其中一个wait（）状态的线程来发出通知，并使它等待获取该对象的对象锁（notify后，当前线程不会马上释放该对象锁，wait所在的线程并不能马上获取该对象锁，要等到程序退出synchronized代码块后，当前线程才会释放锁，wait所在的线程也才可以获取该对象锁），但不惊动其他同样在等待被该对象notify的线程们。当第一个获得了该对象锁的wait线程运行完毕以后，它会释放掉该对象锁，此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，会继续阻塞在wait状态，直到这个对象发出一个notify或notifyAll。 </strong> 这里需要注意：它们等待的是被notify或notifyAll，而不是锁。这与下面的notifyAll（）方法执行后的情况不同。 </p>
+<h3 id="2-3-notifyAll方法介绍"><a href="#2-3-notifyAll方法介绍" class="headerlink" title="2.3 notifyAll方法介绍"></a>2.3 notifyAll方法介绍</h3><p><strong> 该方法与notify（）方法的工作方式相同，重要的一点差异是：notifyAll使所有原来在该对象上wait的线程统统退出wait的状态（即全部被唤醒，不再等待notify或notifyAll，但由于此时还没有获取到该对象锁，因此还不能继续往下执行），变成等待获取该对象上的锁，一旦该对象锁被释放（notifyAll线程退出调用了notifyAll的synchronized代码块的时候），他们就会去竞争。如果其中一个线程获得了该对象锁，它就会继续往下执行，在它退出synchronized代码块，释放锁后，其他的已经被唤醒的线程将会继续竞争获取该锁，一直进行下去，直到所有被唤醒的线程都执行完毕。 </strong></p>
+<h3 id="2-4-更深入的理解"><a href="#2-4-更深入的理解" class="headerlink" title="2.4 更深入的理解"></a>2.4 更深入的理解</h3><p><strong> 如果线程调用了对象的wait（）方法，那么线程便会处于该对象的等待池中，等待池中的线程不会去竞争该对象的锁。当有线程调用了对象的notifyAll（）方法（唤醒所有wait线程）或notify（）方法（只随机唤醒一个wait线程），被唤醒的的线程便会进入该对象的锁池中，锁池中的线程会去竞争该对象锁。 </strong><br><strong> 优先级高的线程竞争到对象锁的概率大，假若某线程没有竞争到该对象锁，它还会留在锁池中，唯有线程再次调用wait（）方法，它才会重新回到等待池中。而竞争到对象锁的线程则继续往下执行，直到执行完了synchronized代码块，它会释放掉该对象锁，这时锁池中的线程会继续竞争该对象锁。 </strong></p>
+<h3 id="2-5-代码展示"><a href="#2-5-代码展示" class="headerlink" title="2.5 代码展示"></a>2.5 代码展示</h3><p>3线程交替wait，相互唤醒。</p>
+<pre><code>public class Main {
+    private static Object lock = new Object(); //自定义锁对象
+    public static class MyThreadA implements Runnable {
+        public String name;
+        public MyThreadA(String name) {
+            this.name = name;
+        }
+        @Override
+        public void run() {
+            synchronized (lock) {
+                for (int i = 0; i &lt; 11; i++) {
+                    if (i % 3 == 0 &amp;&amp; i != 0) {
+                        System.out.println(Thread.currentThread().getName() + &quot; : &quot;+ i);
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    //System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i + &quot;notify&quot;);
+                    lock.notify();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 3; i++) {
+            MyThreadA myThreadA = new MyThreadA(&quot;thread a&quot;);
+            executorService.execute(myThreadA);
+        }
+        //executorService.shutdown();
+    }
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 : 3
+pool-1-thread-2 : 3
+pool-1-thread-3 : 3
+pool-1-thread-1 : 6
+pool-1-thread-3 : 6
+pool-1-thread-1 : 9
+pool-1-thread-3 : 9
+pool-1-thread-2 : 6
+</code></pre><p>线程2打印6后进入wait,没有其他线程notify导致一直等待。</p>
+<h2 id="3-await-、signal-、signalAll-介绍及代码演示"><a href="#3-await-、signal-、signalAll-介绍及代码演示" class="headerlink" title="3 await()、signal()、signalAll()介绍及代码演示"></a>3 await()、signal()、signalAll()介绍及代码演示</h2><p>这三个方法的作用和wait、notify、notifyAll类似，采用这三个方法是需要使用的同步锁是Lock。</p>
+<pre><code>public class Main {
+    private static Lock lock = new ReentrantLock(); //自定义锁对象
+    private static Condition condition = lock.newCondition();
+    public static class MyThreadA implements Runnable {
+        public String name;
+        public MyThreadA(String name) {
+            this.name = name;
+        }
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                for (int i = 0; i &lt; 11; i++) {
+                    if (i % 3 == 0 &amp;&amp; i != 0) {
+                        System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i);
+                        try {
+                            condition.await();
+                        } catch (InterruptedException e) {}
+                    }
+                    //System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i + &quot;notify&quot;);
+                    condition.signalAll();
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 3; i++) {
+            MyThreadA myThreadA = new MyThreadA(&quot;thread a&quot;);
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 : 3
+pool-1-thread-2 : 3
+pool-1-thread-1 : 6
+pool-1-thread-2 : 6
+pool-1-thread-1 : 9
+pool-1-thread-2 : 9
+pool-1-thread-3 : 3
+pool-1-thread-3 : 6
+</code></pre><p>和使用wait、notify类似，最后一个线程有可能会陷入一直等待的状态。</p>
+<h2 id="4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型"><a href="#4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型" class="headerlink" title="4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型"></a>4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型</h2>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程同步机制/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程池创建及源码分析/" >Java并发编程：线程池创建及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java5引入了线程池的顶级接口Executor，ExecutorService继承了Executor接口并增加了自己的方法。Executors工具类为Ex<br>ecutor，ExecutorService，ScheduledExecutorService，ThreadFactory和Callable类提供了一些工具<br>方法，通过这个工具类提供的方法可以方便的创建线程池。</p>
+<h2 id="1-使用线程池的好处"><a href="#1-使用线程池的好处" class="headerlink" title="1 使用线程池的好处"></a>1 使用线程池的好处</h2><p>使用线程池的好处主要有三点：<br>第一，降低资源消耗。通过预先创建的线程池，避免了高频率的创建和销毁线程，最大可能的重用线程。<br>第二，提高响应速度。有任务到达的时候可以直接使用线程池中的空闲线程，避免即时创建线程导致的效率降低。<br>第三，方便线程管理。通过线程池可以对线程进行统一创建、监控。</p>
+<h2 id="2-创建线程池"><a href="#2-创建线程池" class="headerlink" title="2 创建线程池"></a>2 创建线程池</h2><p>Executors工具类为创建线程池提供了 <strong> newCachedThreadPool，newFixedThreadPool，newSingleThrea<br>dExecutor以及newScheduledThreadPool </strong> 四个工厂方法创建不同类型的线程池。</p>
+<h3 id="2-1-newCachedThreadPool示例"><a href="#2-1-newCachedThreadPool示例" class="headerlink" title="2.1 newCachedThreadPool示例"></a>2.1 newCachedThreadPool示例</h3><p>这个方法创建的是一个可以动态改变大小的线程池。当任务较多时会增加线程池中线程的数量，如果需要处理的任务较少，导致线程60s没有运行，JVM则会回收线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        ExecutorService MyThreadPool =  
+            Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-3 is running...
+pool-1-thread-5 is running...
+pool-1-thread-4 is running...
+pool-1-thread-2 is running...
+pool-1-thread-1 is running...
+</code></pre><p>由执行结果可知，线程池为了处理5个任务启动了5个线程。</p>
+<h3 id="2-2-newFixedThreadPool-示例"><a href="#2-2-newFixedThreadPool-示例" class="headerlink" title="2.2 newFixedThreadPool 示例"></a>2.2 newFixedThreadPool 示例</h3><p>这个方法可以创建一个大小固定的线程池，当需要处理的任务书大于空闲线程个数时会暂时存在等待队列中直到有空闲的线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-2 is running...
+pool-1-thread-3 is running...
+pool-1-thread-1 is running...
+pool-1-thread-3 is running...
+pool-1-thread-2 is running...
+</code></pre><p>由执行结果可知，5个任务1\2\3号线程同时执行，当2\3号线程空闲后执行最后两个任务。</p>
+<h3 id="2-3-newSingleThreadExecutor示例"><a href="#2-3-newSingleThreadExecutor示例" class="headerlink" title="2.3 newSingleThreadExecutor示例"></a>2.3 newSingleThreadExecutor示例</h3><p>这个方法和2.2中的方法类似，不过本方法产生固定大小为1的线程池，所有任务由一个线程完成。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ExecutorService MyThreadPool = Executors.newSingleThreadExecutor();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+</code></pre><p>5个任务全是由线程1完成的。</p>
+<h3 id="2-4-newScheduledThreadPool示例"><a href="#2-4-newScheduledThreadPool示例" class="headerlink" title="2.4 newScheduledThreadPool示例"></a>2.4 newScheduledThreadPool示例</h3><p>这个方法创建的是一个大小固定，但是支持延时和周期操作的线程池。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+        System.out.println(Thread.currentThread().getName() + &quot; is running... 1&quot;);
+        }
+    }
+    public static class Scheduled1 implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running... 2&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ScheduledThreadPoolExecutor MyThreadPool = new ScheduledThreadPoolExecutor(2);
+        Runnable r1 = new MyThread();
+        Runnable r2 = new Scheduled1();
+        MyThreadPool.scheduleAtFixedRate(r1, 1000, 2000, TimeUnit.MILLISECONDS);
+        MyThreadPool.scheduleAtFixedRate(r2, 1000, 5000, TimeUnit.MILLISECONDS);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+</code></pre><h2 id="3-几种线程池源码分析"><a href="#3-几种线程池源码分析" class="headerlink" title="3 几种线程池源码分析"></a>3 几种线程池源码分析</h2><p>第二节介绍的几种线程池创建方法都是通过调用ThreadPoolExecutor方法实现的，区别是调用ThreadPoolExecutor时传递的参数不同。</p>
+<h3 id="3-1ThreadPoolExecutor使用方法介绍"><a href="#3-1ThreadPoolExecutor使用方法介绍" class="headerlink" title="3.1ThreadPoolExecutor使用方法介绍"></a>3.1ThreadPoolExecutor使用方法介绍</h3><p>ThreadPoolExecutor的的构造方法如下：</p>
+<pre><code>ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue&lt;Runnable&gt; workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler)
+</code></pre><p>corePoolSize: 线程池中基本线程数。线程池初始化会创建corePoolSize个基本线程用于处理任务。<br>maximumPoolSize：线程池最大容量。线程池最多允许存在的线程数。<br>keepAliveTime：线程空闲回收时间。线程池中除了基本线程的外的线程空闲时间达到keepAliveTime时就会由JVM自动销毁回收。<br>unit：时间单位。keepAliveTime的时间单位。<br>workQueue：线程的排队队列。常见的线程队列有无界队列（LinkedBlockingQueue），同步队列（SynchronousQueue），有界队<br>列（ArrayBlockingQueue）。任务的提交策略由选用哪种任务队列决定。<br>threadFactory：线程工厂。创建线程的方法，可以通过这个参数为线程命名一个有意义的名称。<br>handler：饱和处理策略。当线程池和队列都满时的处理策略。</p>
+<h3 id="3-2-newCachedThreadPool源码分析"><a href="#3-2-newCachedThreadPool源码分析" class="headerlink" title="3.2 newCachedThreadPool源码分析"></a>3.2 newCachedThreadPool源码分析</h3><pre><code> public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,60L, TimeUnit.SECONDS,new SynchronousQueue&lt;Runnable&gt;());
+}
+</code></pre><p>newCachedThreadPool是一个静态方法，内部返回了一个ThreadPoolExecutor实例。<br>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：0，线程池的基本线程数为0。线程池不会维护固定大小的基本线程。<br>maximumPoolSize：Integer.MAX_VALUE,2^31 - 1。线程池的大小可以认为是无限大的。<br>keepAliveTime：60L，保活时间为60。当基本线程外的线程超过60个时间单位没有处理任务则回收。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：SynchronousQueue，同步队列。等待队列为同步队列，只有线程将队列中的任务取走时新的任务才会入队列。<br><strong> 由源码分析可知，newCachedThreadPool方法创建的线程池是一个无线大小的线程池，他会根据任务的多少动态增减线程池中线程的数量。 </strong></p>
+<h3 id="3-3-newFixedThreadPool源码分析"><a href="#3-3-newFixedThreadPool源码分析" class="headerlink" title="3.3 newFixedThreadPool源码分析"></a>3.3 newFixedThreadPool源码分析</h3><pre><code>public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：nThreads，线程池的基本线程数为nThreads。<br>maximumPoolSize：nThreads。线程池的包含的最大数量和基本线程数量是一样的。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br><strong> 由源码分析可知，newFixedThreadPool方法创建的是一个大小固定的线程池，当线程池中线程数量大于基本线程数时，任务会加入等workQueue。 </strong></p>
+<h3 id="3-4-newSingleThreadExecutor源码分析"><a href="#3-4-newSingleThreadExecutor源码分析" class="headerlink" title="3.4 newSingleThreadExecutor源码分析"></a>3.4 newSingleThreadExecutor源码分析</h3><pre><code> public static ExecutorService newSingleThreadExecutor() {
+  return new FinalizableDelegatedExecutorService (new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue&lt;Runnable&gt;()));
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：1，线程池的基本线程数为1。<br>maximumPoolSize：1。线程池的包含的最大数量和基本线程数量是一样的，并且最多只允许有1个线程。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br>由源码分析可知，newFixedThreadPool方法和newFixedThreadPool方法几乎一样，只是线程池大小固定为1。</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>ThreadPoolExecutor、AbstractExecutorService、ExecutorService和Executor的关系及下一篇预告。</p>
+<p>Executor是线程池的顶级接口，他只声明了execute方法。<br>ExecutorService继承了Executor接口并声明了submit的方法。<br>AbstractExecutorService类实现了ExecutorService的几乎所有方法。<br>ThreadPoolExecutor继承了AbstractExecutorService类。</p>
+<p>下一篇会详细分析ThreadPoolExecutor。</p>
+<h2 id="5-参考"><a href="#5-参考" class="headerlink" title="5 参考"></a>5 参考</h2><p>[1] <a href="http://blog.csdn.net/sd0902/article/details/8395677" target="_blank" rel="noopener"> http://blog.csdn.net/sd0902/article/details/8395677
+</a><br>[2] <a href="http://www.infoq.com/cn/articles/java-threadPool#anch92136" target="_blank" rel="noopener"> http://www.infoq.com/cn/articles/java-threadPool#anch92136
+</a><br>[3] <a href="http://www.cnblogs.com/nayitian/p/3262031.html" target="_blank" rel="noopener"> http://www.cnblogs.com/nayitian/p/3262031.html
+</a><br>[4] <a href="http://www.cnblogs.com/dolphin0520/p/3932921.html" target="_blank" rel="noopener"> http://www.cnblogs.com/dolphin0520/p/3932921.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程池创建及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程创建/" >Java并发编程：线程创建</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java中创建线程最常用的方法有继承Thread类和实现Runnable两种。Thread类实际也是实现了Runnable方法，由于无法继承多个父类但是可以<br>继承多个接口，所有创建进程大多是实现Runnable接口</p>
+<blockquote>
+<ul>
+<li>继承Thread类</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Thread类源码分析
+</code></pre></blockquote>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ul>
+<li>实现Runnable接口</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Runnable接口源码分析
+</code></pre></blockquote>
+</blockquote>
+<hr>
+<h2 id="1-继承Thread类"><a href="#1-继承Thread类" class="headerlink" title="1 继承Thread类"></a>1 继承Thread类</h2><h3 id="1-1-创建线程示例"><a href="#1-1-创建线程示例" class="headerlink" title="1.1 创建线程示例"></a>1.1 创建线程示例</h3><p>例如有15张票，有三个窗口，每个窗口卖五张票，可以使用继承Thread类实现多线程处理。</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+public class ExtendThread {
+    public static class MultiThread extends Thread {
+    private int total = 5;
+    private String name;
+    MultiThread(String name) {
+        // TODO Auto-generated constructor stub
+        super(name);
+    }
+    @Override
+    public void run () {
+        while (total &gt; 0) {
+            System.out.println(&quot;Ticket:&quot; + total-- + &quot; is saled by Thread:&quot; + Thread.currentThread().getName());
+        }
+    }
+}
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThread mt1 = new MultiThread(&quot;Thread1&quot;);
+        MultiThread mt2 = new MultiThread(&quot;Thread2&quot;);
+        MultiThread mt3 = new MultiThread(&quot;Thread3&quot;);
+        mt1.start();
+        mt2.start();
+        mt3.start();
+    }
+}
+运行结果如下：
+Ticket:5 is saled by Thread:Thread2
+Ticket:5 is saled by Thread:Thread1
+Ticket:5 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread3
+Ticket:3 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread1
+Ticket:4 is saled by Thread:Thread2
+Ticket:3 is saled by Thread:Thread1
+Ticket:2 is saled by Thread:Thread3
+Ticket:1 is saled by Thread:Thread3
+Ticket:2 is saled by Thread:Thread1
+Ticket:1 is saled by Thread:Thread1
+Ticket:3 is saled by Thread:Thread2
+Ticket:2 is saled by Thread:Thread2
+Ticket:1 is saled by Thread:Thread2
+</code></pre><h3 id="1-2-Thread类源码分析"><a href="#1-2-Thread类源码分析" class="headerlink" title="1.2 Thread类源码分析"></a>1.2 Thread类源码分析</h3><h4 id="1-2-1-类声明"><a href="#1-2-1-类声明" class="headerlink" title="1.2.1 类声明"></a>1.2.1 类声明</h4><pre><code>public class Thread extends Object implements Runnable；
+</code></pre><p>从类声明可以看出Thread实现了Runnable接口。</p>
+<h4 id="1-2-2-构造函数"><a href="#1-2-2-构造函数" class="headerlink" title="1.2.2 构造函数"></a>1.2.2 构造函数</h4><p>Thread类的构造函数有8个，这里只介绍他的无参构造函数Thread()，其他构造函数可以到 <strong> <a href="http://docs.oracle.com/javase/7/docs/api/" target="_blank" rel="noopener"><br>http://docs.oracle.com/javase/7/docs/api/
+</a> </strong> 学习了解。</p>
+<pre><code>public Thread() {
+    init(null, null, &quot;Thread-&quot; + nextThreadNum(), 0);
+}
+</code></pre><p>由init得第三个参数可以看出线程名称命名规则是Thread-加上线程数组合。 init函数的内部实现如下：</p>
+<pre><code>/**
+     * Initializes a Thread.
+     *
+     * @param g the Thread group
+     * @param target the object whose run() method gets called
+     * @param name the name of the new Thread
+     * @param stackSize the desired stack size for the new thread, or
+     *        zero to indicate that this parameter is to be ignored.
+     */
+　　　　//ThreadGroup：线程组表示一个线程的集合。此外，线程组也可以包含其他线程组。线程组构成一棵树，在树中，除了初始线程组外，每个线程组都有一个父线程组。
+    private void init(ThreadGroup g, Runnable target, String name,
+                      long stackSize) {
+    Thread parent = currentThread();
+    SecurityManager security = System.getSecurityManager();
+    if (g == null) {
+        /* Determine if it&apos;s an applet or not */
+
+        /* If there is a security manager, ask the security manager
+           what to do. */
+        if (security != null) {
+        g = security.getThreadGroup();
+        }
+
+        /* If the security doesn&apos;t have a strong opinion of the matter
+           use the parent thread group. */
+        if (g == null) {
+        g = parent.getThreadGroup();
+        }
+    }
+
+    /* checkAccess regardless of whether or not threadgroup is
+           explicitly passed in. */
+    g.checkAccess();
+
+    /*
+     * Do we have the required permissions?
+     */
+    if (security != null) {
+        if (isCCLOverridden(getClass())) {
+            security.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+        }
+    }
+
+        g.addUnstarted();
+
+    this.group = g;
+
+　　　　//每个线程都有一个优先级，高优先级线程的执行优先于低优先级线程。每个线程都可以或不可以标记为一个守护程序。当某个线程中运行的代码创建一个新 Thread 对象时，该新线程的初始优先级被设定为创建线程的优先级，并且当且仅当创建线程是守护线程时，新线程才是守护程序。
+    this.daemon = parent.isDaemon();
+    this.priority = parent.getPriority();
+    this.name = name.toCharArray();
+    if (security == null || isCCLOverridden(parent.getClass()))
+        this.contextClassLoader = parent.getContextClassLoader();
+    else
+        this.contextClassLoader = parent.contextClassLoader;
+    this.inheritedAccessControlContext = AccessController.getContext();
+    this.target = target;
+    setPriority(priority);
+        if (parent.inheritableThreadLocals != null)
+        this.inheritableThreadLocals =
+        ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);
+        /* Stash the specified stack size in case the VM cares */
+        this.stackSize = stackSize;
+
+        /* Set thread ID */
+        tid = nextThreadID();
+    }
+</code></pre><h4 id="1-2-3-run-方法"><a href="#1-2-3-run-方法" class="headerlink" title="1.2.3 run()方法"></a>1.2.3 run()方法</h4><p>run定义了线程实际完成的功能，具体源码如下：</p>
+<pre><code>public void run() {
+    if (target != null) {
+        target.run();
+    }
+}
+</code></pre><p>target是接口Runnable实现的引用，由于run方法并未做任何实现，所以继承Thread类必须实现run方法。</p>
+<h4 id="1-2-4-start-方法"><a href="#1-2-4-start-方法" class="headerlink" title="1.2.4 start()方法"></a>1.2.4 start()方法</h4><p>start方法作用为启动一个线程，源码如下：</p>
+<pre><code>public synchronized void start() {
+        if (threadStatus != 0 || this != me)
+            throw new IllegalThreadStateException();
+        group.add(this);
+        start0();
+        if (stopBeforeStart) {
+        stop0(throwableFromStop);
+    }
+ }
+</code></pre><p>start方法内部调用了本地方法start0创建线程，在创建线程之前会检查当前线程对象是否已经运行过start方法，确保一个线程对象只会运行一次start方<br>法。如果多次运行start方法，就会导致有多个线程同时操作相同的堆栈计数器等，导致无法预期的结果。</p>
+<h4 id="1-2-5-yield-、wait-、sleep-方法"><a href="#1-2-5-yield-、wait-、sleep-方法" class="headerlink" title="1.2.5 yield()、wait()、sleep() 方法"></a>1.2.5 yield()、wait()、sleep() 方法</h4><p>yield方法使正在运行的线程变成就绪状态， <strong> 建议先运行其他线程 </strong><br>。但是这种方式只是建议，并不一定会让其他线程先运行，也有可能当前线程继续运行，yield方法只会让 <strong> 相同优先级的线程优先执行 </strong> 。<br>wait方法不属于Thread类，他是Object类的方法。这个方法释放线程锁，知道收到notify通知为止。<br>sleep方法会使线程休眠一段时间，但是休眠期间不会主动释放cpu资源。<br>这里面内容挺多，忙完这段时间，把和这几个方法相关的线程调度、同步锁等知识温习分享下。</p>
+<h4 id="1-2-6-join-方法"><a href="#1-2-6-join-方法" class="headerlink" title="1.2.6 join()方法"></a>1.2.6 join()方法</h4><p>join方法的作用是强行运行要join的线程，阻塞当前线程知道join的线程执行完毕。如下示例：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestJoin {
+    public static class MultiThreadA extends Thread {
+        private String name;
+        private int count = 5;
+
+        public MultiThreadA(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            while (count-- &gt; 0) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+                System.out.println(name + count);
+            }
+        }
+    }
+    public static class MultiThreadB extends Thread {
+        private String name;
+        private int count = 5;
+        MultiThreadA a;
+
+        public MultiThreadB(MultiThreadA a) {
+        // TODO Auto-generated constructor stub
+            this.a = a;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.currentThread().sleep(505);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println(&quot;Begin ThreadB&quot;);
+            try {
+                a.join();
+            } catch (InterruptedException e) {
+                // TODO: handle exception
+                System.out.println(&quot;getException&quot;);
+            }
+            System.out.println(&quot;End ThreadB&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThreadA tA = new MultiThreadA(&quot;ThreadA&quot;);
+        MultiThreadB tB = new MultiThreadB(tA);
+        tA.start();
+        tB.start();
+    }
+}
+执行结果如下：
+ThreadA4
+Begin ThreadB
+ThreadA3
+ThreadA2
+ThreadA1
+ThreadA0
+End ThreadB
+</code></pre><p>ThreadA首先打印了一条，然后ThreadB运行，遇到a.join()后运行ThreadA直到运行结束才会再次运行ThreadB。</p>
+<h2 id="2、实现Runnable接口"><a href="#2、实现Runnable接口" class="headerlink" title="2、实现Runnable接口"></a>2、实现Runnable接口</h2><p>通过实现Runnable接口可以创建线程，实现的过程和Thread类内部实现很相似。</p>
+<h3 id="2-1-创建线程示例"><a href="#2-1-创建线程示例" class="headerlink" title="2.1 创建线程示例"></a>2.1 创建线程示例</h3><p>Thread类演示了每个窗口售票不相互影响，各自卖五张票。如果需要三个窗口协同卖5张票，可以通过Runnalble共享变量，示例如下：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestRunnable {
+    public static class MyThread implements Runnable {
+        private String name;
+        private int total = 5;
+
+        public MyThread(String name) {
+            // TODO Auto-generated constructor stub
+            this.name = name;
+        }
+
+        @Override
+        public synchronized void run() {
+            try {
+                Thread.currentThread().sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            while (total &gt; 0) {
+                System.out.println(&quot;ticket:&quot; + total + &quot; is sold!&quot;);
+                total--;
+            }
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MyThread mt = new MyThread(&quot;myThread&quot;);
+        Thread a = new Thread(mt);
+        Thread b = new Thread(mt);
+        Thread c = new Thread(mt);
+        a.start();
+        b.start();
+        c.start();
+    }
+}
+运行结果如下：
+ticket:5 is sold!
+ticket:4 is sold!
+ticket:3 is sold!
+ticket:2 is sold!
+ticket:1 is sold!
+</code></pre><p>三个线程共同完成5张票的售卖。</p>
+<h3 id="2-2-Runnable源码分析"><a href="#2-2-Runnable源码分析" class="headerlink" title="2.2 Runnable源码分析"></a>2.2 Runnable源码分析</h3><p>Runnable接口中只有一个抽象run方法，所以不管是实现Runnable接口或者继承Thread类都需要重写run方法。</p>
+<pre><code>public interface Runnable {
+     public abstract void run();
+ }
+</code></pre><hr>
+<p>参考：</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程创建/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：BufferedOutputStream使用详解及源码分析/" >Java_IO：BufferedOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedOutputStream继承于FilterOutputStream，提供缓冲输出流功能。缓冲输出流相对于普通输出流的优势是，它提供了一个缓冲<br>数组，只有缓冲数组满了或者手动flush时才会向磁盘写数据，避免频繁IO。核心思想是，提供一个缓冲数组，写入时首先操作缓冲数组。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedOutputStream提供的API如下：</p>
+<pre><code>//构造函数
+BufferedOutputStream(OutputStream out) //默认缓冲数组大小为8192
+BufferedOutputStream(OutputStream out, int size)
+
+synchronized void     close() //关闭
+synchronized void     flush() //刷盘
+synchronized void     write(byte[] b, int off, int len) //向输出流写数据
+synchronized void     write(int b)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedOutput() {
+    try {
+        final byte [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        /*
+         *创建文件输出流out,缓冲区大小为8
+         */
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*将letters前6个字符写入到输出流*/
+        out.write(letters, 0 ,6);
+        /*此时不会写入任何数据到磁盘文件*/
+        readFile();
+        /*继续写入4个字符*/
+        for (int i = 0; i &lt; 4; i++) {
+            out.write(&apos;g&apos; + i);
+        }
+        /*此时只会写入8个字符到磁盘文件*/
+        readFile();
+        /*此时会把所有内容写入磁盘文件*/
+        out.flush();
+        readFile();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+private void readFile() {
+    try {
+        InputStream in = new FileInputStream(&quot;buff.txt&quot;);
+        byte [] bytes = new byte[20];
+        in.read(bytes, 0, bytes.length);
+        System.out.println(&quot;文件中的内容为: &quot;  + new String(bytes));
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>文件中的内容为:
+文件中的内容为: abcdefgh
+文件中的内容为: abcdefghij
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedOutputStream的构造方法有两个，区别是字节缓冲数组大小。</p>
+<pre><code>/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream.
+ *
+ * @param   out   the underlying output stream.
+ */
+public BufferedOutputStream(OutputStream out) {
+    this(out, 8192);
+}
+
+/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream with the specified buffer
+ * size.
+ *
+ * @param   out    the underlying output stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if size &amp;lt;= 0.
+ */
+public BufferedOutputStream(OutputStream out, int size) {
+    super(out);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write方法有两个重载方法，分别是协议一个字节的write(int b)和写入一个字节数组的write(byte b[], int off, int<br>len)。下面分析第二个方法的源码。</p>
+<pre><code>/**
+ * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+ * starting at offset &lt;code&gt;off&lt;/code&gt; to this buffered output stream.
+ *
+ * &lt;p&gt; Ordinarily this method stores bytes from the given array into this
+ * stream&apos;s buffer, flushing the buffer to the underlying output stream as
+ * needed.  If the requested length is at least as large as this stream&apos;s
+ * buffer, however, then this method will flush the buffer and write the
+ * bytes directly to the underlying output stream.  Thus redundant
+ * &lt;code&gt;BufferedOutputStream&lt;/code&gt;s will not copy data unnecessarily.
+ *
+ * @param      b     the data.
+ * @param      off   the start offset in the data.
+ * @param      len   the number of bytes to write.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void write(byte b[], int off, int len) throws IOException {
+    if (len &gt;= buf.length) { //如果写入长度比buf长度长,直接写入文件，不走缓冲区
+        /* If the request length exceeds the size of the output buffer,
+           flush the output buffer and then write the data directly.
+           In this way buffered streams will cascade harmlessly. */
+        flushBuffer(); //将原有缓冲区内容刷盘
+        out.write(b, off, len); //直接写入文件
+        return;
+    }
+    if (len &gt; buf.length - count) { //可用空间不足,先刷盘
+        flushBuffer();
+    }
+    System.arraycopy(b, off, buf, count, len); //复制写入
+    count += len;
+}
+/** Flush the internal buffer */
+private void flushBuffer() throws IOException {
+    if (count &gt; 0) {
+        out.write(buf, 0, count);
+        count = 0;
+    }
+}
+</code></pre><h3 id="flush方法"><a href="#flush方法" class="headerlink" title="flush方法"></a>flush方法</h3><pre><code>/**
+ * Flushes this buffered output stream. This forces any buffered
+ * output bytes to be written out to the underlying output stream.
+ *
+ * @exception  IOException  if an I/O error occurs.
+ * @see        java.io.FilterOutputStream#out
+ */
+public synchronized void flush() throws IOException {
+    flushBuffer(); //刷盘
+    out.flush(); //未做任何实现
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_13.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_13.html
+</a><br>[2] <a href="http://czj4451.iteye.com/blog/1545159" target="_blank" rel="noopener"> http://czj4451.iteye.com/blog/1545159
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：BufferedOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：ArrayList使用详解及源码分析/" >Java集合：ArrayList使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ArrayList是数组队列，可以实现容量的动态增长。ArrayList类继承了AbstractList抽象类并且实现了List、RandomAccess，<br>Cloneable以及java.io.Serializable接口。<br>public class ArrayList extends AbstractList implements List, RandomAccess,<br>Cloneable, java.io.Serializable<br>AbstractList类继承了AbstractCollection类并实现了List接口。<br>实现RandomAccess接口使ArrayList拥有随机访问的能力，即通过下表索引访问数组元素。<br>实现Cloneable接口重写了接口定义的clone()方法，ArrayList可以使用clone()复制数组。<br>实现 java.io.Serializable接口使ArrayList支持序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ArrayList提供了增加、删除、判空等操作，具体提供的方法如下：</p>
+<pre><code>// Collection中定义的API
+boolean             add(E object)  //增加元素
+boolean             addAll(Collection&lt;? extends E&gt; collection) //复制另一个Collection中的所有元素
+void                clear() //清空数组
+boolean             contains(Object object) //判断数组中是否包含object
+boolean             containsAll(Collection&lt;?&gt; collection) //判断另一个数组是否是这个数组的子集
+boolean             equals(Object object) //判断元素是否相等
+int                 hashCode() //获取hash code
+boolean             isEmpty() //判空
+Iterator&lt;E&gt;         iterator() //迭代器
+boolean             remove(Object object) //删除元素
+boolean             removeAll(Collection&lt;?&gt; collection)  //删除collection包含的元素
+boolean             retainAll(Collection&lt;?&gt; collection) //保留collection包含的元素
+int                 size() //获取数组大小
+&lt;T&gt; T[]             toArray(T[] array)  //转换成T类型的数组
+Object[]            toArray() //转换成Object类型的数组
+// AbstractCollection中定义的API
+void                add(int location, E object) //指定位置增加元素
+boolean             addAll(int location, Collection&lt;? extends E&gt; collection) //指定位置开始增加多个元素
+E                   get(int location) //获取location位置的元素
+int                 indexOf(Object object) //获取object首次出现的位置
+int                 lastIndexOf(Object object) //获取object最后一次出现的位置
+ListIterator&lt;E&gt;     listIterator(int location) //迭代器，从location起始
+ListIterator&lt;E&gt;     listIterator() //迭代器
+E                   remove(int location) //删除location位置的元素
+E                   set(int location, E object) //重置location位置的元素为object
+List&lt;E&gt;             subList(int start, int end) //获取[start, end)之间的元素
+// ArrayList新增的API
+Object               clone() //复制元素
+void                 ensureCapacity(int minimumCapacity) //最低容量
+void                 trimToSize() //修剪数组大小为当前元素个数
+void                 removeRange(int fromIndex, int toIndex) //删除[fromIndex, toIndex)之间的元素
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>package com;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+   // write your code here
+        List list = new ArrayList&lt;&gt;(20); //申请一个初始容量为20的ArrayList
+        String element; //要填充的元素
+        for (int i = 0; i &lt; 10; i++) {
+            element = &quot;num-&quot; + i;
+            list.add(element); // 填充list
+        }
+        list.add(10, &quot;num-10&quot;); //在指定位置增加元素
+
+        //使用Iterator遍历list
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            System.out.print(iter.next() + &quot; &quot;);
+        }
+        System.out.println(&quot; &quot;);
+
+        System.out.println(&quot;The second element is: &quot; + list.get(1)); //获取第2个元素
+        System.out.println(&quot;array size is: &quot; + list.size()); //获取list大小
+        System.out.println(&quot;is array list contains num-15:&quot; + list.contains(&quot;num-15&quot;)); //判断list是否含有num-15
+        list.set(2,&quot;num-3-1&quot;); //将第三个元素设置为num-3-1
+
+        String[] arr = (String[])list.toArray(new String[0]); //将ArrayList转换为数组
+        for (String str:arr) { //遍历数组
+            System.out.print(str + &quot; &quot;);
+        }
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>num-0 num-1 num-2 num-3 num-4 num-5 num-6 num-7 num-8 num-9 num-10
+The second element is: num-1
+array size is: 11
+is array list contains num-15:false
+num-0 num-1 num-3-1 num-3 num-4 num-5 num-6 num-7 num-8 num-9 num-10
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ArrayList有三个构造函数，提供三种创建ArrayList实例的方法。</p>
+<pre><code>/**
+ * 获取一个初始长度为initialCapacity的空ArrayList
+ * @param initialCapacity
+ */
+public ArrayList(int initialCapacity) {
+    if (initialCapacity &gt; 0) {
+        this.elementData = new Object[initialCapacity];
+    } else if (initialCapacity == 0) {
+        this.elementData = EMPTY_ELEMENTDATA;
+    } else {
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    }
+}
+
+/**
+ * 返回一个空ArrayList
+ */
+public ArrayList() {
+    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+}
+
+/**
+ * 返回一个用ArrayList,并且用集合c进行初始化
+ * @param c
+ */
+public ArrayList(Collection&lt;? extends E&gt; c) {
+    elementData = c.toArray();
+    if ((size = elementData.length) != 0) {
+        // c.toArray might (incorrectly) not return Object[] (see 6260652)
+        if (elementData.getClass() != Object[].class)
+            elementData = Arrays.copyOf(elementData, size, Object[].class);
+    } else {
+        // replace with empty array.
+        this.elementData = EMPTY_ELEMENTDATA;
+    }
+}
+</code></pre><h3 id="2-2-add方法"><a href="#2-2-add方法" class="headerlink" title="2.2 add方法"></a>2.2 add方法</h3><pre><code>/**
+ * 增加元素
+ * @param e
+ * @return
+ */
+public boolean add(E e) {
+    ensureCapacityInternal(size + 1);  // 确定ArrayList长度
+    elementData[size++] = e; //向数组中增加元素
+    return true;
+}
+</code></pre><h3 id="2-3-remove方法"><a href="#2-3-remove方法" class="headerlink" title="2.3 remove方法"></a>2.3 remove方法</h3><pre><code>/**
+ * 删除元素
+ * @param index
+ * @return
+ */
+public E remove(int index) {
+    rangeCheck(index); //检查下标是否合法
+
+    modCount++;
+    E oldValue = elementData(index); //获取删除的元素
+
+    int numMoved = size - index - 1;
+    if (numMoved &gt; 0) //移动元素
+        System.arraycopy(elementData, index+1, elementData, index,
+                numMoved);
+    elementData[--size] = null; // clear to let GC do its work
+
+    return oldValue;
+}
+</code></pre><h3 id="2-4-toArray方法"><a href="#2-4-toArray方法" class="headerlink" title="2.4 toArray方法"></a>2.4 toArray方法</h3><p>toArray有两个重载方法，一个不带参数返回Object数字，另一个带参数，返回任意类型的数组。</p>
+<pre><code>/**
+ * 返回Object对象的数组
+ * @return
+ */
+public Object[] toArray() {
+    return Arrays.copyOf(elementData, size);
+}
+
+/**
+ * 返回任意对象类型的数组
+ * @param a
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; size) //传入数组大小小于size时,直接返回一个新数组
+        // Make a new array of a&apos;s runtime type, but my contents:
+        return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+    System.arraycopy(elementData, 0, a, 0, size); //传入数组大小大于size,将ArrayList中的内容复制到数组中
+    if (a.length &gt; size)
+        a[size] = null;
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3308556.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3308556.html
+</a><br>[2] <a href="http://blog.chinaunix.net/uid-29702073-id-4334609.html" target="_blank" rel="noopener"> http://blog.chinaunix.net/uid-29702073-id-4334609.html
+</a><br>[3] <a href="http://www.cnblogs.com/hzmark/archive/2012/12/20/ArrayList.html" target="_blank" rel="noopener"> http://www.cnblogs.com/hzmark/archive/2012/12/20/ArrayList.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：ArrayList使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：Hashtable使用详解及源码分析/" >Java集合：Hashtable使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>Hashtable是和HashMap类似的散列表，存储的内容为key-value键值对，key的值是唯一的，和HashMap不同的是key和value都不能<br>为null。Hashtable和HashMap的关系可以参考Vector和ArrayList的关系，操作和功能大部分相同，Hashtable是线程安全的但是<br>速度较慢，建议使用HashMap，如果遇到多线程情况则使用concurrentHashMap或者Collections提供静态函数SynchronizedM<br>ap等来保证线程安全。</p>
+<pre><code>public class Hashtable&lt;K,V&gt;
+        extends Dictionary&lt;K,V&gt;
+        implements Map&lt;K,V&gt;, Cloneable, java.io.Serializable {}
+</code></pre><p>HashMap继承了Dictionary并实现了Map、Cloneable以及Serializable接口，所以HashMap支持clone和序列化。</p>
+<h3 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h3><p>Hashtable提供的API主要有如下几种：</p>
+<pre><code>synchronized void                clear() //清空Hashtable
+synchronized Object              clone() //复制Hashtable
+boolean             contains(Object value) //判断是否包含value
+synchronized boolean             containsKey(Object key) //是否包含key
+synchronized boolean             containsValue(Object value) //是否包含value
+synchronized Enumeration&lt;V&gt;      elements() //获取value组成的枚举
+synchronized Set&lt;Entry&lt;K, V&gt;&gt;    entrySet() //获取entry组成的Set集合
+synchronized boolean             equals(Object object) //判断相等
+synchronized V                   get(Object key) //获取键值为key的entry
+synchronized int                 hashCode() //获取hashCode
+synchronized boolean             isEmpty() //判空
+synchronized Set&lt;K&gt;              keySet() //获取key组成的Set集合
+synchronized Enumeration&lt;K&gt;      keys() //获取key组成的枚举
+synchronized V                   put(K key, V value) //添加元素
+synchronized void                putAll(Map&lt;? extends K, ? extends V&gt; map) //添加一组元素
+synchronized V                   remove(Object key) //删除键为key的元素
+synchronized int                 size() //获取大小
+synchronized String              toString() //返回Hashtable键值组成的字符串
+synchronized Collection&lt;V&gt;       values() //获取值组成的Collection集合
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testHashtable() {
+        //新建hashtable
+        Hashtable hashtable = new Hashtable();
+        //添加元素
+        hashtable.put(1, &quot;one&quot;);
+        hashtable.put(2, &quot;two&quot;);
+        hashtable.put(3, &quot;three&quot;);
+        hashtable.put(4, &quot;four&quot;);
+        //打印元素
+        this.printMapByEntrySet(hashtable);
+        //获取大小
+        System.out.println(&quot;hashtable的大小为: &quot; + hashtable.size());
+        //是否包含key为4的元素
+        System.out.println(&quot;hashtable是否包含key为4的元素: &quot; + hashtable.containsKey(4));
+        //是否包含值为5的元素
+        System.out.println(&quot;hashtable是否包含value为two的元素: &quot; + hashtable.containsValue(&quot;two&quot;));
+
+        hashtable.put(5, &quot;five&quot;);
+        hashtable.put(6, &quot;six&quot;);
+
+        //删除元素
+        System.out.println(&quot;删除key为2的元素: &quot; + hashtable.remove(2));
+        //打印元素
+        this.printMapByKeySet(hashtable);
+        //clone
+        Hashtable cloneTable = (Hashtable) hashtable.clone();
+        //打印克隆table
+        System.out.println(&quot;clonetable的元素为: &quot; + cloneTable);
+        //打印克隆table的keys
+        this.printHashtableKeysByEnum(cloneTable);
+        //清空hashtable
+        hashtable.clear();
+        //判空
+        System.out.println(&quot;hashtable是否为空: &quot; + hashtable.isEmpty());
+    }
+
+    /**
+     * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+     * @param hashtable
+     */
+    private void printMapByEntrySet(Hashtable hashtable) {
+        Integer key = null;
+        String value = null;
+        Iterator iterator = hashtable.entrySet().iterator(); //
+        System.out.print(&quot;hashtable中含有的元素有: &quot;);
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            key = (Integer) entry.getKey();
+            value = (String) entry.getValue();
+            System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    /**
+     * 使用keySet获取key的Set集合,利用key获取值
+     * @param hashtable
+     */
+    private void printMapByKeySet(Hashtable hashtable) {
+        Integer key = null;
+        String value = null;
+        Iterator iterator = hashtable.keySet().iterator();
+        System.out.print(&quot;hashtable中含有的元素有: &quot;);
+        while (iterator.hasNext()) {
+            key = (Integer) iterator.next();
+            value = (String) hashtable.get(key);
+            System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    /**
+     * 使用枚举获取hashtable的keys
+     * @param hashtable
+     */
+    private void printHashtableKeysByEnum(Hashtable hashtable) {
+        Enumeration enumeration = hashtable.keys();
+        System.out.print(&quot;hashtable的key有: &quot;);
+        while (enumeration.hasMoreElements()) {
+            System.out.print(enumeration.nextElement() + &quot; &quot;);
+        }
+        System.out.println();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>hashtable中含有的元素有: key/value : 4/four key/value : 3/three key/value : 2/two key/value : 1/one
+hashtable的大小为: 4
+hashtable是否包含key为4的元素: true
+hashtable是否包含value为two的元素: true
+删除key为2的元素: two
+hashtable中含有的元素有: key/value : 6/six key/value : 5/five key/value : 4/four key/value : 3/three key/value : 1/one
+clonetable的元素为: {6=six, 5=five, 4=four, 3=three, 1=one}
+hashtable的key有: 6 5 4 3 1
+hashtable是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>Hashtable有四个构造函数，每个构造函数的不同之处和hashMap构造函数类似在于初始容量和加载因子不同。初始容量为申请的Hashtable初始大小，<br>当加入元素后的容量大于加载因子和当前容量的乘积是，Hashtable需要再hash增大容量。</p>
+<pre><code>/**
+ * 构造一个空的Hashtable,容量为initialCapacity,加载因子为loadFactor
+ *
+ * @param      initialCapacity   the initial capacity of the hashtable.
+ * @param      loadFactor        the load factor of the hashtable.
+ * @exception  IllegalArgumentException  if the initial capacity is less
+ *             than zero, or if the load factor is nonpositive.
+ */
+public Hashtable(int initialCapacity, float loadFactor) {
+    if (initialCapacity &lt; 0) //非法参数检查
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);
+
+    if (initialCapacity==0) //最少容量为1
+        initialCapacity = 1;
+    this.loadFactor = loadFactor;
+    table = new Entry&lt;?,?&gt;[initialCapacity]; //元素数组
+    //再hash阈值,和HashMap不同.HashMap构造时阈值为大于或者等于initialCapacity的最小的2的倍数
+    threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+}
+
+/**
+ * 构造一个初始容量为initialCapacity,加载因子为0.75的Hashtable.
+ *
+ * @param     initialCapacity   the initial capacity of the hashtable.
+ * @exception IllegalArgumentException if the initial capacity is less
+ *              than zero.
+ */
+public Hashtable(int initialCapacity) {
+    this(initialCapacity, 0.75f);
+}
+
+/**
+ * Constructs a new, empty hashtable with a default initial capacity (11)
+ * and load factor (0.75).
+ */
+public Hashtable() {
+    this(11, 0.75f);
+}
+
+/**
+ * 构造并使用t初始化一个Hashtable,大小为t大小两倍和者11中的较大数,加载因子为0.75.
+ *
+ * @param t the map whose mappings are to be placed in this map.
+ * @throws NullPointerException if the specified map is null.
+ * @since   1.2
+ */
+public Hashtable(Map&lt;? extends K, ? extends V&gt; t) {
+    this(Math.max(2*t.size(), 11), 0.75f);
+    putAll(t);
+}
+</code></pre><h3 id="2-2-put方法"><a href="#2-2-put方法" class="headerlink" title="2.2 put方法"></a>2.2 put方法</h3><pre><code>/**
+ * 向Hashtable中添加元素
+ *
+ * @param      key     the hashtable key
+ * @param      value   the value
+ * @return     the previous value of the specified key in this hashtable,
+ *             or &lt;code&gt;null&lt;/code&gt; if it did not have one
+ * @exception  NullPointerException  if the key or value is
+ *               &lt;code&gt;null&lt;/code&gt;
+ * @see     Object#equals(Object)
+ * @see     #get(Object)
+ */
+public synchronized V put(K key, V value) {
+    // Make sure the value is not null
+    if (value == null) {
+        throw new NullPointerException();
+    }
+
+    // Makes sure the key is not already in the hashtable.
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; entry = (Entry&lt;K,V&gt;)tab[index];
+    for(; entry != null ; entry = entry.next) {
+        if ((entry.hash == hash) &amp;&amp; entry.key.equals(key)) {
+            V old = entry.value;
+            entry.value = value;
+            return old;
+        }
+    }
+
+    addEntry(hash, key, value, index);
+    return null;
+}
+
+private void addEntry(int hash, K key, V value, int index) {
+    modCount++;
+
+    Entry&lt;?,?&gt; tab[] = table;
+    if (count &gt;= threshold) {
+        // Rehash the table if the threshold is exceeded
+        rehash();
+
+        tab = table;
+        hash = key.hashCode();
+        index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    }
+
+    // Creates the new entry.
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;) tab[index];
+    tab[index] = new Entry&lt;&gt;(hash, key, value, e);
+    count++;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * Returns the value to which the specified key is mapped,
+ * or {@code null} if this map contains no mapping for the key.
+ *
+ * &lt;p&gt;More formally, if this map contains a mapping from a key
+ * {@code k} to a value {@code v} such that {@code (key.equals(k))},
+ * then this method returns {@code v}; otherwise it returns
+ * {@code null}.  (There can be at most one such mapping.)
+ *
+ * @param key the key whose associated value is to be returned
+ * @return the value to which the specified key is mapped, or
+ *         {@code null} if this map contains no mapping for the key
+ * @throws NullPointerException if the specified key is null
+ * @see     #put(Object, Object)
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public synchronized V get(Object key) {
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length; //获取下标
+    for (Entry&lt;?,?&gt; e = tab[index] ; e != null ; e = e.next) { //遍历链表
+        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+            return (V)e.value;
+        }
+    }
+    return null;
+}
+</code></pre><p>2.4 remove方法</p>
+<pre><code>/**
+ * Removes the key (and its corresponding value) from this
+ * hashtable. This method does nothing if the key is not in the hashtable.
+ *
+ * @param   key   the key that needs to be removed
+ * @return  the value to which the key had been mapped in this hashtable,
+ *          or &lt;code&gt;null&lt;/code&gt; if the key did not have a mapping
+ * @throws  NullPointerException  if the key is &lt;code&gt;null&lt;/code&gt;
+ */
+public synchronized V remove(Object key) {
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;)tab[index];
+    for(Entry&lt;K,V&gt; prev = null ; e != null ; prev = e, e = e.next) {
+        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+            modCount++;
+            if (prev != null) { //不是链表的第一个元素, 跳过要删除的节点
+                prev.next = e.next;
+            } else {
+                tab[index] = e.next; //第一个节点
+            }
+            count--;
+            V oldValue = e.value;
+            e.value = null; //删除节点的value, help GC
+            return oldValue;
+        }
+    }
+    return null;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310887.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310887.html
+</a><br>[2] <a href="http://blog.csdn.net/ns_code/article/details/36191279" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36191279
+</a><br>[3] 《Java编程思想》第4版</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：Hashtable使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：HashMap使用详解及源码分析/" >Java集合：HashMap使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>HashMap是散列表，存储的内容为key-value键值对，key的值是唯一的，可以为null。</p>
+<pre><code>public class HashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt; implements Map&lt;K,V&gt;, Cloneable, Serializable {}
+</code></pre><p>HashMap继承了AbstractMap并实现了Map、Cloneable以及Serializable接口，所以HashMap支持clone和序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>HashMap提供的API主要如下：</p>
+<pre><code>void                 clear() //清空HashMap
+Object               clone() //复制HashMap
+boolean              containsKey(Object key) //判断是否存在key
+boolean              containsValue(Object value) //判断是否存在Value
+Set&lt;Entry&lt;K, V&gt;&gt;     entrySet() //返回HashMap的Entry组成的set集合
+V                    get(Object key) //获取键为key的元素值
+boolean              isEmpty() //判空
+Set&lt;K&gt;               keySet() //获取HashMap的key组成的set集合
+V                    put(K key, V value) //加入HashMap
+void                 putAll(Map&lt;? extends K, ? extends V&gt; map) //批量加入
+V                    remove(Object key) //删除键为key的Entry
+int                  size() //获取大小
+Collection&lt;V&gt;        values() //获取HashMap的value集合
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testHashMap() {
+    //新建hashMap
+    HashMap hashMap = new HashMap(); //新建hashMap
+    //添加元素
+    hashMap.put(1, &quot;one&quot;);
+    hashMap.put(2, &quot;two&quot;);
+    hashMap.put(3, &quot;three&quot;);
+    hashMap.put(4, &quot;four&quot;);
+    //打印元素
+    this.printMapByEntrySet(hashMap);
+    //获取大小
+    System.out.println(&quot;hashMap的大小为: &quot; + hashMap.size());
+    //是否包含key为4的元素
+    System.out.println(&quot;hashMap是否包含key为4的元素: &quot; + hashMap.containsKey(4));
+    //是否包含值为5的元素
+    System.out.println(&quot;hashMap是否包含value为two的元素: &quot; + hashMap.containsValue(&quot;two&quot;));
+
+    hashMap.put(5, &quot;five&quot;);
+    hashMap.put(6, &quot;six&quot;);
+
+    //删除元素
+    System.out.println(&quot;删除key为2的元素: &quot; + hashMap.remove(2));
+    //打印元素
+    this.printMapByKeySet(hashMap);
+    //clone
+    HashMap cloneMap = (HashMap) hashMap.clone();
+    //打印克隆map
+    System.out.println(&quot;cloneMap的元素为: &quot; + cloneMap);
+    //清空map
+    hashMap.clear();
+    //判空
+    System.out.println(&quot;hashMap是否为空: &quot; + hashMap.isEmpty());
+}
+
+/**
+ * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+ * @param map
+ */
+private void printMapByEntrySet(HashMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.entrySet().iterator(); //
+    System.out.print(&quot;hashMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        Map.Entry entry = (Map.Entry) iterator.next();
+        key = (Integer) entry.getKey();
+        value = (String) entry.getValue();
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+
+/**
+ * 使用keySet获取key的Set集合,利用key获取值
+ * @param map
+ */
+private void printMapByKeySet(HashMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.keySet().iterator();
+    System.out.print(&quot;hashMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        key = (Integer) iterator.next();
+        value = (String) map.get(key);
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>hashMap中含有的元素有: key/value : 1/one key/value : 2/two key/value : 3/three key/value : 4/four
+hashMap的大小为: 4
+hashMap是否包含key为4的元素: true
+hashMap是否包含value为two的元素: true
+删除key为2的元素: two
+hashMap中含有的元素有: key/value : 1/one key/value : 3/three key/value : 4/four key/value : 5/five key/value : 6/six
+cloneMap的元素为: {1=one, 3=three, 4=four, 5=five, 6=six}
+hashMap是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>HashMap有四个构造函数，每个构造函数的不同之处在于初始容量和加载因子不同。初始容量为申请的HashMap初始大小，当加入元素后的容量大于加载因子和当前<br>容量的乘积是，HashMap需要再hash增大容量。</p>
+<pre><code>/**
+ * 申请初始容量为initialCapacity, 加载因子为loadFactor
+ * @param initialCapacity 初始容量
+ * @param loadFactor 加载因子
+ * @throws IllegalArgumentException 非法参数异常
+ */
+public HashMap(int initialCapacity, float loadFactor) {
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
+                initialCapacity);
+    if (initialCapacity &gt; MAXIMUM_CAPACITY) //最大容量为2^30
+        initialCapacity = MAXIMUM_CAPACITY;
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
+                loadFactor);
+    this.loadFactor = loadFactor; //加载因子
+    this.threshold = tableSizeFor(initialCapacity); //容量大小, &gt;=initialCapacity的最小的2的倍数
+}
+
+/**
+ * 初始容量大小为initialCapacity, 加载因子为默认0.75
+ * @param  initialCapacity the initial capacity.
+ * @throws IllegalArgumentException if the initial capacity is negative.
+ */
+public HashMap(int initialCapacity) {
+    this(initialCapacity, DEFAULT_LOAD_FACTOR);
+}
+
+/**
+ * 初始容量大小为0, 加载因子为0.75
+ */
+public HashMap() {
+    this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+}
+
+/**
+ * 申请一个HashMap并且用m初始化
+ *
+ * @param   m the map whose mappings are to be placed in this map
+ * @throws  NullPointerException if the specified map is null
+ */
+public HashMap(Map&lt;? extends K, ? extends V&gt; m) {
+    this.loadFactor = DEFAULT_LOAD_FACTOR;
+    putMapEntries(m, false);
+}
+</code></pre><h3 id="2-2-put方法"><a href="#2-2-put方法" class="headerlink" title="2.2 put方法"></a>2.2 put方法</h3><pre><code>/**
+ * 为HashMap插入一个键为key,值为value的元素
+ * @param key
+ * @param value
+ * @return
+ */
+public V put(K key, V value) {
+    return putVal(hash(key), key, value, false, true);
+}
+/**
+ * Implements Map.put and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to put
+ * @param onlyIfAbsent if true, don&apos;t change existing value
+ * @param evict if false, the table is in creation mode.
+ * @return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0) //hash数组为null或者长度为0
+        n = (tab = resize()).length; //初始化数组
+    if ((p = tab[i = (n - 1) &amp; hash]) == null) //下标不存在,则这个下表所对应的元素为一个新节点
+        tab[i] = newNode(hash, key, value, null);
+    else { //将元素节点链接到链表最后
+        Node&lt;K,V&gt; e; K k;
+        if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k)))) //键已经存在
+            e = p;
+        else if (p instanceof TreeNode) //TreeNode节点
+            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) { //将元素节点链接到最后
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) //键存在
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &gt; threshold) //超过容量值
+        resize();
+    afterNodeInsertion(evict);
+    return null;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * 获取键为key的键值对的值
+ * @param key
+ * @return
+ */
+public V get(Object key) {
+    Node&lt;K,V&gt; e;
+    return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+/**
+ * Implements Map.get and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @return the node, or null if none
+ */
+final Node&lt;K,V&gt; getNode(int hash, Object key) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
+    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+            (first = tab[(n - 1) &amp; hash]) != null) {
+        if (first.hash == hash &amp;&amp; // always check first node
+                ((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))
+            return first;
+        if ((e = first.next) != null) {
+            if (first instanceof TreeNode)
+                return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
+            do {
+                if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+    }
+    return null;
+}
+2.4 remove方法
+/**
+ * 删除键为key的键值对
+ * @param key
+ * @return
+ */
+public V remove(Object key) {
+    Node&lt;K,V&gt; e;
+    return (e = removeNode(hash(key), key, null, false, true)) == null ?
+            null : e.value;
+}
+
+/**
+ * Implements Map.remove and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to match if matchValue, else ignored
+ * @param matchValue if true only remove if value is equal
+ * @param movable if false do not move other nodes while removing
+ * @return the node, or null if none
+ */
+final Node&lt;K,V&gt; removeNode(int hash, Object key, Object value,
+                           boolean matchValue, boolean movable) {
+    Node&lt;K, V&gt;[] tab;
+    Node&lt;K, V&gt; p;
+    int n, index;
+    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+            (p = tab[index = (n - 1) &amp; hash]) != null) { //hash表不为空,长度 &gt; 0,下标对应的元素存在
+        Node&lt;K, V&gt; node = null, e;
+        K k;
+        V v;
+        if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k)))) //判断第一个元素
+            node = p;
+        else if ((e = p.next) != null) { //同一下标有多个元素,遍历链表
+            if (p instanceof TreeNode)
+                node = ((TreeNode&lt;K, V&gt;) p).getTreeNode(hash, key);
+            else {
+                do {
+                    if (e.hash == hash &amp;&amp;
+                            ((k = e.key) == key ||
+                                    (key != null &amp;&amp; key.equals(k)))) {
+                        node = e;
+                        break;
+                    }
+                    p = e;
+                } while ((e = e.next) != null);
+            }
+        }
+        if (node != null &amp;&amp; (!matchValue || (v = node.value) == value ||
+                (value != null &amp;&amp; value.equals(v)))) { //删除元素
+            if (node instanceof TreeNode)
+                ((TreeNode&lt;K, V&gt;) node).removeTreeNode(this, tab, movable);
+            else if (node == p)
+                tab[index] = node.next;
+            else
+                p.next = node.next;
+            ++modCount;
+            --size;
+            afterNodeRemoval(node);
+            return node;
+        }
+    }
+}
+</code></pre><h2 id="3-HashMap和Hashtable区别"><a href="#3-HashMap和Hashtable区别" class="headerlink" title="3 HashMap和Hashtable区别"></a>3 HashMap和Hashtable区别</h2><p>HashMap和Hashtable从功能上来说几乎完全相同，主要区别在于Hashtable是线程安全的而HashMap不是。<br>1）HashMap的key和Value可以接受null，Hashtable不行；<br>2）Hashtable除了构造函数外几乎所有的方法都加上了synchronized保证线程安全，HashMap没有线程安全保证；<br>3） Hashtable由于使用了synchronized导致在单线程情况下速度较慢；<br>4） Hashtable构造时默认大小为11，HashMap为16；</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310835.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310835.html
+</a><br>[2] <a href="http://blog.csdn.net/mazhimazh/article/details/17876641" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17876641
+</a><br>[3] <a href="http://blog.csdn.net/ns_code/article/details/36034955" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36034955
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：HashMap使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合:_ConcurrentHashMap源码分析_JDK1.8/" >Java集合：ConcurrentHashMap源码分析_JDK1.8.md</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>转载文章，原博客地址为： <a href="http://blog.csdn.net/u010887744/article/details/50637030" target="_blank" rel="noopener"> http://blog.csdn.net/u010887744/article/details/50637030
+</a></p>
+<p>jdk1.8和jdk1.7对于ConcurrentHashMap的实现出现的重大变化，不再采用分段锁的方法，网上这方面的博客较少，这篇文章写得较好，转载扩撒<br>。</p>
+<p>本文首写于有道云笔记，并在小组分享会分享，先整理发布，希望和大家交流探讨。 <a href="http://note.youdao.com/share/?id=dde7a10b98aee57676408bc475ab0680&amp;type=note" target="_blank" rel="noopener"> 云笔记地址
+</a></p>
+<p>概述：</p>
+<p>1、设计首要目的：维护并发可读性（get、迭代相关）；次要目的：使空间消耗比HashMap相同或更好，且支持多线程高效率的初始插入（empty<br>table）。</p>
+<p>2、HashTable  线程安全，但采用synchronized，多线程下效率低下。线程1put时，线程2无法put或get。</p>
+<p>实现原理：</p>
+<p>锁分离：</p>
+<p>在HashMap的基础上，将数据分段存储，  ConcurrentHashMap由多个Segment组成，每个Segment都有把锁。<br>Segment下包含很多Node，也就是我们的键值对了。</p>
+<p><strong> 如果还停留在锁分离、Segment，那已经out了。  </strong></p>
+<p>Segment虽保留，但已经简化属性，仅仅是为了兼容旧版本。</p>
+<ul>
+<li><strong> CAS算法 </strong> ；  unsafe.compareAndSwapInt(this, valueOffset, expect, update);  CAS(Compare And Swap)，意思是如果valueOffset位置包含的值与expect值相同，则更新valueOffset位置的值为update，并返回true，否则不更新，返回false。 </li>
+<li>与Java8的HashMap有相通之处，底层依然由 <strong> “数组”+链表+红黑树 </strong> ； </li>
+<li>底层结构存放的是 <strong> TreeBin </strong> 对象，而不是TreeNode对象； </li>
+<li>CAS作为知名无锁算法，那ConcurrentHashMap就没用锁了么？当然不是，hash值相同的链表的头结点还是会synchronized上锁。 </li>
+</ul>
+<p>private  static  final  int  MAXIMUM_CAPACITY  = 1 &lt;&lt; 30; // 2的30次方=1073741824</p>
+<p>private  static  final  int  DEFAULT_CAPACITY  = 16;</p>
+<p>static  final  int  MAX_ARRAY_SIZE  = Integer.  MAX_VALUE  - 8; //<br>MAX_VALUE=2^31-1=2147483647</p>
+<p>private  static  final  int  DEFAULT_CONCURRENCY_LEVEL  = 16;</p>
+<p>private  static  final  float  LOAD_FACTOR  = 0.75f;</p>
+<p>static  final  int  TREEIFY_THRESHOLD  <strong> = 8; </strong> //  链表转树阀值，大于8时</p>
+<p>static  final  int  UNTREEIFY_THRESHOLD  <strong> = 6; </strong> //  树转链表阀值，小于等于6（tranfer时，<br>lc、hc=0两个计数器分别++记录原bin、新binTreeNode数量，&lt;=UNTREEIFY_THRESHOLD 则untreeify(lo)）。【<br>仅在扩容tranfer时  才可能树转链表】</p>
+<p>static  final  int  MIN_TREEIFY_CAPACITY  = 64;</p>
+<p>private  static  final  int  MIN_TRANSFER_STRIDE  = 16;</p>
+<p>private  static  int  RESIZE_STAMP_BITS  = 16;</p>
+<p>private  static  final  int  MAX_RESIZERS  <strong> = (1 &lt;&lt; (32 - </strong> <strong><br>RESIZE_STAMP_BITS  </strong> <strong> )) - 1; </strong> // 2^15-1，hel  p resize的最大线程数</p>
+<p>private  static  final  int  RESIZE_STAMP_SHIFT  <strong> = 32 - </strong> <strong><br>RESIZE_STAMP_BITS  </strong> <strong> ; </strong> // 32-16=16，sizeCtl  中记录size大小的偏移量</p>
+<p>static  final  int  MOVED  <strong> = -1; </strong> // hash for forwarding nodes（for<br>warding nodes的hash值）、标示位</p>
+<p>static  final  int  TREEBIN  <strong> = -2; </strong> // hash for roots of tree<br>s（树根节点的hash值）</p>
+<p>static  final  int  RESERVED  <strong> = -3; </strong> // hash for transient reservations<br>（ReservationNode的hash值）</p>
+<p>static  final  int  HASH_BITS  = 0x7fffffff;  // usable bits of normal node<br>hash</p>
+<p>static  final  int  NCPU  <strong> = Runtime.  getRuntime  ().availableProcessors();
+</strong> // 可用处理器数量</p>
+<p>/**</p>
+<ul>
+<li><p>Table initialization and resizing control.  When negative, the </p>
+</li>
+<li><p>table is being initialized or resized:  -  1 for initialization, </p>
+</li>
+<li><p>else  -  (1 + the number of active resizing threads).  Otherwise, </p>
+</li>
+<li><p>when table is null, holds the initial table size to use upon </p>
+</li>
+<li><p>creation, or 0 for default. After initialization, holds the </p>
+</li>
+<li><p>next element count value upon which to resize the table. </p>
+</li>
+</ul>
+<p>*/ </p>
+<p>private  transient  volatile  int  sizeCtl  ;</p>
+<p>sizeCtl  是  控制标识符，不同的值表示不同的意义。</p>
+<ul>
+<li>负数代表正在进行初始化或扩容操作 </li>
+<li>-1代表正在初始化 </li>
+<li>-N 表示有N-1个线程正在进行扩容操作 </li>
+<li>正数或0代表hash表还没有被初始化，这个数值表示初始化或下一次进行扩容的大小，类似于扩容阈值。它的值  始终是当前ConcurrentHashMap容量的0.75倍  ，这与loadfactor是对应的。  实际容量  &gt;=sizeCtl，则扩容。 </li>
+</ul>
+<p>部分构造函数：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  ConcurrentHashMap(  int  initialCapacity, </li>
+<li>float  loadFactor,  int  concurrencyLevel) { </li>
+<li>if  (!(loadFactor &gt; 0  .0f) || initialCapacity &lt; 0  || concurrencyLevel &lt;=  0  ) </li>
+<li>thrownew IllegalArgumentException(); </li>
+<li>if  (initialCapacity &lt; concurrencyLevel)  // Use at least as many bins </li>
+<li>initialCapacity = concurrencyLevel;  // as estimated threads </li>
+<li>long  size = (  long  )(  1.0  + (  long  )initialCapacity / loadFactor); </li>
+<li>int  cap = (size &gt;= (  long  )MAXIMUM_CAPACITY) ? </li>
+<li>MAXIMUM_CAPACITY : tableSizeFor((  int  )size); </li>
+<li>this  .sizeCtl = cap; </li>
+<li>} </li>
+</ol>
+<p>concurrencyLevel  ：</p>
+<p>concurrencyLevel，能够同时更新ConccurentHashMap且不产生锁竞争的最大线程数，在Java8之前实际上就是ConcurrentH<br>ashMap中的分段锁个数，即Segment[]的数组长度  。<br>正确地估计很重要，当低估，数据结构将根据额外的竞争，从而导致线程试图写入当前锁定的段时阻塞；<br>相反，如果高估了并发级别，你遇到过大的膨胀，由于段的不必要的数量;  这种膨胀可能会导致性能下降，由于高数缓存未命中。</p>
+<p>在Java8里，仅仅是为了 <strong> 兼容旧版本而保留 </strong> 。唯一的作用就是保证构造map时初始容量不小于concurrencyLevel。</p>
+<p>源码122行：</p>
+<p>Also, for compatibility with previous  versions of this class, constructors<br>may optionally specify an  expected {@code concurrencyLevel} as an additional<br>hint for  internal sizing.</p>
+<p>源码482行：</p>
+<p>Mainly: We  leave untouched but unused constructor arguments refering to<br>concurrencyLevel .……</p>
+<p>……</p>
+<p>1、重要属性：</p>
+<p>1.1 Node：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>static  class  Node<k,v> implements  Map.Entry<k,v> { </k,v></k,v></li>
+<li>final  int  hash; </li>
+<li>final  K key; </li>
+<li>volatile  V val;  // Java8增加volatile，保证可见性 </li>
+<li>volatile  Node<k,v> next; </k,v></li>
+<li><ol>
+<li>Node(inthash, K key, V val, Node<k,v> next) { </k,v></li>
+</ol>
+</li>
+<li>this  .hash = hash; </li>
+<li>this  .key = key; </li>
+<li>this  .val = val; </li>
+<li>this  .next = next; </li>
+<li>} </li>
+<li><ol>
+<li>public  final  K getKey()       {  return  key; } </li>
+</ol>
+</li>
+<li>public  final  V getValue()     {  return  val; } </li>
+<li>// HashMap调用Objects.hashCode()，最终也是调用Object.hashCode()；效果一样 </li>
+<li>public  final  int  hashCode()   { returnkey.hashCode() ^ val.hashCode(); } </li>
+<li>public  final  String toString(){ returnkey +  “=”  + val; } </li>
+<li>public  final  V setValue(V value) {  // 不允许修改value值，HashMap允许 </li>
+<li>throw  new  UnsupportedOperationException(); </li>
+<li>} </li>
+<li>// HashMap使用if (o == this)，且嵌套if；concurrent使用&amp;&amp;</li>
+<li>public  final  boolean  equals(Object o) { </li>
+<li>Object k, v, u; Map.Entry&lt;?,?&gt; e; </li>
+<li>return  ((oinstanceof Map.Entry) &amp;&amp;</li>
+<li>(k = (e = (Map.Entry&lt;?,?&gt;)o).getKey()) !=  null  &amp;&amp;</li>
+<li>(v = e.getValue()) !=  null  &amp;&amp;</li>
+<li>(k == key || k.equals(key)) &amp;&amp;</li>
+<li>(v == (u = val) || v.equals(u))); </li>
+<li>} </li>
+<li><ol>
+<li>/** </li>
+</ol>
+</li>
+<li><ul>
+<li>Virtualized support for map.get(); overridden in subclasses. </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>Node<k,v> find(inth, Object k) {  // 增加find方法辅助get方法 </k,v></li>
+<li>Node<k,v> e =  this  ; </k,v></li>
+<li>if  (k !=  null  ) { </li>
+<li>do  { </li>
+<li>K ek; </li>
+<li>if  (e.hash == h &amp;&amp;</li>
+<li>((ek = e.key) == k || (ek !=  null  &amp;&amp; k.equals(ek)))) </li>
+<li>returne; </li>
+<li>}  while  ((e = e.next) !=  null  ); </li>
+<li>} </li>
+<li>returnnull; </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.2 TreeNode  </p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// Nodes for use in TreeBins，链表&gt;8，才可能转为TreeNode. </li>
+<li>// HashMap的TreeNode继承至LinkedHashMap.Entry；而这里继承至自己实现的Node，将带有next指针，便于treebin访问。 </li>
+<li>static  final  class  TreeNode<k,v> extends  Node<k,v> { </k,v></k,v></li>
+<li>TreeNode<k,v> parent;  // red-black tree links </k,v></li>
+<li>TreeNode<k,v> left; </k,v></li>
+<li>TreeNode<k,v> right; </k,v></li>
+<li>TreeNode<k,v> prev;  // needed to unlink next upon deletion </k,v></li>
+<li>boolean  red; </li>
+<li><ol>
+<li>TreeNode(inthash, K key, V val, Node<k,v> next, </k,v></li>
+</ol>
+</li>
+<li>TreeNode<k,v> parent) { </k,v></li>
+<li>super  (hash, key, val, next); </li>
+<li>this  .parent = parent; </li>
+<li>} </li>
+<li><ol>
+<li>Node<k,v> find(inth, Object k) { </k,v></li>
+</ol>
+</li>
+<li>return  findTreeNode(h, k,  null  ); </li>
+<li>} </li>
+<li><ol>
+<li>/** </li>
+</ol>
+</li>
+<li><ul>
+<li>Returns the TreeNode (or null if not found) for the given key </li>
+</ul>
+</li>
+<li><ul>
+<li>starting at given root. </li>
+</ul>
+</li>
+<li>*/  // 查找hash为h，key为k的节点 </li>
+<li>final  TreeNode<k,v> findTreeNode(  int  h, Object k, Class&lt;?&gt; kc) { </k,v></li>
+<li>if  (k !=  null  ) {  // 比HMap增加判空 </li>
+<li>TreeNode<k,v> p =  this  ; </k,v></li>
+<li>do  { </li>
+<li>intph, dir; K pk; TreeNode<k,v> q; </k,v></li>
+<li>TreeNode<k,v> pl = p.left, pr = p.right; </k,v></li>
+<li>if  ((ph = p.hash) &gt; h) </li>
+<li>p = pl; </li>
+<li>elseif (ph &lt; h) </li>
+<li>p = pr; </li>
+<li>elseif ((pk = p.key) == k || (pk !=  null  &amp;&amp; k.equals(pk))) </li>
+<li>returnp; </li>
+<li>elseif (pl ==  null  ) </li>
+<li>p = pr; </li>
+<li>elseif (pr ==  null  ) </li>
+<li>p = pl; </li>
+<li>elseif ((kc !=  null  || </li>
+<li>(kc = comparableClassFor(k)) !=  null  ) &amp;&amp;</li>
+<li>(dir = compareComparables(kc, k, pk)) !=  0  ) </li>
+<li>p = (dir &lt; 0  ) ? pl : pr; </li>
+<li>elseif ((q = pr.findTreeNode(h, k, kc)) !=  null  ) </li>
+<li>returnq; </li>
+<li>else </li>
+<li>p = pl; </li>
+<li>}  while  (p !=  null  ); </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+<li>} </li>
+<li>// 和HashMap相比，这里的TreeNode相当简洁；ConcurrentHashMap链表转树时，并不会直接转，正如注释（Nodes for use in TreeBins）所说，只是把这些节点包装成TreeNode放到TreeBin中，再由TreeBin来转化红黑树。 </li>
+</ol>
+<p>1.3  TreeBin</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// TreeBin用于封装维护TreeNode，包含putTreeVal、lookRoot、UNlookRoot、remove、balanceInsetion、balanceDeletion等方法，这里只分析其构造函数。 </li>
+<li>// 当链表转树时，用于封装TreeNode，也就是说，ConcurrentHashMap的红黑树存放的时TreeBin，而不是treeNode。 </li>
+<li>TreeBin(TreeNode<k,v> b) { </k,v></li>
+<li>super  (TREEBIN,  null  ,  null  ,  null  );  //hash值为常量TREEBIN=-2,表示roots of trees </li>
+<li>this  .first = b; </li>
+<li>TreeNode<k,v> r =  null  ; </k,v></li>
+<li>for  (TreeNode<k,v> x = b, next; x !=  null  ; x = next) { </k,v></li>
+<li>next = (TreeNode<k,v>)x.next; </k,v></li>
+<li>x.left = x.right =  null  ; </li>
+<li>if  (r ==  null  ) { </li>
+<li>x.parent =  null  ; </li>
+<li>x.red =  false  ; </li>
+<li>r = x; </li>
+<li>} </li>
+<li>else  { </li>
+<li>K k = x.key; </li>
+<li>inth = x.hash; </li>
+<li>Class&lt;?&gt; kc =  null  ; </li>
+<li>for  (TreeNode<k,v> p = r;;) { </k,v></li>
+<li>intdir, ph; </li>
+<li>K pk = p.key; </li>
+<li>if  ((ph = p.hash) &gt; h) </li>
+<li>dir = -  1  ; </li>
+<li>elseif (ph &lt; h) </li>
+<li>dir =  1  ; </li>
+<li>elseif ((kc ==  null  &amp;&amp;</li>
+<li>(kc = comparableClassFor(k)) ==  null  ) || </li>
+<li>(dir = compareComparables(kc, k, pk)) ==  0  ) </li>
+<li>dir = tieBreakOrder(k, pk); </li>
+<li>TreeNode<k,v> xp = p; </k,v></li>
+<li>if  ((p = (dir &lt;=  0  ) ? p.left : p.right) ==  null  ) { </li>
+<li>x.parent = xp; </li>
+<li>if  (dir &lt;=  0  ) </li>
+<li>xp.left = x; </li>
+<li>else </li>
+<li>xp.right = x; </li>
+<li>r = balanceInsertion(r, x); </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>this  .root = r; </li>
+<li>assert  checkInvariants(root); </li>
+<li>} </li>
+</ol>
+<p>1.4  treeifyBin</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>/** </li>
+<li><ul>
+<li>Replaces all linked nodes in bin at given index unless table is </li>
+</ul>
+</li>
+<li><ul>
+<li>too small, in which case resizes instead.链表转树 </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>private  final  void  treeifyBin(Node<k,v>[] tab,  int  index) { </k,v></li>
+<li>Node<k,v> b; intn, sc; </k,v></li>
+<li>if  (tab !=  null  ) { </li>
+<li>if  ((n = tab.length) &lt; MIN_TREEIFY_CAPACITY) </li>
+<li>tryPresize(n &lt;&lt; 1  );  // 容量&lt;64，则table两倍扩容，不转树了 </li>
+<li>else  if  ((b = tabAt(tab, index)) !=  null  &amp;&amp; b.hash &gt;=  0  ) { </li>
+<li>synchronized  (b) {  // 读写锁 </li>
+<li>if  (tabAt(tab, index) == b) { </li>
+<li>TreeNode<k,v> hd =  null  , tl =  null  ; </k,v></li>
+<li>for  (Node<k,v> e = b; e !=  null  ; e = e.next) { </k,v></li>
+<li>TreeNode<k,v> p = </k,v></li>
+<li>new  TreeNode<k,v>(e.hash, e.key, e.val, </k,v></li>
+<li>null  ,  null  ); </li>
+<li>if  ((p.prev = tl) ==  null  ) </li>
+<li>hd = p; </li>
+<li>else </li>
+<li>tl.next = p; </li>
+<li>tl = p; </li>
+<li>} </li>
+<li>setTabAt(tab, index,  new  TreeBin<k,v>(hd)); </k,v></li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.5  ForwardingNode</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// A node inserted at head of bins during transfer operations.连接两个table </li>
+<li>// 并不是我们传统的包含key-value的节点，只是一个标志节点，并且指向nextTable，提供find方法而已。生命周期：仅存活于扩容操作且bin不为null时，一定会出现在每个bin的首位。 </li>
+<li>static  final  class  ForwardingNode<k,v> extends  Node<k,v> { </k,v></k,v></li>
+<li>final  Node<k,v>[] nextTable; </k,v></li>
+<li>ForwardingNode(Node<k,v>[] tab) { </k,v></li>
+<li>super  (MOVED,  null  ,  null  ,  null  );  // 此节点hash=-1，key、value、next均为null </li>
+<li>this  .nextTable = tab; </li>
+<li>} </li>
+<li><ol>
+<li>Node<k,v> find(  int  h, Object k) { </k,v></li>
+</ol>
+</li>
+<li>// 查nextTable节点，outer避免深度递归 </li>
+<li>outer:  for  (Node<k,v>[] tab = nextTable;;) { </k,v></li>
+<li>Node<k,v> e; intn; </k,v></li>
+<li>if  (k ==  null  || tab ==  null  || (n = tab.length) ==  0  || </li>
+<li>(e = tabAt(tab, (n -  1  ) &amp; h)) ==  null  ) </li>
+<li>returnnull; </li>
+<li>for  (;;) {  // CAS算法多和死循环搭配！直到查到或null </li>
+<li>int  eh; K ek; </li>
+<li>if  ((eh = e.hash) == h &amp;&amp;</li>
+<li>((ek = e.key) == k || (ek !=  null  &amp;&amp; k.equals(ek)))) </li>
+<li>returne; </li>
+<li>if  (eh &lt; 0  ) { </li>
+<li>if  (e  instanceof  ForwardingNode) { </li>
+<li>tab = ((ForwardingNode<k,v>)e).nextTable; </k,v></li>
+<li>continue  outer; </li>
+<li>} </li>
+<li>else </li>
+<li>return  e.find(h, k); </li>
+<li>} </li>
+<li>if  ((e = e.next) ==  null  ) </li>
+<li>return  null  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.6  3个原子操作（调用频率很高）</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>@SuppressWarnings  (  “unchecked”  )  // ASHIFT等均为private static final </li>
+<li>static  final  <k,v> Node<k,v> tabAt(Node<k,v>[] tab,  int  i) {  // 获取索引i处Node </k,v></k,v></k,v></li>
+<li>return  (Node<k,v>)U.getObjectVolatile(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE); </k,v></li>
+<li>} </li>
+<li>// 利用CAS算法设置i位置上的Node节点（将c和table[i]比较，相同则插入v）。 </li>
+<li>static  final  <k,v> boolean  casTabAt(Node<k,v>[] tab,  int  i, </k,v></k,v></li>
+<li>Node<k,v> c, Node<k,v> v) { </k,v></k,v></li>
+<li>return  U.compareAndSwapObject(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE, c, v); </li>
+<li>} </li>
+<li>// 设置节点位置的值，仅在上锁区被调用 </li>
+<li>static  final  <k,v> void  setTabAt(Node<k,v>[] tab,  int  i, Node<k,v> v) { </k,v></k,v></k,v></li>
+<li>U.putObjectVolatile(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE, v); </li>
+<li>} </li>
+</ol>
+<p>1.7  Unsafe</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>//在源码的6277行到最后，有着ConcurrentHashMap中极为重要的几个属性（SIZECTL），unsafe静态块控制其修改行为。Java8中，大量运用CAS进行变量、属性的无锁修改，大大提高性能。 </li>
+<li>// Unsafe mechanics </li>
+<li>private  static  final  sun.misc.Unsafe U; </li>
+<li>private  static  final  long  SIZECTL; </li>
+<li>private  static  final  long  TRANSFERINDEX; </li>
+<li>private  static  final  long  BASECOUNT; </li>
+<li>private  static  final  long  CELLSBUSY; </li>
+<li>private  static  final  long  CELLVALUE; </li>
+<li>private  static  final  long  ABASE; </li>
+<li>private  static  final  int  ASHIFT; </li>
+<li><ol>
+<li>static  { </li>
+</ol>
+</li>
+<li>try  { </li>
+<li>U = sun.misc.Unsafe.getUnsafe(); </li>
+<li>Class&lt;?&gt; k = ConcurrentHashMap.  class  ; </li>
+<li>SIZECTL = U.objectFieldOffset (k.getDeclaredField(  “sizeCtl”  )); </li>
+<li>TRANSFERINDEX=U.objectFieldOffset(k.getDeclaredField(  “transferIndex”  )); </li>
+<li>BASECOUNT = U.objectFieldOffset (k.getDeclaredField(  “baseCount”  )); </li>
+<li>CELLSBUSY = U.objectFieldOffset (k.getDeclaredField(  “cellsBusy”  )); </li>
+<li>Class&lt;?&gt; ck = CounterCell.  class  ; </li>
+<li>CELLVALUE = U.objectFieldOffset (ck.getDeclaredField(  “value”  )); </li>
+<li>Class&lt;?&gt; ak = Node[].  class  ; </li>
+<li>ABASE = U.arrayBaseOffset(ak); </li>
+<li>intscale = U.arrayIndexScale(ak); </li>
+<li>if  ((scale &amp; (scale -  1  )) !=  0  ) </li>
+<li>thrownew Error(  “data type scale not a power of two”  ); </li>
+<li>ASHIFT =  31  - Integer.numberOfLeadingZeros(scale); </li>
+<li>}  catch  (Exception e) { </li>
+<li>thrownew Error(e); </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.8  扩容相关</p>
+<p>tryPresize  在  putAll以及treeifyBin中调用</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>private  final  void  tryPresize(  int  size) { </li>
+<li>// 给定的容量若&gt;=MAXIMUM_CAPACITY的一半，直接扩容到允许的最大值，否则调用函数扩容 </li>
+<li>int  c = (size &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1  )) ? MAXIMUM_CAPACITY : </li>
+<li>tableSizeFor(size + (size &gt;&gt;&gt; 1  ) +  1  ); </li>
+<li>int  sc; </li>
+<li>while  ((sc = sizeCtl) &gt;=  0  ) {  //没有正在初始化或扩容，或者说表还没有被初始化 </li>
+<li>Node<k,v>[] tab = table;  int  n; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  ) { </li>
+<li>n = (sc &gt; c) ? sc : c;  // 扩容阀值取较大者 </li>
+<li>// 期间没有其他线程对表操作，则CAS将SIZECTL状态置为-1，表示正在进行初始化 </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, -  1  )) { </li>
+<li>try  { </li>
+<li>if  (table == tab) { </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n]; </k,v></k,v></li>
+<li>table = nt; </li>
+<li>sc = n - (n &gt;&gt;&gt; 2  );  //无符号右移2位，此即0.75*n </li>
+<li>} </li>
+<li>}  finally  { </li>
+<li>sizeCtl = sc;  // 更新扩容阀值 </li>
+<li>} </li>
+<li>} </li>
+<li>}  // 若欲扩容值不大于原阀值，或现有容量&gt;=最值，什么都不用做了 </li>
+<li>else  if  (c &lt;= sc || n &gt;= MAXIMUM_CAPACITY) </li>
+<li>break  ; </li>
+<li>else  if  (tab == table) {  // table不为空，且在此期间其他线程未修改table </li>
+<li>int  rs = resizeStamp(n); </li>
+<li>if  (sc &lt; 0  ) { </li>
+<li>Node<k,v>[] nt;  //RESIZE_STAMP_SHIFT=16,MAX_RESIZERS=2^15-1 </k,v></li>
+<li>if  ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs +  1  || </li>
+<li>sc == rs + MAX_RESIZERS || (nt = nextTable) ==  null  || </li>
+<li>transferIndex &lt;=  0  ) </li>
+<li>break  ; </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, sc +  1  )) </li>
+<li>transfer(tab, nt); </li>
+<li>} </li>
+<li>else  if  (U.compareAndSwapInt(  this  , SIZECTL, sc, </li>
+<li>(rs &lt;&lt; RESIZE_STAMP_SHIFT) +  2  )) </li>
+<li>transfer(tab,  null  ); </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>private  static  final  int  tableSizeFor(  int  c){  //和HashMap一样,返回&gt;=n的最小2的自然数幂 </li>
+<li>int  n = c -  1  ; </li>
+<li>n |= n &gt;&gt;&gt; 1  ; </li>
+<li>n |= n &gt;&gt;&gt; 2  ; </li>
+<li>n |= n &gt;&gt;&gt; 4  ; </li>
+<li>n |= n &gt;&gt;&gt; 8  ; </li>
+<li>n |= n &gt;&gt;&gt; 16  ; </li>
+<li>return  (n &lt; 0  ) ?  1  : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n +  1  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>/** </li>
+<li><ul>
+<li>Returns the stamp bits for resizing a table of size n. </li>
+</ul>
+</li>
+<li><ul>
+<li>Must be negative when shifted left by RESIZE_STAMP_SHIFT. </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>static  final  int  resizeStamp(  int  n) {  // 返回一个标志位 </li>
+<li>return  Integer.numberOfLeadingZeros(n) | (  1  &lt;&lt; (RESIZE_STAMP_BITS -  1  )); </li>
+<li>}  // numberOfLeadingZeros返回n对应32位二进制数左侧0的个数，如9（1001）返回28 </li>
+<li>// RESIZE_STAMP_BITS=16,(左侧0的个数)|(2^15) </li>
+</ol>
+<p><strong> ConcurrentHashMap无锁多线程扩容，减少扩容时的时间消耗。 </strong></p>
+<p><strong> transfer扩容操作 </strong> <strong> ： </strong> 单线程构建两倍容量的nextTable；允许多线程复制原table元素到nextTable。 </p>
+<ol>
+<li>为每个内核均分任务，并保证其不小于16； </li>
+<li>若nextTab为null，则初始化其为原table的2倍； </li>
+<li>死循环遍历，直到finishing。 </li>
+</ol>
+<ul>
+<li>节点为空，则插入ForwardingNode； </li>
+<li>链表节点（fh&gt;=0），分别插入nextTable的i和i+n的位置；【逆序链表？？】 </li>
+<li>TreeBin节点（fh&lt;0），判断是否需要untreefi，分别插入nextTable的i和i+n的位置；【逆序树？？】 </li>
+<li>finishing时，nextTab赋给table，更新sizeCtl为新容量的0.75倍 ，完成扩容。 </li>
+</ul>
+<p><strong> 以上说的都是单线程，  多线程  又是如何实现的呢？ </strong></p>
+<p>遍历到ForwardingNode节点((fh = f.hash) == MOVED)，说明此节点被处理过了，直接跳过。这是控制并发扩容的核心  。  由于<br>给节点上了锁，只允许当前线程完成此节点的操作，处理完毕后，将对应值设为ForwardingNode（fwd），其他线程看到forward，直接向后遍历。如此<br>便完成了多线程的复制工作，也解决了线程安全问题。</p>
+<p>private  transient  volatile  Node<k,v>[]  nextTable  ;  //仅仅在扩容使用，并且此时非空</k,v></p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// 将table每一个bin（桶位）的Node移动或复制到nextTable </li>
+<li>// 只在addCount(long x, int check)、helpTransfer、tryPresize中调用 </li>
+<li>private  final  void  transfer(Node<k,v>[] tab, Node<k,v>[] nextTab) { </k,v></k,v></li>
+<li>int  n = tab.length, stride; </li>
+<li>// 每核处理的量小于16，则强制赋值16 </li>
+<li>if  ((stride = (NCPU &gt; 1  ) ? (n &gt;&gt;&gt; 3  ) / NCPU : n) &lt; MIN_TRANSFER_STRIDE) </li>
+<li>stride = MIN_TRANSFER_STRIDE;  // subdivide range </li>
+<li>if  (nextTab ==  null  ) {  // initiating </li>
+<li>try  { </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n &lt;&lt; 1  ];  //两倍 </k,v></k,v></li>
+<li>nextTab = nt; </li>
+<li>}  catch  (Throwable ex) {  // try to cope with OOME </li>
+<li>sizeCtl = Integer.MAX_VALUE; </li>
+<li>return  ; </li>
+<li>} </li>
+<li>nextTable = nextTab; </li>
+<li>transferIndex = n; </li>
+<li>} </li>
+<li>int  nextn = nextTab.length; </li>
+<li>//连节点指针,标志位，fwd的hash值为-1，fwd.nextTable=nextTab。 </li>
+<li>ForwardingNode<k,v> fwd=  new  ForwardingNode<k,v>(nextTab); </k,v></k,v></li>
+<li>boolean  advance=  true  ;  //并发扩容的关键属性,等于true,说明此节点已经处理过 </li>
+<li>boolean  finishing =  false  ;  // to ensure sweep before committing nextTab </li>
+<li>for  (  int  i =  0  , bound =  0  ;;) {  // 死循环 </li>
+<li>Node<k,v> f;  int  fh; </k,v></li>
+<li>while  (advance) {  // 控制–i，遍历原hash表中的节点 </li>
+<li>int  nextIndex, nextBound; </li>
+<li>if  (–i &gt;= bound || finishing) </li>
+<li>advance =  false  ; </li>
+<li>else  if  ((nextIndex = transferIndex) &lt;=  0  ) { </li>
+<li>i = -  1  ; </li>
+<li>advance =  false  ; </li>
+<li>}  //TRANSFERINDEX 即用CAS计算得到的transferIndex </li>
+<li>else  if  (U.compareAndSwapInt </li>
+<li>(  this  , TRANSFERINDEX, nextIndex, </li>
+<li>nextBound = (nextIndex &gt; stride ? </li>
+<li>nextIndex - stride :  0  ))) { </li>
+<li>bound = nextBound; </li>
+<li>i = nextIndex -  1  ; </li>
+<li>advance =  false  ; </li>
+<li>} </li>
+<li>} </li>
+<li>if  (i &lt; 0  || i &gt;= n || i + n &gt;= nextn) { </li>
+<li>int  sc; </li>
+<li>if  (finishing) {  // 所有节点复制完毕 </li>
+<li>nextTable =  null  ; </li>
+<li>table = nextTab; </li>
+<li>sizeCtl = (n &lt;&lt; 1  ) - (n &gt;&gt;&gt; 1  );  //扩容阀值设为原来的1.5倍，即现在的0.75倍 </li>
+<li>return  ;  // 仅有的2个跳出死循环出口之一 </li>
+<li>}  //CAS更新扩容阈值,sc-1表明新加入一个线程参与扩容 </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc = sizeCtl, sc -  1  )) { </li>
+<li>if  ((sc -  2  ) != resizeStamp(n) &lt;&lt; RESIZE_STAMP_SHIFT) </li>
+<li>return  ;  // 仅有的2个跳出死循环出口之一 </li>
+<li>finishing = advance =  true  ; </li>
+<li>i = n;  // recheck before commit </li>
+<li>} </li>
+<li>} </li>
+<li>else  if  ((f = tabAt(tab, i)) ==  null  )  //该节点为空，则插入ForwardingNode </li>
+<li>advance = casTabAt(tab, i,  null  , fwd); </li>
+<li>//遍历到ForwardingNode节点，说明此节点被处理过了，直接跳过。这是控制并发扩容的核心 </li>
+<li>else  if  ((fh = f.hash) == MOVED)  // MOVED=-1，hash for fwd </li>
+<li>advance =  true  ;  // already processed </li>
+<li>else  { </li>
+<li>synchronized  (f) {  //上锁 </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>Node<k,v> ln, hn;  //ln原位置节点，hn新位置节点 </k,v></li>
+<li>if  (fh &gt;=  0  ) {  // 链表 </li>
+<li>int  runBit = fh &amp; n;  // f.hash &amp; n </li>
+<li>Node<k,v> lastRun = f;  // lastRun和p两个链表，逆序？？ </k,v></li>
+<li>for  (Node<k,v> p = f.next; p !=  null  ; p = p.next) { </k,v></li>
+<li>int  b = p.hash &amp; n;  // f.next.hash &amp; n </li>
+<li>if  (b != runBit) { </li>
+<li>runBit = b; </li>
+<li>lastRun = p; </li>
+<li>} </li>
+<li>} </li>
+<li>if  (runBit ==  0  ) { </li>
+<li>ln = lastRun; </li>
+<li>hn =  null  ; </li>
+<li>} </li>
+<li>else  { </li>
+<li>hn = lastRun; </li>
+<li>ln =  null  ; </li>
+<li>} </li>
+<li>for  (Node<k,v> p = f; p != lastRun; p = p.next) { </k,v></li>
+<li>int  ph = p.hash; K pk = p.key; V pv = p.val; </li>
+<li>if  ((ph &amp; n) ==  0  )  // 和HashMap确定扩容后的节点位置一样 </li>
+<li>ln =  new  Node<k,v>(ph, pk, pv, ln); </k,v></li>
+<li>else </li>
+<li>hn =  new  Node<k,v>(ph, pk, pv, hn);  //新位置节点 </k,v></li>
+<li>}  //类似HashMap，为何i+n？参见HashMap的笔记 </li>
+<li>setTabAt(nextTab, i, ln);  //在nextTable[i]插入原节点 </li>
+<li>setTabAt(nextTab, i + n, hn);  //在nextTable[i+n]插入新节点 </li>
+<li>//在nextTable[i]插入forwardNode节点，表示已经处理过该节点 </li>
+<li>setTabAt(tab, i, fwd); </li>
+<li>//设置advance为true 返回到上面的while循环中 就可以执行–i操作 </li>
+<li>advance =  true  ; </li>
+<li>} </li>
+<li>else  if  (f  instanceof  TreeBin) {  //树 </li>
+<li>TreeBin<k,v> t = (TreeBin<k,v>)f; </k,v></k,v></li>
+<li>TreeNode<k,v> lo =  null  , loTail =  null  ; </k,v></li>
+<li>TreeNode<k,v> hi =  null  , hiTail =  null  ; </k,v></li>
+<li>//lc、hc=0两计数器分别++记录原、新bin中TreeNode数量 </li>
+<li>int  lc =  0  , hc =  0  ; </li>
+<li>for  (Node<k,v> e = t.first; e !=  null  ; e = e.next) { </k,v></li>
+<li>int  h = e.hash; </li>
+<li>TreeNode<k,v> p =  new  TreeNode<k,v></k,v></k,v></li>
+<li>(h, e.key, e.val,  null  ,  null  ); </li>
+<li>if  ((h &amp; n) ==  0  ) { </li>
+<li>if  ((p.prev = loTail) ==  null  ) </li>
+<li>lo = p; </li>
+<li>else </li>
+<li>loTail.next = p; </li>
+<li>loTail = p; </li>
+<li>++lc; </li>
+<li>} </li>
+<li>else  { </li>
+<li>if  ((p.prev = hiTail) ==  null  ) </li>
+<li>hi = p; </li>
+<li>else </li>
+<li>hiTail.next = p; </li>
+<li>hiTail = p; </li>
+<li>++hc; </li>
+<li>} </li>
+<li>}  //扩容后树节点个数若&lt;=6，将树转链表 </li>
+<li>ln = (lc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(lo) : </li>
+<li>(hc !=  0  ) ?  new  TreeBin<k,v>(lo) : t; </k,v></li>
+<li>hn = (hc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(hi) : </li>
+<li>(lc !=  0  ) ?  new  TreeBin<k,v>(hi) : t; </k,v></li>
+<li>setTabAt(nextTab, i, ln); </li>
+<li>setTabAt(nextTab, i + n, hn); </li>
+<li>setTabAt(tab, i, fwd); </li>
+<li>advance =  true  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// 协助扩容方法。多线程下，当前线程检测到其他线程正进行扩容操作，则协助其一起扩容；（只有这种情况会被调用）从某种程度上说，其“优先级”很高，只要检测到扩容，就会放下其他工作，先扩容。 </li>
+<li>// 调用之前，nextTable一定已存在。 </li>
+<li>final  Node<k,v>[] helpTransfer(Node<k,v>[] tab, Node<k,v> f) { </k,v></k,v></k,v></li>
+<li>Node<k,v>[] nextTab; intsc; </k,v></li>
+<li>if  (tab !=  null  &amp;&amp; (finstanceof ForwardingNode) &amp;&amp;</li>
+<li>(nextTab = ((ForwardingNode<k,v>)f).nextTable) !=  null  ) { </k,v></li>
+<li>intrs = resizeStamp(tab.length);  //标志位 </li>
+<li>while  (nextTab == nextTable &amp;&amp; table == tab &amp;&amp;</li>
+<li>(sc = sizeCtl) &lt; 0  ) { </li>
+<li>if  ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs +  1  || </li>
+<li>sc == rs + MAX_RESIZERS || transferIndex &lt;=  0  ) </li>
+<li>break  ; </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, sc +  1  )) { </li>
+<li>transfer(tab, nextTab);  //调用扩容方法，直接进入复制阶段 </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>return  nextTab; </li>
+<li>} </li>
+<li>return  table; </li>
+<li>} </li>
+</ol>
+<p>2、 put相关：</p>
+<p>理一下put的流程：</p>
+<p>① <strong> 判空 </strong> ：null直接抛空指针异常；</p>
+<p>② <strong> hash </strong> ：计算h=key.hashcode；调用spread计算hash=  (  h  ^  (  h  &gt;&gt;&gt; 16  ))  &amp;<br>HASH_BITS；</p>
+<p>③ <strong> 遍历table </strong></p>
+<ul>
+<li>若table为空，则初始化，仅设置相关参数； </li>
+<li>@@@计算当前key存放位置，即table的下标i=(n - 1) &amp; hash； </li>
+<li>若待存放位置为null，casTabAt  无锁  插入； </li>
+<li>若是forwarding nodes（检测到正在扩容），则helpTransfer（帮助其扩容）； </li>
+<li>else（待插入位置非空且不是forward节点，即碰撞了），将头节点上锁（保证了线程安全）：区分链表节点和树节点，分别插入（遇到hash值与key值都与新节点一致的情况，只需要更新value值即可。否则依次向后遍历，直到链表尾插入这个结点）； </li>
+<li>若链表长度&gt;8，则treeifyBin转树（Note：若length&lt;64,直接tryPresize,两倍table.length;不转树）。 </li>
+</ul>
+<p>④ <strong> addCount(1L, binCount)。 </strong></p>
+<p><strong> Note： </strong></p>
+<p>1、put操作共计两次hash操作，再利用“与&amp;”操作计算Node的存放位置。</p>
+<p>2、ConcurrentHashMap不允许key或value为null。</p>
+<p>3、 <strong> addCount  (  long  x  ,  int  check  )  方法： </strong></p>
+<p>①利用CAS快速更新baseCount的值；</p>
+<p>②check&gt;=0.则检验是否需要扩容；  if  sizeCtl&lt;0（正在进行初始化或扩容操作）【nexttable<br>null等情况break；如果有线程正在扩容，则协助扩容】；  else if  仅当前线程在扩容，调用协助扩容函数，注其参数nextTable为null。</p>
+<p>public  V put(K  key  , V  value  ) {</p>
+<p>return  putVal  (  key  ,  value  ,  false  );</p>
+<p>}</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>final  V <span style="background-color: rgb(255, 255, 51);">putVal</span>(K key, V value,  boolean  onlyIfAbsent) { </li>
+<li>// 不允许key、value为空 </li>
+<li>if  (key ==  null  || value ==  null  )  throw  new  NullPointerException(); </li>
+<li>int  hash = spread(key.hashCode());  //返回(h^(h&gt;&gt;&gt;16))&amp;HASH_BITS </li>
+<li>int  binCount =  0  ; </li>
+<li>for  (Node<k,v>[] tab = table;;) {  // 死循环，直到插入成功 </k,v></li>
+<li>Node<k,v> f;  int  n, i, fh; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  ) </li>
+<li>tab = initTable();  // table为空，初始化table </li>
+<li>else  if  ((f = tabAt(tab, i = (n -  1  ) &amp; hash)) ==  null  ) {  // 索引处无值 </li>
+<li>if  (casTabAt(tab, i,  null  , </li>
+<li>new  Node<k,v>(hash, key, value,  null  ))) </k,v></li>
+<li>break  ;  // no lock when adding to empty bin </li>
+<li>} </li>
+<li>else  if  ((fh = f.hash) == MOVED)  // MOVED=-1;//hash for forwarding nodes </li>
+<li>tab = helpTransfer(tab, f);  //检测到正在扩容，则帮助其扩容 </li>
+<li>else  { </li>
+<li>V oldVal =  null  ; </li>
+<li>synchronized  (f) {  // 节点上锁（hash值相同的链表的头节点） </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>if  (fh &gt;=  0  ) {  // 链表节点 </li>
+<li>binCount =  1  ; </li>
+<li>for  (Node<k,v> e = f;; ++binCount) { </k,v></li>
+<li>K ek;  // hash和key相同，则修改value </li>
+<li>if  (e.hash == hash &amp;&amp;</li>
+<li>((ek = e.key) == key ||(ek !=  null  &amp;&amp; key.equals(ek)))) { </li>
+<li>oldVal = e.val; </li>
+<li>if  (!onlyIfAbsent)  //仅putIfAbsent()方法中onlyIfAbsent为true </li>
+<li>e.val = value;  //putIfAbsent()包含key则返回get，否则put并返回 </li>
+<li>break  ; </li>
+<li>} </li>
+<li>Node<k,v> pred = e; </k,v></li>
+<li>if  ((e = e.next) ==  null  ) {  //已遍历到链表尾部，直接插入 </li>
+<li>pred.next =  new  Node<k,v>(hash, key, value,  null  ); </k,v></li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>else  if  (f  instanceof  TreeBin) {  // 树节点 </li>
+<li>Node<k,v> p; </k,v></li>
+<li>binCount =  2  ; </li>
+<li>if  ((p = ((TreeBin<k,v>)f).putTreeVal(hash, key,value)) !=  null  ) { </k,v></li>
+<li>oldVal = p.val; </li>
+<li>if  (!onlyIfAbsent) </li>
+<li>p.val = value; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (binCount !=  0  ) { </li>
+<li>if  (binCount &gt;= TREEIFY_THRESHOLD)  //实则是&gt;8,执行else,说明该桶位本就有Node </li>
+<li>treeifyBin(tab, i);  //若length&lt;64,直接tryPresize,两倍table.length;不转树 </li>
+<li>if  (oldVal !=  null  ) </li>
+<li>return  oldVal; </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>addCount(1L, binCount); </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// Initializes table, using the size recorded in sizeCtl. </li>
+<li>private  final  Node<k,v>[] <span style="background-color: rgb(255, 255, 51);">initTable</span>() {  // 仅仅设置参数，并未实质初始化 </k,v></li>
+<li>Node<k,v>[] tab; intsc; </k,v></li>
+<li>while  ((tab = table) ==  null  || tab.length ==  0  ) { </li>
+<li>if  ((sc = sizeCtl) &lt; 0  )  // 其他线程正在初始化，此线程挂起 </li>
+<li>Thread.yield();  // lost initialization race; just spin </li>
+<li>//CAS方法把sizectl置为-1，表示本线程正在进行初始化 </li>
+<li>elseif (U.compareAndSwapInt(  this  , SIZECTL, sc, -  1  )) { </li>
+<li>try  { </li>
+<li>if  ((tab = table) ==  null  || tab.length ==  0  ) { </li>
+<li>intn = (sc &gt; 0  ) ? sc : DEFAULT_CAPACITY;  //DEFAULT_CAPACITY=16 </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n]; </k,v></k,v></li>
+<li>table = tab = nt; </li>
+<li>sc = n - (n &gt;&gt;&gt; 2  );  // 扩容阀值，0.75*n </li>
+<li>} </li>
+<li>}  finally  { </li>
+<li>sizeCtl = sc; </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>return  tab; </li>
+<li>} </li>
+</ol>
+<p>3、 get、contains相关</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  V <span style="background-color: rgb(255, 255, 51);">get</span>(Object key) { </li>
+<li>Node<k,v>[] tab; Node<k,v> e, p; intn, eh; K ek; </k,v></k,v></li>
+<li>inth = spread(key.hashCode()); </li>
+<li>if  ((tab = table) !=  null  &amp;&amp; (n = tab.length) &gt; 0  &amp;&amp;</li>
+<li>(e = tabAt(tab, (n -  1  ) &amp; h)) !=  null  ) {  //tabAt(i),获取索引i处Node </li>
+<li>if  ((eh = e.hash) == h) { </li>
+<li>if  ((ek = e.key) == key || (ek !=  null  &amp;&amp; key.equals(ek))) </li>
+<li>returne.val; </li>
+<li>} </li>
+<li>elseif (eh &lt; 0  )  // 树 </li>
+<li>return  (p = e.find(h, key)) !=  null  ? p.val :  null  ; </li>
+<li>while  ((e = e.next) !=  null  ) {  // 链表 </li>
+<li>if  (e.hash == h &amp;&amp;</li>
+<li>((ek = e.key) == key || (ek !=  null  &amp;&amp; key.equals(ek)))) </li>
+<li>returne.val; </li>
+<li>} </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  containsKey(Object key) {  return  get(key) !=  null  ;} </li>
+<li>public  boolean  containsValue(Object value) {} </li>
+</ol>
+<p>理一下get的流程：</p>
+<p>①spread计算hash值；</p>
+<p>②table不为空；</p>
+<p>③tabAt(i)处桶位不为空；</p>
+<p>④check first，是则返回当前Node的value；否则分别根据树、链表查询。</p>
+<p>4、 Size相关：</p>
+<p>由于ConcurrentHashMap在统计size时  可能正被  多个线程操作，而我们又不可能让他停下来让我们计算，所以只能计量一个估计值。</p>
+<p>计数辅助：</p>
+<p>//  Table of counter cells. When non-null, size is a power of 2</p>
+<p>private  transient  volatile  CounterCell[]  counterCells  ;</p>
+<p>@  sun.misc.  Contended  static  final  class  CounterCell  {</p>
+<p>volatile  long  value  ;</p>
+<p>CounterCell(  long  x  ) {  value  =  x  ; }</p>
+<p>}</p>
+<p>final  long  sumCount  (){</p>
+<p>CounterCell  as  [] =  counterCells  ;</p>
+<p>long  sum  =  baseCount  ;</p>
+<p>if  (  as  !=  null  ){</p>
+<p>for  (  int  i  = 0;  i  &lt; as  .  length  ;  i  ++){</p>
+<p>CounterCell  a  ;</p>
+<p>if  ((  a  =  as  [  i  ]) !=  null  )</p>
+<p>sum  +=  a  .  value  ;</p>
+<p>}</p>
+<p>}</p>
+<p>return  sum  ;</p>
+<p>}</p>
+<p>private  final  void  full  AddCount  (  long  x  ,  boolean  wasUncontended<br>) {}</p>
+<p>public  int  size() {  // 旧版本方法，和推荐的mappingCount返回的值基本无区别</p>
+<p>long  n  = sumCount();</p>
+<p>return  ((  n  &lt; 0L) ? 0 :</p>
+<p>(  n  &gt; (  long  )Integer.  MAX_VALUE  ) ? Integer.  MAX_VALUE  :</p>
+<p>(  int  )  n  );</p>
+<p>}</p>
+<p>// 返回Mappings中的元素个数，官方建议用来  替代size  。此方法返回的是一个估计值；如果sumCount时有线程插入或删除，实际数量是和<br>mappingCount  不同的。since 1.8</p>
+<p>public  long  mappingCount  () {</p>
+<p>long  n  = sumCount();</p>
+<p>return  (  n  &lt; 0L) ? 0L :  n  ;  // ignore transient negative values</p>
+<p>}</p>
+<p>private  transient  volatile  long  baseCount  ;</p>
+<p>//ConcurrentHashMap中元素个数,基于CAS无锁更新,但返回的不一定是当前Map的真实元素个数。</p>
+<p>5、remove、clear相关：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  void  clear() {  // 移除所有元素 </li>
+<li>long  delta = 0L;  // negative number of deletions </li>
+<li>inti =  0  ; </li>
+<li>Node<k,v>[] tab = table; </k,v></li>
+<li>while  (tab !=  null  &amp;&amp; i &lt; tab.length) { </li>
+<li>intfh; </li>
+<li>Node<k,v> f = tabAt(tab, i); </k,v></li>
+<li>if  (f ==  null  )  // 为空，直接跳过 </li>
+<li>++i; </li>
+<li>else  if  ((fh = f.hash) == MOVED) {  //检测到其他线程正对其扩容 </li>
+<li>//则协助其扩容，然后重置计数器，重新挨个删除元素，避免删除了元素，其他线程又新增元素。 </li>
+<li>tab = helpTransfer(tab, f); </li>
+<li>i =  0  ;  // restart </li>
+<li>} </li>
+<li>else  { </li>
+<li>synchronized  (f) {  // 上锁 </li>
+<li>if  (tabAt(tab, i) == f) {  // 其他线程没有在此期间操作f </li>
+<li>Node<k,v> p = (fh &gt;=  0  ? f : </k,v></li>
+<li>(finstanceof TreeBin) ? </li>
+<li>((TreeBin<k,v>)f).first :  null  ); </k,v></li>
+<li>while  (p !=  null  ) {  // 首先删除链、树的末尾元素，避免产生大量垃圾 </li>
+<li>--delta; </li>
+<li>p = p.next; </li>
+<li>} </li>
+<li>setTabAt(tab, i++,  null  );  // 利用CAS无锁置null </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (delta != 0L) </li>
+<li>addCount(delta, -  1  );  // 无实际意义，参数check&lt;=1，直接return。 </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  V remove(Object key) {  // key为null，将在计算hashCode时报空指针异常 </li>
+<li>return  replaceNode(key,  null  ,  null  ); </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  remove(Object key, Object value) { </li>
+<li>if  (key ==  null  ) </li>
+<li>thrownew NullPointerException(); </li>
+<li>returnvalue !=  null  &amp;&amp; replaceNode(key,  null  , value) !=  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// remove核心方法，注意，这里的cv才是key-value中的value！ </li>
+<li>final  V replaceNode(Object key, V value, Object cv) { </li>
+<li>inthash = spread(key.hashCode()); </li>
+<li>for  (Node<k,v>[] tab = table;;) { </k,v></li>
+<li>Node<k,v> f; intn, i, fh; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  || </li>
+<li>(f = tabAt(tab, i = (n -  1  ) &amp; hash)) ==  null  ) </li>
+<li>break  ;  // 该桶位第一个元素为空，直接跳过 </li>
+<li>elseif ((fh = f.hash) == MOVED) </li>
+<li>tab = helpTransfer(tab, f);  // 先协助扩容再说 </li>
+<li>else  { </li>
+<li>V oldVal =  null  ; </li>
+<li>booleanvalidated =  false  ; </li>
+<li>synchronized  (f) { </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>if  (fh &gt;=  0  ) { </li>
+<li>validated =  true  ; </li>
+<li>//pred没看出来有什么用，全是别人赋值给他，他却不影响其他参数 </li>
+<li>for  (Node<k,v> e = f, pred =  null  ;;) { </k,v></li>
+<li>K ek; </li>
+<li>if  (e.hash == hash &amp;&amp;((ek = e.key) == key || </li>
+<li>(ek !=  null  &amp;&amp; key.equals(ek)))){  //hash且可以相等 </li>
+<li>V ev = e.val; </li>
+<li>// value为null或value和查到的值相等 </li>
+<li>if  (cv ==  null  || cv == ev || </li>
+<li>(ev !=  null  &amp;&amp; cv.equals(ev))) { </li>
+<li>oldVal = ev; </li>
+<li>if  (value !=  null  )  // replace中调用 </li>
+<li>e.val = value; </li>
+<li>elseif (pred !=  null  ) </li>
+<li>pred.next = e.next; </li>
+<li>else </li>
+<li>setTabAt(tab, i, e.next); </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>pred = e; </li>
+<li>if  ((e = e.next) ==  null  ) </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>elseif (finstanceof TreeBin) {  // 以树的方式find、remove </li>
+<li>validated =  true  ; </li>
+<li>TreeBin<k,v> t = (TreeBin<k,v>)f; </k,v></k,v></li>
+<li>TreeNode<k,v> r, p; </k,v></li>
+<li>if  ((r = t.root) !=  null  &amp;&amp;</li>
+<li>(p = r.findTreeNode(hash, key,  null  )) !=  null  ) { </li>
+<li>V pv = p.val; </li>
+<li>if  (cv ==  null  || cv == pv || </li>
+<li>(pv !=  null  &amp;&amp; cv.equals(pv))) { </li>
+<li>oldVal = pv; </li>
+<li>if  (value !=  null  ) </li>
+<li>p.val = value; </li>
+<li>elseif (t.removeTreeNode(p)) </li>
+<li>setTabAt(tab, i, untreeify(t.first)); </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (validated) { </li>
+<li>if  (oldVal !=  null  ) { </li>
+<li>if  (value ==  null  ) </li>
+<li>addCount(-1L, -  1  ); </li>
+<li>returnoldVal; </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  replace(K key, V oldValue, V newValue) {} </li>
+</ol>
+<p>6、其他函数：</p>
+<p>public  boolean  isEmpty  () {</p>
+<p>return  sumCount() &lt;= 0L;  // ignore transient negative values</p>
+<p>}</p>
+<p>参考资料:</p>
+<p><a href="http://ifeve.com/concurrenthashmap/" target="_blank" rel="noopener"> http://ifeve.com/concurrenthashmap/  </a></p>
+<p><a href="http://ifeve.com/java-
+concurrent-hashmap-2/" target="_blank" rel="noopener"> http://ifeve.com/java-concurrent-hashmap-2/ </a></p>
+<p>、、、、、、、、、</p>
+<p><a href="http://ashkrit.blogspot.com/2014/12/what-is-
+new-in-java8-concurrenthashmap.html" target="_blank" rel="noopener"> http://ashkrit.blogspot.com/2014/12/what-is-new-in-<br>java8-concurrenthashmap.html  </a></p>
+<p><a href="http://blog.csdn.net/u010723709/article/details/48007881" target="_blank" rel="noopener"> http://blog.csdn.net/u010723709/article/details/48007881
+</a></p>
+<p><a href="http://yucchi.jp/blog/?p=2048" target="_blank" rel="noopener"> http://yucchi.jp/blog/?p=2048  </a></p>
+<p><a href="http://blog.csdn.net/q291611265/article/details/47985145" target="_blank" rel="noopener"> http://blog.csdn.net/q291611265/article/details/47985145
+</a></p>
+<p>、、、、、、、、、、</p>
+<p>SynchronizedMap： <a href="http://blog.sina.com.cn/s/blog_5157093c0100hm3y.html" target="_blank" rel="noopener"> http://blog.sina.com.cn/s/blog_5157093c0100hm3y.html
+</a></p>
+<p><a href="http://blog.csdn.net/yangfanend/article/details/7165742" target="_blank" rel="noopener"> http://blog.csdn.net/yangfanend/article/details/7165742
+</a></p>
+<p><a href="http://blog.csdn.net/xuefeng0707/article/details/40797085" target="_blank" rel="noopener"> http://blog.csdn.net/xuefeng0707/article/details/40797085
+</a></p>
+<pre><code>&lt;a target=_blank id=&quot;L1&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L1&quot; rel=&quot;#L1&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  1&lt;/a&gt;
+&lt;a target=_blank id=&quot;L2&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L2&quot; rel=&quot;#L2&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  2&lt;/a&gt;
+&lt;a target=_blank id=&quot;L3&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L3&quot; rel=&quot;#L3&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  3&lt;/a&gt;
+&lt;a target=_blank id=&quot;L4&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L4&quot; rel=&quot;#L4&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  4&lt;/a&gt;
+&lt;a target=_blank id=&quot;L5&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L5&quot; rel=&quot;#L5&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  5&lt;/a&gt;
+&lt;a target=_blank id=&quot;L6&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L6&quot; rel=&quot;#L6&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  6&lt;/a&gt;
+&lt;a target=_blank id=&quot;L7&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L7&quot; rel=&quot;#L7&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  7&lt;/a&gt;
+&lt;a target=_blank id=&quot;L8&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L8&quot; rel=&quot;#L8&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  8&lt;/a&gt;
+&lt;a target=_blank id=&quot;L9&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L9&quot; rel=&quot;#L9&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  9&lt;/a&gt;
+&lt;a target=_blank id=&quot;L10&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L10&quot; rel=&quot;#L10&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 10&lt;/a&gt;
+&lt;a target=_blank id=&quot;L11&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L11&quot; rel=&quot;#L11&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 11&lt;/a&gt;
+
+
+ArrayList源码分析（jdk1.8）：http://blog.csdn.net/u010887744/article/details/49496093
+
+HashMap源码分析（jdk1.8）：http://write.blog.csdn.net/postedit/50346257
+
+ConcurrentHashMap源码分析--Java8：http://blog.csdn.net/u010887744/article/details/50637030
+
+
+
+
+每篇文章都包含 有道云笔记地址，可直接保存。
+
+
+
+
+在线查阅JDK源码：
+
+JDK8：https://github.com/zxiaofan/JDK1.8-Src
+
+JDK7：https://github.com/zxiaofan/JDK_Src_1.7
+
+
+
+
+史上最全Java集合关系图：http://blog.csdn.net/u010887744/article/details/50575735
+</code></pre><h5 id="来自CODE的代码片"><a href="#来自CODE的代码片" class="headerlink" title=" 来自CODE的代码片 "></a><a href="https://code.csdn.net/snippets/1574871" target="_blank" rel="noopener"> 来自CODE的代码片 </a></h5><p>SourceCode</p>
+<pre><code>&lt;a target=_blank id=&quot;L1&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L1&quot; rel=&quot;#L1&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  1&lt;/a&gt;
+&lt;a target=_blank id=&quot;L2&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L2&quot; rel=&quot;#L2&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  2&lt;/a&gt;
+&lt;a target=_blank id=&quot;L3&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L3&quot; rel=&quot;#L3&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  3&lt;/a&gt;
+&lt;a target=_blank id=&quot;L4&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L4&quot; rel=&quot;#L4&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  4&lt;/a&gt;
+&lt;a target=_blank id=&quot;L5&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L5&quot; rel=&quot;#L5&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  5&lt;/a&gt;
+&lt;a target=_blank id=&quot;L6&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L6&quot; rel=&quot;#L6&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  6&lt;/a&gt;
+&lt;a target=_blank id=&quot;L7&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L7&quot; rel=&quot;#L7&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  7&lt;/a&gt;
+&lt;a target=_blank id=&quot;L8&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L8&quot; rel=&quot;#L8&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  8&lt;/a&gt;
+&lt;a target=_blank id=&quot;L9&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L9&quot; rel=&quot;#L9&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  9&lt;/a&gt;
+&lt;a target=_blank id=&quot;L10&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L10&quot; rel=&quot;#L10&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 10&lt;/a&gt;
+
+
+转载请注明出处，谢谢。
+
+
+
+
+【 CSDN 】：csdn.zxiaofan.cn
+
+【GitHub】：github.zxiaofan.cn
+
+
+
+
+域名备案中，上述网址极不稳定，GitHub请直接访问【github.com/zxiaofan】
+
+
+
+
+如有任何问题，欢迎留言。祝君好运！
+
+Life is all about choices！ 
+
+将来的你一定会感激现在拼命的自己！
+</code></pre><h5 id="来自CODE的代码片-1"><a href="#来自CODE的代码片-1" class="headerlink" title=" 来自CODE的代码片 "></a><a href="https://code.csdn.net/snippets/637064" target="_blank" rel="noopener"> 来自CODE的代码片 </a></h5><p>txt</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合:_ConcurrentHashMap源码分析_JDK1.8/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：集合框架/" >Java集合：集合框架</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java集合源码位于Java.util包下，主要包括List、Set、Map、Iterator以及工具类Arrays和Collections。Java集合框<br>架的顶级接口包括Collection和Map两个，其中Collection的子接口包括List、Set和Queue。具体结构如下：<br><img src="http://img.blog.csdn.net/20160218204126299" alt="Java集合框架"></p>
+<h2 id="1-Collection接口"><a href="#1-Collection接口" class="headerlink" title="1 Collection接口"></a>1 Collection接口</h2><p>Collection是集合的顶级接口之一，他继承了Iterable接口，并声明了集合中一些常用的方法，例如size()，contains(Object<br>o)等方法。Java SDK提供了继承与Collection的子接口List、Set或者Queue，并通过实现子接口实现了具体集合类。所有实现Collect<br>ion接口的类都必须提供两个标准的构造函数：无参数的构造函数用于创建一个空的Collection，有一个<br>Collection参数的构造函数用于创建一个新的Collection，这个新的Collection与传入的Collection有相同的元素。后<br>一个构造函数允许用户复制一个Collection。<br><!--阅读全文--></p>
+<h3 id="1-1-List接口"><a href="#1-1-List接口" class="headerlink" title="1.1 List接口"></a>1.1 List接口</h3><p>List接口继承与Collection接口，它是一个允许有重复元素的的列表，能够控制元素的插入位置，通过索引来访问List中的元素。常见的List的实现有L<br>inkedList，ArrayList，Vector和Stack。</p>
+<h3 id="1-2-Set接口"><a href="#1-2-Set接口" class="headerlink" title="1.2 Set接口"></a>1.2 Set接口</h3><p>Set接口同样继承与Collection接口，它不允许有重复的元素。常用实现类有HashSet和TreeSet，HashSet是通过Map中的HashMap<br>实现的，而TreeSet是通过Map中的TreeMap实现的。另外，TreeSet还实现了SortedSet接口，因此是有序的集合。</p>
+<h3 id="1-3-Queue接口"><a href="#1-3-Queue接口" class="headerlink" title="1.3 Queue接口"></a>1.3 Queue接口</h3><p>Queue接口继承与Collection接口，提供一种先进先出的机制，常见的实现类有ArrayBlockingQueue、ConcurrentLinkedQ<br>ueue等，这些实现类都处于concurrent包下，用于线程同步机制的实现。</p>
+<h2 id="2-Map接口"><a href="#2-Map接口" class="headerlink" title="2 Map接口"></a>2 Map接口</h2><p>Map接口是和Collection接口并行的顶级集合接口，他提供key-<br>value映射机制。Map接口常见的实现类有HashTable、Hashmap以及Weakhashmap等。</p>
+<p>参考：<br>[1] <a href="http://blog.csdn.net/softwave/article/details/4166598" target="_blank" rel="noopener"> http://blog.csdn.net/softwave/article/details/4166598
+</a><br>[2] <a href="http://blog.csdn.net/mazhimazh/article/details/17730517" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17730517
+</a><br>[3] <a href="http://blog.csdn.net/ns_code/article/details/35564663" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/35564663
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：集合框架/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：LinkedList使用详解及源码分析/" >Java集合：LinkedList使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>LinkedList基于双端链表实现，可以作为栈、队列或者双端队列使用。</p>
+<pre><code>public class LinkedList&lt;E&gt;
+    extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+</code></pre><p>LinkedList继承了AbstractSequentialList，实现了get等方法；<br>LinkedList实现了Deque接口，可以作为双端队列使用；<br>LinkedList实现Cloneable接口重写了接口定义的clone()方法，可以使用clone()复制链表。<br>LinkedList实现 java.io.Serializable接口使LinkedList支持序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>LinkedList提供了增加，弹出，获取元素等操作，具体提供的方法如下：</p>
+<pre><code>boolean       add(E object)  //在末尾增加一个元素
+void          add(int location, E object) //在指定位置增加元素
+boolean       addAll(Collection&lt;? extends E&gt; collection) //在末尾加入一组元素
+boolean       addAll(int location, Collection&lt;? extends E&gt; collection) //从指定位置开始加一组元素
+void          addFirst(E object) //在表头增加一个元素
+void          addLast(E object) //在表尾增加一个元素
+void          clear() //清空链表
+Object        clone() //复制一个元素
+boolean       contains(Object object) //判断是否包含object
+Iterator&lt;E&gt;   descendingIterator() //逆序迭代器
+E             element() //获取链表第一个元素,不存在会抛出异常
+E             get(int location) //获取location位置的元素,不存在会抛出异常
+E             getFirst() //获取链表第一个元素,不存在会抛出异常
+E             getLast() //获取链表最后一个元素,不存在会抛出异常
+int           indexOf(Object object) //获取object第一次出现的位置
+int           lastIndexOf(Object object) //获取object最后一次出现的位置
+ListIterator&lt;E&gt;     listIterator(int location) //从location开始的迭代器
+boolean       offer(E o) //在末尾增加一个元素
+boolean       offerFirst(E e) //在表头增加一个元素
+boolean       offerLast(E e) //在表尾增加一个元素
+E             peek() //获取表头元素,不存在不会抛出异常
+E             peekFirst() //获取表头元素,不存在不会抛出异常
+E             peekLast() //获取表尾元素,不存在不会抛出异常
+E             poll() //弹出表头元素
+E             pollFirst() //弹出表头元素
+E             pollLast() //弹出表尾元素
+E             pop() //弹出表头元素,不存在会抛异常
+void          push(E e) //在表头增加一个元素
+E             remove() //删除最后一个元素
+E             remove(int location) //删除location位置的元素
+boolean       remove(Object object) //删除第一个出现的object
+E             removeFirst() //删除第一个元素
+boolean       removeFirstOccurrence(Object o) //删除第一个出现的o
+E             removeLast() //删除最后一个元素
+boolean       removeLastOccurrence(Object o) //删除最后一个出现的o
+E             set(int location, E object) //将location位置设置为object
+int           size() //链表大小
+&lt;T&gt; T[]       toArray(T[] contents) //转换为T类型的数组
+Object[]     toArray() //转换为Object类型的数组
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestLinkedList {
+    public void testLinkedList() throws Exception {
+        LinkedList&lt;String&gt; linkedList = new LinkedList&lt;String&gt;();
+        linkedList.add(&quot;a&quot;); //在表尾增加元素
+        linkedList.add(&quot;b&quot;);
+        printLinkedList(linkedList);
+        linkedList.addFirst(&quot;pre-a&quot;); //在表头增加元素
+        System.out.println(&quot;链表中包含 &apos;a&apos; 元素:&quot; + linkedList.contains(&quot;a&quot;)); //包含元素判断
+        System.out.println(&quot;链表的第一个元素: &quot; + linkedList.peek());
+        System.out.println(&quot;链表的最后一个元素: &quot; + linkedList.peekLast());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取删除链表的第一个元素: &quot; + linkedList.poll());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取并弹出链表的最后一个元素&quot; + linkedList.pollLast());
+        printLinkedList(linkedList);
+        linkedList.offer(&quot;d&quot;);
+        linkedList.offer(&quot;e&quot;);
+        linkedList.offer(&quot;f&quot;);
+        printLinkedList(linkedList);
+        System.out.println(&quot;第三个元素为: &quot; + linkedList.get(2)); //获取第三个元素
+        System.out.println(&quot;将第四个元素设置为g: &quot; + linkedList.set(3, &quot;g&quot;));
+        printLinkedList(linkedList);
+        //转换成数组
+        String[] arr = (String[]) linkedList.toArray(new String[0]);
+        for (String e: arr) {
+            System.out.print(e + &quot; &quot;);
+        }
+    }
+
+    protected void printLinkedList(LinkedList&lt;String&gt; linkedList) {
+        Iterator&lt;String&gt; iterator = linkedList.iterator();
+        System.out.print(&quot;linkList包含的元素有: &quot;);
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + &quot; &quot;);
+        }
+        System.out.println(&quot;\n&quot;);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>linkList包含的元素有: a b
+
+链表中包含 &apos;a&apos; 元素:true
+链表的第一个元素: pre-a
+链表的最后一个元素: b
+linkList包含的元素有: pre-a a b
+
+获取删除链表的第一个元素: pre-a
+linkList包含的元素有: a b
+
+获取并弹出链表的最后一个元素b
+linkList包含的元素有: a
+
+linkList包含的元素有: a d e f
+
+第三个元素为: e
+将第四个元素设置为g: f
+linkList包含的元素有: a d e g
+
+a d e g 
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1-add方法"><a href="#2-1-add方法" class="headerlink" title="2.1 add方法"></a>2.1 add方法</h3><pre><code>public boolean add(E e) { //在末尾增加一个元素
+    linkLast(e);
+    return true;
+}
+
+void linkLast(E e) {
+    final Node&lt;E&gt; l = last; //末尾元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null); //申请一个值为e的元素,前一个元素为l,后一个为null
+    last = newNode; //新元素为最后一个元素
+    if (l == null) //空链表
+        first = newNode;
+    else
+        l.next = newNode;
+    size++; //链表长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-2-addFirst方法"><a href="#2-2-addFirst方法" class="headerlink" title="2.2 addFirst方法"></a>2.2 addFirst方法</h3><pre><code>public void addFirst(E e) { //在表头增加元素
+    linkFirst(e);
+}
+
+private void linkFirst(E e) {
+    final Node&lt;E&gt; f = first; //表头元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(null, e, f); //申请一个值为e的元素,前一个元素为null,后一个元素为f
+    first = newNode; //新元素为表头元素
+    if (f == null) //空链表
+        last = newNode;
+    else
+        f.prev = newNode;
+    size++; //长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-3-peek方法"><a href="#2-3-peek方法" class="headerlink" title="2.3 peek方法"></a>2.3 peek方法</h3><pre><code>public E peek() {
+        final Node&lt;E&gt; f = first; //获取表头元素
+        return (f == null) ? null : f.item; //返回null或者表头元素的值
+}
+</code></pre><h3 id="2-4-poll方法"><a href="#2-4-poll方法" class="headerlink" title="2.4 poll方法"></a>2.4 poll方法</h3><pre><code>public E poll() {
+    final Node&lt;E&gt; f = first;
+    return (f == null) ? null : unlinkFirst(f);
+}
+
+private E unlinkFirst(Node&lt;E&gt; f) {
+    // assert f == first &amp;&amp; f != null;
+    final E element = f.item; //获取第一个元素的值
+    final Node&lt;E&gt; next = f.next; //获取第二个元素
+    f.item = null; //将第一个元素置为null
+    f.next = null; // help GC,
+    first = next; //将原有的第二个元素设为头元素
+    if (next == null) //原链表只有一个元素,此时链表为空
+        last = null;
+    else
+        next.prev = null; //头元素的前置元素为null
+    size--;
+    modCount++;
+    return element;
+}
+</code></pre><h3 id="2-5-toArray-T-contents-方法"><a href="#2-5-toArray-T-contents-方法" class="headerlink" title="2.5 toArray(T[] contents) 方法"></a>2.5 toArray(T[] contents) 方法</h3><pre><code>public &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; size) //a长度小于链表长度,则重新申请一个长度为size的数组
+        a = (T[])java.lang.reflect.Array.newInstance(
+                a.getClass().getComponentType(), size);
+    int i = 0;
+    Object[] result = a;
+    for (Node&lt;E&gt; x = first; x != null; x = x.next) //为数组赋值
+        result[i++] = x.item;
+
+    if (a.length &gt; size) //如果长度大于链表长度,最后一个元素后一个设为null,表示数组结束
+        a[size] = null;
+
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/crave_shy/article/details/17440835" target="_blank" rel="noopener"> http://blog.csdn.net/crave_shy/article/details/17440835
+</a><br>[2] <a href="http://blog.csdn.net/wanghao109/article/details/13287877" target="_blank" rel="noopener"> http://blog.csdn.net/wanghao109/article/details/13287877
+</a><br>[3] <a href="http://fjohnny.iteye.com/blog/696750" target="_blank" rel="noopener"> http://fjohnny.iteye.com/blog/696750
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：LinkedList使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/2/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> Prev</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/4/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

@@ -1,0 +1,363 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql_explain_解释器中的字段含义 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="explain是mysql常用的分析select的查询行为的分析器，解析的内容如下：
+id | select_type | table        | type | possible_keys | key  | key_len | ref| rows    | Extra       |+—-+—">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="mysql_explain_解释器中的字段含义"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> mysql_explain_解释器中的字段含义</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>explain是mysql常用的分析select的查询行为的分析器，解析的内容如下：</p>
+<p>id | select_type | table        | type | possible_keys | key  | key_len | ref<br>| rows    | Extra       |<br>+—-+————-+————–+——+—————+——+———+—<br>—+———+————-+<br>|  1 | SIMPLE      | TradeBalance | ALL  | NULL          | NULL | NULL    |<br>NULL | 3418948 | Using where |  </p>
+<p>接下来就着重分析下每一个字段的含义：</p>
+<p>type 字段包含：执行计划包含的信息</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117000267.png" alt=""></p>
+<h2 id="id"><a href="#id" class="headerlink" title=" id  "></a><strong> id  </strong></h2><p>包含一组数字，表示查询中执行select子句或操作表的顺序</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116184696.png" alt=""></p>
+<p>id相同，执行顺序由上至下</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116211146.png" alt=""></p>
+<p>如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116243320.png" alt=""></p>
+<p>id如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行</p>
+<h2 id="select-type"><a href="#select-type" class="headerlink" title=" select_type  "></a><strong> select_type  </strong></h2><p>表示查询中每个select子句的类型（简单 OR复杂）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116514450.png" alt=""></p>
+<p>a.SIMPLE：查询中不包含子查询或者UNION</p>
+<p>b.查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY</p>
+<p>c.在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY</p>
+<p>d.在FROM列表中包含的子查询被标记为：DERIVED（衍生）</p>
+<p>e.若第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在  FROM子句的子查询中，外层SELECT将被标记为：DERIVED</p>
+<p>f.从UNION表获取结果的SELECT被标记为：UNION RESULT</p>
+<h2 id="type"><a href="#type" class="headerlink" title=" type  "></a><strong> type  </strong></h2><p>表示MySQL在表中找到所需行的方式，又称“访问类型”，常见类型如下：</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116263147.png" alt=""></p>
+<p>由左至右，由最差到最好</p>
+<p>a.ALL：Full Table Scan， MySQL将遍历全表以找到匹配的行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116293337.png" alt=""></p>
+<p>b.index：Full Index Scan，index与ALL区别为index类型只遍历索引树</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116302815.png" alt=""></p>
+<p>c.range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行，常见于between、&lt;、&gt;等的查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117005638.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116330793.png" alt=""></p>
+<p>range访问类型的不同形式的索引访问性能差异</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116345790.png" alt=""></p>
+<p>d.ref：非唯一性索引扫描，返回匹配某个单独值的所有行。常见于使用非唯一索引即唯一索引的非唯一前缀进行的查找</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117044259.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117021262.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117071015.png" alt=""></p>
+<p>e.eq_ref：唯一性索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见于主键或唯一索引扫描</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117082458.png" alt=""></p>
+<p>f.const、system：当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问。如将主键置于where列表中，MySQL就能将该查询转<br>换为一个常量</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117100041.png" alt=""></p>
+<p>system是const类型的特例，当查询的表只有一行的情况下， 使用system</p>
+<p>g.NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117105768.png" alt=""></p>
+<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title=" possible_keys  "></a><strong> possible_keys  </strong></h2><p>指出MySQL能使用哪个索引在表中找到行，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用</p>
+<h2 id="key"><a href="#key" class="headerlink" title=" key  "></a><strong> key  </strong></h2><p>显示MySQL在查询中实际使用的索引，若没有使用索引，显示为NULL</p>
+<p>TIPS：查询中若使用了覆盖索引，则该索引仅出现在key列表中</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117131391.png" alt=""></p>
+<h2 id="key-len"><a href="#key-len" class="headerlink" title=" key_len  "></a><strong> key_len  </strong></h2><p>表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117150784.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117165474.png" alt=""></p>
+<p>key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的</p>
+<h2 id="ref"><a href="#ref" class="headerlink" title=" ref  "></a><strong> ref  </strong></h2><p>表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117181192.png" alt=""></p>
+<p>本例中，由key_len可知t1表的idx_col1_col2被充分使用，col1匹配t2表的col1，col2匹配了一个常量，即 ’ac’</p>
+<p>rows</p>
+<p>表示MySQL根据表统计信息及索引选用情况，估算的找到所需的记录所需要读取的行数</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117190265.png" alt=""></p>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title=" Extra  "></a><strong> Extra  </strong></h2><p>包含不适合在其他列中显示但十分重要的额外信息</p>
+<p>a.Using index</p>
+<p>该值表示相应的select操作中使用了覆盖索引（Covering Index）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117202882.png" alt=""></p>
+<p>TIPS：覆盖索引（Covering Index）</p>
+<p>MySQL可以利用索引返回select列表中的字段，而不必根据索引再次读取数据文件</p>
+<p>包含所有满足查询需要的数据的索引称为 <strong> 覆盖索引 </strong> （Covering Index）</p>
+<p>注意：</p>
+<p>如果要使用覆盖索引，一定要注意select列表中只取出需要的列，不可select *，因为如果将所有字段一起做索引会导致索引文件过大，查询性能下降</p>
+<p>b.Using where</p>
+<p>表示MySQL服务器在存储引擎受到记录后进行“后过滤”（Post-filter）,</p>
+<p>如果查询未能使用索引，Using where的作用只是提醒我们MySQL将用where子句来过滤结果集</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117220955.png" alt=""></p>
+<p>c.Using temporary</p>
+<p>表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117225748.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117230687.png" alt=""></p>
+<p>d.Using filesort</p>
+<p>MySQL中无法利用索引完成的排序操作称为“文件排序”</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117235757.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117242290.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117244986.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117245862.png" alt=""></p>
+<h2 id="MySQL执行计划的局限"><a href="#MySQL执行计划的局限" class="headerlink" title=" MySQL执行计划的局限  "></a><strong> MySQL执行计划的局限  </strong></h2><p>•EXPLAIN不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况</p>
+<p>•EXPLAIN不考虑各种Cache</p>
+<p>•EXPLAIN不能显示MySQL在执行查询时所作的优化工作</p>
+<p>•部分统计信息是估算的，并非精确值</p>
+<p>•EXPALIN只能解释SELECT操作，其他操作要重写为SELECT后查看执行计划</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title=" 最后  "></a><strong> 最后  </strong></h2><p>本文是我从简朝阳推荐的ppt转换为网页版的，原ppt下载: <a href="http://files.cnblogs.com/ggjucheng/mysqlexplain.ppt" target="_blank" rel="noopener"> 下载地址
+</a></p>
+<p>原文链接 <a href="http://isky000.com/database/mysql-explain-detail" target="_blank" rel="noopener">http://isky000.com/database/mysql-explain-detail</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Redis持久化方式介绍/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java_IO：BufferedInputStream使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

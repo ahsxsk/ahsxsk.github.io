@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>LeetCode:Fraction_to_Recurring_Decimal | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="1、题干Given two integers representing the numerator and denominator of a fraction,return the fraction in string format.
+If the fractional part is repeat">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="LeetCode:Fraction_to_Recurring_Decimal"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> LeetCode:Fraction_to_Recurring_Decimal</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="1、题干"><a href="#1、题干" class="headerlink" title="1、题干"></a>1、题干</h2><p>Given two integers representing the numerator and denominator of a fraction,<br>return the fraction in string format.</p>
+<p>If the fractional part is repeating, enclose the repeating part in<br>parentheses.</p>
+<p>For example,</p>
+<ul>
+<li>Given numerator = 1, denominator = 2, return “0.5”. </li>
+<li>Given numerator = 2, denominator = 1, return “2”. </li>
+<li>Given numerator = 2, denominator = 3, return “0.(6)”. </li>
+</ul>
+<p>题干的意思是，给两个整数numerator，denominator，分别作为分子和分母，现在需要计算他的小数形式，并返回String类型，如果是循环小数，将<br>循环部分用小括号包起来。</p>
+<h2 id="2、解题思路"><a href="#2、解题思路" class="headerlink" title="2、解题思路"></a>2、解题思路</h2><p>本题的难点在小数部分计算，具体思路如下：<br>1）设两个变量分别存放每次计算完成的余数（remainder）和商（integer）,并将余数加入到一个数组中。<br>2）每次计算后先到数组中查是否有相同的余数，如果有则说明出现循环小数。<br>3）计算循环小数循环的位数，循环的位数是余数数组的长度减去重复余数上一次（也只会出现一次）出现的下标。</p>
+<h2 id="3、注意事项"><a href="#3、注意事项" class="headerlink" title="3、注意事项"></a>3、注意事项</h2><p>1）负数情况<br>2）Math.abs()处理Integer.MIN_VALUE返回的还是负值，整形衣橱</p>
+<h2 id="4、源码及注释"><a href="#4、源码及注释" class="headerlink" title="4、源码及注释"></a>4、源码及注释</h2><pre><code>/**
+ * Fraction to Recurring Decimal
+ * @param numerator
+ * @param denominator
+ * @return
+ */
+public String fractionToDecimal(int numerator, int denominator) {
+    if (numerator == 0) { //分子为0
+        return &quot;0&quot;;
+    }
+
+    if (denominator == 0) { //分母为0,返回空
+        return &quot;&quot;;
+    }
+
+    String result = &quot;&quot;; //存放最终结果
+
+    if (numerator &lt; 0 ^ denominator &lt; 0) { //有一个是负数
+        result += &quot;-&quot;;
+    }
+
+    long first = Math.abs(Long.valueOf(numerator)); //分子
+    long second = Math.abs(Long.valueOf(denominator)); //分母
+
+    long integer = first / second; //整数部分
+    long remainder = first % second; //余数
+    if (remainder == 0) { //能够整除
+        result += String.valueOf(integer);
+        return result;
+    } else { //有小数
+        result = result + String.valueOf(integer) + &quot;.&quot;;
+    }
+    List list = new ArrayList&lt;&gt;(); //存放余数, 下表即是余数出现的位置
+    list.add(remainder);
+    while (remainder != 0) {
+        integer = remainder * 10 / second; //小数部分的结果
+        remainder = remainder * 10 % second; //余数
+        if (list.contains(remainder)) { //余数存在则说明出现了循环小数
+            result += String.valueOf(integer);
+            int position = list.size() - list.indexOf(remainder); //&quot;(&quot;需要添加的位置,从后向前数
+            int length = result.length(); //字符串长度
+            String repeatNum = &quot;(&quot; + result.substring(length - position, length) + &quot;)&quot;;
+            String notRepeatNum = result.substring(0,length - position);
+            result = notRepeatNum.concat(repeatNum);
+            return result;
+        }
+
+        result += String.valueOf(integer); //正常计算
+        list.add(remainder); //余数存入map
+    }
+    return result;
+}
+</code></pre>	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/LeetCode:Increasing_Triplet_Subsequence/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/MySQL中的两种临时表/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

@@ -1,0 +1,472 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：ByteArrayInputStream使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="1 使用方法ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte数组。缓冲区会随着数据的不断写入而自动增长。可使用 toB">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：ByteArrayInputStream使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：ByteArrayInputStream使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read<br>方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte<br>数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray()和 toString()获取数据。</p>
+<h3 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h3><p>ByteArrayInputStream提供的API如下：</p>
+<pre><code>// 构造函数
+    ByteArrayInputStream(byte[] buf)
+    ByteArrayInputStream(byte[] buf, int offset, int length)
+
+    synchronized int         available() //能否读取字节流的下一字节
+    void                     close() //关闭字节流
+    synchronized void        mark(int readlimit) //保存当前位置
+    boolean                  markSupported() //是否支持mark
+    synchronized int         read() //读取下一字节
+    synchronized int         read(byte[] buffer, int offset, int length) //将字节流写入buffer数组
+    synchronized void        reset() //重置索引到mark位置
+    synchronized long        skip(long byteCount) //跳过n个字节
+}
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestByteArray {
+    // 对应英文字母“abcddefghijklmnopqrsttuvwxyz”
+    private final byte[] ArrayLetters = {
+            0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
+            0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A
+    };
+
+    public void testByteArrayInputStream() {
+        //创建字节流,以ArrayLetters初始化
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(ArrayLetters);
+
+        //读取5个字节
+        int i = 0;
+        System.out.print(&quot;前5个字节为: &quot;);
+        while (i++ &lt; 5) {
+            //是否可读
+            if (inputStream.available() &gt;= 0) {
+                int buf = inputStream.read();
+                System.out.printf(&quot;0x%s &quot;, Integer.toHexString(buf));
+            }
+        }
+        System.out.println();
+
+        //是否支持标记
+        if (!inputStream.markSupported()) {
+            System.out.println(&quot;该字节流不支持标记&quot;);
+        } else {
+            System.out.println(&quot;该字节流支持标记&quot;);
+        }
+
+        //标记, 已经读取5个字节,标记处为0x66
+        System.out.println(&quot;标记该字节流为位置为0x66(f)&quot;);
+        inputStream.mark(0);
+
+        //跳过2个字节
+        inputStream.skip(2);
+
+        //读取5个字节到buffer
+        byte [] buffer = new byte[5];
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;buffer: &quot; + new String(buffer));
+
+        //重置
+        inputStream.reset();
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;重置后读取5个字符为: &quot; + new String(buffer));
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>前5个字节为: 0x61 0x62 0x63 0x64 0x65
+该字节流支持标记
+标记该字节流为位置为0x66(f)
+buffer: hijkl
+重置后读取5个字符为: fghij
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ByteArrayInputStream有两个构造函数，区别是初始化内容选择。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * so that it  uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array.
+ * The buffer array is not copied.
+ * The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;0&lt;/code&gt; and the initial value
+ * of  &lt;code&gt;count&lt;/code&gt; is the length of
+ * &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   buf   the input buffer.
+ */
+public ByteArrayInputStream(byte buf[]) {
+    this.buf = buf; //缓冲数组
+    this.pos = 0; //当前位置
+    this.count = buf.length; //输入流字节数
+}
+
+/**
+ * Creates &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * that uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array. The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;offset&lt;/code&gt; and the initial value
+ * of &lt;code&gt;count&lt;/code&gt; is the minimum of &lt;code&gt;offset+length&lt;/code&gt;
+ * and &lt;code&gt;buf.length&lt;/code&gt;.
+ * The buffer array is not copied. The buffer&apos;s mark is
+ * set to the specified offset.
+ *
+ * @param   buf      the input buffer.
+ * @param   offset   the offset in the buffer of the first byte to read.
+ * @param   length   the maximum number of bytes to read from the buffer.
+ */
+public ByteArrayInputStream(byte buf[], int offset, int length) {
+    this.buf = buf; //缓冲数组
+    this.pos = offset; //当前位置为传入buf的offset
+    this.count = Math.min(offset + length, buf.length); //输入流字节数
+    this.mark = offset; //标记
+}
+</code></pre><h3 id="2-2-read方法"><a href="#2-2-read方法" class="headerlink" title="2.2 read方法"></a>2.2 read方法</h3><p>read方法有两个，不带参数的read()每次读取字节流中一个字节，带参数的read(byte b[], int off, int<br>len)将字节流从当前位置开始，写入len个字节到b中，写入开始位置为off。</p>
+<pre><code>/**
+ * 读取字节流当前字节
+ * @return 一个字节
+ */
+public synchronized int read() {
+    return (pos &lt; count) ? (buf[pos++] &amp; 0xff) : -1; //&amp;0xff为限制返回值为一个字节,即8位
+}
+
+/**
+ * 将字节流当前位置开始的len个字节写入到 b从off开始的len个位置
+ * @param b
+ * @param off
+ * @param len
+ * @return
+ */
+public synchronized int read(byte b[], int off, int len) {
+    if (b == null) {
+        throw new NullPointerException();
+    } else if (off &lt; 0 || len &lt; 0 || len &gt; b.length - off) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    if (pos &gt;= count) { //超出字节流范围
+        return -1;
+    }
+
+    int avail = count - pos; //可读取的字节数量
+    if (len &gt; avail) {
+        len = avail;
+    }
+    if (len &lt;= 0) {
+        return 0;
+    }
+    System.arraycopy(buf, pos, b, off, len); //将buf从pos位置开始的字节复制到b从off开始的位置,共复制len长
+    pos += len;
+    return len;
+}
+</code></pre><h3 id="2-4-skip方法"><a href="#2-4-skip方法" class="headerlink" title="2.4 skip方法"></a>2.4 skip方法</h3><pre><code>/**
+ * Skips &lt;code&gt;n&lt;/code&gt; bytes of input from this input stream. Fewer
+ * bytes might be skipped if the end of the input stream is reached.
+ * The actual number &lt;code&gt;k&lt;/code&gt;
+ * of bytes to be skipped is equal to the smaller
+ * of &lt;code&gt;n&lt;/code&gt; and  &lt;code&gt;count-pos&lt;/code&gt;.
+ * The value &lt;code&gt;k&lt;/code&gt; is added into &lt;code&gt;pos&lt;/code&gt;
+ * and &lt;code&gt;k&lt;/code&gt; is returned.
+ *
+ * @param   n   the number of bytes to be skipped.
+ * @return  the actual number of bytes skipped.
+ */
+public synchronized long skip(long n) {
+    long k = count - pos; //剩余字节数
+    if (n &lt; k) {
+        k = n &lt; 0 ? 0 : n;
+    }
+
+    pos += k;
+    return k;
+}
+</code></pre><h3 id="2-5-mark和reset方法"><a href="#2-5-mark和reset方法" class="headerlink" title="2.5 mark和reset方法"></a>2.5 mark和reset方法</h3><pre><code>/**
+ * Set the current marked position in the stream.
+ * ByteArrayInputStream objects are marked at position zero by
+ * default when constructed.  They may be marked at another
+ * position within the buffer by this method.
+ * &lt;p&gt;
+ * If no mark has been set, then the value of the mark is the
+ * offset passed to the constructor (or 0 if the offset was not
+ * supplied).
+ *
+ * &lt;p&gt; Note: The &lt;code&gt;readAheadLimit&lt;/code&gt; for this class
+ *  has no meaning.
+ *
+ * @since   JDK1.1
+ */
+public void mark(int readAheadLimit) {
+    mark = pos;
+}
+
+/**
+ * Resets the buffer to the marked position.  The marked position
+ * is 0 unless another position was marked or an offset was specified
+ * in the constructor.
+ */
+public synchronized void reset() {
+    pos = mark;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_02.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_03.html
+</a><br>[3] <a href="http://blog.csdn.net/rcoder/article/details/6118313" target="_blank" rel="noopener"> http://blog.csdn.net/rcoder/article/details/6118313
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

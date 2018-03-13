@@ -1,0 +1,856 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+<!-- title -->
+<div class="page-header page-header-inverse ">
+  <h1 class="archive-title-category title title-inverse ">MySQL</h1>
+</div>
+
+<div class="row page">
+  <!-- cols -->
+  
+  <div class="col-md-9">
+	
+
+	  <div id="top_search"></div>
+
+      
+         <!-- display as entry -->
+	     <div class="mypage">
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL中的两种临时表/" >MySQL中的两种临时表</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>转自： <a href="http://mysql.taobao.org/monthly/2016/06/07/" target="_blank" rel="noopener"> http://mysql.taobao.org/monthly/2016/06/07/
+</a></p>
+<h2 id="外部临时表"><a href="#外部临时表" class="headerlink" title="外部临时表"></a>外部临时表</h2><p><strong> 通过CREATE TEMPORARY TABLE </strong><br>创建的临时表，这种临时表称为外部临时表。这种临时表只对当前用户可见，当前会话结束的时候，该临时表会自动关闭。这种临时表的命名与非临时表可以同名（同名后非临时<br>表将对当前会话不可见，直到临时表被删除）。</p>
+<h2 id="内部临时表"><a href="#内部临时表" class="headerlink" title="内部临时表"></a>内部临时表</h2><p>内部临时表是一种特殊轻量级的临时表，用来进行性能优化。这种临时表会被MySQL自动创建并用来存储某些操作的中间结果。这些操作可能包括在优化阶段或者执行阶段。<br>这种内部表对用户来说是不可见的，但是通过EXPLAIN或者SHOW<br>STATUS可以查看MYSQL是否使用了内部临时表用来帮助完成某个操作。内部临时表在SQL语句的优化过程中扮演着非常重要的角色， MySQL中的很多操作都要<br>依赖于内部临时表来进行优化。但是使用内部临时表需要创建表以及中间数据的存取代价，所以用户在写SQL语句的时候应该尽量的去避免使用临时表。</p>
+<p>内部临时表有两种类型：一种是 <strong> HEAP临时表 </strong> ，这种临时表的所有数据都会存在内存中，对于这种表的操作不需要IO操作。另一种是 <strong><br>OnDisk临时表 </strong> ，顾名思义，这种临时表会将数据存储在磁盘上。OnDisk临时表用来处理 <strong> 中间结果比较大的操作 </strong> 。如果HEAP临时表存储<br>的数据大于MAX_HEAP_TABLE_SIZE（详情请参考MySQL手册中系统变量部分），HEAP临时表将会被自动转换成OnDisk临时表。OnDisk临<br>时表在5.7中可以通过INTERNAL_TMP_DISK_STORAGE_ENGINE系统变量选择使用MyISAM引擎或者InnoDB引擎。</p>
+<p>本篇文章主要介绍哪些操作可能会利用到内部临时表。如果用户在书写SQL语句的时候能够尽量少的使用内部临时表进行查询优化，将有效的提高查询执行的效率。</p>
+<p>首先我们定义一个表t1，</p>
+<pre><code>CREATE TABLE t1( a int, b int); INSERT INTO t1 VALUES(1,2),(3,4);
+</code></pre><p>下面所有的操作都是基于表t1进行举例的。</p>
+<p>在SQL语句中使用SQL_BUFFER_RESULT hint<br>SQL_BUFFER_RESULT主要用来让MySQL尽早的释放表上的锁。因为如果数据量很大的话，需要较长时间将数据发送到客户端，通过将数据缓冲到临时表中可<br>以有效的减少读锁对表的占用时间。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select SQL_BUFFER_RESULT * from t1;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.00&quot;
+    },
+    &quot;buffer_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table&quot;: {
+        &quot;table_name&quot;: &quot;t1&quot;,
+        &quot;access_type&quot;: &quot;ALL&quot;,
+    ...
+</code></pre><p>如果SQL语句中包含了DERIVED_TABLE。<br>在5.7中，由于采用了新的优化方式，我们需要使用 set optimizer_switch=’derived_merge=off’来禁止derived<br>table合并到外层的Query中。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from (select * from t1) as tt;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.40&quot;
+    },
+    &quot;table&quot;: {
+      &quot;table_name&quot;: &quot;tt&quot;,
+      &quot;access_type&quot;: &quot;ALL&quot;,
+      ...
+      &quot;materialized_from_subquery&quot;: {
+        &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果我们查询系统表的话，系统表的数据将被存储到内部临时表中。<br>我们当前不能使用EXPLAIN来查看是否读取系统表数据需要利用到内部临时表，但是可以通过SHOW STATUS来查看是否利用到了内部临时表。<br>例如：</p>
+<pre><code>mysql&gt; select * from information_schema.character_sets;
+mysql&gt; show status like &apos;CREATE%&apos;;
+</code></pre><p>如果DISTINCT语句没有被优化掉，即DISTINCT语句被优化转换为GROUP BY操作或者利用UNIQUE INDEX消除DISTINCT,<br>内部临时表将会被使用。</p>
+<pre><code>mysql&gt; explain format=json select distinct a from t1;
+EXPLAIN
+{
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.60&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果查询带有ORDER BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行排序。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)<br>例如：</p>
+<p>1))BNL默认是打开的</p>
+<pre><code>mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+  &quot;select_id&quot;: 1,
+  &quot;cost_info&quot;: {
+    &quot;query_cost&quot;: &quot;22.00&quot;
+  },
+  &quot;ordering_operation&quot;: {
+    &quot;using_temporary_table&quot;: true,
+  ...
+</code></pre><p>2))关掉BNL后，ORDER BY将直接使用filesort。</p>
+<pre><code>mysql&gt; set optimizer_switch=&apos;block_nested_loop=off&apos;;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+    ...
+</code></pre><p>2）ORDER BY的列不属于执行计划中第一个连接表的列。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from t as t1, t as t2 order by t2.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>3）如果ORDER BY的表达式是个复杂表达式。</p>
+<p>那么什么样的ORDER BY表达式，MySQL认为是复杂表达式呢？</p>
+<p>1))如果排序表达式是SP或者UDF。<br>例如：</p>
+<pre><code>drop function if exists func1;
+delimiter |
+create function func1(x int)
+returns int deterministic
+begin
+declare z1, z2 int;
+set z1 = x;
+set z2 = z1+2;
+return z2;
+end|
+delimiter ;
+explain format=json select * from t1 order by func1(a);
+{
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.20&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ..
+</code></pre><p>2))ORDER BY的列包含聚集函数</p>
+<p>为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>create index idx1 on t1(a);
+explain format=json SELECt a FROM t1 group by a order by sum(a);
+| {
+     &quot;query_block&quot;: {
+      &quot;select_id&quot;: 1,
+      &quot;cost_info&quot;: {
+        &quot;query_cost&quot;: &quot;1.20&quot;
+      },
+      &quot;ordering_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: true,
+        &quot;grouping_operation&quot;: {
+          &quot;using_filesort&quot;: false,
+      ...
+drop index idx1 on t1;
+</code></pre><p>3))ORDER BY的列中包含有SCALAR SUBQUERY,当然该SCALAR SUBQUERY没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select rand() from t1 limit 1) as a from t1 order by a;     
+| {
+      &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.20&quot;
+        },
+        &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+            ...
+</code></pre><p>4) 如果查询既带有ORDER BY同时也有GROUP BY语句，但是两个语句使用的列不相同。</p>
+<p>注意: 如果是5.7，我们需要将sql_mode设置为非only_full_group_by模式，否则会报错。</p>
+<p>同样为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+create index idx1 on t1(b);
+explain format=json select t1.a from t1 group by t1.b order by 1;
+| {
+     &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.40&quot;
+        },
+    &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+          &quot;grouping_operation&quot;: {
+            &quot;using_filesort&quot;: false,
+    ...
+drop index idx1 on t1;
+</code></pre><p>如果查询带有GROUP BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行GROUP BY。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t1.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+    ...
+</code></pre><p>2) 如果GROUP BY的列不属于执行计划中的第一个连接表。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t2.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;nested_loop&quot;: [
+    ...
+</code></pre><p>3) 如果GROUP BY语句使用的列与ORDER BY语句使用的列不同。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+explain format=json select t1.a from t1 group by t1.b order by t1.a;
+| {
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.40&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+      &quot;grouping_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: false,
+    ...
+</code></pre><p>4) 如果GROUP BY带有ROLLUP并且是基于多表外连接。<br>例如：</p>
+<pre><code>explain format=json select sum(t1.a) from t1 left join t1 as t2 on true group by t1.a with rollup;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;7.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+      },
+    ...
+</code></pre><p>5) 如果GROUP BY语句使用的列来自于SCALAR SUBQUERY，并且没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select avg(a) from t1) as a from t1 group by a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;3.40&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;2.00&quot;
+      },
+    ...
+</code></pre><p>IN表达式转换为semi-join进行优化<br>1) 如果semi-join执行方式为Materialization<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off,duplicateweedout=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;5.60&quot;
+    },
+    &quot;nested_loop&quot;: [
+      {
+         &quot;rows_examined_per_scan&quot;: 1,
+              &quot;materialized_from_subquery&quot;: {
+                &quot;using_temporary_table&quot;: true,
+                &quot;query_block&quot;: {
+                  &quot;table&quot;: {
+                    &quot;table_name&quot;: &quot;t1&quot;,
+                    &quot;access_type&quot;: &quot;ALL&quot;,
+
+    ... 
+</code></pre><p>2) 如果semi-join执行方式为Duplicate Weedout<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+ | {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;4.80&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;nested_loop&quot;: [
+            {
+    ...
+</code></pre><p>如果查询语句带有UNION，MySQL将利用内部临时表帮助UNION操作消除重复。<br>例如：</p>
+<pre><code>explain format=json select * from t1 union select * from t1;
+| {
+    &quot;query_block&quot;: {
+    &quot;union_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table_name&quot;: &quot;&lt;union1,2&gt;&quot;,
+    ...
+</code></pre><p>如果查询语句使用多表更新。<br>这里Explain不能看到内部临时表被利用，所以需要查看status。<br>例如：</p>
+<pre><code>update t1, t1 as t2 set t1.a=3;
+show status like &apos;CREATE%&apos;;
+</code></pre><p>如果聚集函数中包含如下函数，内部临时表也会被利用。<br>1) count(distinct *)<br>例如：</p>
+<pre><code>explain format=json select count(distinct a) from t1;
+</code></pre><p>2) group_concat<br>例如：</p>
+<pre><code>explain format=json select group_concat(b) from t1;
+</code></pre><p>总之，上面列出了10种情况，MySQL将利用内部临时表进行中间结果缓存，如果数据量比较大的话，内部临时表将会把数据存储在磁盘上，这样显然会对性能有所影响。<br><strong> 为了尽可能的减少性能损失，我们需要尽量避免上述情况的出现 </strong> 。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL中的两种临时表/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL事务介绍及原理/" >MySQL事务介绍及原理</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-为什么要事务"><a href="#1-为什么要事务" class="headerlink" title="1 为什么要事务"></a>1 为什么要事务</h2><p>事务是一组不可被分割执行的SQL语句集合，如果有必要，可以撤销。银行转账是经典的解释事务的例子。用户A给用户B转账5000元主要步骤可以概括为如下两步。<br>第一，账户A账户减去5000元；<br>第二，账户B账户增加5000元；<br>这两步要么成功，要么全不成功，否则都会导致数据不一致。这就可以用到事务来保证，如果是不同银行之间的转账还需要用到分布式事务。</p>
+<h2 id="2-事务的性质"><a href="#2-事务的性质" class="headerlink" title="2 事务的性质"></a>2 事务的性质</h2><p>事务的机制通常被概括为“ACID”原则即原子性（A）、稳定性（C）、隔离性（I）和持久性（D）。<br>原子性：构成事务的的所有操作必须是一个逻辑单元，要么全部执行，要么全部不执行。<br>稳定性：数据库在事务执行前后状态都必须是稳定的。<br>隔离性：事务之间不会相互影响。<br>持久性：事务执行成功后必须全部写入磁盘。</p>
+<h2 id="3-事务隔离性实现原理"><a href="#3-事务隔离性实现原理" class="headerlink" title="3 事务隔离性实现原理"></a>3 事务隔离性实现原理</h2><p>数据库事务会导致脏读、不可重复读和幻影读等问题。<br>脏读：事务还没提交，他的修改已经被其他事务看到。<br>不可重复读：同一事务中两个相同SQL读取的内容可能不同。两次读取之间其他事务提交了修改可能会造成读取数据不一致。<br>幻影数据：同一个事务突然发现他以前没发现的数据。和不可重复读很类似，不过修改数据改成增加数据。<br>针对可能的问题，InnoDB提供了四种不同级别的机制保证数据隔离性。<br><strong> 事务的隔离用是通过锁机制实现的，不同于MyISAM使用表级别的锁，InnoDB采用更细粒度的行级别锁，提高了数据表的性能。InnoDB的锁通过锁定索引来实现，如果查询条件中有主键则锁定主键，如果有索引则先锁定对应索引然后再锁定对应的主键（可能造成死锁），如果连索引都没有则会锁定整个数据表。 </strong></p>
+<h3 id="3-1-READ-UNCOMMIT"><a href="#3-1-READ-UNCOMMIT" class="headerlink" title="3.1 READ UNCOMMIT"></a>3.1 READ UNCOMMIT</h3><p>READ UNCOMMIT允许某个事务看到其他事务并没有提交的数据。可能会导致脏读、不可重复读、幻影数据。<br>原理：READ UNCOMMIT不会采用任何锁。</p>
+<h3 id="3-2-READ-COMMIT"><a href="#3-2-READ-COMMIT" class="headerlink" title="3.2 READ COMMIT"></a>3.2 READ COMMIT</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+</code></pre><p>READ COMMIT允许某个事务看到其他事务已经提交的数据。可能会导致不可重复读和幻影数据。<br>原理：数据的读是不加锁的，但是数据的写入、修改、删除加锁，避免了脏读。</p>
+<h3 id="3-3-REPEATABLE-READ"><a href="#3-3-REPEATABLE-READ" class="headerlink" title="3.3 REPEATABLE READ"></a>3.3 REPEATABLE READ</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+InnoDB中REPEATABLE READ级别同一个事务的两次相同读取肯定是一样的，其他事务的提交不会对本次事务有影响。
+</code></pre><p>原理：数据的读、写都会加锁，当前事务如果占据了锁，其他事务必须等待本次事务提交完成释放锁后才能对相同的数据行进行操作。</p>
+<h3 id="3-4-SERIALIZABLE"><a href="#3-4-SERIALIZABLE" class="headerlink" title="3.4 SERIALIZABLE"></a>3.4 SERIALIZABLE</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+</code></pre><p>SERIALIZABLE 级别在InnoDB中和REPEATABLE READ采用相同的实现。</p>
+<h2 id="4-原子性、稳定性和持久性实现原理"><a href="#4-原子性、稳定性和持久性实现原理" class="headerlink" title="4 原子性、稳定性和持久性实现原理"></a>4 原子性、稳定性和持久性实现原理</h2><p>原子性、稳定性和持久性是通过redo 和 undo<br>日志文件实现的，不管是redo还是undo文件都会有一个缓存我们称之为redo_buf和undo_buf。同样，数据库文件也会有缓存称之为data_buf。</p>
+<h3 id="4-1-undo-日志文件"><a href="#4-1-undo-日志文件" class="headerlink" title="4.1 undo 日志文件"></a>4.1 undo 日志文件</h3><p>undo记录了数据在事务开始之前的值，当事务执行失败或者ROLLBACK时可以通过undo记录的值来恢复数据。例如 AA和BB的初始值分别为3，5。</p>
+<pre><code>A 事务开始
+B 记录AA=3到undo_buf
+C 修改AA=1
+D 记录BB=5到undo_buf
+E 修改BB=7
+F 将undo_buf写到undo(磁盘)
+G 将data_buf写到datafile(磁盘)
+H 事务提交
+</code></pre><p>通过undo可以保证原子性、稳定性和持久性<br><strong> 如果事务在F之前崩溃由于数据还没写入磁盘，所以数据不会被破坏。 </strong><br><strong> 如果事务在G之前崩溃或者回滚则可以根据undo恢复到初始状态。 </strong><br>数据在任务提交之前写到磁盘保证了持久性。<br>但是单纯使用undo保证原子性和持久性需要在事务提交之前将数据写到磁盘，浪费大量I/O。</p>
+<h3 id="4-2-redo-undo-日志文件"><a href="#4-2-redo-undo-日志文件" class="headerlink" title="4.2 redo/undo 日志文件"></a>4.2 redo/undo 日志文件</h3><p>引入redo日志记录数据修改后的值，可以避免数据在事务提交之前必须写入到磁盘的需求，减少I/O。</p>
+<pre><code>A 事务开始
+B 记录AA=3到undo_buf
+C 修改AA=1 记录redo_buf
+D 记录BB=5到undo_buf
+E 修改BB=7 记录redo_buf
+F 将redo_buf写到redo（磁盘）
+G 事务提交
+</code></pre><p><strong> 通过undo保证事务的原子性，redo保证持久性。 </strong><br><strong> F之前崩溃由于所有数据都在内存，恢复后重新冲磁盘载入之前的数据，数据没有被破坏。 </strong><br><strong> FG之间的崩溃可以使用redo来恢复。 </strong><br><strong> G之前的回滚都可以使用undo来完成。 </strong></p>
+<h2 id="5-事务操作命令"><a href="#5-事务操作命令" class="headerlink" title="5 事务操作命令"></a>5 事务操作命令</h2><p>如果需要使用事务就必须选用支持事务的数据库引擎如InnoDB和Falcon，MyISAM并不支持事务。<br>在默认情况下MySQL开启的是autocommit模式，也就是隐含的将每条语句当做一个事务处理，每条SQL都会被自动提交。当我们使用BEGIN或者START<br>TRANSCATION时会把自动提交挂起，直到显示的调用COMMIT。使用事务可以有如下两种方法：</p>
+<pre><code>BEGIN; //开始事务，挂起自动提交
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10001, 1, 10001, 0);
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10002, 1, 10001, 0);
+COMMIT; //提交事务，恢复自动提交
+
+
+set autocommit = 0; //挂起自动提交
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10001, 1, 10001, 0);
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10002, 1, 10001, 0);
+COMMIT; //提交事务
+set autocommit = 1; //恢复自动提交
+</code></pre><p>这两种方式效果相同。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="http://www.cnblogs.com/Bozh/archive/2013/03/18/2966494.html" target="_blank" rel="noopener"> http://www.cnblogs.com/Bozh/archive/2013/03/18/2966494.html
+</a><br>[2] <a href="http://www.letiantian.me/2014-06-18-db-undo-redo-checkpoint/" target="_blank" rel="noopener"> http://www.letiantian.me/2014-06-18-db-undo-redo-checkpoint/
+</a><br>[3] <a href="http://blog.csdn.net/mchdba/article/details/12242685" target="_blank" rel="noopener"> http://blog.csdn.net/mchdba/article/details/12242685
+</a><br>[4] 《MySQL技术内幕》<br>[5] <a href="http://tech.meituan.com
+/innodb-lock.html" target="_blank" rel="noopener"> http://tech.meituan.com/innodb-lock.html </a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL事务介绍及原理/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL主从复制原理/" >MySQL主从复制原理</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>MySQL主从复制原理</p>
+<p>当一台MySQL服务器无法满足现有的访问量时，一般会采用主从服务器模式，通过数据库代理做到读写分离。主服务器负责处理写入请求，从服务器服务器负责处理读取请求<br>。大部分情况是读取量远大于写入量，一般会配置多个从服务器。参考《高性能MySQL》，本文介绍了MySQL主从复制的原理和常见的拓扑结构。</p>
+<h2 id="1-MySQL主从复制的过程"><a href="#1-MySQL主从复制的过程" class="headerlink" title="1 MySQL主从复制的过程"></a>1 MySQL主从复制的过程</h2><p>MySQL主从负责依赖binlog，要想实现复制必须打开binlog。主从复制的过程中由主服务器（Master）的IO进程配合从服务器（Slave）的IO进<br>程和SQL进程共同完成，具体不知如下：<br>1）Slave的IO进程向Master请求指定日志文件指定位置后的日志内容；<br>2）Master收到请求后，通过Master的IO进程读取Slave请求的数据并返回给Slave的IO进程，除了请求的内容还会给Slave返回本次读取到的b<br>inlog文件名称和位置；<br>3）Slave的IO进程收到返回内容后将日志内容添加到relay-log后面，并将文件位置信息保存到master-info中；<br>4）Slave的SQL进程发现relay-log有新内容后就会取出relay-log中的语句执行。<br><img src="http://img.blog.csdn.net/20160217195636237" alt="mysql主从复制过程"></p>
+<h2 id="2-MySQL主从复制级别"><a href="#2-MySQL主从复制级别" class="headerlink" title="2 MySQL主从复制级别"></a>2 MySQL主从复制级别</h2><p>MySQL主从复制分为基于语句复制、基于行复制和混合复制三种。</p>
+<h3 id="2-1-基于语句复制"><a href="#2-1-基于语句复制" class="headerlink" title="2.1 基于语句复制"></a>2.1 基于语句复制</h3><p>基于语句复制是MySQL根据binlog中的语句在Slave上重做这些操作，MySQL默认级别。优点是快速简单binlog文件小，缺点是使用到UUID()、<br>USER()以及部分UPDATE操作时没法正确的复制等。</p>
+<h3 id="2-2-基于行复制"><a href="#2-2-基于行复制" class="headerlink" title="2.2 基于行复制"></a>2.2 基于行复制</h3><p>采用行复制时，binlog中记录的将不再是操作语句而是记录每一行的修改，这样避免了基于语句复制的缺点，保证每条修改都能被正确复制。但是行复制的binlog可<br>能会很大，比如说alter操作会在日志中记录所有行的变化，binlog就会过大。</p>
+<h3 id="2-3-混合复制"><a href="#2-3-混合复制" class="headerlink" title="2.3 混合复制"></a>2.3 混合复制</h3><p>混合复制是前两种复制方式的结合，MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在语句复制和行复制之间选择一种。当使用语句复制无<br>法准确复制会自动切换到行复制，如下几种情况会自动切换。<br>1）当函数中包含 UUID() 时；<br>2）2个及以上包含 AUTO_INCREMENT 字段的表被更新时；<br>3）执行 INSERT DELAYED 语句时；<br>4）用 UDF 时；<br>5）视图中必须要求运用 row 时，例如建立视图时使用了 UUID() 函数；<br>6）当 DML 语句更新一个 NDB 表时；</p>
+<h2 id="3-主从复制常见的拓扑结构"><a href="#3-主从复制常见的拓扑结构" class="headerlink" title="3 主从复制常见的拓扑结构"></a>3 主从复制常见的拓扑结构</h2><p>常见的主从复制拓扑结构有一主多从、主动、级联等模式</p>
+<h3 id="3-1-一主多从模式"><a href="#3-1-一主多从模式" class="headerlink" title="3.1 一主多从模式"></a>3.1 一主多从模式</h3><p>一主多从模式中有且只有一个Master有一组Slave，当前大部分主从复制采用这种模式。这种模式扩展方便，主从延时少。当写操作较少而读操作较多时采用这种方式<br>较合适，但是当Slave过多时会导致Master负载较重以及消耗较多带宽的问题。</p>
+<h3 id="3-2-主动模式"><a href="#3-2-主动模式" class="headerlink" title="3.2 主动模式"></a>3.2 主动模式</h3><p>主动模式的两台服务器，既是master，又是另一台服务器的slave。这样，任何一方所做的变更，都会通过复制应用到另外一方的数据库中。</p>
+<h3 id="3-3-级联模式"><a href="#3-3-级联模式" class="headerlink" title="3.3 级联模式"></a>3.3 级联模式</h3><p>当读压力较大时，连接到Master上的Slave较多，会给Master带来较大压力。采用级联的方式即Master只连接一定数量的Slave，这些Slave又<br>充当其他Slave的Master。级联模式减少了Master的压力但是也会带来主从复制延时较大的问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="http://blog.csdn.net/hguisu/article/details/7325124" target="_blank" rel="noopener"> http://blog.csdn.net/hguisu/article/details/7325124
+</a><br>[2] <a href="http://database.51cto.com/art/200906/128162.htm" target="_blank" rel="noopener"> http://database.51cto.com/art/200906/128162.htm
+</a><br>[3] <a href="http://wangwei007.blog.51cto.com/68019/965575" target="_blank" rel="noopener"> http://wangwei007.blog.51cto.com/68019/965575
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL主从复制原理/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/mysql_explain_解释器中的字段含义/" >mysql_explain_解释器中的字段含义</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>explain是mysql常用的分析select的查询行为的分析器，解析的内容如下：</p>
+<p>id | select_type | table        | type | possible_keys | key  | key_len | ref<br>| rows    | Extra       |<br>+—-+————-+————–+——+—————+——+———+—<br>—+———+————-+<br>|  1 | SIMPLE      | TradeBalance | ALL  | NULL          | NULL | NULL    |<br>NULL | 3418948 | Using where |  </p>
+<p>接下来就着重分析下每一个字段的含义：</p>
+<p>type 字段包含：执行计划包含的信息</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117000267.png" alt=""></p>
+<h2 id="id"><a href="#id" class="headerlink" title=" id  "></a><strong> id  </strong></h2><p>包含一组数字，表示查询中执行select子句或操作表的顺序</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116184696.png" alt=""></p>
+<p>id相同，执行顺序由上至下</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116211146.png" alt=""></p>
+<p>如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116243320.png" alt=""></p>
+<p>id如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行</p>
+<h2 id="select-type"><a href="#select-type" class="headerlink" title=" select_type  "></a><strong> select_type  </strong></h2><p>表示查询中每个select子句的类型（简单 OR复杂）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116514450.png" alt=""></p>
+<p>a.SIMPLE：查询中不包含子查询或者UNION</p>
+<p>b.查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY</p>
+<p>c.在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY</p>
+<p>d.在FROM列表中包含的子查询被标记为：DERIVED（衍生）</p>
+<p>e.若第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在  FROM子句的子查询中，外层SELECT将被标记为：DERIVED</p>
+<p>f.从UNION表获取结果的SELECT被标记为：UNION RESULT</p>
+<h2 id="type"><a href="#type" class="headerlink" title=" type  "></a><strong> type  </strong></h2><p>表示MySQL在表中找到所需行的方式，又称“访问类型”，常见类型如下：</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116263147.png" alt=""></p>
+<p>由左至右，由最差到最好</p>
+<p>a.ALL：Full Table Scan， MySQL将遍历全表以找到匹配的行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116293337.png" alt=""></p>
+<p>b.index：Full Index Scan，index与ALL区别为index类型只遍历索引树</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116302815.png" alt=""></p>
+<p>c.range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行，常见于between、&lt;、&gt;等的查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117005638.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116330793.png" alt=""></p>
+<p>range访问类型的不同形式的索引访问性能差异</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116345790.png" alt=""></p>
+<p>d.ref：非唯一性索引扫描，返回匹配某个单独值的所有行。常见于使用非唯一索引即唯一索引的非唯一前缀进行的查找</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117044259.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117021262.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117071015.png" alt=""></p>
+<p>e.eq_ref：唯一性索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见于主键或唯一索引扫描</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117082458.png" alt=""></p>
+<p>f.const、system：当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问。如将主键置于where列表中，MySQL就能将该查询转<br>换为一个常量</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117100041.png" alt=""></p>
+<p>system是const类型的特例，当查询的表只有一行的情况下， 使用system</p>
+<p>g.NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117105768.png" alt=""></p>
+<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title=" possible_keys  "></a><strong> possible_keys  </strong></h2><p>指出MySQL能使用哪个索引在表中找到行，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用</p>
+<h2 id="key"><a href="#key" class="headerlink" title=" key  "></a><strong> key  </strong></h2><p>显示MySQL在查询中实际使用的索引，若没有使用索引，显示为NULL</p>
+<p>TIPS：查询中若使用了覆盖索引，则该索引仅出现在key列表中</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117131391.png" alt=""></p>
+<h2 id="key-len"><a href="#key-len" class="headerlink" title=" key_len  "></a><strong> key_len  </strong></h2><p>表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117150784.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117165474.png" alt=""></p>
+<p>key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的</p>
+<h2 id="ref"><a href="#ref" class="headerlink" title=" ref  "></a><strong> ref  </strong></h2><p>表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117181192.png" alt=""></p>
+<p>本例中，由key_len可知t1表的idx_col1_col2被充分使用，col1匹配t2表的col1，col2匹配了一个常量，即 ’ac’</p>
+<p>rows</p>
+<p>表示MySQL根据表统计信息及索引选用情况，估算的找到所需的记录所需要读取的行数</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117190265.png" alt=""></p>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title=" Extra  "></a><strong> Extra  </strong></h2><p>包含不适合在其他列中显示但十分重要的额外信息</p>
+<p>a.Using index</p>
+<p>该值表示相应的select操作中使用了覆盖索引（Covering Index）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117202882.png" alt=""></p>
+<p>TIPS：覆盖索引（Covering Index）</p>
+<p>MySQL可以利用索引返回select列表中的字段，而不必根据索引再次读取数据文件</p>
+<p>包含所有满足查询需要的数据的索引称为 <strong> 覆盖索引 </strong> （Covering Index）</p>
+<p>注意：</p>
+<p>如果要使用覆盖索引，一定要注意select列表中只取出需要的列，不可select *，因为如果将所有字段一起做索引会导致索引文件过大，查询性能下降</p>
+<p>b.Using where</p>
+<p>表示MySQL服务器在存储引擎受到记录后进行“后过滤”（Post-filter）,</p>
+<p>如果查询未能使用索引，Using where的作用只是提醒我们MySQL将用where子句来过滤结果集</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117220955.png" alt=""></p>
+<p>c.Using temporary</p>
+<p>表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117225748.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117230687.png" alt=""></p>
+<p>d.Using filesort</p>
+<p>MySQL中无法利用索引完成的排序操作称为“文件排序”</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117235757.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117242290.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117244986.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117245862.png" alt=""></p>
+<h2 id="MySQL执行计划的局限"><a href="#MySQL执行计划的局限" class="headerlink" title=" MySQL执行计划的局限  "></a><strong> MySQL执行计划的局限  </strong></h2><p>•EXPLAIN不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况</p>
+<p>•EXPLAIN不考虑各种Cache</p>
+<p>•EXPLAIN不能显示MySQL在执行查询时所作的优化工作</p>
+<p>•部分统计信息是估算的，并非精确值</p>
+<p>•EXPALIN只能解释SELECT操作，其他操作要重写为SELECT后查看执行计划</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title=" 最后  "></a><strong> 最后  </strong></h2><p>本文是我从简朝阳推荐的ppt转换为网页版的，原ppt下载: <a href="http://files.cnblogs.com/ggjucheng/mysqlexplain.ppt" target="_blank" rel="noopener"> 下载地址
+</a></p>
+<p>原文链接 <a href="http://isky000.com/database/mysql-explain-detail" target="_blank" rel="noopener">http://isky000.com/database/mysql-explain-detail</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/mysql_explain_解释器中的字段含义/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/mysql技术内幕学习笔记-查询优化器及索引（一）/" >mysql技术内幕学习笔记-查询优化器及索引（一）</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h3 id="1、查询优化器工作目标"><a href="#1、查询优化器工作目标" class="headerlink" title="1、查询优化器工作目标"></a>1、查询优化器工作目标</h3><p>查询优化器最主要的工作目标是尽可能的使用索引，并且要使用条件最严格的索引来尽可能多、尽可能快得排除不符合索引的数据行。<br>例如：要查询员工表中年龄为25的男性姓名。<br>SELECT  name FROM staff WHERE   sex = ‘M’ AND age = 25;<br>假设年龄为25的又100， 男性有600个，25岁的男性员工有10个。查询优化器会首先从age开始匹配，首先排除900人，然后再从100个25岁的员工中找出<br>男性。如果先从sex开始匹配，那么需要从600个男性员工中查找25岁的员工，查询效率低于先排除900个年龄不是25的员工。<br>mysql在将一个索引项中的值与常数进行比较，优化器会假设索引中的键值是均匀的，并且会检查估算查询会用到多少个索引项。</p>
+<h3 id="2、索引"><a href="#2、索引" class="headerlink" title="2、索引"></a>2、索引</h3><h4 id="2-1、-为什么要索引"><a href="#2-1、-为什么要索引" class="headerlink" title="2.1、 为什么要索引"></a>2.1、 为什么要索引</h4><p>直接引用参考文献1的说法“除了词典，生活中随处可见索引的例子，如火车站的车次表、图书的目录等。它们的原理都是一样的，通过不断的缩小想要获得数据的范围来筛选出<br>最终想要的结果，同时把随机的事件变成顺序的事件，也就是我们总是通过同一种查找方式来锁定数据。数据库也是一样，但显然要复杂许多，因为不仅面临着等值查询，还有范<br>围查询(&gt;、&lt;、between、in)、模糊查询(like)、并集查询(or)等等。数据库应该选择怎么样的方式来应对所有的问题呢？我们回想字典的例子，能不能<br>把数据分成段，然后分段查询呢？最简单的如果1000条数据，1到100分成第一段，101到200分成第二段，201到300分成第三段……这样查第250<br>条数据，只要找第三段就可以了，一下子去除了90%的无效数据。但如果是1千万的记录呢，分成几段比较好？稍有算法基础的同学会想到搜索树，其平均复杂度是lgN，具<br>有不错的查询性能。”</p>
+<h4 id="2-2、-索引的数据结构"><a href="#2-2、-索引的数据结构" class="headerlink" title="2.2、 索引的数据结构"></a>2.2、 索引的数据结构</h4><p>目前大多数的数据库采用b数或者b+树。一般索引本身比较大，无法全部存储在内存中，在查询过程中就会产生I/O消耗。磁盘每次预读都会加载一个页大小的数据，数据库<br>设计者利用这个原理将节点大小也设置为1页，那么每个节点就只需要1次I/O。高度为h的的b树，最多只需要h次I/O就可以实现查找，由于数据库中根节点常驻内存<br>，所以只需要h-<br>1次即可完成查找。同样，我们可以使用红黑树等其他数据结构实现索引，但是由于相同节点数红黑树等树的高度较大等原因，导致I/O较多，效率没有b数高。</p>
+<h4 id="2-3-MyISAM及InnoDB索引实现"><a href="#2-3-MyISAM及InnoDB索引实现" class="headerlink" title="2.3 MyISAM及InnoDB索引实现"></a>2.3 MyISAM及InnoDB索引实现</h4><h5 id="2-3-1-MyISAM索引"><a href="#2-3-1-MyISAM索引" class="headerlink" title="2.3.1 MyISAM索引"></a>2.3.1 MyISAM索引</h5><p>MyISAM索引为非聚簇索引，也就是索引和数据表不是同一文件。下图为b+数实现的MyISAM索引结构。</p>
+<p><img src="http://img.blog.csdn.net/20151202134926444?watermark/2/text/aHR0cDovL2Jsb2
+cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravit
+y/Center" alt="">  </p>
+<p>MyISAM索引结构</p>
+<p>从图中可以看出，MyISAM索引的节点并没有存储真正的数据，它存储了真正数据航所在的地址，然后通过地址到数据表文件中取出数据。</p>
+<h5 id="2-3-2-InnoDB索引"><a href="#2-3-2-InnoDB索引" class="headerlink" title="2.3.2 InnoDB索引"></a>2.3.2 InnoDB索引</h5><p><img src="http://img.blog.csdn.net/20151202141244540?watermark/2/text/aHR0cDovL2Jsb2
+cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravit
+y/Center" alt="">  </p>
+<p>InnoDB索引结构</p>
+<p>InnoDB索引为聚簇索引，即索引和数据在同一个文件。下图为b+数实现的InnoDB索引结构。<br>从图中可以看出，InnoDB索引的节点存储了真正的数据，索引和数  据存  放在  一起。</p>
+<h3 id="3、索引失效情况"><a href="#3、索引失效情况" class="headerlink" title="3、索引失效情况"></a>3、索引失效情况</h3><h4 id="3-1-带索引的数据列在表达式中应单独出现，不要在索引列进行运算"><a href="#3-1-带索引的数据列在表达式中应单独出现，不要在索引列进行运算" class="headerlink" title="3.1 带索引的数据列在表达式中应单独出现，不要在索引列进行运算"></a>3.1 带索引的数据列在表达式中应单独出现，不要在索引列进行运算</h4><p>例如 score 列为索引列</p>
+<p>WHERE score * 1.2 &lt; 90    与      WHERE score &lt; 90 /<br>1.2表达的意思完全相同，但是查询效率完全不同。第一个语句会全表扫描，将所有数据乘以1.2然后和90比<br>较，无法使用索引；第二个语句将会通过索引查询score 小于 90/1.2的数据，查询效率较高。</p>
+<h4 id="3-2-联合索引中范围查询导致索引失效"><a href="#3-2-联合索引中范围查询导致索引失效" class="headerlink" title="3.2 联合索引中范围查询导致索引失效"></a>3.2 联合索引中范围查询导致索引失效</h4><p>例如联合索引（a, b, c）</p>
+<p>WHERE a BETWEEN 1 AND 10  AND b = 100;这个语句只会使用联合索引中的a部分，b部分无法使用。</p>
+<h3 id="4、参考"><a href="#4、参考" class="headerlink" title="4、参考:"></a>4、参考:</h3><p>[1] <a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="noopener">http://tech.meituan.com/mysql-index.html</a></p>
+<p>[2] <a href="http://www.uml.org.cn/sjjm/201107145.asp#nav-2-1" target="_blank" rel="noopener"> http://www.uml.org.cn/sjjm/201107145.asp#nav-2-1
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/mysql技术内幕学习笔记-查询优化器及索引（一）/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+	     </div>
+	     <div>
+	       <center>
+	         <div class="pagination">
+<ul class="pagination">
+	 
+</ul>
+</div>
+
+	       </center>
+	     </div>	
+      
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

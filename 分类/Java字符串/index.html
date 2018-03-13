@@ -1,0 +1,1437 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java字符串 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+<!-- title -->
+<div class="page-header page-header-inverse ">
+  <h1 class="archive-title-category title title-inverse ">Java字符串</h1>
+</div>
+
+<div class="row page">
+  <!-- cols -->
+  
+  <div class="col-md-9">
+	
+
+	  <div id="top_search"></div>
+
+      
+         <!-- display as entry -->
+	     <div class="mypage">
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：StringBuffer使用详解及源码分析/" >Java字符串：StringBuffer使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>StringBuffer和StringBuilder功能基本相同，他们的区别在于StringBuffer是线程安全的而StringBuilder不是线程安全<br>的。他们的关系和HashMap-Hashtable、Vector-ArrrayList类似。</p>
+<pre><code>public final class StringBuffer
+        extends AbstractStringBuilder
+        implements java.io.Serializable, CharSequence{}
+</code></pre><p>StringBuffer和StringBuilder一样继承了AbstractStringBuilder并且实现了Serializable和CharSequ<br>ence。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>StringBuffer提供的的API主要如下：</p>
+<pre><code>//构造函数
+StringBuffer()
+StringBuffer(int capacity)
+StringBuffer(String string)
+StringBuffer(CharSequence cs)
+//追加
+synchronized StringBuffer     append(boolean b)
+synchronized StringBuffer     append(int i)
+synchronized StringBuffer     append(long l)
+synchronized StringBuffer     append(float f)
+synchronized StringBuffer     append(double d)
+synchronized StringBuffer     append(char ch)
+synchronized StringBuffer     append(char[] chars)
+synchronized StringBuffer     append(char[] chars, int start, int length)
+synchronized StringBuffer     append(Object obj)
+synchronized StringBuffer     append(String string)
+synchronized StringBuffer     append(StringBuffer sb)
+synchronized StringBuffer     append(CharSequence s)
+synchronized StringBuffer     append(CharSequence s, int start, int end)
+synchronized StringBuffer     appendCodePoint(int codePoint)
+synchronized int     capacity() //获取容量
+synchronized char     charAt(int index) //获取index下标的字符
+synchronized int     codePointAt(int index) //获取index下标的Unicode编码
+synchronized int     codePointBefore(int index)
+synchronized int     codePointCount(int beginIndex, int endIndex)
+synchronized StringBuffer     delete(int start, int end) //删除[start,end)的字符
+synchronized StringBuffer     deleteCharAt(int location) //删除location下标的字符
+synchronized void     ensureCapacity(int min) //确认货增加容量(length*2 + 2)
+synchronized void     getChars(int start, int end, char[] buffer, int idx) //将[start,end)中的字符添加的buffer的idx及以后的位置
+synchronized int     indexOf(String subString, int start) //获取提一次出现的位置
+int     indexOf(String string) //通过调用其他同步方法实现同步
+//插入字符串
+StringBuffer     insert(int index, boolean b)
+StringBuffer     insert(int index, int i)
+StringBuffer     insert(int index, long l)
+StringBuffer     insert(int index, float f)
+StringBuffer     insert(int index, double d)
+synchronized StringBuffer     insert(int index, char ch)
+synchronized StringBuffer     insert(int index, char[] chars)
+synchronized StringBuffer     insert(int index, char[] chars, int start, int length)
+synchronized StringBuffer     insert(int index, String string)
+StringBuffer     insert(int index, Object obj)
+synchronized StringBuffer     insert(int index, CharSequence s)
+synchronized StringBuffer     insert(int index, CharSequence s, int start, int end)
+int     lastIndexOf(String string)
+synchronized int     lastIndexOf(String subString, int start)
+int     length()
+synchronized int     offsetByCodePoints(int index, int codePointOffset)
+synchronized StringBuffer     replace(int start, int end, String string) //替换
+synchronized StringBuffer     reverse() //反转
+synchronized void     setCharAt(int index, char ch) //替换指定下标的字符
+synchronized void     setLength(int length)
+synchronized CharSequence     subSequence(int start, int end)
+synchronized String     substring(int start) //子串
+synchronized String     substring(int start, int end)
+synchronized String     toString()
+synchronized void     trimToSize()
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testStringBuffer() {
+    //构造并初始化
+    StringBuffer StringBuffer = new StringBuffer(&quot;0123456&quot;);
+    //获取容量
+    System.out.println(&quot;StringBuffer的容量为: &quot; + StringBuffer.capacity());
+    //获取字符数量
+    System.out.println(&quot;StringBuffer的字符数量为: &quot; + StringBuffer.length());
+    //获取指定index的字符
+    System.out.println(&quot;StringBuffer的第2个字符为: &quot; + StringBuffer.charAt(1));
+    //子串第一次出现的位置
+    System.out.println(&quot;\&quot;23\&quot;在StringBuffer中第一次出现的位置为: &quot; + StringBuffer.indexOf(&quot;23&quot;));
+    //子串最后一次出现的位置,从后往前
+    System.out.println(&quot;\&quot;34\&quot;在StringBuffer从第5个字符以前的字符串中第一次一次出现的位置为: &quot;
+            + StringBuffer.lastIndexOf(&quot;34&quot;, 5));
+    //替换字符串
+    System.out.println(&quot;将StringBuffer的第2-3个字符替换为abcde: &quot; + StringBuffer.replace(1, 3, &quot;abcde&quot;));
+    //设置指定位置字符
+    StringBuffer.setCharAt(1, &apos;A&apos;);
+    System.out.println(&quot;将第2个字符设置为A: &quot; + StringBuffer);
+    //删除滴定位置的字符串
+    StringBuffer.delete(2,5);
+    System.out.println(&quot;删除第3到第5个字符: &quot; + StringBuffer);
+    //追加字符
+    System.out.println(&quot;StringBuffer尾部追加一个7&quot; + StringBuffer.append(&quot;7&quot;));
+    //追加double
+    System.out.println(&quot;StringBuffer尾部追加8.0d&quot; + StringBuffer.append(8.0d));
+    //插入字符串
+    System.out.println(&quot;StringBuffer第3个字符看是追加test: &quot; + StringBuffer.insert(2, &quot;test&quot;));
+    String s = null;
+    System.out.println(&quot;StringBuffer第3个字符看是追加null: &quot; + StringBuffer.insert(2, s));
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>StringBuffer的容量为: 23
+StringBuffer的字符数量为: 7
+StringBuffer的第2个字符为: 1
+&quot;23&quot;在StringBuffer中第一次出现的位置为: 2
+&quot;34&quot;在StringBuffer从第5个字符以前的字符串中第一次一次出现的位置为: 3
+将StringBuffer的第2-3个字符替换为abcde: 0abcde3456
+将第2个字符设置为A: 0Abcde3456
+删除第3到第5个字符: 0Ae3456
+StringBuffer尾部追加一个70Ae34567
+StringBuffer尾部追加8.0d0Ae345678.0
+StringBuffer第3个字符看是追加test: 0Ateste345678.0
+StringBuffer第3个字符看是追加null: 0Anullteste345678.0
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>StringBuffer和StringBuilder的构造方法也几乎是相同的。</p>
+<pre><code>/**
+ * Constructs a string buffer with no characters in it and an
+ * initial capacity of 16 characters.
+ */
+public StringBuffer() {
+    super(16);
+}
+
+/**
+ * Constructs a string buffer with no characters in it and
+ * the specified initial capacity.
+ *
+ * @param      capacity  the initial capacity.
+ * @exception  NegativeArraySizeException  if the {@code capacity}
+ *               argument is less than {@code 0}.
+ */
+public StringBuffer(int capacity) {
+    super(capacity);
+}
+
+/**
+ * Constructs a string buffer initialized to the contents of the
+ * specified string. The initial capacity of the string buffer is
+ * {@code 16} plus the length of the string argument.
+ *
+ * @param   str   the initial contents of the buffer.
+ */
+public StringBuffer(String str) {
+    super(str.length() + 16);
+    append(str);
+}
+</code></pre><h3 id="2-2-insert方法"><a href="#2-2-insert方法" class="headerlink" title="2.2 insert方法"></a>2.2 insert方法</h3><p>insert方法有插入字符串、整形、布尔型等多个重载方法，实现方法都是调用父类AbstractStringBuilder的insert方法。</p>
+<h4 id="2-2-1-插入一个对象"><a href="#2-2-1-插入一个对象" class="headerlink" title="2.2.1 插入一个对象"></a>2.2.1 插入一个对象</h4><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public  StringBuffer insert(int offset, boolean b) {
+    // Note, synchronization achieved via invocation of StringBuffer insert(int, String)
+    // after conversion of b to String by super class method
+    // Ditto for toStringCache clearing
+    super.insert(offset, b); //调用父类的insert
+    return this;
+}
+/**
+ * Inserts the string representation of the {@code boolean}
+ * argument into this sequence.
+ * &lt;p&gt;
+ * The overall effect is exactly as if the second argument were
+ * converted to a string by the method {@link String#valueOf(boolean)},
+ * and the characters of that string were then
+ * {@link #insert(int,String) inserted} into this character
+ * sequence at the indicated offset.
+ * &lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      b        a {@code boolean}.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, boolean b) {
+    return insert(offset, String.valueOf(b)); //子类中insert(int, String),已经重写,调用子类的方法,子类已经保证同步
+}
+</code></pre><h4 id="2-2-2-插入一个字符串"><a href="#2-2-2-插入一个字符串" class="headerlink" title="2.2.2 插入一个字符串"></a>2.2.2 插入一个字符串</h4><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public synchronized StringBuffer insert(int offset, String str) {
+    toStringCache = null;
+    super.insert(offset, str);
+    return this;
+}
+/**
+ * Inserts the string into this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are inserted, in
+ * order, into this sequence at the indicated offset, moving up any
+ * characters originally above that position and increasing the length
+ * of this sequence by the length of the argument. If
+ * {@code str} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are inserted into this sequence.
+ * &lt;p&gt;
+ * The character at index &lt;i&gt;k&lt;/i&gt; in the new character sequence is
+ * equal to:
+ * &lt;ul&gt;
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if
+ * &lt;i&gt;k&lt;/i&gt; is less than {@code offset}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -offset} in the
+ * argument {@code str}, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset} but is less than {@code offset+str.length()}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -str.length()} in the
+ * old character sequence, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset+str.length()}
+ * &lt;/ul&gt;&lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      str      a string.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, String str) {
+    if ((offset &lt; 0) || (offset &gt; length()))
+        throw new StringIndexOutOfBoundsException(offset);
+    if (str == null)
+        str = &quot;null&quot;;
+    int len = str.length();
+    ensureCapacityInternal(count + len);
+    System.arraycopy(value, offset, value, offset + len, count - offset);
+    str.getChars(value, offset);
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-3-append方法"><a href="#2-3-append方法" class="headerlink" title="2.3 append方法"></a>2.3 append方法</h3><pre><code>public synchronized StringBuffer append(String str) {
+    toStringCache = null;
+    super.append(str);
+    return this;
+}
+/**
+ * Appends the specified string to this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are appended, in
+ * order, increasing the length of this sequence by the length of the
+ * argument. If {@code str} is {@code null}, then the four
+ * characters {@code &quot;null&quot;} are appended.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character
+ * at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less
+ * than &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index
+ * &lt;i&gt;k-n&lt;/i&gt; in the argument {@code str}.
+ *
+ * @param   str   a string.
+ * @return  a reference to this object.
+ */
+public AbstractStringBuilder append(String str) {
+    if (str == null)
+        return appendNull();
+    int len = str.length();
+    ensureCapacityInternal(count + len);
+    str.getChars(0, len, value, count);
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ * @since      1.2
+ */
+@Override
+public synchronized StringBuffer replace(int start, int end, String str) {
+    toStringCache = null;
+    super.replace(start, end, str);
+    return this;
+}
+/**
+ * Replaces the characters in a substring of this sequence
+ * with characters in the specified {@code String}. The substring
+ * begins at the specified {@code start} and extends to the character
+ * at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. First the
+ * characters in the substring are removed and then the specified
+ * {@code String} is inserted at {@code start}. (This
+ * sequence will be lengthened to accommodate the
+ * specified String if necessary.)
+ *
+ * @param      start    The beginning index, inclusive.
+ * @param      end      The ending index, exclusive.
+ * @param      str   String that will replace previous contents.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder replace(int start, int end, String str) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (start &gt; count)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; length()&quot;);
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; end&quot;);
+
+    if (end &gt; count)
+        end = count;
+    int len = str.length();
+    int newCount = count + len - (end - start);
+    ensureCapacityInternal(newCount);
+
+    System.arraycopy(value, end, value, start + len, count - end);
+    str.getChars(value, start);
+    count = newCount;
+    return this;
+}
+</code></pre><h3 id="2-5-delete方法"><a href="#2-5-delete方法" class="headerlink" title="2.5 delete方法"></a>2.5 delete方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ * @since      1.2
+ */
+@Override
+public synchronized StringBuffer delete(int start, int end) {
+    toStringCache = null;
+    super.delete(start, end);
+    return this;
+}
+/**
+ * Removes the characters in a substring of this sequence.
+ * The substring begins at the specified {@code start} and extends to
+ * the character at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. If
+ * {@code start} is equal to {@code end}, no changes are made.
+ *
+ * @param      start  The beginning index, inclusive.
+ * @param      end    The ending index, exclusive.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder delete(int start, int end) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (end &gt; count)
+        end = count;
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException();
+    int len = end - start;
+    if (len &gt; 0) {
+        System.arraycopy(value, start+len, value, start, count-end);
+        count -= len;
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/string03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string03.html
+</a><br>[2] <a href="http://blog.csdn.net/linbooooo1987/article/details/7531517" target="_blank" rel="noopener"> http://blog.csdn.net/linbooooo1987/article/details/7531517
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：StringBuffer使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：String、StringBuilder、StringBuffer区别/" >Java字符串：String、StringBuilder、StringBuffer区别</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>在学习String、StringBuilder、StringBuffer这三个类的时候在github上看到如下几个问题：</p>
+<h3 id="1-成员变量、局部变量在什么场景下用哪个更合适"><a href="#1-成员变量、局部变量在什么场景下用哪个更合适" class="headerlink" title="1. 成员变量、局部变量在什么场景下用哪个更合适"></a>1. 成员变量、局部变量在什么场景下用哪个更合适</h3><h3 id="2-他们之间效率如何，为什么"><a href="#2-他们之间效率如何，为什么" class="headerlink" title="2. 他们之间效率如何，为什么"></a>2. 他们之间效率如何，为什么</h3><h3 id="3-有没有存在特殊情况"><a href="#3-有没有存在特殊情况" class="headerlink" title="3. 有没有存在特殊情况"></a>3. 有没有存在特殊情况</h3><h3 id="4-编译器对他们的优化"><a href="#4-编译器对他们的优化" class="headerlink" title="4. 编译器对他们的优化"></a>4. 编译器对他们的优化</h3><p>下面尝试对这几个问题进行回答  </p>
+<h3 id="回答1："><a href="#回答1：" class="headerlink" title="回答1："></a>回答1：</h3><p>String是不可变的字符串，任何拼接、修改操作都是返回的新的String对象，原对象并没有改变；StringBuilder和StringBuffer是可变<br>字符串，修改操作改变的是原有的对象。StringBuilder和StringBuffer的区别是StringBuffer是线程安全的，他的大部分API都使用<br>synchronized 关键字修饰。所以针对这三个类的使用场景归纳如下<br>1）修改操作较少的场景可以用String；<br>2）单线程情况下字符串需要大量操作的适合使用StringBuilder；<br>3）多线程操作情况下大量操作字符串适合使用StringBuffer。</p>
+<h3 id="回答2："><a href="#回答2：" class="headerlink" title="回答2："></a>回答2：</h3><p>String的修改、拼接等操作由于需要重新申请新对象所以速度一般情况下比StringBuilder和StringBuffer慢。StringBuffer<br>API采用synchronized修饰，一般速度会比StringBuilder慢。</p>
+<h3 id="回答3："><a href="#回答3：" class="headerlink" title="回答3："></a>回答3：</h3><p>用例子回答这个问题</p>
+<pre><code>String s = “a” + “b” + “c” + “d”;
+StringBuilder sb = new StringBuilder(&quot;a&quot;).append(&quot;b&quot;).append(&quot;c&quot;).append(&quot;d&quot;);
+</code></pre><p>回答2指出StringBuilder速度比String快，这两个语句执行效率情况如下：</p>
+<pre><code>public void testSpeed() {
+    long t1 = System.nanoTime();
+    String s = &quot;a&quot; + &quot;b&quot; + &quot;c&quot; + &quot;d&quot;;
+    long t2 = System.nanoTime();
+    System.out.println(&quot;String耗时为: &quot; + (t2 - t1));
+    long t3 = System.nanoTime();
+    StringBuilder sb = new StringBuilder(&quot;a&quot;).append(&quot;b&quot;).append(&quot;c&quot;).append(&quot;d&quot;);
+    long t4 = System.nanoTime();
+    System.out.println(&quot;StringBuilder耗时为: &quot; + (t4 -t3));
+}
+</code></pre><p>执行结果为：</p>
+<pre><code>String耗时为: 3611
+StringBuilder耗时为: 13617
+</code></pre><h3 id="回答4："><a href="#回答4：" class="headerlink" title="回答4："></a>回答4：</h3><p>回答3中指出了String效率可能会比StringBuilder高，产生这种情况的原因是JVM对此进行了优化。理论上说String s = “a” +<br>“b” + “c” + “d”; 这条语句会产生4个对象，实际向JVM将这条语句优化为String s = “abcd”;所以效率高。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：String、StringBuilder、StringBuffer区别/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：StringBuilder使用详解及源码分析/" >Java字符串：StringBuilder使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>StringBuilder是可变字符串，和String的主要区别是他的字符串是可变的，例如拼接等操作不会重返回新的StringBuilder实例。</p>
+<pre><code>public final class StringBuilder
+        extends AbstractStringBuilder
+        implements java.io.Serializable, CharSequence{}
+</code></pre><p>StringBuilder继承了AbstractStringBuilder并且实现了Serializable和CharSequence。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>StringBuilder提供的的API主要如下：</p>
+<pre><code>//构造函数
+StringBuilder()
+StringBuilder(int capacity)
+StringBuilder(CharSequence seq)
+StringBuilder(String str)
+
+//尾部添加字符(串)
+StringBuilder     append(float f)
+StringBuilder     append(double d)
+StringBuilder     append(boolean b)
+StringBuilder     append(int i)
+StringBuilder     append(long l)
+StringBuilder     append(char c)
+StringBuilder     append(char[] chars)
+StringBuilder     append(char[] str, int offset, int len)
+StringBuilder     append(String str)
+StringBuilder     append(Object obj)
+StringBuilder     append(StringBuffer sb)
+StringBuilder     append(CharSequence csq)
+StringBuilder     append(CharSequence csq, int start, int end)
+StringBuilder     appendCodePoint(int codePoint)
+int     capacity() //容量
+char     charAt(int index) //获取index下标的字符
+int     codePointAt(int index) //获取index下标字符的Unicode编码
+int     codePointBefore(int index)
+int     codePointCount(int start, int end)
+StringBuilder     delete(int start, int end) //删除[start,end)之间的字符
+StringBuilder     deleteCharAt(int index) //删除index下标的字符
+void     getChars(int start, int end, char[] dst, int dstStart) //获取将[start,end)间的字符填充到到dst中,dstStart为开始位置
+int     indexOf(String subString, int start) //子串的第一次出现位置, 从start开始查找
+int     indexOf(String string) //子串的第一次出现位置
+//插入字符
+StringBuilder     insert(int offset, boolean b)
+StringBuilder     insert(int offset, int i)
+StringBuilder     insert(int offset, long l)
+StringBuilder     insert(int offset, float f)
+StringBuilder     insert(int offset, double d)
+StringBuilder     insert(int offset, char c)
+StringBuilder     insert(int offset, char[] ch)
+StringBuilder     insert(int offset, char[] str, int strOffset, int strLen)
+StringBuilder     insert(int offset, String str)
+StringBuilder     insert(int offset, Object obj)
+StringBuilder     insert(int offset, CharSequence s)
+StringBuilder     insert(int offset, CharSequence s, int start, int end)
+int     lastIndexOf(String string) //子串从后往前第一次出现的位置
+int     lastIndexOf(String subString, int start)
+int     length() //StringBuilder中字符数量
+StringBuilder     replace(int start, int end, String string) //将[start,end)替换为string
+StringBuilder     reverse() //反转字符串
+void     setCharAt(int index, char ch) //将index字符设置为ch
+CharSequence     subSequence(int start, int end) //获取子串
+String     substring(int start)
+String     substring(int start, int end)
+String     toString()
+void     trimToSize()
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>@Component
+public class TestStringBuilder {
+    public void testStringBuilder() {
+        //构造并初始化
+        StringBuilder stringBuilder = new StringBuilder(&quot;0123456&quot;);
+        //获取容量
+        System.out.println(&quot;stringBuilder的容量为: &quot; + stringBuilder.capacity());
+        //获取字符数量
+        System.out.println(&quot;stringBuilder的字符数量为: &quot; + stringBuilder.length());
+        //获取指定index的字符
+        System.out.println(&quot;stringBuilder的第2个字符为: &quot; + stringBuilder.charAt(1));
+        //子串第一次出现的位置
+        System.out.println(&quot;\&quot;23\&quot;在stringBuilder中第一次出现的位置为: &quot; + stringBuilder.indexOf(&quot;23&quot;));
+        //子串最后一次出现的位置,从后往前
+        System.out.println(&quot;\&quot;34\&quot;在stringBuilder从第5个字符以前的字符串中第一次一次出现的位置为: &quot;
+                + stringBuilder.lastIndexOf(&quot;34&quot;, 5));
+        //替换字符串
+        System.out.println(&quot;将stringBuilder的第2-3个字符替换为abcde: &quot; + stringBuilder.replace(1, 3, &quot;abcde&quot;));
+        //设置指定位置字符
+        stringBuilder.setCharAt(1, &apos;A&apos;);
+        System.out.println(&quot;将第2个字符设置为A: &quot; + stringBuilder);
+        //删除滴定位置的字符串
+        stringBuilder.delete(2,5);
+        System.out.println(&quot;删除第3到第5个字符: &quot; + stringBuilder);
+        //追加字符
+        System.out.println(&quot;stringBuilder尾部追加一个7&quot; + stringBuilder.append(&quot;7&quot;));
+        //追加double
+        System.out.println(&quot;stringBuilder尾部追加8.0d&quot; + stringBuilder.append(8.0d));
+        //插入字符串
+        System.out.println(&quot;stringBuilder第3个字符看是追加test: &quot; + stringBuilder.insert(2, &quot;test&quot;));
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>stringBuilder的容量为: 23
+stringBuilder的字符数量为: 7
+stringBuilder的第2个字符为: 1
+&quot;23&quot;在stringBuilder中第一次出现的位置为: 2
+&quot;34&quot;在stringBuilder从第5个字符以前的字符串中第一次一次出现的位置为: 3
+将stringBuilder的第2-3个字符替换为abcde: 0abcde3456
+将第2个字符设置为A: 0Abcde3456
+删除第3到第5个字符: 0Ae3456
+stringBuilder尾部追加一个70Ae34567
+stringBuilder尾部追加8.0d0Ae345678.0
+stringBuilder第3个字符看是追加test: 0Ateste345678.0
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>StringBuilder的构造函数有多个，基本的区别是初始容量大小和是否用字符串进行初始化，下面列举3个典型的构造方法。</p>
+<pre><code>/**
+ * Constructs a string builder with no characters in it and an
+ * initial capacity of 16 characters.
+ */
+public StringBuilder() {
+    super(16);
+}
+
+/**
+ * Constructs a string builder with no characters in it and an
+ * initial capacity specified by the {@code capacity} argument.
+ *
+ * @param      capacity  the initial capacity.
+ * @throws     NegativeArraySizeException  if the {@code capacity}
+ *               argument is less than {@code 0}.
+ */
+public StringBuilder(int capacity) {
+    super(capacity);
+}
+
+/**
+ * Constructs a string builder initialized to the contents of the
+ * specified string. The initial capacity of the string builder is
+ * {@code 16} plus the length of the string argument.
+ *
+ * @param   str   the initial contents of the buffer.
+ */
+public StringBuilder(String str) {
+    super(str.length() + 16);
+    append(str);
+}
+</code></pre><h3 id="2-2-insert方法"><a href="#2-2-insert方法" class="headerlink" title="2.2 insert方法"></a>2.2 insert方法</h3><p>insert方法有插入字符串、整形、布尔型等多个重载方法，实现方法都是调用父类AbstractStringBuilder的insert方法。</p>
+<h4 id="2-2-1-插入一个对象"><a href="#2-2-1-插入一个对象" class="headerlink" title="2.2.1 插入一个对象"></a>2.2.1 插入一个对象</h4><pre><code>/**
+ * 插入一个对象(int/boolean/double....etc)
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder insert(int offset, Object obj) {
+    super.insert(offset, obj); //调用AbstractStringBuilder类中的insert方法
+    return this;
+}
+
+/**
+ * 父类AbstractStringBuilder中的方法
+ * @param offset
+ * @param obj
+ * @return
+ */
+public AbstractStringBuilder insert(int offset, Object obj) {
+    return insert(offset, String.valueOf(obj)); //调用insert(int offset, String str)
+}
+
+/**
+ * Inserts the string into this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are inserted, in
+ * order, into this sequence at the indicated offset, moving up any
+ * characters originally above that position and increasing the length
+ * of this sequence by the length of the argument. If
+ * {@code str} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are inserted into this sequence.
+ * &lt;p&gt;
+ * The character at index &lt;i&gt;k&lt;/i&gt; in the new character sequence is
+ * equal to:
+ * &lt;ul&gt;
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if
+ * &lt;i&gt;k&lt;/i&gt; is less than {@code offset}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -offset} in the
+ * argument {@code str}, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset} but is less than {@code offset+str.length()}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -str.length()} in the
+ * old character sequence, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset+str.length()}
+ * &lt;/ul&gt;&lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      str      a string.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, String str) {
+    if ((offset &lt; 0) || (offset &gt; length()))
+        throw new StringIndexOutOfBoundsException(offset);
+    if (str == null)
+        str = &quot;null&quot;; //str为null时
+    int len = str.length();
+    ensureCapacityInternal(count + len); //确定容量是否够用,不够则增加(length*2 + 2)
+    System.arraycopy(value, offset, value, offset + len, count - offset); //offset开始的字符后移len位
+    str.getChars(value, offset); //str字符填充
+    count += len;
+    return this;
+}
+</code></pre><h4 id="2-2-2-插入一个字符串"><a href="#2-2-2-插入一个字符串" class="headerlink" title="2.2.2 插入一个字符串"></a>2.2.2 插入一个字符串</h4><pre><code>/**
+ * 插入字符串
+ * @throws IndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder insert(int dstOffset, CharSequence s,
+                            int start, int end)
+{
+    super.insert(dstOffset, s, start, end);
+    return this;
+}
+/**
+ * Inserts the string representation of a subarray of the {@code str}
+ * array argument into this sequence. The subarray begins at the
+ * specified {@code offset} and extends {@code len} {@code char}s.
+ * The characters of the subarray are inserted into this sequence at
+ * the position indicated by {@code index}. The length of this
+ * sequence increases by {@code len} {@code char}s.
+ *
+ * @param      index    position at which to insert subarray.
+ * @param      str       A {@code char} array.
+ * @param      offset   the index of the first {@code char} in subarray to
+ *             be inserted.
+ * @param      len      the number of {@code char}s in the subarray to
+ *             be inserted.
+ * @return     This object
+ * @throws     StringIndexOutOfBoundsException  if {@code index}
+ *             is negative or greater than {@code length()}, or
+ *             {@code offset} or {@code len} are negative, or
+ *             {@code (offset+len)} is greater than
+ *             {@code str.length}.
+ */
+public AbstractStringBuilder insert(int index, char[] str, int offset,
+                                    int len)
+{
+    if ((index &lt; 0) || (index &gt; length()))
+        throw new StringIndexOutOfBoundsException(index);
+    if ((offset &lt; 0) || (len &lt; 0) || (offset &gt; str.length - len))
+        throw new StringIndexOutOfBoundsException(
+                &quot;offset &quot; + offset + &quot;, len &quot; + len + &quot;, str.length &quot;
+                        + str.length);
+    ensureCapacityInternal(count + len); //确定容量
+    System.arraycopy(value, index, value, index + len, count - index); //后移len位
+    System.arraycopy(str, offset, value, index, len); //将str从offset开始的len个字符复制到value
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-3-append方法"><a href="#2-3-append方法" class="headerlink" title="2.3 append方法"></a>2.3 append方法</h3><p>append和insert方法类似，也有很多重载版本，主要是追加对象或者字符串，也是调用父类的方法。</p>
+<pre><code>/**
+ * Appends the specified {@code StringBuffer} to this sequence.
+ * &lt;p&gt;
+ * The characters of the {@code StringBuffer} argument are appended,
+ * in order, to this sequence, increasing the
+ * length of this sequence by the length of the argument.
+ * If {@code sb} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are appended to this sequence.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at index
+ * &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less than
+ * &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index &lt;i&gt;k-n&lt;/i&gt;
+ * in the argument {@code sb}.
+ *
+ * @param   sb   the {@code StringBuffer} to append.
+ * @return  a reference to this object.
+ */
+public StringBuilder append(StringBuffer sb) {
+    super.append(sb);
+    return this;
+}
+/**
+ * Appends the specified string to this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are appended, in
+ * order, increasing the length of this sequence by the length of the
+ * argument. If {@code str} is {@code null}, then the four
+ * characters {@code &quot;null&quot;} are appended.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character
+ * at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less
+ * than &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index
+ * &lt;i&gt;k-n&lt;/i&gt; in the argument {@code str}.
+ *
+ * @param   str   a string.
+ * @return  a reference to this object.
+ */
+public AbstractStringBuilder append(String str) {
+    if (str == null)
+        return appendNull();
+    int len = str.length();
+    ensureCapacityInternal(count + len); //确定容量
+    str.getChars(0, len, value, count); //将str追缴到value最后
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder replace(int start, int end, String str) {
+    super.replace(start, end, str);
+    return this;
+}
+/**
+ * Replaces the characters in a substring of this sequence
+ * with characters in the specified {@code String}. The substring
+ * begins at the specified {@code start} and extends to the character
+ * at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. First the
+ * characters in the substring are removed and then the specified
+ * {@code String} is inserted at {@code start}. (This
+ * sequence will be lengthened to accommodate the
+ * specified String if necessary.)
+ *
+ * @param      start    The beginning index, inclusive.
+ * @param      end      The ending index, exclusive.
+ * @param      str   String that will replace previous contents.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder replace(int start, int end, String str) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (start &gt; count)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; length()&quot;);
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; end&quot;);
+
+    if (end &gt; count)
+        end = count;
+    int len = str.length();
+    int newCount = count + len - (end - start); //新数组长度
+    ensureCapacityInternal(newCount); //确定容量
+
+    System.arraycopy(value, end, value, start + len, count - end); //将value从end开始的字符移动到start+len的位置,共count -end个
+    str.getChars(value, start); //填充字符
+    count = newCount;
+    return this;
+}
+</code></pre><h3 id="2-5-delete方法"><a href="#2-5-delete方法" class="headerlink" title="2.5 delete方法"></a>2.5 delete方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder delete(int start, int end) {
+    super.delete(start, end);
+    return this;
+}
+/**
+ * Removes the characters in a substring of this sequence.
+ * The substring begins at the specified {@code start} and extends to
+ * the character at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. If
+ * {@code start} is equal to {@code end}, no changes are made.
+ *
+ * @param      start  The beginning index, inclusive.
+ * @param      end    The ending index, exclusive.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder delete(int start, int end) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (end &gt; count)
+        end = count;
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException();
+    int len = end - start;
+    if (len &gt; 0) {
+        //将value从start+len开始的count-end个字符复制到start开始的位置,即向前覆盖掉要删除的字符串
+        System.arraycopy(value, start+len, value, start, count-end);
+        count -= len;
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/jiutianhe/article/details/42171103" target="_blank" rel="noopener"> http://blog.csdn.net/jiutianhe/article/details/42171103
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/string02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string02.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：StringBuilder使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：String使用详解及源码分析/" >Java字符串：String使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>String类型的字符串是不可变字符串，提供了较多操作API。</p>
+<pre><code>public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {}
+</code></pre><p>String可以序列化,可以使用compareTo比较字符串。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>String提供了的API主要如下：</p>
+<pre><code>public char    charAt(int index) //index位置的字符
+public int    compareTo(String anotherString) //按字典顺序比较两个字符串
+public String    concat(String str) //拼接字符串
+public boolean    contains(CharSequence s) //是否包含s
+public boolean    contentEquals(StringBuffer sb) //比较当前String和cs是否相同
+public boolean    contentEquals(CharSequence cs) //同上
+public static String    copyValueOf(char[] data, int offset, int count) //返回从offset开始的count个字符组成的字符串String
+public boolean    endsWith(String suffix) //是否以suffix结尾
+public boolean    equals(Object anObject) //比较字符串
+public static String    format(String format, Object[] args) //将args格式化为format
+public int    hashCode() //hash code
+public int    indexOf(int ch) //第一次出现ch所在的下标
+public int    indexOf(int ch, int fromIndex)
+public int    indexOf(String str) //第一次出现str的下标
+public int    indexOf(String str, int fromIndex)
+public int    lastIndexOf(int ch) //最后一次出现ch的下标
+public int    lastIndexOf(int ch, int fromIndex)
+public int    lastIndexOf(String str) //租后一次出现str的下标
+public int    lastIndexOf(String str, int fromIndex)
+public int    length() //长度
+public boolean    matches(String regex) //正则匹配
+public int    offsetByCodePoints(int index, int codePointOffset)
+public boolean    regionMatches(int toffset, String other, int ooffset, int len) //比较指定子串
+public boolean    regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)
+public String    replace(char oldChar, char newChar) //替换oldChar为newChar
+public String    replace(CharSequence target, CharSequence replacement) //替换
+public String    replaceAll(String regex, String replacement)
+public String    replaceFirst(String regex, String replacement)
+public boolean    startsWith(String prefix, int toffset) //从toffset开始是否以prefix开头
+public boolean    startsWith(String prefix)
+public CharSequence    subSequence(int beginIndex, int endIndex) //获取子串
+public String    substring(int beginIndex)
+public String    substring(int beginIndex, int endIndex)
+public char[]    toCharArray()
+public String    toLowerCase(Locale locale) //转为小写字母
+public String    toLowerCase()
+public String    toString()
+public String    toUpperCase(Locale locale) //转为大写字母
+public String    toUpperCase()
+public String    trim()
+public static String    valueOf(Object obj) //转换为string
+public void    getBytes(int srcBegin, int srcEnd, byte[] dst, int dstBegin) //获取byte数组
+public byte[]    getBytes(String charsetName)
+public byte[]    getBytes(Charset charset)
+public byte[]    getBytes()
+public void    getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
+public boolean    isEmpty() //判空
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testString () {
+    String myStr = new String(&quot;MYSTR&quot;);
+    //myStr的长度
+    System.out.println(&quot;myStr的长度为: &quot; + myStr.length());
+    //myStr判空
+    System.out.println(&quot;myStr是否为空: &quot; + myStr.isEmpty());
+    //获取指定位置的字符
+    System.out.println(&quot;myStr的第4个字符为: &quot; + myStr.charAt(3));
+    //将myStr转换为数组
+    char [] chars = myStr.toCharArray();
+    try {
+        printChars(chars);
+    } catch (Exception e) {
+        System.out.println(&quot;myStr转换数组失败!&quot;);
+    }
+    System.out.println();
+    //格式化字符串
+    System.out.println(&quot;格式化myStr: &quot; + String.format(&quot;%s-%d-%b&quot;, myStr, 3, true));
+    //追加字符串
+    System.out.println(&quot;myStr追加字符ING!: &quot; + myStr.concat(&quot;ING!&quot;));
+    //拼接的字符串为一个新的对象,不影响原有字符串
+    System.out.println(&quot;myStr的字符串为: &quot; + myStr);
+    //获取子串
+    System.out.println(&quot;myStr第2到5个字符的子串为: &quot; + myStr.substring(1,5));
+    //替换
+    System.out.println(&quot;替换Y为y: &quot; + myStr.replace(&quot;Y&quot;, &quot;y&quot;));
+    //比较
+    System.out.println(&quot;myStr字符串和\&quot;MySTR\&quot;是否相等: &quot; + myStr.compareTo(&quot;MySTR&quot;));
+    //忽略大小写比较
+    System.out.println(&quot;myStr字符串和\&quot;MySTR\&quot;是否相等: &quot; + myStr.compareToIgnoreCase(&quot;MySTR&quot;));
+    //获取字符的index
+    System.out.println(&quot;\&quot;ST\&quot;在myStr中第一次出现的位置: &quot; + myStr.indexOf(&quot;ST&quot;));
+    //获取Unicode编码
+    System.out.printf(&quot;%s0x%x&quot;, &quot;第一个字符M的Unicode编码为: &quot;,myStr.codePointAt(0));
+}
+
+/**
+ * 打印字符数组
+ * @param chars
+ * @throws NullPointerException
+ */
+public void printChars(char[] chars) throws Exception {
+    if (chars == null) {
+        throw new NullPointerException();
+    }
+    for (int i = 0; i &lt; chars.length; i++) {
+        System.out.printf(&quot;char[%d]=%c &quot;, i, chars[i]);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>myStr的长度为: 5
+myStr是否为空: false
+myStr的第4个字符为: T
+char[0]=M char[1]=Y char[2]=S char[3]=T char[4]=R
+格式化myStr: MYSTR-3-true
+myStr追加字符ING!: MYSTRING!
+myStr的字符串为: MYSTR
+myStr第2到5个字符的子串为: YSTR
+替换Y为y: MySTR
+myStr字符串和&quot;MySTR&quot;是否相等: -32
+myStr字符串和&quot;MySTR&quot;是否相等: 0
+&quot;ST&quot;在myStr中第一次出现的位置: 2
+第一个字符M的Unicode编码为: 0x4d
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><p>String的字符串是不可变的，拼接替换等操作都会返回新的String实例，不会影响原有的字符串。</p>
+<pre><code>/** The value is used for character storage. */
+private final char value[]; //final类型
+</code></pre><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>String包含的构造函数很多，主要区别是是否初始化和初始化方式。下面列举两个代表行的例子。</p>
+<pre><code>/**
+ * 申请一个空的String
+ * Initializes a newly created {@code String} object so that it represents
+ * an empty character sequence.  Note that use of this constructor is
+ * unnecessary since Strings are immutable.
+ */
+public String() {
+    this.value = new char[0];
+}
+
+/**
+ * Allocates a new {@code String} that contains characters from a subarray
+ * of the character array argument. The {@code offset} argument is the
+ * index of the first character of the subarray and the {@code count}
+ * argument specifies the length of the subarray. The contents of the
+ * subarray are copied; subsequent modification of the character array does
+ * not affect the newly created string.
+ *
+ * @param  value
+ *         Array that is the source of characters
+ *
+ * @param  offset
+ *         The initial offset
+ *
+ * @param  count
+ *         The length
+ *
+ * @throws  IndexOutOfBoundsException
+ *          If the {@code offset} and {@code count} arguments index
+ *          characters outside the bounds of the {@code value} array
+ */
+public String(char value[], int offset, int count) {
+    if (offset &lt; 0) {
+        throw new StringIndexOutOfBoundsException(offset);
+    }
+    if (count &lt; 0) {
+        throw new StringIndexOutOfBoundsException(count);
+    }
+    // Note: offset or count might be near -1&gt;&gt;&gt;1.
+    if (offset &gt; value.length - count) {
+        throw new StringIndexOutOfBoundsException(offset + count);
+    }
+    this.value = Arrays.copyOfRange(value, offset, offset+count);
+}
+</code></pre><h3 id="2-2-compareTo方法"><a href="#2-2-compareTo方法" class="headerlink" title="2.2 compareTo方法"></a>2.2 compareTo方法</h3><pre><code>/**
+ * Compares two strings lexicographically.
+ * The comparison is based on the Unicode value of each character in
+ * the strings. The character sequence represented by this
+ * {@code String} object is compared lexicographically to the
+ * character sequence represented by the argument string. The result is
+ * a negative integer if this {@code String} object
+ * lexicographically precedes the argument string. The result is a
+ * positive integer if this {@code String} object lexicographically
+ * follows the argument string. The result is zero if the strings
+ * are equal; {@code compareTo} returns {@code 0} exactly when
+ * the {@link #equals(Object)} method would return {@code true}.
+ * &lt;p&gt;
+ * This is the definition of lexicographic ordering. If two strings are
+ * different, then either they have different characters at some index
+ * that is a valid index for both strings, or their lengths are different,
+ * or both. If they have different characters at one or more index
+ * positions, let &lt;i&gt;k&lt;/i&gt; be the smallest such index; then the string
+ * whose character at position &lt;i&gt;k&lt;/i&gt; has the smaller value, as
+ * determined by using the &amp;lt; operator, lexicographically precedes the
+ * other string. In this case, {@code compareTo} returns the
+ * difference of the two character values at position {@code k} in
+ * the two string -- that is, the value:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * this.charAt(k)-anotherString.charAt(k)
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ * If there is no index position at which they differ, then the shorter
+ * string lexicographically precedes the longer string. In this case,
+ * {@code compareTo} returns the difference of the lengths of the
+ * strings -- that is, the value:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * this.length()-anotherString.length()
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   anotherString   the {@code String} to be compared.
+ * @return  the value {@code 0} if the argument string is equal to
+ *          this string; a value less than {@code 0} if this string
+ *          is lexicographically less than the string argument; and a
+ *          value greater than {@code 0} if this string is
+ *          lexicographically greater than the string argument.
+ */
+public int compareTo(String anotherString) {
+    int len1 = value.length;
+    int len2 = anotherString.value.length;
+    int lim = Math.min(len1, len2);
+    char v1[] = value;
+    char v2[] = anotherString.value;
+
+    int k = 0;
+    while (k &lt; lim) {
+        char c1 = v1[k];
+        char c2 = v2[k];
+        if (c1 != c2) {
+            return c1 - c2;
+        }
+        k++;
+    }
+    return len1 - len2;
+}
+</code></pre><h3 id="2-3-concat方法"><a href="#2-3-concat方法" class="headerlink" title="2.3 concat方法"></a>2.3 concat方法</h3><pre><code>/**
+ * Concatenates the specified string to the end of this string.
+ * &lt;p&gt;
+ * If the length of the argument string is {@code 0}, then this
+ * {@code String} object is returned. Otherwise, a
+ * {@code String} object is returned that represents a character
+ * sequence that is the concatenation of the character sequence
+ * represented by this {@code String} object and the character
+ * sequence represented by the argument string.&lt;p&gt;
+ * Examples:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * &quot;cares&quot;.concat(&quot;s&quot;) returns &quot;caress&quot;
+ * &quot;to&quot;.concat(&quot;get&quot;).concat(&quot;her&quot;) returns &quot;together&quot;
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   str   the {@code String} that is concatenated to the end
+ *                of this {@code String}.
+ * @return  a string that represents the concatenation of this object&apos;s
+ *          characters followed by the string argument&apos;s characters.
+ */
+public String concat(String str) {
+    int otherLen = str.length();
+    if (otherLen == 0) { //判空
+        return this;
+    }
+    int len = value.length;
+    char buf[] = Arrays.copyOf(value, len + otherLen); //获取原字符串的字符数组
+    str.getChars(buf, len); //将str存到buf的尾部
+    return new String(buf, true); //返回新String
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><p>replace方法有很多重载方法，下面只分析其中一种。</p>
+<pre><code>/**
+ * Returns a string resulting from replacing all occurrences of
+ * {@code oldChar} in this string with {@code newChar}.
+ * &lt;p&gt;
+ * If the character {@code oldChar} does not occur in the
+ * character sequence represented by this {@code String} object,
+ * then a reference to this {@code String} object is returned.
+ * Otherwise, a {@code String} object is returned that
+ * represents a character sequence identical to the character sequence
+ * represented by this {@code String} object, except that every
+ * occurrence of {@code oldChar} is replaced by an occurrence
+ * of {@code newChar}.
+ * &lt;p&gt;
+ * Examples:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * &quot;mesquite in your cellar&quot;.replace(&apos;e&apos;, &apos;o&apos;)
+ *         returns &quot;mosquito in your collar&quot;
+ * &quot;the war of baronets&quot;.replace(&apos;r&apos;, &apos;y&apos;)
+ *         returns &quot;the way of bayonets&quot;
+ * &quot;sparring with a purple porpoise&quot;.replace(&apos;p&apos;, &apos;t&apos;)
+ *         returns &quot;starring with a turtle tortoise&quot;
+ * &quot;JonL&quot;.replace(&apos;q&apos;, &apos;x&apos;) returns &quot;JonL&quot; (no change)
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   oldChar   the old character.
+ * @param   newChar   the new character.
+ * @return  a string derived from this string by replacing every
+ *          occurrence of {@code oldChar} with {@code newChar}.
+ */
+public String replace(char oldChar, char newChar) {
+    if (oldChar != newChar) { //新老字符相同则返回原字符串
+        int len = value.length;
+        int i = -1;
+        char[] val = value; /* avoid getfield opcode */
+
+        while (++i &lt; len) { //找到第一个需要替换的字符
+            if (val[i] == oldChar) {
+                break;
+            }
+        }
+        if (i &lt; len) {
+            char buf[] = new char[len];
+            for (int j = 0; j &lt; i; j++) { //第一个之前的字符直接存储
+                buf[j] = val[j];
+            }
+            while (i &lt; len) { //替换并且查找
+                char c = val[i];
+                buf[i] = (c == oldChar) ? newChar : c;
+                i++;
+            }
+            return new String(buf, true); //返回新字符串
+        }
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/mazhimazh/article/details/17715677" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17715677
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/string01.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string01.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：String使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+	     </div>
+	     <div>
+	       <center>
+	         <div class="pagination">
+<ul class="pagination">
+	 
+</ul>
+</div>
+
+	       </center>
+	     </div>	
+      
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

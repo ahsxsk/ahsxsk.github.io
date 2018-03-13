@@ -1,0 +1,573 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java并发编程：线程创建 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="Java中创建线程最常用的方法有继承Thread类和实现Runnable两种。Thread类实际也是实现了Runnable方法，由于无法继承多个父类但是可以继承多个接口，所有创建进程大多是实现Runnable接口
+
+
+继承Thread类
+
+
+&amp;gt;
+
+
+* 创建线程示例
+
+* Thread类源码分">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java并发编程：线程创建"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java并发编程：线程创建</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>Java中创建线程最常用的方法有继承Thread类和实现Runnable两种。Thread类实际也是实现了Runnable方法，由于无法继承多个父类但是可以<br>继承多个接口，所有创建进程大多是实现Runnable接口</p>
+<blockquote>
+<ul>
+<li>继承Thread类</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Thread类源码分析
+</code></pre></blockquote>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ul>
+<li>实现Runnable接口</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Runnable接口源码分析
+</code></pre></blockquote>
+</blockquote>
+<hr>
+<h2 id="1-继承Thread类"><a href="#1-继承Thread类" class="headerlink" title="1 继承Thread类"></a>1 继承Thread类</h2><h3 id="1-1-创建线程示例"><a href="#1-1-创建线程示例" class="headerlink" title="1.1 创建线程示例"></a>1.1 创建线程示例</h3><p>例如有15张票，有三个窗口，每个窗口卖五张票，可以使用继承Thread类实现多线程处理。</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+public class ExtendThread {
+    public static class MultiThread extends Thread {
+    private int total = 5;
+    private String name;
+    MultiThread(String name) {
+        // TODO Auto-generated constructor stub
+        super(name);
+    }
+    @Override
+    public void run () {
+        while (total &gt; 0) {
+            System.out.println(&quot;Ticket:&quot; + total-- + &quot; is saled by Thread:&quot; + Thread.currentThread().getName());
+        }
+    }
+}
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThread mt1 = new MultiThread(&quot;Thread1&quot;);
+        MultiThread mt2 = new MultiThread(&quot;Thread2&quot;);
+        MultiThread mt3 = new MultiThread(&quot;Thread3&quot;);
+        mt1.start();
+        mt2.start();
+        mt3.start();
+    }
+}
+运行结果如下：
+Ticket:5 is saled by Thread:Thread2
+Ticket:5 is saled by Thread:Thread1
+Ticket:5 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread3
+Ticket:3 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread1
+Ticket:4 is saled by Thread:Thread2
+Ticket:3 is saled by Thread:Thread1
+Ticket:2 is saled by Thread:Thread3
+Ticket:1 is saled by Thread:Thread3
+Ticket:2 is saled by Thread:Thread1
+Ticket:1 is saled by Thread:Thread1
+Ticket:3 is saled by Thread:Thread2
+Ticket:2 is saled by Thread:Thread2
+Ticket:1 is saled by Thread:Thread2
+</code></pre><h3 id="1-2-Thread类源码分析"><a href="#1-2-Thread类源码分析" class="headerlink" title="1.2 Thread类源码分析"></a>1.2 Thread类源码分析</h3><h4 id="1-2-1-类声明"><a href="#1-2-1-类声明" class="headerlink" title="1.2.1 类声明"></a>1.2.1 类声明</h4><pre><code>public class Thread extends Object implements Runnable；
+</code></pre><p>从类声明可以看出Thread实现了Runnable接口。</p>
+<h4 id="1-2-2-构造函数"><a href="#1-2-2-构造函数" class="headerlink" title="1.2.2 构造函数"></a>1.2.2 构造函数</h4><p>Thread类的构造函数有8个，这里只介绍他的无参构造函数Thread()，其他构造函数可以到 <strong> <a href="http://docs.oracle.com/javase/7/docs/api/" target="_blank" rel="noopener"><br>http://docs.oracle.com/javase/7/docs/api/
+</a> </strong> 学习了解。</p>
+<pre><code>public Thread() {
+    init(null, null, &quot;Thread-&quot; + nextThreadNum(), 0);
+}
+</code></pre><p>由init得第三个参数可以看出线程名称命名规则是Thread-加上线程数组合。 init函数的内部实现如下：</p>
+<pre><code>/**
+     * Initializes a Thread.
+     *
+     * @param g the Thread group
+     * @param target the object whose run() method gets called
+     * @param name the name of the new Thread
+     * @param stackSize the desired stack size for the new thread, or
+     *        zero to indicate that this parameter is to be ignored.
+     */
+　　　　//ThreadGroup：线程组表示一个线程的集合。此外，线程组也可以包含其他线程组。线程组构成一棵树，在树中，除了初始线程组外，每个线程组都有一个父线程组。
+    private void init(ThreadGroup g, Runnable target, String name,
+                      long stackSize) {
+    Thread parent = currentThread();
+    SecurityManager security = System.getSecurityManager();
+    if (g == null) {
+        /* Determine if it&apos;s an applet or not */
+
+        /* If there is a security manager, ask the security manager
+           what to do. */
+        if (security != null) {
+        g = security.getThreadGroup();
+        }
+
+        /* If the security doesn&apos;t have a strong opinion of the matter
+           use the parent thread group. */
+        if (g == null) {
+        g = parent.getThreadGroup();
+        }
+    }
+
+    /* checkAccess regardless of whether or not threadgroup is
+           explicitly passed in. */
+    g.checkAccess();
+
+    /*
+     * Do we have the required permissions?
+     */
+    if (security != null) {
+        if (isCCLOverridden(getClass())) {
+            security.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+        }
+    }
+
+        g.addUnstarted();
+
+    this.group = g;
+
+　　　　//每个线程都有一个优先级，高优先级线程的执行优先于低优先级线程。每个线程都可以或不可以标记为一个守护程序。当某个线程中运行的代码创建一个新 Thread 对象时，该新线程的初始优先级被设定为创建线程的优先级，并且当且仅当创建线程是守护线程时，新线程才是守护程序。
+    this.daemon = parent.isDaemon();
+    this.priority = parent.getPriority();
+    this.name = name.toCharArray();
+    if (security == null || isCCLOverridden(parent.getClass()))
+        this.contextClassLoader = parent.getContextClassLoader();
+    else
+        this.contextClassLoader = parent.contextClassLoader;
+    this.inheritedAccessControlContext = AccessController.getContext();
+    this.target = target;
+    setPriority(priority);
+        if (parent.inheritableThreadLocals != null)
+        this.inheritableThreadLocals =
+        ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);
+        /* Stash the specified stack size in case the VM cares */
+        this.stackSize = stackSize;
+
+        /* Set thread ID */
+        tid = nextThreadID();
+    }
+</code></pre><h4 id="1-2-3-run-方法"><a href="#1-2-3-run-方法" class="headerlink" title="1.2.3 run()方法"></a>1.2.3 run()方法</h4><p>run定义了线程实际完成的功能，具体源码如下：</p>
+<pre><code>public void run() {
+    if (target != null) {
+        target.run();
+    }
+}
+</code></pre><p>target是接口Runnable实现的引用，由于run方法并未做任何实现，所以继承Thread类必须实现run方法。</p>
+<h4 id="1-2-4-start-方法"><a href="#1-2-4-start-方法" class="headerlink" title="1.2.4 start()方法"></a>1.2.4 start()方法</h4><p>start方法作用为启动一个线程，源码如下：</p>
+<pre><code>public synchronized void start() {
+        if (threadStatus != 0 || this != me)
+            throw new IllegalThreadStateException();
+        group.add(this);
+        start0();
+        if (stopBeforeStart) {
+        stop0(throwableFromStop);
+    }
+ }
+</code></pre><p>start方法内部调用了本地方法start0创建线程，在创建线程之前会检查当前线程对象是否已经运行过start方法，确保一个线程对象只会运行一次start方<br>法。如果多次运行start方法，就会导致有多个线程同时操作相同的堆栈计数器等，导致无法预期的结果。</p>
+<h4 id="1-2-5-yield-、wait-、sleep-方法"><a href="#1-2-5-yield-、wait-、sleep-方法" class="headerlink" title="1.2.5 yield()、wait()、sleep() 方法"></a>1.2.5 yield()、wait()、sleep() 方法</h4><p>yield方法使正在运行的线程变成就绪状态， <strong> 建议先运行其他线程 </strong><br>。但是这种方式只是建议，并不一定会让其他线程先运行，也有可能当前线程继续运行，yield方法只会让 <strong> 相同优先级的线程优先执行 </strong> 。<br>wait方法不属于Thread类，他是Object类的方法。这个方法释放线程锁，知道收到notify通知为止。<br>sleep方法会使线程休眠一段时间，但是休眠期间不会主动释放cpu资源。<br>这里面内容挺多，忙完这段时间，把和这几个方法相关的线程调度、同步锁等知识温习分享下。</p>
+<h4 id="1-2-6-join-方法"><a href="#1-2-6-join-方法" class="headerlink" title="1.2.6 join()方法"></a>1.2.6 join()方法</h4><p>join方法的作用是强行运行要join的线程，阻塞当前线程知道join的线程执行完毕。如下示例：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestJoin {
+    public static class MultiThreadA extends Thread {
+        private String name;
+        private int count = 5;
+
+        public MultiThreadA(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            while (count-- &gt; 0) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+                System.out.println(name + count);
+            }
+        }
+    }
+    public static class MultiThreadB extends Thread {
+        private String name;
+        private int count = 5;
+        MultiThreadA a;
+
+        public MultiThreadB(MultiThreadA a) {
+        // TODO Auto-generated constructor stub
+            this.a = a;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.currentThread().sleep(505);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println(&quot;Begin ThreadB&quot;);
+            try {
+                a.join();
+            } catch (InterruptedException e) {
+                // TODO: handle exception
+                System.out.println(&quot;getException&quot;);
+            }
+            System.out.println(&quot;End ThreadB&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThreadA tA = new MultiThreadA(&quot;ThreadA&quot;);
+        MultiThreadB tB = new MultiThreadB(tA);
+        tA.start();
+        tB.start();
+    }
+}
+执行结果如下：
+ThreadA4
+Begin ThreadB
+ThreadA3
+ThreadA2
+ThreadA1
+ThreadA0
+End ThreadB
+</code></pre><p>ThreadA首先打印了一条，然后ThreadB运行，遇到a.join()后运行ThreadA直到运行结束才会再次运行ThreadB。</p>
+<h2 id="2、实现Runnable接口"><a href="#2、实现Runnable接口" class="headerlink" title="2、实现Runnable接口"></a>2、实现Runnable接口</h2><p>通过实现Runnable接口可以创建线程，实现的过程和Thread类内部实现很相似。</p>
+<h3 id="2-1-创建线程示例"><a href="#2-1-创建线程示例" class="headerlink" title="2.1 创建线程示例"></a>2.1 创建线程示例</h3><p>Thread类演示了每个窗口售票不相互影响，各自卖五张票。如果需要三个窗口协同卖5张票，可以通过Runnalble共享变量，示例如下：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestRunnable {
+    public static class MyThread implements Runnable {
+        private String name;
+        private int total = 5;
+
+        public MyThread(String name) {
+            // TODO Auto-generated constructor stub
+            this.name = name;
+        }
+
+        @Override
+        public synchronized void run() {
+            try {
+                Thread.currentThread().sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            while (total &gt; 0) {
+                System.out.println(&quot;ticket:&quot; + total + &quot; is sold!&quot;);
+                total--;
+            }
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MyThread mt = new MyThread(&quot;myThread&quot;);
+        Thread a = new Thread(mt);
+        Thread b = new Thread(mt);
+        Thread c = new Thread(mt);
+        a.start();
+        b.start();
+        c.start();
+    }
+}
+运行结果如下：
+ticket:5 is sold!
+ticket:4 is sold!
+ticket:3 is sold!
+ticket:2 is sold!
+ticket:1 is sold!
+</code></pre><p>三个线程共同完成5张票的售卖。</p>
+<h3 id="2-2-Runnable源码分析"><a href="#2-2-Runnable源码分析" class="headerlink" title="2.2 Runnable源码分析"></a>2.2 Runnable源码分析</h3><p>Runnable接口中只有一个抽象run方法，所以不管是实现Runnable接口或者继承Thread类都需要重写run方法。</p>
+<pre><code>public interface Runnable {
+     public abstract void run();
+ }
+</code></pre><hr>
+<p>参考：</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java并发编程：线程池创建及源码分析/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java_IO：BufferedOutputStream使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

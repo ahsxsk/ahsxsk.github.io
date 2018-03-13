@@ -1,0 +1,529 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：BufferedInputStream使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="Java IO：BufferedInputStream使用详解及源码分析
+使用方法BufferedInputStream继承于FilterInputStream，提供缓冲输入流功能。缓冲输入流相对于普通输入流的优势是，它提供了一个缓冲数组，每次调用read方法的时候，它首先尝试从缓冲区里读取数据，若">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：BufferedInputStream使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：BufferedInputStream使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>Java IO：BufferedInputStream使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedInputStream继承于FilterInputStream，提供缓冲输入流功能。缓冲输入流相对于普通输入流的优势是，它提供了一个缓冲数组<br>，每次调用read方法的时候，它首先尝试从缓冲区里读取数据，若读取失败（缓冲区无可读数据），则选择从物理数据源（譬如文件）读取新数据（这里会尝试尽可能读取多<br>的字节）放入到缓冲区中，最后再将缓冲区中的内容部分或全部返回给用户.由于从缓冲区里读取数据远比直接从物理数据源（譬如文件）读取速度快。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedInputStream提供的API如下：</p>
+<pre><code>//构造方法
+BufferedInputStream(InputStream in)
+BufferedInputStream(InputStream in, int size)
+
+//下一字节是否可读
+synchronized int     available()
+//关闭
+void     close()
+//标记, readlimit为mark后最多可读取的字节数
+synchronized void     mark(int readlimit)
+//是否支持mark, true
+boolean     markSupported()
+//读取一个字节
+synchronized int     read()
+//读取多个字节到b
+synchronized int     read(byte[] b, int off, int len)
+//重置会mark位置
+synchronized void     reset()
+//跳过n个字节
+synchronized long     skip(long n)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedInput() {
+    try {
+        /**
+         * 建立输入流 BufferedInputStream, 缓冲区大小为8
+         * buffer.txt内容为
+         * abcdefghij
+         */
+        InputStream in = new BufferedInputStream(new FileInputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*从字节流中读取5个字节*/
+        byte [] tmp = new byte[5];
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流的前5个字节为: &quot; + new String(tmp));
+        /*标记测试*/
+        in.mark(6);
+        /*读取5个字节*/
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流中第6到10个字节为: &quot; +  new String(tmp));
+        /*reset*/
+        in.reset();
+        System.out.printf(&quot;reset后读取的第一个字节为: %c&quot; , in.read());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>字节流的前5个字节为: abcde
+字节流中第6到10个字节为: fghij
+reset后读取的第一个字节为: f
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedInputStream的构造方法有两个，区别是缓冲区大小设置。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use. An internal
+ * buffer array is created and  stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in   the underlying input stream.
+ */
+public BufferedInputStream(InputStream in) {
+    this(in, DEFAULT_BUFFER_SIZE); //默认8192, 8M
+}
+
+/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * with the specified buffer size,
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use.  An internal
+ * buffer array of length  &lt;code&gt;size&lt;/code&gt;
+ * is created and stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in     the underlying input stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if {@code size &lt;= 0}.
+ */
+public BufferedInputStream(InputStream in, int size) {
+    super(in);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="read方法"><a href="#read方法" class="headerlink" title="read方法"></a>read方法</h3><p>read方法有每次读取一个字节和一次读取多个字节两种重载。下面主要分析读取多个字节的read方法。 <strong> <em> 重点在于fill()方法 </em> </strong> 。</p>
+<pre><code>/**
+ * Reads bytes from this byte-input stream into the specified byte array,
+ * starting at the given offset.
+ *
+ * &lt;p&gt; This method implements the general contract of the corresponding
+ * &lt;code&gt;{@link InputStream#read(byte[], int, int) read}&lt;/code&gt; method of
+ * the &lt;code&gt;{@link InputStream}&lt;/code&gt; class.  As an additional
+ * convenience, it attempts to read as many bytes as possible by repeatedly
+ * invoking the &lt;code&gt;read&lt;/code&gt; method of the underlying stream.  This
+ * iterated &lt;code&gt;read&lt;/code&gt; continues until one of the following
+ * conditions becomes true: &lt;ul&gt;
+ *
+ * @param      b     destination buffer.
+ * @param      off   offset at which to start storing bytes.
+ * @param      len   maximum number of bytes to read.
+ * @return     the number of bytes read, or &lt;code&gt;-1&lt;/code&gt; if the end of the stream has been reached.
+ * @exception  IOException  if this input stream has been closed by invoking its {@link #close()} method,
+ *                   or an I/O error occurs.
+ */
+public synchronized int read(byte b[], int off, int len)
+        throws IOException
+{
+    getBufIfOpen(); // Check for closed stream
+    if ((off | len | (off + len) | (b.length - (off + len))) &lt; 0) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return 0;
+    }
+
+    int n = 0;
+    for (;;) {
+        int nread = read1(b, off + n, len - n); //读取len长度的字节到b中
+        if (nread &lt;= 0)
+            return (n == 0) ? nread : n;
+        n += nread;
+        if (n &gt;= len)
+            return n;
+        // if not closed but no bytes available, return
+        InputStream input = in;
+        if (input != null &amp;&amp; input.available() &lt;= 0)
+            return n;
+    }
+}
+
+/**
+ * Check to make sure that buffer has not been nulled out due to
+ * close; if not return it;
+ */
+private byte[] getBufIfOpen() throws IOException {
+    byte[] buffer = buf;
+    if (buffer == null)
+        throw new IOException(&quot;Stream closed&quot;);
+    return buffer;
+}
+
+/**
+ * Read characters into a portion of an array, reading from the underlying
+ * stream at most once if necessary.
+ */
+private int read1(byte[] b, int off, int len) throws IOException {
+    int avail = count - pos; //缓冲区中可读字节数
+    if (avail &lt;= 0) { //没可读字节
+        /* If the requested length is at least as large as the buffer, and
+           if there is no mark/reset activity, do not bother to copy the
+           bytes into the local buffer.  In this way buffered streams will
+           cascade harmlessly. */
+        if (len &gt;= getBufIfOpen().length &amp;&amp; markpos &lt; 0) { //没mark并且请求长度大于buff长度
+            return getInIfOpen().read(b, off, len); //直接从文件中读取,不走缓冲区
+        }
+        fill(); //修改或者扩展缓冲区
+        avail = count - pos; //可读字节数
+        if (avail &lt;= 0) return -1;
+    }
+    int cnt = (avail &lt; len) ? avail : len; //取最小值, 缓冲区中可能没有足够可读的字节
+    System.arraycopy(getBufIfOpen(), pos, b, off, cnt); //复制
+    pos += cnt;
+    return cnt;
+}
+
+/**
+ * Fills the buffer with more data, taking into account
+ * shuffling and other tricks for dealing with marks.
+ * Assumes that it is being called by a synchronized method.
+ * This method also assumes that all data has already been read in,
+ * hence pos &gt; count.
+ */
+private void fill() throws IOException {
+    /**
+     * 填充字符时如果没有mark标记, 则直接清空缓冲区,然后将输入流的数据写入缓冲区
+     * 如果有mark标记,则分如下几种情况
+     * 1 普通mark,直接将标记以前的字符用标记以后的字符覆盖,剩余的空间读取输入流的内容填充
+     * 2 当前位置pos &gt;= buffer的长度 &gt;= marklimit,说明mark已经失效,直接清空缓冲区,然后读取输入流内容
+     * 3 buffer长度超出限制,抛出异常
+     * 4 marklimit比buffer的长度还大,此时mark还没失效,则扩大buffer空间
+     */
+    byte[] buffer = getBufIfOpen();
+    if (markpos &lt; 0)
+        pos = 0;            /* no mark: throw away the buffer */
+    else if (pos &gt;= buffer.length)  /* no room left in buffer */
+        if (markpos &gt; 0) {  /* can throw away early part of the buffer */
+            int sz = pos - markpos;
+            System.arraycopy(buffer, markpos, buffer, 0, sz);
+            pos = sz;
+            markpos = 0;
+        } else if (buffer.length &gt;= marklimit) {
+            markpos = -1;   /* buffer got too big, invalidate mark */
+            pos = 0;        /* drop buffer contents */
+        } else if (buffer.length &gt;= MAX_BUFFER_SIZE) {
+            throw new OutOfMemoryError(&quot;Required array size too large&quot;);
+        } else {            /* grow buffer */
+            int nsz = (pos &lt;= MAX_BUFFER_SIZE - pos)
+                    pos * 2 : MAX_BUFFER_SIZE; //扩大后的大小
+            if (nsz &gt; marklimit)
+                nsz = marklimit;
+            byte nbuf[] = new byte[nsz];
+            System.arraycopy(buffer, 0, nbuf, 0, pos); //将buffer的数据复制到nbuf中
+            if (!bufUpdater.compareAndSet(this, buffer, nbuf)) {
+                // Can&apos;t replace buf if there was an async close.
+                // Note: This would need to be changed if fill()
+                // is ever made accessible to multiple threads.
+                // But for now, the only way CAS can fail is via close.
+                // assert buf == null;
+                throw new IOException(&quot;Stream closed&quot;);
+            }
+            buffer = nbuf; //修改缓冲区
+        }
+    count = pos;
+    int n = getInIfOpen().read(buffer, pos, buffer.length - pos); //读取输入流中内容填充缓冲区
+    if (n &gt; 0)
+        count = n + pos;
+}
+</code></pre><h3 id="mark-reset方法"><a href="#mark-reset方法" class="headerlink" title="mark\reset方法"></a>mark\reset方法</h3><pre><code>/**
+ * See the general contract of the &lt;code&gt;mark&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ *
+ * @param   readlimit   the maximum limit of bytes that can be read before
+ *                      the mark position becomes invalid.
+ * @see     java.io.BufferedInputStream#reset()
+ */
+public synchronized void mark(int readlimit) {
+    marklimit = readlimit;
+    markpos = pos;
+}
+
+/**
+ * See the general contract of the &lt;code&gt;reset&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ * &lt;p&gt;
+ * If &lt;code&gt;markpos&lt;/code&gt; is &lt;code&gt;-1&lt;/code&gt;
+ * (no mark has been set or the mark has been
+ * invalidated), an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown. Otherwise, &lt;code&gt;pos&lt;/code&gt; is
+ * set equal to &lt;code&gt;markpos&lt;/code&gt;.
+ *
+ * @exception  IOException  if this stream has not been marked or,
+ *                  if the mark has been invalidated, or the stream
+ *                  has been closed by invoking its {@link #close()}
+ *                  method, or an I/O error occurs.
+ * @see        java.io.BufferedInputStream#mark(int)
+ */
+public synchronized void reset() throws IOException {
+    getBufIfOpen(); // Cause exception if closed
+    if (markpos &lt; 0)
+        throw new IOException(&quot;Resetting to invalid mark&quot;);
+    pos = markpos;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://zhhphappy.iteye.com/blog/1562427" target="_blank" rel="noopener"> http://zhhphappy.iteye.com/blog/1562427
+</a><br>[2] <a href="http://blog.sina.com.cn/s/blog_67f995260101huxz.html" target="_blank" rel="noopener"> http://blog.sina.com.cn/s/blog_67f995260101huxz.html
+</a><br>[3] <a href="http://www.cnblogs.com/skywang12345/p/io_12.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_12.html
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/mysql_explain_解释器中的字段含义/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/mysql技术内幕学习笔记-查询优化器及索引（一）/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

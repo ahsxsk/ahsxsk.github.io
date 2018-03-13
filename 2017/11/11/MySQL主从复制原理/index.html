@@ -1,0 +1,290 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL主从复制原理 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="MySQL主从复制原理
+当一台MySQL服务器无法满足现有的访问量时，一般会采用主从服务器模式，通过数据库代理做到读写分离。主服务器负责处理写入请求，从服务器服务器负责处理读取请求。大部分情况是读取量远大于写入量，一般会配置多个从服务器。参考《高性能MySQL》，本文介绍了MySQL主从复制的原理和">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MySQL主从复制原理"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> MySQL主从复制原理</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>MySQL主从复制原理</p>
+<p>当一台MySQL服务器无法满足现有的访问量时，一般会采用主从服务器模式，通过数据库代理做到读写分离。主服务器负责处理写入请求，从服务器服务器负责处理读取请求<br>。大部分情况是读取量远大于写入量，一般会配置多个从服务器。参考《高性能MySQL》，本文介绍了MySQL主从复制的原理和常见的拓扑结构。</p>
+<h2 id="1-MySQL主从复制的过程"><a href="#1-MySQL主从复制的过程" class="headerlink" title="1 MySQL主从复制的过程"></a>1 MySQL主从复制的过程</h2><p>MySQL主从负责依赖binlog，要想实现复制必须打开binlog。主从复制的过程中由主服务器（Master）的IO进程配合从服务器（Slave）的IO进<br>程和SQL进程共同完成，具体不知如下：<br>1）Slave的IO进程向Master请求指定日志文件指定位置后的日志内容；<br>2）Master收到请求后，通过Master的IO进程读取Slave请求的数据并返回给Slave的IO进程，除了请求的内容还会给Slave返回本次读取到的b<br>inlog文件名称和位置；<br>3）Slave的IO进程收到返回内容后将日志内容添加到relay-log后面，并将文件位置信息保存到master-info中；<br>4）Slave的SQL进程发现relay-log有新内容后就会取出relay-log中的语句执行。<br><img src="http://img.blog.csdn.net/20160217195636237" alt="mysql主从复制过程"></p>
+<h2 id="2-MySQL主从复制级别"><a href="#2-MySQL主从复制级别" class="headerlink" title="2 MySQL主从复制级别"></a>2 MySQL主从复制级别</h2><p>MySQL主从复制分为基于语句复制、基于行复制和混合复制三种。</p>
+<h3 id="2-1-基于语句复制"><a href="#2-1-基于语句复制" class="headerlink" title="2.1 基于语句复制"></a>2.1 基于语句复制</h3><p>基于语句复制是MySQL根据binlog中的语句在Slave上重做这些操作，MySQL默认级别。优点是快速简单binlog文件小，缺点是使用到UUID()、<br>USER()以及部分UPDATE操作时没法正确的复制等。</p>
+<h3 id="2-2-基于行复制"><a href="#2-2-基于行复制" class="headerlink" title="2.2 基于行复制"></a>2.2 基于行复制</h3><p>采用行复制时，binlog中记录的将不再是操作语句而是记录每一行的修改，这样避免了基于语句复制的缺点，保证每条修改都能被正确复制。但是行复制的binlog可<br>能会很大，比如说alter操作会在日志中记录所有行的变化，binlog就会过大。</p>
+<h3 id="2-3-混合复制"><a href="#2-3-混合复制" class="headerlink" title="2.3 混合复制"></a>2.3 混合复制</h3><p>混合复制是前两种复制方式的结合，MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在语句复制和行复制之间选择一种。当使用语句复制无<br>法准确复制会自动切换到行复制，如下几种情况会自动切换。<br>1）当函数中包含 UUID() 时；<br>2）2个及以上包含 AUTO_INCREMENT 字段的表被更新时；<br>3）执行 INSERT DELAYED 语句时；<br>4）用 UDF 时；<br>5）视图中必须要求运用 row 时，例如建立视图时使用了 UUID() 函数；<br>6）当 DML 语句更新一个 NDB 表时；</p>
+<h2 id="3-主从复制常见的拓扑结构"><a href="#3-主从复制常见的拓扑结构" class="headerlink" title="3 主从复制常见的拓扑结构"></a>3 主从复制常见的拓扑结构</h2><p>常见的主从复制拓扑结构有一主多从、主动、级联等模式</p>
+<h3 id="3-1-一主多从模式"><a href="#3-1-一主多从模式" class="headerlink" title="3.1 一主多从模式"></a>3.1 一主多从模式</h3><p>一主多从模式中有且只有一个Master有一组Slave，当前大部分主从复制采用这种模式。这种模式扩展方便，主从延时少。当写操作较少而读操作较多时采用这种方式<br>较合适，但是当Slave过多时会导致Master负载较重以及消耗较多带宽的问题。</p>
+<h3 id="3-2-主动模式"><a href="#3-2-主动模式" class="headerlink" title="3.2 主动模式"></a>3.2 主动模式</h3><p>主动模式的两台服务器，既是master，又是另一台服务器的slave。这样，任何一方所做的变更，都会通过复制应用到另外一方的数据库中。</p>
+<h3 id="3-3-级联模式"><a href="#3-3-级联模式" class="headerlink" title="3.3 级联模式"></a>3.3 级联模式</h3><p>当读压力较大时，连接到Master上的Slave较多，会给Master带来较大压力。采用级联的方式即Master只连接一定数量的Slave，这些Slave又<br>充当其他Slave的Master。级联模式减少了Master的压力但是也会带来主从复制延时较大的问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="http://blog.csdn.net/hguisu/article/details/7325124" target="_blank" rel="noopener"> http://blog.csdn.net/hguisu/article/details/7325124
+</a><br>[2] <a href="http://database.51cto.com/art/200906/128162.htm" target="_blank" rel="noopener"> http://database.51cto.com/art/200906/128162.htm
+</a><br>[3] <a href="http://wangwei007.blog.51cto.com/68019/965575" target="_blank" rel="noopener"> http://wangwei007.blog.51cto.com/68019/965575
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/MySQL事务介绍及原理/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Redis主从同步原理-SYNC/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

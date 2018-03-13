@@ -1,0 +1,2841 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java并发编程 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+<!-- title -->
+<div class="page-header page-header-inverse ">
+  <h1 class="archive-title-category title title-inverse ">Java并发编程</h1>
+</div>
+
+<div class="row page">
+  <!-- cols -->
+  
+  <div class="col-md-9">
+	
+
+	  <div id="top_search"></div>
+
+      
+         <!-- display as entry -->
+	     <div class="mypage">
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：并发基础概念/" >Java并发编程：并发基础概念</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>并发编程可以使我们的程序执行速度得到提高，多进程和多线程是常见的并发技术。</p>
+<p><strong> 1、多进程 </strong><br><strong> 2、多线程 </strong><br><strong> 3、Java并发编程采用的方法 </strong></p>
+<hr>
+<h4 id="1、多进程"><a href="#1、多进程" class="headerlink" title="1、多进程"></a>1、多进程</h4><p>多进程是实现并发技术最直接的方法，它是操作系统级别的，操作系统周期性的快速的将CPU在给各个进程间切换，达到并发的目的。多进程的特点是每个进程都有自己的系统<br>资源、地址空间等，进程之间的运行不会相互影响。进程和程序的区别就是进程是正在执行的指令集，而程序是静态的指令集。多进程的调度采用抢占式的方式。</p>
+<h4 id="2、多线程"><a href="#2、多线程" class="headerlink" title="2、多线程"></a>2、多线程</h4><p>多线程可以实现进程内部的并发，它是进程执行的单位，每个进程至少会有一个主线程。多线程的特点是每个线程拥有自己的堆栈和计数器等，但是他们没有自己独立的系统资源<br>和地址空间，它与同一进程的所有线程共享进程的全部资源。所以，线程可以独立的运行，但是线程的运行可能会影响同一进程的其他线程。多线程的调度和多进程一样采用抢占<br>式的方式，可以防止其他线程一直等待。</p>
+<h4 id="3、Java并发编程采用的方法"><a href="#3、Java并发编程采用的方法" class="headerlink" title="3、Java并发编程采用的方法"></a>3、Java并发编程采用的方法</h4><p>java中并发采用多线程的方式， <strong> <em> 《Java编程思想》 </em> </strong> 中介绍了Java的一个重要设计目标就是对系统透明，而多进程是系统级别的。Java<br>早期的重要目标系统Mac并不支持多任务，只有采用多线程技术才能在Mac系统上实现并发。为了满足“一次编写，到处运行”的目标，Java并发采用了多线程技术。<br>3.1 线程的创建成本小。由于线程共享进程的系统资源和地址空间，所以创建新的线程不需要再重新分配。<br>3.2 线程共享进程的内存空间、文件句柄等，进程拥有独立的内存空间，线程比进程执行更高效。<br>3.3 线程间共享代码段，进程变量等数据是的线程间通信更加方便。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：并发基础概念/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：ThreadPoolExecutor类及方法源码分析/" >Java并发编程：ThreadPoolExecutor类及方法源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>ThreadPoolExecutor是jdk自带线程池实现类，现有的Executors工具类实现的几种线程池核心都是调用ThreadPoolExecutor<br>类。ThreadPoolExecutor在jdk1.7及以后做了部分修改， <strong> 本文以JDK1.8为准 </strong> 。</p>
+<h2 id="1-构造函数"><a href="#1-构造函数" class="headerlink" title="1 构造函数"></a>1 构造函数</h2><p>ThreadPoolExecutor类共有4个构造函数，其他三个构造函数都是调用下参数最全的一个，下面只介绍参数最全的的一个。</p>
+<pre><code>public ThreadPoolExecutor(int corePoolSize,  //参数的意义已经在上一篇中介绍
+                             int maximumPoolSize,
+                             long keepAliveTime,
+                             TimeUnit unit,
+                             BlockingQueue&lt;Runnable&gt; workQueue,
+                             ThreadFactory threadFactory,
+                             RejectedExecutionHandler handler) {
+       if (corePoolSize &lt; 0 ||  //参数检查
+           maximumPoolSize &lt;= 0 ||
+           maximumPoolSize &lt; corePoolSize ||
+           keepAliveTime &lt; 0)
+           throw new IllegalArgumentException();
+       if (workQueue == null || threadFactory == null || handler == null)
+           throw new NullPointerException();
+       this.corePoolSize = corePoolSize; //设置基本线程数
+       this.maximumPoolSize = maximumPoolSize; //设置最大线程数
+       this.workQueue = workQueue;  //设置任务队列
+       this.keepAliveTime = unit.toNanos(keepAliveTime); //设置存活时间
+       this.threadFactory = threadFactory; //设置线程工厂
+       this.handler = handler; //设局拒绝策略
+   }
+</code></pre><h2 id="2-ThreadPoolExecutor类的方法"><a href="#2-ThreadPoolExecutor类的方法" class="headerlink" title="2 ThreadPoolExecutor类的方法"></a>2 ThreadPoolExecutor类的方法</h2><p>ThreadPoolExecutor类的主要方法有提交任务的execute()方法和submit()方法，终止线程的shutdown()方法和shutdow<br>mNow方法。<br><strong> execute方法用于提交任务，在Executor接口中声明并在ThreadPoolExecutor类中实现。 </strong><br><strong> submit方法用于提交任务并且有返回结果，在ExecutorService中声明并且在AbstractExecutorService类中实现，ThreadPoolExecutor类并没有重写。 </strong><br><strong> shutdown方法用于关闭线程池，但是允许正在运行的任务运行完，将状态置为SHUTDOWN。 </strong><br><strong> shutdownNow方法在关闭线程池时尝试终止正在运行的任务，将状态置为STOP。 </strong></p>
+<h2 id="3-ThreadPoolExecutor类重要方法源码分析"><a href="#3-ThreadPoolExecutor类重要方法源码分析" class="headerlink" title="3 ThreadPoolExecutor类重要方法源码分析"></a>3 ThreadPoolExecutor类重要方法源码分析</h2><h3 id="3-1-execute方法源码分析"><a href="#3-1-execute方法源码分析" class="headerlink" title="3.1 execute方法源码分析"></a>3.1 execute方法源码分析</h3><p>execute方法在JDK1.7及以后具体实现做了重大修改，分析execute源码之前先列举ThreadPoolExecutor类定义的一些常量。</p>
+<pre><code>  private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); //采用原子整型来记录线程数量及状态
+private static final int COUNT_BITS = Integer.SIZE - 3;  //线程池中线程数量存在低29位，高3位是线程池状态
+private static final int CAPACITY   = (1 &lt;&lt; COUNT_BITS) - 1;
+
+// runState is stored in the high-order bits
+private static final int RUNNING    = -1 &lt;&lt; COUNT_BITS; //
+private static final int SHUTDOWN   =  0 &lt;&lt; COUNT_BITS;
+private static final int STOP       =  1 &lt;&lt; COUNT_BITS;
+private static final int TIDYING    =  2 &lt;&lt; COUNT_BITS;
+private static final int TERMINATED =  3 &lt;&lt; COUNT_BITS;
+
+// Packing and unpacking ctl
+private static int runStateOf(int c)    { return c &amp; ~CAPACITY; }
+private static int workerCountOf(int c)  { return c &amp; CAPACITY; }
+private static int ctlOf(int rs, int wc) { return rs | wc; }
+</code></pre><p><strong> 线程池的五种状态： </strong><br><strong> RUNNING 在ThreadPoolExecutor被实例化的时候就是这个状态。 </strong><br><strong> SHUTDOWN 通常是已经执行过shutdown()方法，不再接受新任务，等待线程池中和队列中任务完成。 </strong><br><strong> STOP 通常是已经执行过shutdownNow()方法，不接受新任务，队列中的任务也不再执行，并尝试终止线程池中的线程。 </strong><br><strong> TIDYING 线程池为空，就会到达这个状态，执行terminated()方法。 </strong><br><strong> TERMINATED terminated()执行完毕，就会到达这个状态。 </strong><br>下面直接上代码，代码分析放在注释里：</p>
+<pre><code>public void execute(Runnable command) {
+        if (command == null) //参数检查
+            throw new NullPointerException();
+        int c = ctl.get(); //获取当前记录线程池状态和池中线程数量的变量
+        if (workerCountOf(c) &lt; corePoolSize) { //如果当前线程池中线程数量小于基本线程数量
+            if (addWorker(command, true))  //新起一个线程处理任务，并将这个任务作为这个线程的第一个任务
+                return;
+            c = ctl.get(); //增加线程失败，再次获取变量。（其他线程可能改变了线程池中线程数量，线程也可能die）
+        }
+        if (isRunning(c) &amp;&amp; workQueue.offer(command)) { //如果线程池还是RUNNING状态就将任务加入工作队列
+            int recheck = ctl.get(); //需要double check主要是时间差的问题，在上一句和这一句中间其他线程可能改变了线程池状态
+            if (! isRunning(recheck) &amp;&amp; remove(command)) //如果线程池状态不再是RUNNING，则从工作队列移除这个任务
+                reject(command); //移除任务成功，对这个任务使用拒绝策略
+            else if (workerCountOf(recheck) == 0) //如果线程池状态是RUNNING，并且线程数量为0，说明基本线程数为0
+                addWorker(null, false); //线程池启动一个线程,启动后并不直接处理任务，并且判断界限变为maximumPoolSize
+        }
+        else if (!addWorker(command, false))  //如果工作队列已满，则增加线程处理，线程判断条件变为maximumPoolSize
+            reject(command);
+    }
+</code></pre><p>忽略细节后总的逻辑如下：<br><strong> 第一，线程池中线程数量小于基本线程数（corePoolSize），则启动新线程处理新的任务。 </strong><br><strong> 第二，线程池中线程数不小于基本线程数，则将任务加入工作队列。 </strong><br><strong> 第三，工作队列如果已满，判断线程数如果小于最大线程数（maximumPoolSize），则启动新线程处理当前任务。 </strong><br>execute方法中最核心的方法就是addWorker方法，这个方法负责创建线程，下面重点分析洗addWorker源码。</p>
+<pre><code>private boolean addWorker(Runnable firstTask, boolean core) {
+     retry:
+     for (;;) {
+         int c = ctl.get();
+         int rs = runStateOf(c); //获取线程池状态
+
+         // Check if queue empty only if necessary.
+         if (rs &gt;= SHUTDOWN &amp;&amp;
+             ! (rs == SHUTDOWN &amp;&amp; //队列没有任务并且没有提交新任务则不会创建新线程
+                firstTask == null &amp;&amp;
+                ! workQueue.isEmpty()))
+             return false;
+
+         for (;;) {
+             int wc = workerCountOf(c);
+             if (wc &gt;= CAPACITY ||
+                 wc &gt;= (core ? corePoolSize : maximumPoolSize)) //线程数量大于线程池容量或者传入的最大池数量则不会创建新线程
+                 return false;
+             if (compareAndIncrementWorkerCount(c)) //如果线程池的状态和线程数量都没有改变，则将线程数量+1并且开始真正创建线程
+                 break retry;
+             c = ctl.get();  // Re-read ctl，线程数量或者线程池状态改变重新获取线程状态
+             if (runStateOf(c) != rs) //线程池状态改变则重新判断是否要创建新线程
+                 continue retry;
+             // else CAS failed due to workerCount change; retry inner loop
+         }
+     }
+
+     boolean workerStarted = false;
+     boolean workerAdded = false;
+     //private final class Worker extends AbstractQueuedSynchronizer implements Runnable
+     Worker w = null;
+     try {
+         w = new Worker(firstTask);
+         final Thread t = w.thread;
+         if (t != null) {
+             final ReentrantLock mainLock = this.mainLock;
+             mainLock.lock(); //加锁，防止其他线程同事操作
+             try {
+                 // Recheck while holding lock.
+                 // Back out on ThreadFactory failure or if
+                 // shut down before lock acquired.
+                 int rs = runStateOf(ctl.get());//获取线程状态
+
+                 if (rs &lt; SHUTDOWN ||
+                     (rs == SHUTDOWN &amp;&amp; firstTask == null)) { //检查线程池状态
+                     if (t.isAlive()) // precheck that t is startable
+                         throw new IllegalThreadStateException();
+                     workers.add(w);  //添加创建好的worker对象
+                     int s = workers.size();
+                     if (s &gt; largestPoolSize) //更新线程池最大数量记录
+                         largestPoolSize = s;
+                     workerAdded = true;
+                 }
+             } finally {
+                 mainLock.unlock();
+             }
+             if (workerAdded) {
+                 t.start();  //启动线程
+                 workerStarted = true;
+             }
+         }
+     } finally {
+         if (! workerStarted) //线程未启动成功，失败处理
+             addWorkerFailed(w);
+     }
+     return workerStarted;
+ }
+</code></pre><h3 id="3-2-shutdown方法源码分析"><a href="#3-2-shutdown方法源码分析" class="headerlink" title="3.2 shutdown方法源码分析"></a>3.2 shutdown方法源码分析</h3><p><strong> shutdown方法关闭线程池时将线程池的状态置为SHUTDOWN，不再接受新任务，等待队列中的任务执行完成。 </strong></p>
+<pre><code>public void shutdown() {
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess(); //检查当前线程是否有权限终端线程池中的所有线程
+            advanceRunState(SHUTDOWN); //将线程池状态改为SHUTDOWN
+            interruptIdleWorkers(); //中断空闲线程
+            onShutdown(); // hook for ScheduledThreadPoolExecutor
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate(); //将线程池状态置为TERMINATED
+    }
+</code></pre><h3 id="3-3-shutdownNow方法源码分析"><a href="#3-3-shutdownNow方法源码分析" class="headerlink" title="3.3 shutdownNow方法源码分析"></a>3.3 shutdownNow方法源码分析</h3><p><strong> shutdownNow方法关闭线程池时将线程池的状态置为STOP，并且停止队列中正在进行的任务。 </strong></p>
+<pre><code>public List&lt;Runnable&gt; shutdownNow() {
+        List&lt;Runnable&gt; tasks;
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess();
+            advanceRunState(STOP); //将线程池状态改为STOP
+
+            interruptWorkers();
+            tasks = drainQueue(); //和shutdown方法的区别就在于shutdownNow会停止正在处理的任务
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate();
+        return tasks;
+    }
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：ThreadPoolExecutor类及方法源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：死锁及解决方法/" >Java并发编程：死锁及解决方法</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-什么是死锁"><a href="#1-什么是死锁" class="headerlink" title="1 什么是死锁"></a>1 什么是死锁</h2><p>死锁是多个进程\线程为了完成任务申请多个不可剥夺的资源并且以不正确的方式推进导致的一直互相等待对方释放资源的状态。下面以经典的哲学家就餐问题为例，描述死锁产<br>生的场景。</p>
+<h2 id="2-哲学家就餐问题"><a href="#2-哲学家就餐问题" class="headerlink" title="2 哲学家就餐问题"></a>2 哲学家就餐问题</h2><p>五个哲学家坐在一个圆桌上，每个哲学家两侧都放着1根筷子，总共有5只筷子。哲学家需要分别或者左右手的两只筷子才能就餐，就餐完成后将筷子放回原处，其他哲学家可以<br>获取放回的筷子。有这样一种状态，每个哲学家都获取了他右手的筷子，试图获取左手的筷子时都会失败（被他左手边的哲学家拿走了），然后所有哲学家都会一直等待他左手边<br>哲学家释放筷子，这就导致了死锁状态。</p>
+<pre><code>public class PhilosopherEat {
+    /*
+     *筷子类
+     */
+    public static class Chop {
+        private volatile boolean taken = false; //筷子状态
+        ReentrantLock lock = new ReentrantLock(); //定义锁
+        Condition isTaken = lock.newCondition();
+
+        //拿起筷子
+        public void take() throws InterruptedException {
+            lock.lock();
+            try {
+                while (taken) { //筷子已被其他哲学家拿走
+                    isTaken.await();
+                }
+                taken = true; //标记筷子被拿走
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 放下筷子
+        public  void put() throws InterruptedException {
+            lock.lock();
+            try {
+                taken = false; //放下筷子
+                isTaken.signalAll(); //通知邻座的哲学家拿筷子
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+    /*
+     * 哲学家就餐类
+     */
+    public static class Philosopher implements Runnable {
+        private Chop left; //左手的筷子
+        private Chop right; //右手的筷子
+        private int id; //哲学家编号
+        private int ponderFactor; //思考时间
+        private Random random = new Random(47);
+        //暂停时间,模拟哲学家吃饭用时等
+        private void pasue() throws InterruptedException {
+            if (ponderFactor == 0) {
+                return;
+            }
+            //TimeUnit.MILLISECONDS.sleep(random.nextInt(ponderFactor * 250));
+            TimeUnit.MILLISECONDS.sleep(10);
+        }
+
+        //构造方法
+        public Philosopher(Chop left, Chop right, int id, int ponderFactor) {
+            this.left = left;
+            this.right = right;
+            this.id = id;
+            this.ponderFactor = ponderFactor;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (!Thread.interrupted()) {
+                    System.out.println(this + &quot; &quot; + &quot;thinking&quot;);
+                    pasue();
+                    right.take();
+                    System.out.println(this + &quot; &quot; + &quot;take right&quot;);
+                    left.take();
+                    System.out.println(this + &quot; &quot; + &quot;take left&quot;);
+                    System.out.println(this + &quot; &quot; + &quot;eat&quot;);
+                    pasue();
+                    left.put();
+                    System.out.println(this + &quot; &quot; + &quot;put left&quot;);
+                    right.put();
+                    System.out.println(this + &quot; &quot; + &quot;put right&quot;);
+                }
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static void main(String[] args) {
+        int size = 5;
+        int ponder = 5;
+        Chop [] chops = new Chop[5]; //5跟筷子
+        for (int i = 0; i &lt; 5; i++) {
+            chops[i] = new Chop();
+        }
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; size; i++) {
+            pool.execute(new Philosopher(chops[i], chops[(i + 1) % 5], i, ponder));
+        }
+        try {
+            System.out.println(&quot;quit&quot;);
+            System.in.read();
+        } catch (IOException e) {}
+        pool.shutdown();
+    }
+}
+</code></pre><p>大部分情况下执行不会发生死锁，就餐和思考时间越短越容易发生死锁，这也是死锁问题的可怕之处，不易复现。</p>
+<h2 id="3-死锁的必要条件"><a href="#3-死锁的必要条件" class="headerlink" title="3 死锁的必要条件"></a>3 死锁的必要条件</h2><p>死锁的必要条件有如下四个：</p>
+<h3 id="3-1-互斥条件"><a href="#3-1-互斥条件" class="headerlink" title="3.1 互斥条件"></a>3.1 互斥条件</h3><p>一个资源每次只能被一个线程使用，如IO等。</p>
+<h3 id="3-2-请求与保持条件"><a href="#3-2-请求与保持条件" class="headerlink" title="3.2 请求与保持条件"></a>3.2 请求与保持条件</h3><p>一个进程因请求资源而阻塞时，对已获得的资源保持不放。</p>
+<h3 id="3-3-不剥夺条件"><a href="#3-3-不剥夺条件" class="headerlink" title="3.3 不剥夺条件"></a>3.3 不剥夺条件</h3><p>进程已获得的资源，在未使用完之前，不能强行剥夺。</p>
+<h3 id="3-4-循环等待条件"><a href="#3-4-循环等待条件" class="headerlink" title="3.4 循环等待条件"></a>3.4 循环等待条件</h3><p>若干进程之间形成一种头尾相接的循环等待资源关系。</p>
+<h2 id="4-解决死锁的方法"><a href="#4-解决死锁的方法" class="headerlink" title="4 解决死锁的方法"></a>4 解决死锁的方法</h2><p>死锁的必要条件必须全部满足才会产生死锁，所以要解决死锁问题只需要任意破坏其中一个条件就可以解决死锁问题。</p>
+<h3 id="4-1-互斥条件"><a href="#4-1-互斥条件" class="headerlink" title="4.1 互斥条件"></a>4.1 互斥条件</h3><p>很多系统资源如IO等必须是互斥的，破坏互斥条件的成本较大。</p>
+<h3 id="4-2-请求与保持条件"><a href="#4-2-请求与保持条件" class="headerlink" title="4.2 请求与保持条件"></a>4.2 请求与保持条件</h3><p>可以通过一次性获取所有资源即对需要的资源进行原子申请可以解决死锁问题，这种方式对系统开销较大，不太理想。</p>
+<h3 id="4-3-不可剥夺条件"><a href="#4-3-不可剥夺条件" class="headerlink" title="4.3 不可剥夺条件"></a>4.3 不可剥夺条件</h3><p>可以通过定时释放占有的资源解决死锁问题，但是这也会带来过多的资源占有释放操作。</p>
+<h3 id="4-4-循环等待条件"><a href="#4-4-循环等待条件" class="headerlink" title="4.4 循环等待条件"></a>4.4 循环等待条件</h3><p>这是解决死锁常用的方法，例如哲学家就餐问题中，最后一个哲学家可以先拿左手的筷子，拿不到就会等待，他右手的筷子就可以供第一个哲学家使用。</p>
+<pre><code>public static void main(String[] args) {
+    int size = 5;
+    int ponder = 5;
+    Chop [] chops = new Chop[5]; //5跟筷子
+    for (int i = 0; i &lt; 5; i++) {
+        chops[i] = new Chop();
+    }
+    ExecutorService pool = Executors.newCachedThreadPool();
+    for (int i = 0; i &lt; size; i++) {
+        if (i &lt; size - 1) {
+            pool.execute(new Philosopher(chops[i], chops[(i + 1) % 5], i, ponder));
+        } else {
+            pool.execute(new Philosopher(chops[0], chops[i], i, ponder));
+        }
+    }
+    try {
+        System.out.println(&quot;quit&quot;);
+        System.in.read();
+    } catch (IOException e) {}
+    pool.shutdown();
+}
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：死锁及解决方法/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：生产者-消费者模式/" >Java并发编程：生产者-消费者模式</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>生产者消费者模型是并发编程的经典模型，生产者模型的核心思想是生产者生产的产品通过一块共享的资源与消费者交互，通过共享资源的交互实现了生产者与消费者的解耦。现<br>在的消息队列使用的也是这种思想。<br>本文实现了如下描述的生产者-消费者模型：<br>1、生产者和消费者各有1个；<br>2、通信所使用的队列大小一定（200），并且队列不能溢出；<br>3、生产者和我消费者的消费速度不做假设，生产速度和消费速度大小大概率不一致；<br>4、生产者生产完商品后会通知消费者取商品，消费者消费完后会通知生产者生产商品；<br>5、队列承载不了本次生产的商品时生产者会进入wait，队列里的商品不够本次消费时消费者会进入wait。</p>
+<p>具体代码可解释如下：</p>
+<pre><code>public class ProduceConsumer {
+    //定义产品类
+    public static class Product {
+        private int name; //产品名称,编号
+
+        @Override
+        public String toString() {
+            return &quot;Product:&quot; + name;
+        }
+    }
+
+    //仓库类,主要逻辑在这里实现
+    public static class WareHouse {
+        private static Queue&lt;Product&gt; products = new LinkedList&lt;Product&gt;(); //产品队列
+        private final int MAX = 200; //仓库最大容量
+        private static int currentCount = 0; //当前仓储量
+        private static int name = 1; //产品编号
+        private static Lock lock = new ReentrantLock(); //自定义锁对象
+        private static Condition condition = lock.newCondition();
+        //生产产品
+        public void produce(Product product, int amount) {
+            lock.lock();
+            try {
+                while (currentCount + amount &gt; MAX) { //队列满
+                    System.out.println(Thread.currentThread().getName() + &quot;生产后的产品总量大于承载能力, wait&quot;);
+                    try {
+                        condition.await(); //进入等待
+                        System.out.println(Thread.currentThread().getName() + &quot;Get signal&quot;);
+                    } catch (InterruptedException e) {
+                        System.out.println(e.getStackTrace());
+                    }
+                }
+                for (int i = 0; i &lt; amount; i++) {
+                    product.name = name++; //设置产品编号
+                    products.add(product); //向队列中加入产品
+                    currentCount++; //仓储数量增加
+                }
+                System.out.println(Thread.currentThread().getName() + &quot;生产了 &quot; + amount + &quot; 个商品, 现在库存为: &quot; + currentCount);
+                condition.signalAll(); //通知消费者
+                System.out.println(Thread.currentThread().getName() + &quot; signalAll...&quot;);
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        //消费产品
+        public void consume(int amount) {
+            lock.lock();
+            try {
+                while (currentCount &lt; amount) { //商品不够本次消费
+                    System.out.println(Thread.currentThread().getName() + &quot;要消费数量为: &quot; + amount + &quot;仓储数量: &quot; + currentCount + &quot; 仓储数量不足, wait&quot;);
+                    try {
+                        condition.await(); //进入等待
+                        System.out.println(Thread.currentThread().getName() + &quot;Get signal&quot;);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                for (int i = 0; i &lt; amount; i++) {
+                    Product product = products.poll();
+                    currentCount--; //减仓储
+                }
+                System.out.println(Thread.currentThread().getName() + &quot;消费了 &quot; + amount + &quot; 个商品, 现在库存为: &quot; + currentCount);
+                condition.signalAll(); //通知生产者
+                System.out.println(Thread.currentThread().getName() + &quot;signalAll...&quot;);
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    //生产者类
+    public static class Producer implements Runnable {
+        @Override
+        public void run() {
+            int amount = (int) (Math.random() * 100); //最多生产仓储量的一半
+            Product product = new Product();
+            WareHouse wareHouse = new WareHouse();
+            wareHouse.produce(product, amount);
+        }
+    }
+
+    //消费者类
+    public static class Consumer implements  Runnable{
+        @Override
+        public void run() {
+            int amount = (int) (Math.random() * 100); //最多生产仓储量的一半
+            WareHouse wareHouse = new WareHouse();
+            wareHouse.consume(amount);
+        }
+    }
+
+    public static void main(String[] args) {
+        //生产者线程池
+        ExecutorService producerPool = Executors.newFixedThreadPool(1);
+        ExecutorService consumerPool = Executors.newSingleThreadExecutor();
+        int i = 0;
+        while (true) {
+            Producer producer = new Producer();
+            producerPool.execute(producer);
+            Consumer consumer = new Consumer();
+            consumerPool.execute(consumer);
+            if (i++ &gt; 200) {
+                break;
+            }
+        }
+    }
+}
+</code></pre><p>部分执行结果如下：</p>
+<pre><code>pool-1-thread-1生产了 44 个商品, 现在库存为: 44
+pool-1-thread-1 signalAll...
+pool-2-thread-1消费了 44 个商品, 现在库存为: 0
+pool-2-thread-1signalAll...
+pool-1-thread-1生产了 3 个商品, 现在库存为: 3
+pool-1-thread-1 signalAll...
+pool-2-thread-1要消费数量为: 54仓储数量: 3 仓储数量不足, wait
+pool-1-thread-1生产了 91 个商品, 现在库存为: 94
+pool-1-thread-1 signalAll...
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 54 个商品, 现在库存为: 40
+pool-2-thread-1signalAll...
+pool-1-thread-1生产了 34 个商品, 现在库存为: 74
+pool-1-thread-1 signalAll...
+pool-2-thread-1要消费数量为: 95仓储数量: 74 仓储数量不足, wait
+pool-1-thread-1生产了 62 个商品, 现在库存为: 136
+pool-1-thread-1 signalAll...
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 95 个商品, 现在库存为: 41
+pool-2-thread-1signalAll...
+pool-2-thread-1要消费数量为: 89仓储数量: 41 仓储数量不足, wait
+pool-1-thread-1生产了 82 个商品, 现在库存为: 123
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 14 个商品, 现在库存为: 137
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 28 个商品, 现在库存为: 165
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 19 个商品, 现在库存为: 184
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产后的产品总量大于承载能力, wait
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 89 个商品, 现在库存为: 95
+</code></pre><p>这段代码里控制了生产者消费者的速度都不能超过100即仓储总量的一半，否则可能发生消费者和生产者相互等待的情况。例如：仓储现在已有110个商品，消费者需要消费<br>120个，所以消费者进入wait；此时生产者线程获得cpu，并且需要生产100个商品，由于现在剩下的仓储只有90个，所以生产者线程此时也进入wait，导致两<br>个线程相互等待。大家看看怎么解决。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：生产者-消费者模式/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程同步机制/" >Java并发编程：线程同步机制</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p><strong> Java中线程同步可以通过wait、notify、notifyAll等方法实现。这几个方法在最顶级的父类Object中实现，并且被声明为final，所以子类无法重写这几个方法。在实现线程同步时，一般需要配合synchronized关键字使用，定义同步代码块或者方法。JDK 1.5以后提供了Condition来实现线程间的协作，Condition提供的await、signal、signalAll方法相对于wait、notify、notifyAll的方法更加安全高效，Condition所使用的是ReentrantLock锁。 </strong></p>
+<h2 id="1-synchronized关键字和ReentrantLock类"><a href="#1-synchronized关键字和ReentrantLock类" class="headerlink" title="1 synchronized关键字和ReentrantLock类"></a>1 synchronized关键字和ReentrantLock类</h2><p>理解synchronized关键字必须首先了解下Java的内存模型。<br><strong> Java中每一个进程都有自己的主内存，进程中的每个线程有自己的线程内存，线程从主内存中获取数据在线程内存中计算完成后回写到主内存中。在并发情况下就可能造成数据过期数据的问题。 </strong> 具体例子看如下代码： </p>
+<pre><code>public class TestSync {
+    public static int sum = 0;
+    public static class MyThreadA implements Runnable {
+        @Override
+        public void run() {
+            for (int j = 0; j &lt; 10000; j++) {
+                sum++;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i &lt; 10; i++) { //10个任务交给线程池, 返回的数据预期为10*10000
+            MyThreadA myThreadA = new MyThreadA();
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+        System.out.println(sum);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>88625
+</code></pre><p>从执行结果可以看出，并不是预期中的100000。原因就在数据过期的问题。例如线程A和线程B同时从主内存中获取sum的值为1500。线程A计算了1000次，此<br>时线程A内存中的sum为2500，并向主内存回写sum=2500，后交出CPU;线程B获得CPU开始计算了900次，此时线程B内存中的sum=2400,并向<br>主内存回写sum=2400,后交出CPU。此时主内存的sum=2400,而预期是1500+1000+900=3400。<br>使用synchronized关键字改进代码如下：</p>
+<pre><code>public class TestSync {
+    public static int sum = 0;
+    public static Object lock = new Object(); //自定义锁对象,代价较小
+    public static class MyThreadA implements Runnable {
+        @Override
+        public void run() {
+            synchronized (lock) { //同步代码块
+                for (int j = 0; j &lt; 10000; j++) {
+                    sum++;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        for (int i = 0; i &lt; 10; i++) { //10个任务交给线程池, 返回的数据预期为10*10000
+            MyThreadA myThreadA = new MyThreadA();
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+        System.out.println(sum);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>100000
+</code></pre><p>执行结果符合预期。原因是线程进入同步代码块后会获取对象锁，阻止其他线程进入执行，线程执行完for循环并向主内存回写sum后才会退出退出同步代码块，其他线程才<br>会执行。<br>ReentrantLock类提供的锁机制可以完成所有synchronized关键字能实现的功能并且针对synchronized的限制 —<br>它无法中断一个正在等候获得锁的线程，也无法通过投票得到锁，如果不想等下去，也就没法得到锁，做出了改进，提高了高争用条件下的执行效率。具体分析请参考（ <a href="https://www.ibm.com/developerworks/cn/java/j-jtp10264/" target="_blank" rel="noopener"><br>https://www.ibm.com/developerworks/cn/java/j-jtp10264/
+</a> ）；</p>
+<h2 id="2-wait-、notify-、notifyAll-介绍及代码演示（介绍纯属copy其他博客，-地址："><a href="#2-wait-、notify-、notifyAll-介绍及代码演示（介绍纯属copy其他博客，-地址：" class="headerlink" title="2 wait()、notify()、notifyAll() 介绍及代码演示（介绍纯属copy其他博客， 地址： ["></a>2 wait()、notify()、notifyAll() 介绍及代码演示（介绍纯属copy其他博客， 地址： [</h2><p><a href="http://blog.csdn.net/ns_code/article/details/17225469" target="_blank" rel="noopener">http://blog.csdn.net/ns_code/article/details/17225469</a><br>](<a href="http://blog.csdn.net/ns_code/article/details/17225469" target="_blank" rel="noopener">http://blog.csdn.net/ns_code/article/details/17225469</a>) ）</p>
+<h3 id="2-1-wait方法介绍"><a href="#2-1-wait方法介绍" class="headerlink" title="2.1 wait方法介绍"></a>2.1 wait方法介绍</h3><p><strong> 该方法用来将当前线程置入休眠状态，直到接到通知或被中断为止。在调用wait（）之前，线程必须要获得该对象的对象级别锁，即只能在同步方法或同步块中调用wait（）方法。进入wait（）方法后，当前线程释放锁。在从wait（）返回前，线程与其他线程竞争重新获得锁。如果调用wait（）时，没有持有适当的锁，则抛出IllegalMonitorStateException，它是RuntimeException的一个子类，因此，不需要try-catch结构。 </strong></p>
+<h3 id="2-2-notify方法介绍"><a href="#2-2-notify方法介绍" class="headerlink" title="2.2 notify方法介绍"></a>2.2 notify方法介绍</h3><p><strong> 该方法用来通知那些可能等待该对象的对象锁的其他线程。如果有多个线程等待，则线程规划器任意挑选出其中一个wait（）状态的线程来发出通知，并使它等待获取该对象的对象锁（notify后，当前线程不会马上释放该对象锁，wait所在的线程并不能马上获取该对象锁，要等到程序退出synchronized代码块后，当前线程才会释放锁，wait所在的线程也才可以获取该对象锁），但不惊动其他同样在等待被该对象notify的线程们。当第一个获得了该对象锁的wait线程运行完毕以后，它会释放掉该对象锁，此时如果该对象没有再次使用notify语句，则即便该对象已经空闲，其他wait状态等待的线程由于没有得到该对象的通知，会继续阻塞在wait状态，直到这个对象发出一个notify或notifyAll。 </strong> 这里需要注意：它们等待的是被notify或notifyAll，而不是锁。这与下面的notifyAll（）方法执行后的情况不同。 </p>
+<h3 id="2-3-notifyAll方法介绍"><a href="#2-3-notifyAll方法介绍" class="headerlink" title="2.3 notifyAll方法介绍"></a>2.3 notifyAll方法介绍</h3><p><strong> 该方法与notify（）方法的工作方式相同，重要的一点差异是：notifyAll使所有原来在该对象上wait的线程统统退出wait的状态（即全部被唤醒，不再等待notify或notifyAll，但由于此时还没有获取到该对象锁，因此还不能继续往下执行），变成等待获取该对象上的锁，一旦该对象锁被释放（notifyAll线程退出调用了notifyAll的synchronized代码块的时候），他们就会去竞争。如果其中一个线程获得了该对象锁，它就会继续往下执行，在它退出synchronized代码块，释放锁后，其他的已经被唤醒的线程将会继续竞争获取该锁，一直进行下去，直到所有被唤醒的线程都执行完毕。 </strong></p>
+<h3 id="2-4-更深入的理解"><a href="#2-4-更深入的理解" class="headerlink" title="2.4 更深入的理解"></a>2.4 更深入的理解</h3><p><strong> 如果线程调用了对象的wait（）方法，那么线程便会处于该对象的等待池中，等待池中的线程不会去竞争该对象的锁。当有线程调用了对象的notifyAll（）方法（唤醒所有wait线程）或notify（）方法（只随机唤醒一个wait线程），被唤醒的的线程便会进入该对象的锁池中，锁池中的线程会去竞争该对象锁。 </strong><br><strong> 优先级高的线程竞争到对象锁的概率大，假若某线程没有竞争到该对象锁，它还会留在锁池中，唯有线程再次调用wait（）方法，它才会重新回到等待池中。而竞争到对象锁的线程则继续往下执行，直到执行完了synchronized代码块，它会释放掉该对象锁，这时锁池中的线程会继续竞争该对象锁。 </strong></p>
+<h3 id="2-5-代码展示"><a href="#2-5-代码展示" class="headerlink" title="2.5 代码展示"></a>2.5 代码展示</h3><p>3线程交替wait，相互唤醒。</p>
+<pre><code>public class Main {
+    private static Object lock = new Object(); //自定义锁对象
+    public static class MyThreadA implements Runnable {
+        public String name;
+        public MyThreadA(String name) {
+            this.name = name;
+        }
+        @Override
+        public void run() {
+            synchronized (lock) {
+                for (int i = 0; i &lt; 11; i++) {
+                    if (i % 3 == 0 &amp;&amp; i != 0) {
+                        System.out.println(Thread.currentThread().getName() + &quot; : &quot;+ i);
+                        try {
+                            lock.wait();
+                        } catch (InterruptedException e) {
+                        }
+                    }
+                    //System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i + &quot;notify&quot;);
+                    lock.notify();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 3; i++) {
+            MyThreadA myThreadA = new MyThreadA(&quot;thread a&quot;);
+            executorService.execute(myThreadA);
+        }
+        //executorService.shutdown();
+    }
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 : 3
+pool-1-thread-2 : 3
+pool-1-thread-3 : 3
+pool-1-thread-1 : 6
+pool-1-thread-3 : 6
+pool-1-thread-1 : 9
+pool-1-thread-3 : 9
+pool-1-thread-2 : 6
+</code></pre><p>线程2打印6后进入wait,没有其他线程notify导致一直等待。</p>
+<h2 id="3-await-、signal-、signalAll-介绍及代码演示"><a href="#3-await-、signal-、signalAll-介绍及代码演示" class="headerlink" title="3 await()、signal()、signalAll()介绍及代码演示"></a>3 await()、signal()、signalAll()介绍及代码演示</h2><p>这三个方法的作用和wait、notify、notifyAll类似，采用这三个方法是需要使用的同步锁是Lock。</p>
+<pre><code>public class Main {
+    private static Lock lock = new ReentrantLock(); //自定义锁对象
+    private static Condition condition = lock.newCondition();
+    public static class MyThreadA implements Runnable {
+        public String name;
+        public MyThreadA(String name) {
+            this.name = name;
+        }
+        @Override
+        public void run() {
+            lock.lock();
+            try {
+                for (int i = 0; i &lt; 11; i++) {
+                    if (i % 3 == 0 &amp;&amp; i != 0) {
+                        System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i);
+                        try {
+                            condition.await();
+                        } catch (InterruptedException e) {}
+                    }
+                    //System.out.println(Thread.currentThread().getName() + &quot; : &quot; + i + &quot;notify&quot;);
+                    condition.signalAll();
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 3; i++) {
+            MyThreadA myThreadA = new MyThreadA(&quot;thread a&quot;);
+            executorService.execute(myThreadA);
+        }
+        executorService.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 : 3
+pool-1-thread-2 : 3
+pool-1-thread-1 : 6
+pool-1-thread-2 : 6
+pool-1-thread-1 : 9
+pool-1-thread-2 : 9
+pool-1-thread-3 : 3
+pool-1-thread-3 : 6
+</code></pre><p>和使用wait、notify类似，最后一个线程有可能会陷入一直等待的状态。</p>
+<h2 id="4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型"><a href="#4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型" class="headerlink" title="4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型"></a>4、下一篇分别用上面描述的两种方法实现经典的生产者-消费者模型</h2>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程同步机制/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程池创建及源码分析/" >Java并发编程：线程池创建及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java5引入了线程池的顶级接口Executor，ExecutorService继承了Executor接口并增加了自己的方法。Executors工具类为Ex<br>ecutor，ExecutorService，ScheduledExecutorService，ThreadFactory和Callable类提供了一些工具<br>方法，通过这个工具类提供的方法可以方便的创建线程池。</p>
+<h2 id="1-使用线程池的好处"><a href="#1-使用线程池的好处" class="headerlink" title="1 使用线程池的好处"></a>1 使用线程池的好处</h2><p>使用线程池的好处主要有三点：<br>第一，降低资源消耗。通过预先创建的线程池，避免了高频率的创建和销毁线程，最大可能的重用线程。<br>第二，提高响应速度。有任务到达的时候可以直接使用线程池中的空闲线程，避免即时创建线程导致的效率降低。<br>第三，方便线程管理。通过线程池可以对线程进行统一创建、监控。</p>
+<h2 id="2-创建线程池"><a href="#2-创建线程池" class="headerlink" title="2 创建线程池"></a>2 创建线程池</h2><p>Executors工具类为创建线程池提供了 <strong> newCachedThreadPool，newFixedThreadPool，newSingleThrea<br>dExecutor以及newScheduledThreadPool </strong> 四个工厂方法创建不同类型的线程池。</p>
+<h3 id="2-1-newCachedThreadPool示例"><a href="#2-1-newCachedThreadPool示例" class="headerlink" title="2.1 newCachedThreadPool示例"></a>2.1 newCachedThreadPool示例</h3><p>这个方法创建的是一个可以动态改变大小的线程池。当任务较多时会增加线程池中线程的数量，如果需要处理的任务较少，导致线程60s没有运行，JVM则会回收线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        ExecutorService MyThreadPool =  
+            Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-3 is running...
+pool-1-thread-5 is running...
+pool-1-thread-4 is running...
+pool-1-thread-2 is running...
+pool-1-thread-1 is running...
+</code></pre><p>由执行结果可知，线程池为了处理5个任务启动了5个线程。</p>
+<h3 id="2-2-newFixedThreadPool-示例"><a href="#2-2-newFixedThreadPool-示例" class="headerlink" title="2.2 newFixedThreadPool 示例"></a>2.2 newFixedThreadPool 示例</h3><p>这个方法可以创建一个大小固定的线程池，当需要处理的任务书大于空闲线程个数时会暂时存在等待队列中直到有空闲的线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-2 is running...
+pool-1-thread-3 is running...
+pool-1-thread-1 is running...
+pool-1-thread-3 is running...
+pool-1-thread-2 is running...
+</code></pre><p>由执行结果可知，5个任务1\2\3号线程同时执行，当2\3号线程空闲后执行最后两个任务。</p>
+<h3 id="2-3-newSingleThreadExecutor示例"><a href="#2-3-newSingleThreadExecutor示例" class="headerlink" title="2.3 newSingleThreadExecutor示例"></a>2.3 newSingleThreadExecutor示例</h3><p>这个方法和2.2中的方法类似，不过本方法产生固定大小为1的线程池，所有任务由一个线程完成。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ExecutorService MyThreadPool = Executors.newSingleThreadExecutor();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+</code></pre><p>5个任务全是由线程1完成的。</p>
+<h3 id="2-4-newScheduledThreadPool示例"><a href="#2-4-newScheduledThreadPool示例" class="headerlink" title="2.4 newScheduledThreadPool示例"></a>2.4 newScheduledThreadPool示例</h3><p>这个方法创建的是一个大小固定，但是支持延时和周期操作的线程池。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+        System.out.println(Thread.currentThread().getName() + &quot; is running... 1&quot;);
+        }
+    }
+    public static class Scheduled1 implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running... 2&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ScheduledThreadPoolExecutor MyThreadPool = new ScheduledThreadPoolExecutor(2);
+        Runnable r1 = new MyThread();
+        Runnable r2 = new Scheduled1();
+        MyThreadPool.scheduleAtFixedRate(r1, 1000, 2000, TimeUnit.MILLISECONDS);
+        MyThreadPool.scheduleAtFixedRate(r2, 1000, 5000, TimeUnit.MILLISECONDS);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+</code></pre><h2 id="3-几种线程池源码分析"><a href="#3-几种线程池源码分析" class="headerlink" title="3 几种线程池源码分析"></a>3 几种线程池源码分析</h2><p>第二节介绍的几种线程池创建方法都是通过调用ThreadPoolExecutor方法实现的，区别是调用ThreadPoolExecutor时传递的参数不同。</p>
+<h3 id="3-1ThreadPoolExecutor使用方法介绍"><a href="#3-1ThreadPoolExecutor使用方法介绍" class="headerlink" title="3.1ThreadPoolExecutor使用方法介绍"></a>3.1ThreadPoolExecutor使用方法介绍</h3><p>ThreadPoolExecutor的的构造方法如下：</p>
+<pre><code>ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue&lt;Runnable&gt; workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler)
+</code></pre><p>corePoolSize: 线程池中基本线程数。线程池初始化会创建corePoolSize个基本线程用于处理任务。<br>maximumPoolSize：线程池最大容量。线程池最多允许存在的线程数。<br>keepAliveTime：线程空闲回收时间。线程池中除了基本线程的外的线程空闲时间达到keepAliveTime时就会由JVM自动销毁回收。<br>unit：时间单位。keepAliveTime的时间单位。<br>workQueue：线程的排队队列。常见的线程队列有无界队列（LinkedBlockingQueue），同步队列（SynchronousQueue），有界队<br>列（ArrayBlockingQueue）。任务的提交策略由选用哪种任务队列决定。<br>threadFactory：线程工厂。创建线程的方法，可以通过这个参数为线程命名一个有意义的名称。<br>handler：饱和处理策略。当线程池和队列都满时的处理策略。</p>
+<h3 id="3-2-newCachedThreadPool源码分析"><a href="#3-2-newCachedThreadPool源码分析" class="headerlink" title="3.2 newCachedThreadPool源码分析"></a>3.2 newCachedThreadPool源码分析</h3><pre><code> public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,60L, TimeUnit.SECONDS,new SynchronousQueue&lt;Runnable&gt;());
+}
+</code></pre><p>newCachedThreadPool是一个静态方法，内部返回了一个ThreadPoolExecutor实例。<br>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：0，线程池的基本线程数为0。线程池不会维护固定大小的基本线程。<br>maximumPoolSize：Integer.MAX_VALUE,2^31 - 1。线程池的大小可以认为是无限大的。<br>keepAliveTime：60L，保活时间为60。当基本线程外的线程超过60个时间单位没有处理任务则回收。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：SynchronousQueue，同步队列。等待队列为同步队列，只有线程将队列中的任务取走时新的任务才会入队列。<br><strong> 由源码分析可知，newCachedThreadPool方法创建的线程池是一个无线大小的线程池，他会根据任务的多少动态增减线程池中线程的数量。 </strong></p>
+<h3 id="3-3-newFixedThreadPool源码分析"><a href="#3-3-newFixedThreadPool源码分析" class="headerlink" title="3.3 newFixedThreadPool源码分析"></a>3.3 newFixedThreadPool源码分析</h3><pre><code>public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：nThreads，线程池的基本线程数为nThreads。<br>maximumPoolSize：nThreads。线程池的包含的最大数量和基本线程数量是一样的。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br><strong> 由源码分析可知，newFixedThreadPool方法创建的是一个大小固定的线程池，当线程池中线程数量大于基本线程数时，任务会加入等workQueue。 </strong></p>
+<h3 id="3-4-newSingleThreadExecutor源码分析"><a href="#3-4-newSingleThreadExecutor源码分析" class="headerlink" title="3.4 newSingleThreadExecutor源码分析"></a>3.4 newSingleThreadExecutor源码分析</h3><pre><code> public static ExecutorService newSingleThreadExecutor() {
+  return new FinalizableDelegatedExecutorService (new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue&lt;Runnable&gt;()));
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：1，线程池的基本线程数为1。<br>maximumPoolSize：1。线程池的包含的最大数量和基本线程数量是一样的，并且最多只允许有1个线程。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br>由源码分析可知，newFixedThreadPool方法和newFixedThreadPool方法几乎一样，只是线程池大小固定为1。</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>ThreadPoolExecutor、AbstractExecutorService、ExecutorService和Executor的关系及下一篇预告。</p>
+<p>Executor是线程池的顶级接口，他只声明了execute方法。<br>ExecutorService继承了Executor接口并声明了submit的方法。<br>AbstractExecutorService类实现了ExecutorService的几乎所有方法。<br>ThreadPoolExecutor继承了AbstractExecutorService类。</p>
+<p>下一篇会详细分析ThreadPoolExecutor。</p>
+<h2 id="5-参考"><a href="#5-参考" class="headerlink" title="5 参考"></a>5 参考</h2><p>[1] <a href="http://blog.csdn.net/sd0902/article/details/8395677" target="_blank" rel="noopener"> http://blog.csdn.net/sd0902/article/details/8395677
+</a><br>[2] <a href="http://www.infoq.com/cn/articles/java-threadPool#anch92136" target="_blank" rel="noopener"> http://www.infoq.com/cn/articles/java-threadPool#anch92136
+</a><br>[3] <a href="http://www.cnblogs.com/nayitian/p/3262031.html" target="_blank" rel="noopener"> http://www.cnblogs.com/nayitian/p/3262031.html
+</a><br>[4] <a href="http://www.cnblogs.com/dolphin0520/p/3932921.html" target="_blank" rel="noopener"> http://www.cnblogs.com/dolphin0520/p/3932921.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程池创建及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：线程创建/" >Java并发编程：线程创建</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java中创建线程最常用的方法有继承Thread类和实现Runnable两种。Thread类实际也是实现了Runnable方法，由于无法继承多个父类但是可以<br>继承多个接口，所有创建进程大多是实现Runnable接口</p>
+<blockquote>
+<ul>
+<li>继承Thread类</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Thread类源码分析
+</code></pre></blockquote>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<ul>
+<li>实现Runnable接口</li>
+</ul>
+</blockquote>
+<p>&gt;</p>
+<blockquote>
+<blockquote>
+<pre><code>* 创建线程示例
+
+* Runnable接口源码分析
+</code></pre></blockquote>
+</blockquote>
+<hr>
+<h2 id="1-继承Thread类"><a href="#1-继承Thread类" class="headerlink" title="1 继承Thread类"></a>1 继承Thread类</h2><h3 id="1-1-创建线程示例"><a href="#1-1-创建线程示例" class="headerlink" title="1.1 创建线程示例"></a>1.1 创建线程示例</h3><p>例如有15张票，有三个窗口，每个窗口卖五张票，可以使用继承Thread类实现多线程处理。</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+public class ExtendThread {
+    public static class MultiThread extends Thread {
+    private int total = 5;
+    private String name;
+    MultiThread(String name) {
+        // TODO Auto-generated constructor stub
+        super(name);
+    }
+    @Override
+    public void run () {
+        while (total &gt; 0) {
+            System.out.println(&quot;Ticket:&quot; + total-- + &quot; is saled by Thread:&quot; + Thread.currentThread().getName());
+        }
+    }
+}
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThread mt1 = new MultiThread(&quot;Thread1&quot;);
+        MultiThread mt2 = new MultiThread(&quot;Thread2&quot;);
+        MultiThread mt3 = new MultiThread(&quot;Thread3&quot;);
+        mt1.start();
+        mt2.start();
+        mt3.start();
+    }
+}
+运行结果如下：
+Ticket:5 is saled by Thread:Thread2
+Ticket:5 is saled by Thread:Thread1
+Ticket:5 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread3
+Ticket:3 is saled by Thread:Thread3
+Ticket:4 is saled by Thread:Thread1
+Ticket:4 is saled by Thread:Thread2
+Ticket:3 is saled by Thread:Thread1
+Ticket:2 is saled by Thread:Thread3
+Ticket:1 is saled by Thread:Thread3
+Ticket:2 is saled by Thread:Thread1
+Ticket:1 is saled by Thread:Thread1
+Ticket:3 is saled by Thread:Thread2
+Ticket:2 is saled by Thread:Thread2
+Ticket:1 is saled by Thread:Thread2
+</code></pre><h3 id="1-2-Thread类源码分析"><a href="#1-2-Thread类源码分析" class="headerlink" title="1.2 Thread类源码分析"></a>1.2 Thread类源码分析</h3><h4 id="1-2-1-类声明"><a href="#1-2-1-类声明" class="headerlink" title="1.2.1 类声明"></a>1.2.1 类声明</h4><pre><code>public class Thread extends Object implements Runnable；
+</code></pre><p>从类声明可以看出Thread实现了Runnable接口。</p>
+<h4 id="1-2-2-构造函数"><a href="#1-2-2-构造函数" class="headerlink" title="1.2.2 构造函数"></a>1.2.2 构造函数</h4><p>Thread类的构造函数有8个，这里只介绍他的无参构造函数Thread()，其他构造函数可以到 <strong> <a href="http://docs.oracle.com/javase/7/docs/api/" target="_blank" rel="noopener"><br>http://docs.oracle.com/javase/7/docs/api/
+</a> </strong> 学习了解。</p>
+<pre><code>public Thread() {
+    init(null, null, &quot;Thread-&quot; + nextThreadNum(), 0);
+}
+</code></pre><p>由init得第三个参数可以看出线程名称命名规则是Thread-加上线程数组合。 init函数的内部实现如下：</p>
+<pre><code>/**
+     * Initializes a Thread.
+     *
+     * @param g the Thread group
+     * @param target the object whose run() method gets called
+     * @param name the name of the new Thread
+     * @param stackSize the desired stack size for the new thread, or
+     *        zero to indicate that this parameter is to be ignored.
+     */
+　　　　//ThreadGroup：线程组表示一个线程的集合。此外，线程组也可以包含其他线程组。线程组构成一棵树，在树中，除了初始线程组外，每个线程组都有一个父线程组。
+    private void init(ThreadGroup g, Runnable target, String name,
+                      long stackSize) {
+    Thread parent = currentThread();
+    SecurityManager security = System.getSecurityManager();
+    if (g == null) {
+        /* Determine if it&apos;s an applet or not */
+
+        /* If there is a security manager, ask the security manager
+           what to do. */
+        if (security != null) {
+        g = security.getThreadGroup();
+        }
+
+        /* If the security doesn&apos;t have a strong opinion of the matter
+           use the parent thread group. */
+        if (g == null) {
+        g = parent.getThreadGroup();
+        }
+    }
+
+    /* checkAccess regardless of whether or not threadgroup is
+           explicitly passed in. */
+    g.checkAccess();
+
+    /*
+     * Do we have the required permissions?
+     */
+    if (security != null) {
+        if (isCCLOverridden(getClass())) {
+            security.checkPermission(SUBCLASS_IMPLEMENTATION_PERMISSION);
+        }
+    }
+
+        g.addUnstarted();
+
+    this.group = g;
+
+　　　　//每个线程都有一个优先级，高优先级线程的执行优先于低优先级线程。每个线程都可以或不可以标记为一个守护程序。当某个线程中运行的代码创建一个新 Thread 对象时，该新线程的初始优先级被设定为创建线程的优先级，并且当且仅当创建线程是守护线程时，新线程才是守护程序。
+    this.daemon = parent.isDaemon();
+    this.priority = parent.getPriority();
+    this.name = name.toCharArray();
+    if (security == null || isCCLOverridden(parent.getClass()))
+        this.contextClassLoader = parent.getContextClassLoader();
+    else
+        this.contextClassLoader = parent.contextClassLoader;
+    this.inheritedAccessControlContext = AccessController.getContext();
+    this.target = target;
+    setPriority(priority);
+        if (parent.inheritableThreadLocals != null)
+        this.inheritableThreadLocals =
+        ThreadLocal.createInheritedMap(parent.inheritableThreadLocals);
+        /* Stash the specified stack size in case the VM cares */
+        this.stackSize = stackSize;
+
+        /* Set thread ID */
+        tid = nextThreadID();
+    }
+</code></pre><h4 id="1-2-3-run-方法"><a href="#1-2-3-run-方法" class="headerlink" title="1.2.3 run()方法"></a>1.2.3 run()方法</h4><p>run定义了线程实际完成的功能，具体源码如下：</p>
+<pre><code>public void run() {
+    if (target != null) {
+        target.run();
+    }
+}
+</code></pre><p>target是接口Runnable实现的引用，由于run方法并未做任何实现，所以继承Thread类必须实现run方法。</p>
+<h4 id="1-2-4-start-方法"><a href="#1-2-4-start-方法" class="headerlink" title="1.2.4 start()方法"></a>1.2.4 start()方法</h4><p>start方法作用为启动一个线程，源码如下：</p>
+<pre><code>public synchronized void start() {
+        if (threadStatus != 0 || this != me)
+            throw new IllegalThreadStateException();
+        group.add(this);
+        start0();
+        if (stopBeforeStart) {
+        stop0(throwableFromStop);
+    }
+ }
+</code></pre><p>start方法内部调用了本地方法start0创建线程，在创建线程之前会检查当前线程对象是否已经运行过start方法，确保一个线程对象只会运行一次start方<br>法。如果多次运行start方法，就会导致有多个线程同时操作相同的堆栈计数器等，导致无法预期的结果。</p>
+<h4 id="1-2-5-yield-、wait-、sleep-方法"><a href="#1-2-5-yield-、wait-、sleep-方法" class="headerlink" title="1.2.5 yield()、wait()、sleep() 方法"></a>1.2.5 yield()、wait()、sleep() 方法</h4><p>yield方法使正在运行的线程变成就绪状态， <strong> 建议先运行其他线程 </strong><br>。但是这种方式只是建议，并不一定会让其他线程先运行，也有可能当前线程继续运行，yield方法只会让 <strong> 相同优先级的线程优先执行 </strong> 。<br>wait方法不属于Thread类，他是Object类的方法。这个方法释放线程锁，知道收到notify通知为止。<br>sleep方法会使线程休眠一段时间，但是休眠期间不会主动释放cpu资源。<br>这里面内容挺多，忙完这段时间，把和这几个方法相关的线程调度、同步锁等知识温习分享下。</p>
+<h4 id="1-2-6-join-方法"><a href="#1-2-6-join-方法" class="headerlink" title="1.2.6 join()方法"></a>1.2.6 join()方法</h4><p>join方法的作用是强行运行要join的线程，阻塞当前线程知道join的线程执行完毕。如下示例：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestJoin {
+    public static class MultiThreadA extends Thread {
+        private String name;
+        private int count = 5;
+
+        public MultiThreadA(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void run() {
+            while (count-- &gt; 0) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+                System.out.println(name + count);
+            }
+        }
+    }
+    public static class MultiThreadB extends Thread {
+        private String name;
+        private int count = 5;
+        MultiThreadA a;
+
+        public MultiThreadB(MultiThreadA a) {
+        // TODO Auto-generated constructor stub
+            this.a = a;
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.currentThread().sleep(505);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            System.out.println(&quot;Begin ThreadB&quot;);
+            try {
+                a.join();
+            } catch (InterruptedException e) {
+                // TODO: handle exception
+                System.out.println(&quot;getException&quot;);
+            }
+            System.out.println(&quot;End ThreadB&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MultiThreadA tA = new MultiThreadA(&quot;ThreadA&quot;);
+        MultiThreadB tB = new MultiThreadB(tA);
+        tA.start();
+        tB.start();
+    }
+}
+执行结果如下：
+ThreadA4
+Begin ThreadB
+ThreadA3
+ThreadA2
+ThreadA1
+ThreadA0
+End ThreadB
+</code></pre><p>ThreadA首先打印了一条，然后ThreadB运行，遇到a.join()后运行ThreadA直到运行结束才会再次运行ThreadB。</p>
+<h2 id="2、实现Runnable接口"><a href="#2、实现Runnable接口" class="headerlink" title="2、实现Runnable接口"></a>2、实现Runnable接口</h2><p>通过实现Runnable接口可以创建线程，实现的过程和Thread类内部实现很相似。</p>
+<h3 id="2-1-创建线程示例"><a href="#2-1-创建线程示例" class="headerlink" title="2.1 创建线程示例"></a>2.1 创建线程示例</h3><p>Thread类演示了每个窗口售票不相互影响，各自卖五张票。如果需要三个窗口协同卖5张票，可以通过Runnalble共享变量，示例如下：</p>
+<pre><code>import java.io.*;
+import java.lang.Thread;
+
+public class TestRunnable {
+    public static class MyThread implements Runnable {
+        private String name;
+        private int total = 5;
+
+        public MyThread(String name) {
+            // TODO Auto-generated constructor stub
+            this.name = name;
+        }
+
+        @Override
+        public synchronized void run() {
+            try {
+                Thread.currentThread().sleep(10);
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            while (total &gt; 0) {
+                System.out.println(&quot;ticket:&quot; + total + &quot; is sold!&quot;);
+                total--;
+            }
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        MyThread mt = new MyThread(&quot;myThread&quot;);
+        Thread a = new Thread(mt);
+        Thread b = new Thread(mt);
+        Thread c = new Thread(mt);
+        a.start();
+        b.start();
+        c.start();
+    }
+}
+运行结果如下：
+ticket:5 is sold!
+ticket:4 is sold!
+ticket:3 is sold!
+ticket:2 is sold!
+ticket:1 is sold!
+</code></pre><p>三个线程共同完成5张票的售卖。</p>
+<h3 id="2-2-Runnable源码分析"><a href="#2-2-Runnable源码分析" class="headerlink" title="2.2 Runnable源码分析"></a>2.2 Runnable源码分析</h3><p>Runnable接口中只有一个抽象run方法，所以不管是实现Runnable接口或者继承Thread类都需要重写run方法。</p>
+<pre><code>public interface Runnable {
+     public abstract void run();
+ }
+</code></pre><hr>
+<p>参考：</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：线程创建/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" >Java并发编程：阻塞队列及实现生产者-消费者模式</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-什么是阻塞队列"><a href="#1-什么是阻塞队列" class="headerlink" title="1 什么是阻塞队列"></a>1 什么是阻塞队列</h2><p>JDK 1.5的java.util.concurrent包提供了多种阻塞队列。阻塞队列相对于PriorityQueue、LinkedList等非阻塞队列的特<br>点是提供了，队列阻塞的操作，优化了队列为空向队列取数据或者队列满向队列加数据时的阻塞操作。 <strong> 以生产者-<br>消费者模式为例，当队列为空时消费者线程会被挂起，等到队列中有数据时会自动的恢复并消费。 </strong><br><!--阅读全文--></p>
+<h3 id="1-1-常见的阻塞队列"><a href="#1-1-常见的阻塞队列" class="headerlink" title="1.1 常见的阻塞队列"></a>1.1 常见的阻塞队列</h3><p>BlockingQueue接口的主要实现有如下几种：<br><strong> ArrayBlockingQueue </strong> ：基于数组的有界阻塞队列，构造时可以指定队列大小，默认为非公平（不保证等待最久的任务最先处理）。<br><strong> LinkedBlockingQueue </strong> ：基于链表的有界阻塞队列，如果不指定大小则默认为Integer.MAX_VALUE，基本可以认为是无界的。<br><strong> PriorityBlockingQueue </strong> ：优先级排序的无界阻塞队列，元素出队列的顺序按照优先级排序。<br><strong> DelayQueue </strong> ：基于优先级队列的无界阻塞队列。队列中的元素只有到达规定的延时才能从队列中取出。<br><strong> SynchronousQueue </strong> ：不存储元素的阻塞队列，只有前一个将队列中的元素取走时才能加入新的元素。 </p>
+<h3 id="1-2-阻塞队列常见的方法"><a href="#1-2-阻塞队列常见的方法" class="headerlink" title="1.2 阻塞队列常见的方法"></a>1.2 阻塞队列常见的方法</h3><p>常见的非阻塞队列的操作列表如下：<br><strong> add(E e) </strong> :将元素e插入到队列末尾，如果插入成功，则返回true；如果插入失败（即队列已满），则会抛出异常；<br><strong> remove() </strong> ：移除队首元素，若移除成功，则返回true；如果移除失败（队列为空），则会抛出异常；<br><strong> offer(E e) </strong> ：将元素e插入到队列末尾，如果插入成功，则返回true；如果插入失败（即队列已满），则返回false；<br><strong> poll() </strong> ：移除并获取队首元素，若成功，则返回队首元素；否则返回null；<br><strong> peek() </strong> ：获取队首元素，若成功，则返回队首元素；否则返回null<br>阻塞队列实现了非阻塞队列的操作方法，为了实现“阻塞”提供了take和put方法。<br><strong> take() </strong> ：获取并移除队首元素，如果队列为空则阻塞直到队列中有元素。<br><strong> put() </strong> ：向队尾添加元素，如果队列满则等待直到可以添加。 </p>
+<h2 id="2-LinkedBlockingQueue源码分析"><a href="#2-LinkedBlockingQueue源码分析" class="headerlink" title="2 LinkedBlockingQueue源码分析"></a>2 LinkedBlockingQueue源码分析</h2><p>LinkedBlockingQueue是阻塞队列中比较常用的，ThreadPoolExecutor类的实现中多是用的这个队列。下面通过源码分下阻塞队列的工作<br>原理。</p>
+<h3 id="2-1-构造方法源码分析"><a href="#2-1-构造方法源码分析" class="headerlink" title="2.1 构造方法源码分析"></a>2.1 构造方法源码分析</h3><p>LinkedBlockingQueue共有三个构造方法，分别功能为默认大小，指定大小以及带初始化的构造方法。</p>
+<pre><code>/**
+     * Creates a {@code LinkedBlockingQueue} with a capacity of
+     * {@link Integer#MAX_VALUE}.
+     */
+    public LinkedBlockingQueue() {
+        this(Integer.MAX_VALUE); //无参的构造函数,最大容量为Integer(4字节)的最大表示值
+    }
+
+    /**
+     * Creates a {@code LinkedBlockingQueue} with the given (fixed) capacity.
+     *
+     * @param capacity the capacity of this queue
+     * @throws IllegalArgumentException if {@code capacity} is not greater
+     *         than zero
+     */
+    public LinkedBlockingQueue(int capacity) { //指定容量的构造函数,大小为capacity
+        if (capacity &lt;= 0) throw new IllegalArgumentException();
+        this.capacity = capacity;
+        last = head = new Node&lt;E&gt;(null);
+    }
+
+    /**
+     * Creates a {@code LinkedBlockingQueue} with a capacity of
+     * {@link Integer#MAX_VALUE}, initially containing the elements of the
+     * given collection,
+     * added in traversal order of the collection&apos;s iterator.
+     *
+     * @param c the collection of elements to initially contain
+     * @throws NullPointerException if the specified collection or any
+     *         of its elements are null
+     */
+    public LinkedBlockingQueue(Collection&lt;? extends E&gt; c) { //带初始化的构造方法,可以将指定集合中的元素初始化到阻塞队列中
+        this(Integer.MAX_VALUE);  //最大容量为Integer(4字节)的最大表示值 
+        final ReentrantLock putLock = this.putLock;
+        putLock.lock(); // Never contended, but necessary for visibility
+        try {
+            int n = 0;
+            for (E e : c) {
+                if (e == null)
+                    throw new NullPointerException();
+                if (n == capacity)
+                    throw new IllegalStateException(&quot;Queue full&quot;);
+                enqueue(new Node&lt;E&gt;(e));
+                ++n;
+            }
+            count.set(n);
+        } finally {
+            putLock.unlock();
+        }
+    }
+}
+</code></pre><h3 id="2-2-put方法源码分析"><a href="#2-2-put方法源码分析" class="headerlink" title="2.2 put方法源码分析"></a>2.2 put方法源码分析</h3><p>put方法内部通过Condition的await和signal方法实现了线程之间的同步，和使用线程同步实现生产者消费者的代码逻辑差不多。同步队列采用了两把锁<br>，读锁（takeLock）和写锁（putLock）。</p>
+<pre><code>/**
+ * Inserts the specified element at the tail of this queue, waiting if
+ * necessary for space to become available.
+ *
+ * @throws InterruptedException {@inheritDoc}
+ * @throws NullPointerException {@inheritDoc}
+ */
+public void put(E e) throws InterruptedException {
+    if (e == null) throw new NullPointerException();
+    // Note: convention in all put/take/etc is to preset local var
+    // holding count negative to indicate failure unless set.
+    int c = -1;
+    Node&lt;E&gt; node = new Node&lt;E&gt;(e);
+    final ReentrantLock putLock = this.putLock; //定义可重入   写锁
+    final AtomicInteger count = this.count; //原子类
+    putLock.lockInterruptibly(); //进入临界区,他和lock的区别是lockInterruptibly不处理中断而是向上层抛出异常
+    try {
+        /*
+         * Note that count is used in wait guard even though it is
+         * not protected by lock. This works because count can
+         * only decrease at this point (all other puts are shut
+         * out by lock), and we (or some other waiting put) are
+         * signalled if it ever changes from capacity. Similarly
+         * for all other uses of count in other wait guards.
+         */
+        while (count.get() == capacity) { //容量已满,线程进入阻塞状态,交出锁并且交出CPU
+            notFull.await();  //写锁的Condition
+        }
+        enqueue(node); //加入队列
+        c = count.getAndIncrement();
+        if (c + 1 &lt; capacity) //队列未满,唤醒一个等待写入的线程
+            notFull.signal();
+    } finally {
+        putLock.unlock();
+    }
+    if (c == 0) //队列第一次不为空,唤醒一个等待读取的线程
+        signalNotEmpty(); 
+}
+</code></pre><h3 id="2-3-take方法源码分析"><a href="#2-3-take方法源码分析" class="headerlink" title="2.3 take方法源码分析"></a>2.3 take方法源码分析</h3><pre><code>public E take() throws InterruptedException {
+    E x;
+    int c = -1;
+    final AtomicInteger count = this.count;
+    final ReentrantLock takeLock = this.takeLock; //定义可重入锁  读锁
+    takeLock.lockInterruptibly(); //进入临界区,他和lock的区别是lockInterruptibly不处理中断而是向上层抛出异常
+    try {
+        while (count.get() == 0) { //如果队列为空, 读取线程进入阻塞状态,交出读锁和CPU
+            notEmpty.await();
+        }
+        x = dequeue(); //获取队首元素
+        c = count.getAndDecrement();
+        if (c &gt; 1) //如果取完队列中还存在数据,则唤醒其他等待读取的线程
+            notEmpty.signal();
+    } finally {
+        takeLock.unlock();
+    }
+    if (c == capacity) //没取之前队列为满的,取完之后要唤醒一个写入线程
+        signalNotFull();
+    return x;
+}
+</code></pre><h2 id="3-生产者-消费者模式实现"><a href="#3-生产者-消费者模式实现" class="headerlink" title="3 生产者-消费者模式实现"></a>3 生产者-消费者模式实现</h2><p>使用阻塞队列实现生产者-<br>消费者模式不需要我们自己编码控制读写线程的阻塞和唤醒操作，由上节分析的take()、put()方法可知，阻塞队列内部替我们实现了线程的阻塞和唤醒操作。</p>
+<pre><code>public class BlockingQueue {
+    private static LinkedBlockingQueue&lt;Integer&gt; queue = new LinkedBlockingQueue&lt;Integer&gt;(); //阻塞队列
+
+    public static class Consumer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                    Integer element = queue.take();
+                    System.out.println(Thread.currentThread().getName() + &quot;消费了一个产品...&quot;);
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static class Producer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                queue.put(1);
+                System.out.println(Thread.currentThread().getName() + &quot;生产了一个产品...&quot;);
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService comsumerPool = Executors.newSingleThreadExecutor();
+        ExecutorService producerPool = Executors.newSingleThreadExecutor();
+        Producer producer = new Producer();
+        Consumer consumer = new Consumer();
+        int i = 0;
+        while (true) {
+            comsumerPool.execute(consumer);
+            producerPool.execute(producer);
+            if (i++ &gt; 200) {
+                break;
+            }
+        }
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {}
+
+        comsumerPool.shutdownNow();
+        producerPool.shutdownNow();
+    }
+}
+</code></pre><p>部分执行结果如下：</p>
+<pre><code>pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+</code></pre><p>由执行结果看出，阻塞队列很好的完成了生产者消费者模型，并且代码实现简单。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/dolphin0520/p/3932906.html" target="_blank" rel="noopener"> http://www.cnblogs.com/dolphin0520/p/3932906.html
+</a><br>[2] <a href="http://www.infoq.com/cn/articles/java-blocking-queue" target="_blank" rel="noopener"> http://www.infoq.com/cn/articles/java-blocking-queue
+</a><br>[3] <a href="http://blog.csdn.net/ghsau/article/details/8108292" target="_blank" rel="noopener"> http://blog.csdn.net/ghsau/article/details/8108292
+</a><br>[4] <a href="http://blog.csdn.net/ns_code/article/details/17511147" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/17511147
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合:_ConcurrentHashMap源码分析_JDK1.8/" >Java集合：ConcurrentHashMap源码分析_JDK1.8.md</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>转载文章，原博客地址为： <a href="http://blog.csdn.net/u010887744/article/details/50637030" target="_blank" rel="noopener"> http://blog.csdn.net/u010887744/article/details/50637030
+</a></p>
+<p>jdk1.8和jdk1.7对于ConcurrentHashMap的实现出现的重大变化，不再采用分段锁的方法，网上这方面的博客较少，这篇文章写得较好，转载扩撒<br>。</p>
+<p>本文首写于有道云笔记，并在小组分享会分享，先整理发布，希望和大家交流探讨。 <a href="http://note.youdao.com/share/?id=dde7a10b98aee57676408bc475ab0680&amp;type=note" target="_blank" rel="noopener"> 云笔记地址
+</a></p>
+<p>概述：</p>
+<p>1、设计首要目的：维护并发可读性（get、迭代相关）；次要目的：使空间消耗比HashMap相同或更好，且支持多线程高效率的初始插入（empty<br>table）。</p>
+<p>2、HashTable  线程安全，但采用synchronized，多线程下效率低下。线程1put时，线程2无法put或get。</p>
+<p>实现原理：</p>
+<p>锁分离：</p>
+<p>在HashMap的基础上，将数据分段存储，  ConcurrentHashMap由多个Segment组成，每个Segment都有把锁。<br>Segment下包含很多Node，也就是我们的键值对了。</p>
+<p><strong> 如果还停留在锁分离、Segment，那已经out了。  </strong></p>
+<p>Segment虽保留，但已经简化属性，仅仅是为了兼容旧版本。</p>
+<ul>
+<li><strong> CAS算法 </strong> ；  unsafe.compareAndSwapInt(this, valueOffset, expect, update);  CAS(Compare And Swap)，意思是如果valueOffset位置包含的值与expect值相同，则更新valueOffset位置的值为update，并返回true，否则不更新，返回false。 </li>
+<li>与Java8的HashMap有相通之处，底层依然由 <strong> “数组”+链表+红黑树 </strong> ； </li>
+<li>底层结构存放的是 <strong> TreeBin </strong> 对象，而不是TreeNode对象； </li>
+<li>CAS作为知名无锁算法，那ConcurrentHashMap就没用锁了么？当然不是，hash值相同的链表的头结点还是会synchronized上锁。 </li>
+</ul>
+<p>private  static  final  int  MAXIMUM_CAPACITY  = 1 &lt;&lt; 30; // 2的30次方=1073741824</p>
+<p>private  static  final  int  DEFAULT_CAPACITY  = 16;</p>
+<p>static  final  int  MAX_ARRAY_SIZE  = Integer.  MAX_VALUE  - 8; //<br>MAX_VALUE=2^31-1=2147483647</p>
+<p>private  static  final  int  DEFAULT_CONCURRENCY_LEVEL  = 16;</p>
+<p>private  static  final  float  LOAD_FACTOR  = 0.75f;</p>
+<p>static  final  int  TREEIFY_THRESHOLD  <strong> = 8; </strong> //  链表转树阀值，大于8时</p>
+<p>static  final  int  UNTREEIFY_THRESHOLD  <strong> = 6; </strong> //  树转链表阀值，小于等于6（tranfer时，<br>lc、hc=0两个计数器分别++记录原bin、新binTreeNode数量，&lt;=UNTREEIFY_THRESHOLD 则untreeify(lo)）。【<br>仅在扩容tranfer时  才可能树转链表】</p>
+<p>static  final  int  MIN_TREEIFY_CAPACITY  = 64;</p>
+<p>private  static  final  int  MIN_TRANSFER_STRIDE  = 16;</p>
+<p>private  static  int  RESIZE_STAMP_BITS  = 16;</p>
+<p>private  static  final  int  MAX_RESIZERS  <strong> = (1 &lt;&lt; (32 - </strong> <strong><br>RESIZE_STAMP_BITS  </strong> <strong> )) - 1; </strong> // 2^15-1，hel  p resize的最大线程数</p>
+<p>private  static  final  int  RESIZE_STAMP_SHIFT  <strong> = 32 - </strong> <strong><br>RESIZE_STAMP_BITS  </strong> <strong> ; </strong> // 32-16=16，sizeCtl  中记录size大小的偏移量</p>
+<p>static  final  int  MOVED  <strong> = -1; </strong> // hash for forwarding nodes（for<br>warding nodes的hash值）、标示位</p>
+<p>static  final  int  TREEBIN  <strong> = -2; </strong> // hash for roots of tree<br>s（树根节点的hash值）</p>
+<p>static  final  int  RESERVED  <strong> = -3; </strong> // hash for transient reservations<br>（ReservationNode的hash值）</p>
+<p>static  final  int  HASH_BITS  = 0x7fffffff;  // usable bits of normal node<br>hash</p>
+<p>static  final  int  NCPU  <strong> = Runtime.  getRuntime  ().availableProcessors();
+</strong> // 可用处理器数量</p>
+<p>/**</p>
+<ul>
+<li><p>Table initialization and resizing control.  When negative, the </p>
+</li>
+<li><p>table is being initialized or resized:  -  1 for initialization, </p>
+</li>
+<li><p>else  -  (1 + the number of active resizing threads).  Otherwise, </p>
+</li>
+<li><p>when table is null, holds the initial table size to use upon </p>
+</li>
+<li><p>creation, or 0 for default. After initialization, holds the </p>
+</li>
+<li><p>next element count value upon which to resize the table. </p>
+</li>
+</ul>
+<p>*/ </p>
+<p>private  transient  volatile  int  sizeCtl  ;</p>
+<p>sizeCtl  是  控制标识符，不同的值表示不同的意义。</p>
+<ul>
+<li>负数代表正在进行初始化或扩容操作 </li>
+<li>-1代表正在初始化 </li>
+<li>-N 表示有N-1个线程正在进行扩容操作 </li>
+<li>正数或0代表hash表还没有被初始化，这个数值表示初始化或下一次进行扩容的大小，类似于扩容阈值。它的值  始终是当前ConcurrentHashMap容量的0.75倍  ，这与loadfactor是对应的。  实际容量  &gt;=sizeCtl，则扩容。 </li>
+</ul>
+<p>部分构造函数：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  ConcurrentHashMap(  int  initialCapacity, </li>
+<li>float  loadFactor,  int  concurrencyLevel) { </li>
+<li>if  (!(loadFactor &gt; 0  .0f) || initialCapacity &lt; 0  || concurrencyLevel &lt;=  0  ) </li>
+<li>thrownew IllegalArgumentException(); </li>
+<li>if  (initialCapacity &lt; concurrencyLevel)  // Use at least as many bins </li>
+<li>initialCapacity = concurrencyLevel;  // as estimated threads </li>
+<li>long  size = (  long  )(  1.0  + (  long  )initialCapacity / loadFactor); </li>
+<li>int  cap = (size &gt;= (  long  )MAXIMUM_CAPACITY) ? </li>
+<li>MAXIMUM_CAPACITY : tableSizeFor((  int  )size); </li>
+<li>this  .sizeCtl = cap; </li>
+<li>} </li>
+</ol>
+<p>concurrencyLevel  ：</p>
+<p>concurrencyLevel，能够同时更新ConccurentHashMap且不产生锁竞争的最大线程数，在Java8之前实际上就是ConcurrentH<br>ashMap中的分段锁个数，即Segment[]的数组长度  。<br>正确地估计很重要，当低估，数据结构将根据额外的竞争，从而导致线程试图写入当前锁定的段时阻塞；<br>相反，如果高估了并发级别，你遇到过大的膨胀，由于段的不必要的数量;  这种膨胀可能会导致性能下降，由于高数缓存未命中。</p>
+<p>在Java8里，仅仅是为了 <strong> 兼容旧版本而保留 </strong> 。唯一的作用就是保证构造map时初始容量不小于concurrencyLevel。</p>
+<p>源码122行：</p>
+<p>Also, for compatibility with previous  versions of this class, constructors<br>may optionally specify an  expected {@code concurrencyLevel} as an additional<br>hint for  internal sizing.</p>
+<p>源码482行：</p>
+<p>Mainly: We  leave untouched but unused constructor arguments refering to<br>concurrencyLevel .……</p>
+<p>……</p>
+<p>1、重要属性：</p>
+<p>1.1 Node：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>static  class  Node<k,v> implements  Map.Entry<k,v> { </k,v></k,v></li>
+<li>final  int  hash; </li>
+<li>final  K key; </li>
+<li>volatile  V val;  // Java8增加volatile，保证可见性 </li>
+<li>volatile  Node<k,v> next; </k,v></li>
+<li><ol>
+<li>Node(inthash, K key, V val, Node<k,v> next) { </k,v></li>
+</ol>
+</li>
+<li>this  .hash = hash; </li>
+<li>this  .key = key; </li>
+<li>this  .val = val; </li>
+<li>this  .next = next; </li>
+<li>} </li>
+<li><ol>
+<li>public  final  K getKey()       {  return  key; } </li>
+</ol>
+</li>
+<li>public  final  V getValue()     {  return  val; } </li>
+<li>// HashMap调用Objects.hashCode()，最终也是调用Object.hashCode()；效果一样 </li>
+<li>public  final  int  hashCode()   { returnkey.hashCode() ^ val.hashCode(); } </li>
+<li>public  final  String toString(){ returnkey +  “=”  + val; } </li>
+<li>public  final  V setValue(V value) {  // 不允许修改value值，HashMap允许 </li>
+<li>throw  new  UnsupportedOperationException(); </li>
+<li>} </li>
+<li>// HashMap使用if (o == this)，且嵌套if；concurrent使用&amp;&amp;</li>
+<li>public  final  boolean  equals(Object o) { </li>
+<li>Object k, v, u; Map.Entry&lt;?,?&gt; e; </li>
+<li>return  ((oinstanceof Map.Entry) &amp;&amp;</li>
+<li>(k = (e = (Map.Entry&lt;?,?&gt;)o).getKey()) !=  null  &amp;&amp;</li>
+<li>(v = e.getValue()) !=  null  &amp;&amp;</li>
+<li>(k == key || k.equals(key)) &amp;&amp;</li>
+<li>(v == (u = val) || v.equals(u))); </li>
+<li>} </li>
+<li><ol>
+<li>/** </li>
+</ol>
+</li>
+<li><ul>
+<li>Virtualized support for map.get(); overridden in subclasses. </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>Node<k,v> find(inth, Object k) {  // 增加find方法辅助get方法 </k,v></li>
+<li>Node<k,v> e =  this  ; </k,v></li>
+<li>if  (k !=  null  ) { </li>
+<li>do  { </li>
+<li>K ek; </li>
+<li>if  (e.hash == h &amp;&amp;</li>
+<li>((ek = e.key) == k || (ek !=  null  &amp;&amp; k.equals(ek)))) </li>
+<li>returne; </li>
+<li>}  while  ((e = e.next) !=  null  ); </li>
+<li>} </li>
+<li>returnnull; </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.2 TreeNode  </p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// Nodes for use in TreeBins，链表&gt;8，才可能转为TreeNode. </li>
+<li>// HashMap的TreeNode继承至LinkedHashMap.Entry；而这里继承至自己实现的Node，将带有next指针，便于treebin访问。 </li>
+<li>static  final  class  TreeNode<k,v> extends  Node<k,v> { </k,v></k,v></li>
+<li>TreeNode<k,v> parent;  // red-black tree links </k,v></li>
+<li>TreeNode<k,v> left; </k,v></li>
+<li>TreeNode<k,v> right; </k,v></li>
+<li>TreeNode<k,v> prev;  // needed to unlink next upon deletion </k,v></li>
+<li>boolean  red; </li>
+<li><ol>
+<li>TreeNode(inthash, K key, V val, Node<k,v> next, </k,v></li>
+</ol>
+</li>
+<li>TreeNode<k,v> parent) { </k,v></li>
+<li>super  (hash, key, val, next); </li>
+<li>this  .parent = parent; </li>
+<li>} </li>
+<li><ol>
+<li>Node<k,v> find(inth, Object k) { </k,v></li>
+</ol>
+</li>
+<li>return  findTreeNode(h, k,  null  ); </li>
+<li>} </li>
+<li><ol>
+<li>/** </li>
+</ol>
+</li>
+<li><ul>
+<li>Returns the TreeNode (or null if not found) for the given key </li>
+</ul>
+</li>
+<li><ul>
+<li>starting at given root. </li>
+</ul>
+</li>
+<li>*/  // 查找hash为h，key为k的节点 </li>
+<li>final  TreeNode<k,v> findTreeNode(  int  h, Object k, Class&lt;?&gt; kc) { </k,v></li>
+<li>if  (k !=  null  ) {  // 比HMap增加判空 </li>
+<li>TreeNode<k,v> p =  this  ; </k,v></li>
+<li>do  { </li>
+<li>intph, dir; K pk; TreeNode<k,v> q; </k,v></li>
+<li>TreeNode<k,v> pl = p.left, pr = p.right; </k,v></li>
+<li>if  ((ph = p.hash) &gt; h) </li>
+<li>p = pl; </li>
+<li>elseif (ph &lt; h) </li>
+<li>p = pr; </li>
+<li>elseif ((pk = p.key) == k || (pk !=  null  &amp;&amp; k.equals(pk))) </li>
+<li>returnp; </li>
+<li>elseif (pl ==  null  ) </li>
+<li>p = pr; </li>
+<li>elseif (pr ==  null  ) </li>
+<li>p = pl; </li>
+<li>elseif ((kc !=  null  || </li>
+<li>(kc = comparableClassFor(k)) !=  null  ) &amp;&amp;</li>
+<li>(dir = compareComparables(kc, k, pk)) !=  0  ) </li>
+<li>p = (dir &lt; 0  ) ? pl : pr; </li>
+<li>elseif ((q = pr.findTreeNode(h, k, kc)) !=  null  ) </li>
+<li>returnq; </li>
+<li>else </li>
+<li>p = pl; </li>
+<li>}  while  (p !=  null  ); </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+<li>} </li>
+<li>// 和HashMap相比，这里的TreeNode相当简洁；ConcurrentHashMap链表转树时，并不会直接转，正如注释（Nodes for use in TreeBins）所说，只是把这些节点包装成TreeNode放到TreeBin中，再由TreeBin来转化红黑树。 </li>
+</ol>
+<p>1.3  TreeBin</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// TreeBin用于封装维护TreeNode，包含putTreeVal、lookRoot、UNlookRoot、remove、balanceInsetion、balanceDeletion等方法，这里只分析其构造函数。 </li>
+<li>// 当链表转树时，用于封装TreeNode，也就是说，ConcurrentHashMap的红黑树存放的时TreeBin，而不是treeNode。 </li>
+<li>TreeBin(TreeNode<k,v> b) { </k,v></li>
+<li>super  (TREEBIN,  null  ,  null  ,  null  );  //hash值为常量TREEBIN=-2,表示roots of trees </li>
+<li>this  .first = b; </li>
+<li>TreeNode<k,v> r =  null  ; </k,v></li>
+<li>for  (TreeNode<k,v> x = b, next; x !=  null  ; x = next) { </k,v></li>
+<li>next = (TreeNode<k,v>)x.next; </k,v></li>
+<li>x.left = x.right =  null  ; </li>
+<li>if  (r ==  null  ) { </li>
+<li>x.parent =  null  ; </li>
+<li>x.red =  false  ; </li>
+<li>r = x; </li>
+<li>} </li>
+<li>else  { </li>
+<li>K k = x.key; </li>
+<li>inth = x.hash; </li>
+<li>Class&lt;?&gt; kc =  null  ; </li>
+<li>for  (TreeNode<k,v> p = r;;) { </k,v></li>
+<li>intdir, ph; </li>
+<li>K pk = p.key; </li>
+<li>if  ((ph = p.hash) &gt; h) </li>
+<li>dir = -  1  ; </li>
+<li>elseif (ph &lt; h) </li>
+<li>dir =  1  ; </li>
+<li>elseif ((kc ==  null  &amp;&amp;</li>
+<li>(kc = comparableClassFor(k)) ==  null  ) || </li>
+<li>(dir = compareComparables(kc, k, pk)) ==  0  ) </li>
+<li>dir = tieBreakOrder(k, pk); </li>
+<li>TreeNode<k,v> xp = p; </k,v></li>
+<li>if  ((p = (dir &lt;=  0  ) ? p.left : p.right) ==  null  ) { </li>
+<li>x.parent = xp; </li>
+<li>if  (dir &lt;=  0  ) </li>
+<li>xp.left = x; </li>
+<li>else </li>
+<li>xp.right = x; </li>
+<li>r = balanceInsertion(r, x); </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>this  .root = r; </li>
+<li>assert  checkInvariants(root); </li>
+<li>} </li>
+</ol>
+<p>1.4  treeifyBin</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>/** </li>
+<li><ul>
+<li>Replaces all linked nodes in bin at given index unless table is </li>
+</ul>
+</li>
+<li><ul>
+<li>too small, in which case resizes instead.链表转树 </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>private  final  void  treeifyBin(Node<k,v>[] tab,  int  index) { </k,v></li>
+<li>Node<k,v> b; intn, sc; </k,v></li>
+<li>if  (tab !=  null  ) { </li>
+<li>if  ((n = tab.length) &lt; MIN_TREEIFY_CAPACITY) </li>
+<li>tryPresize(n &lt;&lt; 1  );  // 容量&lt;64，则table两倍扩容，不转树了 </li>
+<li>else  if  ((b = tabAt(tab, index)) !=  null  &amp;&amp; b.hash &gt;=  0  ) { </li>
+<li>synchronized  (b) {  // 读写锁 </li>
+<li>if  (tabAt(tab, index) == b) { </li>
+<li>TreeNode<k,v> hd =  null  , tl =  null  ; </k,v></li>
+<li>for  (Node<k,v> e = b; e !=  null  ; e = e.next) { </k,v></li>
+<li>TreeNode<k,v> p = </k,v></li>
+<li>new  TreeNode<k,v>(e.hash, e.key, e.val, </k,v></li>
+<li>null  ,  null  ); </li>
+<li>if  ((p.prev = tl) ==  null  ) </li>
+<li>hd = p; </li>
+<li>else </li>
+<li>tl.next = p; </li>
+<li>tl = p; </li>
+<li>} </li>
+<li>setTabAt(tab, index,  new  TreeBin<k,v>(hd)); </k,v></li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.5  ForwardingNode</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// A node inserted at head of bins during transfer operations.连接两个table </li>
+<li>// 并不是我们传统的包含key-value的节点，只是一个标志节点，并且指向nextTable，提供find方法而已。生命周期：仅存活于扩容操作且bin不为null时，一定会出现在每个bin的首位。 </li>
+<li>static  final  class  ForwardingNode<k,v> extends  Node<k,v> { </k,v></k,v></li>
+<li>final  Node<k,v>[] nextTable; </k,v></li>
+<li>ForwardingNode(Node<k,v>[] tab) { </k,v></li>
+<li>super  (MOVED,  null  ,  null  ,  null  );  // 此节点hash=-1，key、value、next均为null </li>
+<li>this  .nextTable = tab; </li>
+<li>} </li>
+<li><ol>
+<li>Node<k,v> find(  int  h, Object k) { </k,v></li>
+</ol>
+</li>
+<li>// 查nextTable节点，outer避免深度递归 </li>
+<li>outer:  for  (Node<k,v>[] tab = nextTable;;) { </k,v></li>
+<li>Node<k,v> e; intn; </k,v></li>
+<li>if  (k ==  null  || tab ==  null  || (n = tab.length) ==  0  || </li>
+<li>(e = tabAt(tab, (n -  1  ) &amp; h)) ==  null  ) </li>
+<li>returnnull; </li>
+<li>for  (;;) {  // CAS算法多和死循环搭配！直到查到或null </li>
+<li>int  eh; K ek; </li>
+<li>if  ((eh = e.hash) == h &amp;&amp;</li>
+<li>((ek = e.key) == k || (ek !=  null  &amp;&amp; k.equals(ek)))) </li>
+<li>returne; </li>
+<li>if  (eh &lt; 0  ) { </li>
+<li>if  (e  instanceof  ForwardingNode) { </li>
+<li>tab = ((ForwardingNode<k,v>)e).nextTable; </k,v></li>
+<li>continue  outer; </li>
+<li>} </li>
+<li>else </li>
+<li>return  e.find(h, k); </li>
+<li>} </li>
+<li>if  ((e = e.next) ==  null  ) </li>
+<li>return  null  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.6  3个原子操作（调用频率很高）</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>@SuppressWarnings  (  “unchecked”  )  // ASHIFT等均为private static final </li>
+<li>static  final  <k,v> Node<k,v> tabAt(Node<k,v>[] tab,  int  i) {  // 获取索引i处Node </k,v></k,v></k,v></li>
+<li>return  (Node<k,v>)U.getObjectVolatile(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE); </k,v></li>
+<li>} </li>
+<li>// 利用CAS算法设置i位置上的Node节点（将c和table[i]比较，相同则插入v）。 </li>
+<li>static  final  <k,v> boolean  casTabAt(Node<k,v>[] tab,  int  i, </k,v></k,v></li>
+<li>Node<k,v> c, Node<k,v> v) { </k,v></k,v></li>
+<li>return  U.compareAndSwapObject(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE, c, v); </li>
+<li>} </li>
+<li>// 设置节点位置的值，仅在上锁区被调用 </li>
+<li>static  final  <k,v> void  setTabAt(Node<k,v>[] tab,  int  i, Node<k,v> v) { </k,v></k,v></k,v></li>
+<li>U.putObjectVolatile(tab, ((  long  )i &lt;&lt; ASHIFT) + ABASE, v); </li>
+<li>} </li>
+</ol>
+<p>1.7  Unsafe</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>//在源码的6277行到最后，有着ConcurrentHashMap中极为重要的几个属性（SIZECTL），unsafe静态块控制其修改行为。Java8中，大量运用CAS进行变量、属性的无锁修改，大大提高性能。 </li>
+<li>// Unsafe mechanics </li>
+<li>private  static  final  sun.misc.Unsafe U; </li>
+<li>private  static  final  long  SIZECTL; </li>
+<li>private  static  final  long  TRANSFERINDEX; </li>
+<li>private  static  final  long  BASECOUNT; </li>
+<li>private  static  final  long  CELLSBUSY; </li>
+<li>private  static  final  long  CELLVALUE; </li>
+<li>private  static  final  long  ABASE; </li>
+<li>private  static  final  int  ASHIFT; </li>
+<li><ol>
+<li>static  { </li>
+</ol>
+</li>
+<li>try  { </li>
+<li>U = sun.misc.Unsafe.getUnsafe(); </li>
+<li>Class&lt;?&gt; k = ConcurrentHashMap.  class  ; </li>
+<li>SIZECTL = U.objectFieldOffset (k.getDeclaredField(  “sizeCtl”  )); </li>
+<li>TRANSFERINDEX=U.objectFieldOffset(k.getDeclaredField(  “transferIndex”  )); </li>
+<li>BASECOUNT = U.objectFieldOffset (k.getDeclaredField(  “baseCount”  )); </li>
+<li>CELLSBUSY = U.objectFieldOffset (k.getDeclaredField(  “cellsBusy”  )); </li>
+<li>Class&lt;?&gt; ck = CounterCell.  class  ; </li>
+<li>CELLVALUE = U.objectFieldOffset (ck.getDeclaredField(  “value”  )); </li>
+<li>Class&lt;?&gt; ak = Node[].  class  ; </li>
+<li>ABASE = U.arrayBaseOffset(ak); </li>
+<li>intscale = U.arrayIndexScale(ak); </li>
+<li>if  ((scale &amp; (scale -  1  )) !=  0  ) </li>
+<li>thrownew Error(  “data type scale not a power of two”  ); </li>
+<li>ASHIFT =  31  - Integer.numberOfLeadingZeros(scale); </li>
+<li>}  catch  (Exception e) { </li>
+<li>thrownew Error(e); </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p>1.8  扩容相关</p>
+<p>tryPresize  在  putAll以及treeifyBin中调用</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>private  final  void  tryPresize(  int  size) { </li>
+<li>// 给定的容量若&gt;=MAXIMUM_CAPACITY的一半，直接扩容到允许的最大值，否则调用函数扩容 </li>
+<li>int  c = (size &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1  )) ? MAXIMUM_CAPACITY : </li>
+<li>tableSizeFor(size + (size &gt;&gt;&gt; 1  ) +  1  ); </li>
+<li>int  sc; </li>
+<li>while  ((sc = sizeCtl) &gt;=  0  ) {  //没有正在初始化或扩容，或者说表还没有被初始化 </li>
+<li>Node<k,v>[] tab = table;  int  n; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  ) { </li>
+<li>n = (sc &gt; c) ? sc : c;  // 扩容阀值取较大者 </li>
+<li>// 期间没有其他线程对表操作，则CAS将SIZECTL状态置为-1，表示正在进行初始化 </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, -  1  )) { </li>
+<li>try  { </li>
+<li>if  (table == tab) { </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n]; </k,v></k,v></li>
+<li>table = nt; </li>
+<li>sc = n - (n &gt;&gt;&gt; 2  );  //无符号右移2位，此即0.75*n </li>
+<li>} </li>
+<li>}  finally  { </li>
+<li>sizeCtl = sc;  // 更新扩容阀值 </li>
+<li>} </li>
+<li>} </li>
+<li>}  // 若欲扩容值不大于原阀值，或现有容量&gt;=最值，什么都不用做了 </li>
+<li>else  if  (c &lt;= sc || n &gt;= MAXIMUM_CAPACITY) </li>
+<li>break  ; </li>
+<li>else  if  (tab == table) {  // table不为空，且在此期间其他线程未修改table </li>
+<li>int  rs = resizeStamp(n); </li>
+<li>if  (sc &lt; 0  ) { </li>
+<li>Node<k,v>[] nt;  //RESIZE_STAMP_SHIFT=16,MAX_RESIZERS=2^15-1 </k,v></li>
+<li>if  ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs +  1  || </li>
+<li>sc == rs + MAX_RESIZERS || (nt = nextTable) ==  null  || </li>
+<li>transferIndex &lt;=  0  ) </li>
+<li>break  ; </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, sc +  1  )) </li>
+<li>transfer(tab, nt); </li>
+<li>} </li>
+<li>else  if  (U.compareAndSwapInt(  this  , SIZECTL, sc, </li>
+<li>(rs &lt;&lt; RESIZE_STAMP_SHIFT) +  2  )) </li>
+<li>transfer(tab,  null  ); </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>private  static  final  int  tableSizeFor(  int  c){  //和HashMap一样,返回&gt;=n的最小2的自然数幂 </li>
+<li>int  n = c -  1  ; </li>
+<li>n |= n &gt;&gt;&gt; 1  ; </li>
+<li>n |= n &gt;&gt;&gt; 2  ; </li>
+<li>n |= n &gt;&gt;&gt; 4  ; </li>
+<li>n |= n &gt;&gt;&gt; 8  ; </li>
+<li>n |= n &gt;&gt;&gt; 16  ; </li>
+<li>return  (n &lt; 0  ) ?  1  : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n +  1  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>/** </li>
+<li><ul>
+<li>Returns the stamp bits for resizing a table of size n. </li>
+</ul>
+</li>
+<li><ul>
+<li>Must be negative when shifted left by RESIZE_STAMP_SHIFT. </li>
+</ul>
+</li>
+<li>*/ </li>
+<li>static  final  int  resizeStamp(  int  n) {  // 返回一个标志位 </li>
+<li>return  Integer.numberOfLeadingZeros(n) | (  1  &lt;&lt; (RESIZE_STAMP_BITS -  1  )); </li>
+<li>}  // numberOfLeadingZeros返回n对应32位二进制数左侧0的个数，如9（1001）返回28 </li>
+<li>// RESIZE_STAMP_BITS=16,(左侧0的个数)|(2^15) </li>
+</ol>
+<p><strong> ConcurrentHashMap无锁多线程扩容，减少扩容时的时间消耗。 </strong></p>
+<p><strong> transfer扩容操作 </strong> <strong> ： </strong> 单线程构建两倍容量的nextTable；允许多线程复制原table元素到nextTable。 </p>
+<ol>
+<li>为每个内核均分任务，并保证其不小于16； </li>
+<li>若nextTab为null，则初始化其为原table的2倍； </li>
+<li>死循环遍历，直到finishing。 </li>
+</ol>
+<ul>
+<li>节点为空，则插入ForwardingNode； </li>
+<li>链表节点（fh&gt;=0），分别插入nextTable的i和i+n的位置；【逆序链表？？】 </li>
+<li>TreeBin节点（fh&lt;0），判断是否需要untreefi，分别插入nextTable的i和i+n的位置；【逆序树？？】 </li>
+<li>finishing时，nextTab赋给table，更新sizeCtl为新容量的0.75倍 ，完成扩容。 </li>
+</ul>
+<p><strong> 以上说的都是单线程，  多线程  又是如何实现的呢？ </strong></p>
+<p>遍历到ForwardingNode节点((fh = f.hash) == MOVED)，说明此节点被处理过了，直接跳过。这是控制并发扩容的核心  。  由于<br>给节点上了锁，只允许当前线程完成此节点的操作，处理完毕后，将对应值设为ForwardingNode（fwd），其他线程看到forward，直接向后遍历。如此<br>便完成了多线程的复制工作，也解决了线程安全问题。</p>
+<p>private  transient  volatile  Node<k,v>[]  nextTable  ;  //仅仅在扩容使用，并且此时非空</k,v></p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// 将table每一个bin（桶位）的Node移动或复制到nextTable </li>
+<li>// 只在addCount(long x, int check)、helpTransfer、tryPresize中调用 </li>
+<li>private  final  void  transfer(Node<k,v>[] tab, Node<k,v>[] nextTab) { </k,v></k,v></li>
+<li>int  n = tab.length, stride; </li>
+<li>// 每核处理的量小于16，则强制赋值16 </li>
+<li>if  ((stride = (NCPU &gt; 1  ) ? (n &gt;&gt;&gt; 3  ) / NCPU : n) &lt; MIN_TRANSFER_STRIDE) </li>
+<li>stride = MIN_TRANSFER_STRIDE;  // subdivide range </li>
+<li>if  (nextTab ==  null  ) {  // initiating </li>
+<li>try  { </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n &lt;&lt; 1  ];  //两倍 </k,v></k,v></li>
+<li>nextTab = nt; </li>
+<li>}  catch  (Throwable ex) {  // try to cope with OOME </li>
+<li>sizeCtl = Integer.MAX_VALUE; </li>
+<li>return  ; </li>
+<li>} </li>
+<li>nextTable = nextTab; </li>
+<li>transferIndex = n; </li>
+<li>} </li>
+<li>int  nextn = nextTab.length; </li>
+<li>//连节点指针,标志位，fwd的hash值为-1，fwd.nextTable=nextTab。 </li>
+<li>ForwardingNode<k,v> fwd=  new  ForwardingNode<k,v>(nextTab); </k,v></k,v></li>
+<li>boolean  advance=  true  ;  //并发扩容的关键属性,等于true,说明此节点已经处理过 </li>
+<li>boolean  finishing =  false  ;  // to ensure sweep before committing nextTab </li>
+<li>for  (  int  i =  0  , bound =  0  ;;) {  // 死循环 </li>
+<li>Node<k,v> f;  int  fh; </k,v></li>
+<li>while  (advance) {  // 控制–i，遍历原hash表中的节点 </li>
+<li>int  nextIndex, nextBound; </li>
+<li>if  (–i &gt;= bound || finishing) </li>
+<li>advance =  false  ; </li>
+<li>else  if  ((nextIndex = transferIndex) &lt;=  0  ) { </li>
+<li>i = -  1  ; </li>
+<li>advance =  false  ; </li>
+<li>}  //TRANSFERINDEX 即用CAS计算得到的transferIndex </li>
+<li>else  if  (U.compareAndSwapInt </li>
+<li>(  this  , TRANSFERINDEX, nextIndex, </li>
+<li>nextBound = (nextIndex &gt; stride ? </li>
+<li>nextIndex - stride :  0  ))) { </li>
+<li>bound = nextBound; </li>
+<li>i = nextIndex -  1  ; </li>
+<li>advance =  false  ; </li>
+<li>} </li>
+<li>} </li>
+<li>if  (i &lt; 0  || i &gt;= n || i + n &gt;= nextn) { </li>
+<li>int  sc; </li>
+<li>if  (finishing) {  // 所有节点复制完毕 </li>
+<li>nextTable =  null  ; </li>
+<li>table = nextTab; </li>
+<li>sizeCtl = (n &lt;&lt; 1  ) - (n &gt;&gt;&gt; 1  );  //扩容阀值设为原来的1.5倍，即现在的0.75倍 </li>
+<li>return  ;  // 仅有的2个跳出死循环出口之一 </li>
+<li>}  //CAS更新扩容阈值,sc-1表明新加入一个线程参与扩容 </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc = sizeCtl, sc -  1  )) { </li>
+<li>if  ((sc -  2  ) != resizeStamp(n) &lt;&lt; RESIZE_STAMP_SHIFT) </li>
+<li>return  ;  // 仅有的2个跳出死循环出口之一 </li>
+<li>finishing = advance =  true  ; </li>
+<li>i = n;  // recheck before commit </li>
+<li>} </li>
+<li>} </li>
+<li>else  if  ((f = tabAt(tab, i)) ==  null  )  //该节点为空，则插入ForwardingNode </li>
+<li>advance = casTabAt(tab, i,  null  , fwd); </li>
+<li>//遍历到ForwardingNode节点，说明此节点被处理过了，直接跳过。这是控制并发扩容的核心 </li>
+<li>else  if  ((fh = f.hash) == MOVED)  // MOVED=-1，hash for fwd </li>
+<li>advance =  true  ;  // already processed </li>
+<li>else  { </li>
+<li>synchronized  (f) {  //上锁 </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>Node<k,v> ln, hn;  //ln原位置节点，hn新位置节点 </k,v></li>
+<li>if  (fh &gt;=  0  ) {  // 链表 </li>
+<li>int  runBit = fh &amp; n;  // f.hash &amp; n </li>
+<li>Node<k,v> lastRun = f;  // lastRun和p两个链表，逆序？？ </k,v></li>
+<li>for  (Node<k,v> p = f.next; p !=  null  ; p = p.next) { </k,v></li>
+<li>int  b = p.hash &amp; n;  // f.next.hash &amp; n </li>
+<li>if  (b != runBit) { </li>
+<li>runBit = b; </li>
+<li>lastRun = p; </li>
+<li>} </li>
+<li>} </li>
+<li>if  (runBit ==  0  ) { </li>
+<li>ln = lastRun; </li>
+<li>hn =  null  ; </li>
+<li>} </li>
+<li>else  { </li>
+<li>hn = lastRun; </li>
+<li>ln =  null  ; </li>
+<li>} </li>
+<li>for  (Node<k,v> p = f; p != lastRun; p = p.next) { </k,v></li>
+<li>int  ph = p.hash; K pk = p.key; V pv = p.val; </li>
+<li>if  ((ph &amp; n) ==  0  )  // 和HashMap确定扩容后的节点位置一样 </li>
+<li>ln =  new  Node<k,v>(ph, pk, pv, ln); </k,v></li>
+<li>else </li>
+<li>hn =  new  Node<k,v>(ph, pk, pv, hn);  //新位置节点 </k,v></li>
+<li>}  //类似HashMap，为何i+n？参见HashMap的笔记 </li>
+<li>setTabAt(nextTab, i, ln);  //在nextTable[i]插入原节点 </li>
+<li>setTabAt(nextTab, i + n, hn);  //在nextTable[i+n]插入新节点 </li>
+<li>//在nextTable[i]插入forwardNode节点，表示已经处理过该节点 </li>
+<li>setTabAt(tab, i, fwd); </li>
+<li>//设置advance为true 返回到上面的while循环中 就可以执行–i操作 </li>
+<li>advance =  true  ; </li>
+<li>} </li>
+<li>else  if  (f  instanceof  TreeBin) {  //树 </li>
+<li>TreeBin<k,v> t = (TreeBin<k,v>)f; </k,v></k,v></li>
+<li>TreeNode<k,v> lo =  null  , loTail =  null  ; </k,v></li>
+<li>TreeNode<k,v> hi =  null  , hiTail =  null  ; </k,v></li>
+<li>//lc、hc=0两计数器分别++记录原、新bin中TreeNode数量 </li>
+<li>int  lc =  0  , hc =  0  ; </li>
+<li>for  (Node<k,v> e = t.first; e !=  null  ; e = e.next) { </k,v></li>
+<li>int  h = e.hash; </li>
+<li>TreeNode<k,v> p =  new  TreeNode<k,v></k,v></k,v></li>
+<li>(h, e.key, e.val,  null  ,  null  ); </li>
+<li>if  ((h &amp; n) ==  0  ) { </li>
+<li>if  ((p.prev = loTail) ==  null  ) </li>
+<li>lo = p; </li>
+<li>else </li>
+<li>loTail.next = p; </li>
+<li>loTail = p; </li>
+<li>++lc; </li>
+<li>} </li>
+<li>else  { </li>
+<li>if  ((p.prev = hiTail) ==  null  ) </li>
+<li>hi = p; </li>
+<li>else </li>
+<li>hiTail.next = p; </li>
+<li>hiTail = p; </li>
+<li>++hc; </li>
+<li>} </li>
+<li>}  //扩容后树节点个数若&lt;=6，将树转链表 </li>
+<li>ln = (lc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(lo) : </li>
+<li>(hc !=  0  ) ?  new  TreeBin<k,v>(lo) : t; </k,v></li>
+<li>hn = (hc &lt;= UNTREEIFY_THRESHOLD) ? untreeify(hi) : </li>
+<li>(lc !=  0  ) ?  new  TreeBin<k,v>(hi) : t; </k,v></li>
+<li>setTabAt(nextTab, i, ln); </li>
+<li>setTabAt(nextTab, i + n, hn); </li>
+<li>setTabAt(tab, i, fwd); </li>
+<li>advance =  true  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// 协助扩容方法。多线程下，当前线程检测到其他线程正进行扩容操作，则协助其一起扩容；（只有这种情况会被调用）从某种程度上说，其“优先级”很高，只要检测到扩容，就会放下其他工作，先扩容。 </li>
+<li>// 调用之前，nextTable一定已存在。 </li>
+<li>final  Node<k,v>[] helpTransfer(Node<k,v>[] tab, Node<k,v> f) { </k,v></k,v></k,v></li>
+<li>Node<k,v>[] nextTab; intsc; </k,v></li>
+<li>if  (tab !=  null  &amp;&amp; (finstanceof ForwardingNode) &amp;&amp;</li>
+<li>(nextTab = ((ForwardingNode<k,v>)f).nextTable) !=  null  ) { </k,v></li>
+<li>intrs = resizeStamp(tab.length);  //标志位 </li>
+<li>while  (nextTab == nextTable &amp;&amp; table == tab &amp;&amp;</li>
+<li>(sc = sizeCtl) &lt; 0  ) { </li>
+<li>if  ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs +  1  || </li>
+<li>sc == rs + MAX_RESIZERS || transferIndex &lt;=  0  ) </li>
+<li>break  ; </li>
+<li>if  (U.compareAndSwapInt(  this  , SIZECTL, sc, sc +  1  )) { </li>
+<li>transfer(tab, nextTab);  //调用扩容方法，直接进入复制阶段 </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>return  nextTab; </li>
+<li>} </li>
+<li>return  table; </li>
+<li>} </li>
+</ol>
+<p>2、 put相关：</p>
+<p>理一下put的流程：</p>
+<p>① <strong> 判空 </strong> ：null直接抛空指针异常；</p>
+<p>② <strong> hash </strong> ：计算h=key.hashcode；调用spread计算hash=  (  h  ^  (  h  &gt;&gt;&gt; 16  ))  &amp;<br>HASH_BITS；</p>
+<p>③ <strong> 遍历table </strong></p>
+<ul>
+<li>若table为空，则初始化，仅设置相关参数； </li>
+<li>@@@计算当前key存放位置，即table的下标i=(n - 1) &amp; hash； </li>
+<li>若待存放位置为null，casTabAt  无锁  插入； </li>
+<li>若是forwarding nodes（检测到正在扩容），则helpTransfer（帮助其扩容）； </li>
+<li>else（待插入位置非空且不是forward节点，即碰撞了），将头节点上锁（保证了线程安全）：区分链表节点和树节点，分别插入（遇到hash值与key值都与新节点一致的情况，只需要更新value值即可。否则依次向后遍历，直到链表尾插入这个结点）； </li>
+<li>若链表长度&gt;8，则treeifyBin转树（Note：若length&lt;64,直接tryPresize,两倍table.length;不转树）。 </li>
+</ul>
+<p>④ <strong> addCount(1L, binCount)。 </strong></p>
+<p><strong> Note： </strong></p>
+<p>1、put操作共计两次hash操作，再利用“与&amp;”操作计算Node的存放位置。</p>
+<p>2、ConcurrentHashMap不允许key或value为null。</p>
+<p>3、 <strong> addCount  (  long  x  ,  int  check  )  方法： </strong></p>
+<p>①利用CAS快速更新baseCount的值；</p>
+<p>②check&gt;=0.则检验是否需要扩容；  if  sizeCtl&lt;0（正在进行初始化或扩容操作）【nexttable<br>null等情况break；如果有线程正在扩容，则协助扩容】；  else if  仅当前线程在扩容，调用协助扩容函数，注其参数nextTable为null。</p>
+<p>public  V put(K  key  , V  value  ) {</p>
+<p>return  putVal  (  key  ,  value  ,  false  );</p>
+<p>}</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>final  V <span style="background-color: rgb(255, 255, 51);">putVal</span>(K key, V value,  boolean  onlyIfAbsent) { </li>
+<li>// 不允许key、value为空 </li>
+<li>if  (key ==  null  || value ==  null  )  throw  new  NullPointerException(); </li>
+<li>int  hash = spread(key.hashCode());  //返回(h^(h&gt;&gt;&gt;16))&amp;HASH_BITS </li>
+<li>int  binCount =  0  ; </li>
+<li>for  (Node<k,v>[] tab = table;;) {  // 死循环，直到插入成功 </k,v></li>
+<li>Node<k,v> f;  int  n, i, fh; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  ) </li>
+<li>tab = initTable();  // table为空，初始化table </li>
+<li>else  if  ((f = tabAt(tab, i = (n -  1  ) &amp; hash)) ==  null  ) {  // 索引处无值 </li>
+<li>if  (casTabAt(tab, i,  null  , </li>
+<li>new  Node<k,v>(hash, key, value,  null  ))) </k,v></li>
+<li>break  ;  // no lock when adding to empty bin </li>
+<li>} </li>
+<li>else  if  ((fh = f.hash) == MOVED)  // MOVED=-1;//hash for forwarding nodes </li>
+<li>tab = helpTransfer(tab, f);  //检测到正在扩容，则帮助其扩容 </li>
+<li>else  { </li>
+<li>V oldVal =  null  ; </li>
+<li>synchronized  (f) {  // 节点上锁（hash值相同的链表的头节点） </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>if  (fh &gt;=  0  ) {  // 链表节点 </li>
+<li>binCount =  1  ; </li>
+<li>for  (Node<k,v> e = f;; ++binCount) { </k,v></li>
+<li>K ek;  // hash和key相同，则修改value </li>
+<li>if  (e.hash == hash &amp;&amp;</li>
+<li>((ek = e.key) == key ||(ek !=  null  &amp;&amp; key.equals(ek)))) { </li>
+<li>oldVal = e.val; </li>
+<li>if  (!onlyIfAbsent)  //仅putIfAbsent()方法中onlyIfAbsent为true </li>
+<li>e.val = value;  //putIfAbsent()包含key则返回get，否则put并返回 </li>
+<li>break  ; </li>
+<li>} </li>
+<li>Node<k,v> pred = e; </k,v></li>
+<li>if  ((e = e.next) ==  null  ) {  //已遍历到链表尾部，直接插入 </li>
+<li>pred.next =  new  Node<k,v>(hash, key, value,  null  ); </k,v></li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>else  if  (f  instanceof  TreeBin) {  // 树节点 </li>
+<li>Node<k,v> p; </k,v></li>
+<li>binCount =  2  ; </li>
+<li>if  ((p = ((TreeBin<k,v>)f).putTreeVal(hash, key,value)) !=  null  ) { </k,v></li>
+<li>oldVal = p.val; </li>
+<li>if  (!onlyIfAbsent) </li>
+<li>p.val = value; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (binCount !=  0  ) { </li>
+<li>if  (binCount &gt;= TREEIFY_THRESHOLD)  //实则是&gt;8,执行else,说明该桶位本就有Node </li>
+<li>treeifyBin(tab, i);  //若length&lt;64,直接tryPresize,两倍table.length;不转树 </li>
+<li>if  (oldVal !=  null  ) </li>
+<li>return  oldVal; </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>addCount(1L, binCount); </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// Initializes table, using the size recorded in sizeCtl. </li>
+<li>private  final  Node<k,v>[] <span style="background-color: rgb(255, 255, 51);">initTable</span>() {  // 仅仅设置参数，并未实质初始化 </k,v></li>
+<li>Node<k,v>[] tab; intsc; </k,v></li>
+<li>while  ((tab = table) ==  null  || tab.length ==  0  ) { </li>
+<li>if  ((sc = sizeCtl) &lt; 0  )  // 其他线程正在初始化，此线程挂起 </li>
+<li>Thread.yield();  // lost initialization race; just spin </li>
+<li>//CAS方法把sizectl置为-1，表示本线程正在进行初始化 </li>
+<li>elseif (U.compareAndSwapInt(  this  , SIZECTL, sc, -  1  )) { </li>
+<li>try  { </li>
+<li>if  ((tab = table) ==  null  || tab.length ==  0  ) { </li>
+<li>intn = (sc &gt; 0  ) ? sc : DEFAULT_CAPACITY;  //DEFAULT_CAPACITY=16 </li>
+<li>@SuppressWarnings  (  “unchecked”  ) </li>
+<li>Node<k,v>[] nt = (Node<k,v>[])  new  Node&lt;?,?&gt;[n]; </k,v></k,v></li>
+<li>table = tab = nt; </li>
+<li>sc = n - (n &gt;&gt;&gt; 2  );  // 扩容阀值，0.75*n </li>
+<li>} </li>
+<li>}  finally  { </li>
+<li>sizeCtl = sc; </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>return  tab; </li>
+<li>} </li>
+</ol>
+<p>3、 get、contains相关</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  V <span style="background-color: rgb(255, 255, 51);">get</span>(Object key) { </li>
+<li>Node<k,v>[] tab; Node<k,v> e, p; intn, eh; K ek; </k,v></k,v></li>
+<li>inth = spread(key.hashCode()); </li>
+<li>if  ((tab = table) !=  null  &amp;&amp; (n = tab.length) &gt; 0  &amp;&amp;</li>
+<li>(e = tabAt(tab, (n -  1  ) &amp; h)) !=  null  ) {  //tabAt(i),获取索引i处Node </li>
+<li>if  ((eh = e.hash) == h) { </li>
+<li>if  ((ek = e.key) == key || (ek !=  null  &amp;&amp; key.equals(ek))) </li>
+<li>returne.val; </li>
+<li>} </li>
+<li>elseif (eh &lt; 0  )  // 树 </li>
+<li>return  (p = e.find(h, key)) !=  null  ? p.val :  null  ; </li>
+<li>while  ((e = e.next) !=  null  ) {  // 链表 </li>
+<li>if  (e.hash == h &amp;&amp;</li>
+<li>((ek = e.key) == key || (ek !=  null  &amp;&amp; key.equals(ek)))) </li>
+<li>returne.val; </li>
+<li>} </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  containsKey(Object key) {  return  get(key) !=  null  ;} </li>
+<li>public  boolean  containsValue(Object value) {} </li>
+</ol>
+<p>理一下get的流程：</p>
+<p>①spread计算hash值；</p>
+<p>②table不为空；</p>
+<p>③tabAt(i)处桶位不为空；</p>
+<p>④check first，是则返回当前Node的value；否则分别根据树、链表查询。</p>
+<p>4、 Size相关：</p>
+<p>由于ConcurrentHashMap在统计size时  可能正被  多个线程操作，而我们又不可能让他停下来让我们计算，所以只能计量一个估计值。</p>
+<p>计数辅助：</p>
+<p>//  Table of counter cells. When non-null, size is a power of 2</p>
+<p>private  transient  volatile  CounterCell[]  counterCells  ;</p>
+<p>@  sun.misc.  Contended  static  final  class  CounterCell  {</p>
+<p>volatile  long  value  ;</p>
+<p>CounterCell(  long  x  ) {  value  =  x  ; }</p>
+<p>}</p>
+<p>final  long  sumCount  (){</p>
+<p>CounterCell  as  [] =  counterCells  ;</p>
+<p>long  sum  =  baseCount  ;</p>
+<p>if  (  as  !=  null  ){</p>
+<p>for  (  int  i  = 0;  i  &lt; as  .  length  ;  i  ++){</p>
+<p>CounterCell  a  ;</p>
+<p>if  ((  a  =  as  [  i  ]) !=  null  )</p>
+<p>sum  +=  a  .  value  ;</p>
+<p>}</p>
+<p>}</p>
+<p>return  sum  ;</p>
+<p>}</p>
+<p>private  final  void  full  AddCount  (  long  x  ,  boolean  wasUncontended<br>) {}</p>
+<p>public  int  size() {  // 旧版本方法，和推荐的mappingCount返回的值基本无区别</p>
+<p>long  n  = sumCount();</p>
+<p>return  ((  n  &lt; 0L) ? 0 :</p>
+<p>(  n  &gt; (  long  )Integer.  MAX_VALUE  ) ? Integer.  MAX_VALUE  :</p>
+<p>(  int  )  n  );</p>
+<p>}</p>
+<p>// 返回Mappings中的元素个数，官方建议用来  替代size  。此方法返回的是一个估计值；如果sumCount时有线程插入或删除，实际数量是和<br>mappingCount  不同的。since 1.8</p>
+<p>public  long  mappingCount  () {</p>
+<p>long  n  = sumCount();</p>
+<p>return  (  n  &lt; 0L) ? 0L :  n  ;  // ignore transient negative values</p>
+<p>}</p>
+<p>private  transient  volatile  long  baseCount  ;</p>
+<p>//ConcurrentHashMap中元素个数,基于CAS无锁更新,但返回的不一定是当前Map的真实元素个数。</p>
+<p>5、remove、clear相关：</p>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  void  clear() {  // 移除所有元素 </li>
+<li>long  delta = 0L;  // negative number of deletions </li>
+<li>inti =  0  ; </li>
+<li>Node<k,v>[] tab = table; </k,v></li>
+<li>while  (tab !=  null  &amp;&amp; i &lt; tab.length) { </li>
+<li>intfh; </li>
+<li>Node<k,v> f = tabAt(tab, i); </k,v></li>
+<li>if  (f ==  null  )  // 为空，直接跳过 </li>
+<li>++i; </li>
+<li>else  if  ((fh = f.hash) == MOVED) {  //检测到其他线程正对其扩容 </li>
+<li>//则协助其扩容，然后重置计数器，重新挨个删除元素，避免删除了元素，其他线程又新增元素。 </li>
+<li>tab = helpTransfer(tab, f); </li>
+<li>i =  0  ;  // restart </li>
+<li>} </li>
+<li>else  { </li>
+<li>synchronized  (f) {  // 上锁 </li>
+<li>if  (tabAt(tab, i) == f) {  // 其他线程没有在此期间操作f </li>
+<li>Node<k,v> p = (fh &gt;=  0  ? f : </k,v></li>
+<li>(finstanceof TreeBin) ? </li>
+<li>((TreeBin<k,v>)f).first :  null  ); </k,v></li>
+<li>while  (p !=  null  ) {  // 首先删除链、树的末尾元素，避免产生大量垃圾 </li>
+<li>--delta; </li>
+<li>p = p.next; </li>
+<li>} </li>
+<li>setTabAt(tab, i++,  null  );  // 利用CAS无锁置null </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (delta != 0L) </li>
+<li>addCount(delta, -  1  );  // 无实际意义，参数check&lt;=1，直接return。 </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  V remove(Object key) {  // key为null，将在计算hashCode时报空指针异常 </li>
+<li>return  replaceNode(key,  null  ,  null  ); </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  remove(Object key, Object value) { </li>
+<li>if  (key ==  null  ) </li>
+<li>thrownew NullPointerException(); </li>
+<li>returnvalue !=  null  &amp;&amp; replaceNode(key,  null  , value) !=  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>// remove核心方法，注意，这里的cv才是key-value中的value！ </li>
+<li>final  V replaceNode(Object key, V value, Object cv) { </li>
+<li>inthash = spread(key.hashCode()); </li>
+<li>for  (Node<k,v>[] tab = table;;) { </k,v></li>
+<li>Node<k,v> f; intn, i, fh; </k,v></li>
+<li>if  (tab ==  null  || (n = tab.length) ==  0  || </li>
+<li>(f = tabAt(tab, i = (n -  1  ) &amp; hash)) ==  null  ) </li>
+<li>break  ;  // 该桶位第一个元素为空，直接跳过 </li>
+<li>elseif ((fh = f.hash) == MOVED) </li>
+<li>tab = helpTransfer(tab, f);  // 先协助扩容再说 </li>
+<li>else  { </li>
+<li>V oldVal =  null  ; </li>
+<li>booleanvalidated =  false  ; </li>
+<li>synchronized  (f) { </li>
+<li>if  (tabAt(tab, i) == f) { </li>
+<li>if  (fh &gt;=  0  ) { </li>
+<li>validated =  true  ; </li>
+<li>//pred没看出来有什么用，全是别人赋值给他，他却不影响其他参数 </li>
+<li>for  (Node<k,v> e = f, pred =  null  ;;) { </k,v></li>
+<li>K ek; </li>
+<li>if  (e.hash == hash &amp;&amp;((ek = e.key) == key || </li>
+<li>(ek !=  null  &amp;&amp; key.equals(ek)))){  //hash且可以相等 </li>
+<li>V ev = e.val; </li>
+<li>// value为null或value和查到的值相等 </li>
+<li>if  (cv ==  null  || cv == ev || </li>
+<li>(ev !=  null  &amp;&amp; cv.equals(ev))) { </li>
+<li>oldVal = ev; </li>
+<li>if  (value !=  null  )  // replace中调用 </li>
+<li>e.val = value; </li>
+<li>elseif (pred !=  null  ) </li>
+<li>pred.next = e.next; </li>
+<li>else </li>
+<li>setTabAt(tab, i, e.next); </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>pred = e; </li>
+<li>if  ((e = e.next) ==  null  ) </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>elseif (finstanceof TreeBin) {  // 以树的方式find、remove </li>
+<li>validated =  true  ; </li>
+<li>TreeBin<k,v> t = (TreeBin<k,v>)f; </k,v></k,v></li>
+<li>TreeNode<k,v> r, p; </k,v></li>
+<li>if  ((r = t.root) !=  null  &amp;&amp;</li>
+<li>(p = r.findTreeNode(hash, key,  null  )) !=  null  ) { </li>
+<li>V pv = p.val; </li>
+<li>if  (cv ==  null  || cv == pv || </li>
+<li>(pv !=  null  &amp;&amp; cv.equals(pv))) { </li>
+<li>oldVal = pv; </li>
+<li>if  (value !=  null  ) </li>
+<li>p.val = value; </li>
+<li>elseif (t.removeTreeNode(p)) </li>
+<li>setTabAt(tab, i, untreeify(t.first)); </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>if  (validated) { </li>
+<li>if  (oldVal !=  null  ) { </li>
+<li>if  (value ==  null  ) </li>
+<li>addCount(-1L, -  1  ); </li>
+<li>returnoldVal; </li>
+<li>} </li>
+<li>break  ; </li>
+<li>} </li>
+<li>} </li>
+<li>} </li>
+<li>return  null  ; </li>
+<li>} </li>
+</ol>
+<p><strong> [java] </strong> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> view plain </a> <a href="http://blog.csdn.net/u010887744/article/details/50637030#" target="_blank" rel="noopener"> copy </a></p>
+<p><a href="https://code.csdn.net/snippets/1574859" target="_blank" rel="noopener"> <img src="https://code.csdn.net/assets/CODE_ico.png" alt="在CODE上查看代码片">
+</a> <a href="https://code.csdn.net/snippets/1574859/fork" target="_blank" rel="noopener"><br><img src="https://code.csdn.net/assets/ico_fork.svg" alt="派生到我的代码片">
+</a></p>
+<ol>
+<li>public  boolean  replace(K key, V oldValue, V newValue) {} </li>
+</ol>
+<p>6、其他函数：</p>
+<p>public  boolean  isEmpty  () {</p>
+<p>return  sumCount() &lt;= 0L;  // ignore transient negative values</p>
+<p>}</p>
+<p>参考资料:</p>
+<p><a href="http://ifeve.com/concurrenthashmap/" target="_blank" rel="noopener"> http://ifeve.com/concurrenthashmap/  </a></p>
+<p><a href="http://ifeve.com/java-
+concurrent-hashmap-2/" target="_blank" rel="noopener"> http://ifeve.com/java-concurrent-hashmap-2/ </a></p>
+<p>、、、、、、、、、</p>
+<p><a href="http://ashkrit.blogspot.com/2014/12/what-is-
+new-in-java8-concurrenthashmap.html" target="_blank" rel="noopener"> http://ashkrit.blogspot.com/2014/12/what-is-new-in-<br>java8-concurrenthashmap.html  </a></p>
+<p><a href="http://blog.csdn.net/u010723709/article/details/48007881" target="_blank" rel="noopener"> http://blog.csdn.net/u010723709/article/details/48007881
+</a></p>
+<p><a href="http://yucchi.jp/blog/?p=2048" target="_blank" rel="noopener"> http://yucchi.jp/blog/?p=2048  </a></p>
+<p><a href="http://blog.csdn.net/q291611265/article/details/47985145" target="_blank" rel="noopener"> http://blog.csdn.net/q291611265/article/details/47985145
+</a></p>
+<p>、、、、、、、、、、</p>
+<p>SynchronizedMap： <a href="http://blog.sina.com.cn/s/blog_5157093c0100hm3y.html" target="_blank" rel="noopener"> http://blog.sina.com.cn/s/blog_5157093c0100hm3y.html
+</a></p>
+<p><a href="http://blog.csdn.net/yangfanend/article/details/7165742" target="_blank" rel="noopener"> http://blog.csdn.net/yangfanend/article/details/7165742
+</a></p>
+<p><a href="http://blog.csdn.net/xuefeng0707/article/details/40797085" target="_blank" rel="noopener"> http://blog.csdn.net/xuefeng0707/article/details/40797085
+</a></p>
+<pre><code>&lt;a target=_blank id=&quot;L1&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L1&quot; rel=&quot;#L1&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  1&lt;/a&gt;
+&lt;a target=_blank id=&quot;L2&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L2&quot; rel=&quot;#L2&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  2&lt;/a&gt;
+&lt;a target=_blank id=&quot;L3&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L3&quot; rel=&quot;#L3&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  3&lt;/a&gt;
+&lt;a target=_blank id=&quot;L4&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L4&quot; rel=&quot;#L4&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  4&lt;/a&gt;
+&lt;a target=_blank id=&quot;L5&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L5&quot; rel=&quot;#L5&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  5&lt;/a&gt;
+&lt;a target=_blank id=&quot;L6&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L6&quot; rel=&quot;#L6&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  6&lt;/a&gt;
+&lt;a target=_blank id=&quot;L7&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L7&quot; rel=&quot;#L7&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  7&lt;/a&gt;
+&lt;a target=_blank id=&quot;L8&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L8&quot; rel=&quot;#L8&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  8&lt;/a&gt;
+&lt;a target=_blank id=&quot;L9&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L9&quot; rel=&quot;#L9&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  9&lt;/a&gt;
+&lt;a target=_blank id=&quot;L10&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L10&quot; rel=&quot;#L10&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 10&lt;/a&gt;
+&lt;a target=_blank id=&quot;L11&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L11&quot; rel=&quot;#L11&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 11&lt;/a&gt;
+
+
+ArrayList源码分析（jdk1.8）：http://blog.csdn.net/u010887744/article/details/49496093
+
+HashMap源码分析（jdk1.8）：http://write.blog.csdn.net/postedit/50346257
+
+ConcurrentHashMap源码分析--Java8：http://blog.csdn.net/u010887744/article/details/50637030
+
+
+
+
+每篇文章都包含 有道云笔记地址，可直接保存。
+
+
+
+
+在线查阅JDK源码：
+
+JDK8：https://github.com/zxiaofan/JDK1.8-Src
+
+JDK7：https://github.com/zxiaofan/JDK_Src_1.7
+
+
+
+
+史上最全Java集合关系图：http://blog.csdn.net/u010887744/article/details/50575735
+</code></pre><h5 id="来自CODE的代码片"><a href="#来自CODE的代码片" class="headerlink" title=" 来自CODE的代码片 "></a><a href="https://code.csdn.net/snippets/1574871" target="_blank" rel="noopener"> 来自CODE的代码片 </a></h5><p>SourceCode</p>
+<pre><code>&lt;a target=_blank id=&quot;L1&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L1&quot; rel=&quot;#L1&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  1&lt;/a&gt;
+&lt;a target=_blank id=&quot;L2&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L2&quot; rel=&quot;#L2&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  2&lt;/a&gt;
+&lt;a target=_blank id=&quot;L3&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L3&quot; rel=&quot;#L3&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  3&lt;/a&gt;
+&lt;a target=_blank id=&quot;L4&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L4&quot; rel=&quot;#L4&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  4&lt;/a&gt;
+&lt;a target=_blank id=&quot;L5&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L5&quot; rel=&quot;#L5&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  5&lt;/a&gt;
+&lt;a target=_blank id=&quot;L6&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L6&quot; rel=&quot;#L6&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  6&lt;/a&gt;
+&lt;a target=_blank id=&quot;L7&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L7&quot; rel=&quot;#L7&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  7&lt;/a&gt;
+&lt;a target=_blank id=&quot;L8&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L8&quot; rel=&quot;#L8&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  8&lt;/a&gt;
+&lt;a target=_blank id=&quot;L9&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L9&quot; rel=&quot;#L9&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt;  9&lt;/a&gt;
+&lt;a target=_blank id=&quot;L10&quot; href=&quot;http://blog.csdn.net/u010887744/article/details/50637030#L10&quot; rel=&quot;#L10&quot; style=&quot;color: rgb(102, 102, 102); text-decoration: none;&quot;&gt; 10&lt;/a&gt;
+
+
+转载请注明出处，谢谢。
+
+
+
+
+【 CSDN 】：csdn.zxiaofan.cn
+
+【GitHub】：github.zxiaofan.cn
+
+
+
+
+域名备案中，上述网址极不稳定，GitHub请直接访问【github.com/zxiaofan】
+
+
+
+
+如有任何问题，欢迎留言。祝君好运！
+
+Life is all about choices！ 
+
+将来的你一定会感激现在拼命的自己！
+</code></pre><h5 id="来自CODE的代码片-1"><a href="#来自CODE的代码片-1" class="headerlink" title=" 来自CODE的代码片 "></a><a href="https://code.csdn.net/snippets/637064" target="_blank" rel="noopener"> 来自CODE的代码片 </a></h5><p>txt</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合:_ConcurrentHashMap源码分析_JDK1.8/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+	     </div>
+	     <div>
+	       <center>
+	         <div class="pagination">
+<ul class="pagination">
+	 
+</ul>
+</div>
+
+	       </center>
+	     </div>	
+      
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

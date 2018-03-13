@@ -1,0 +1,1299 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 4 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header page-header-inverse ">
+  <h1 class="title title-inverse ">史可的博客</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+        <!-- render top articles firstly -->
+        
+        <!-- render other articles -->
+        
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：Vector使用详解及源码分析/" >Java集合：Vector使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>Vector和ArrayList类似，是数组队列，可以实现容量的动态增长。Vector类继承了AbstractList抽象类并且实现了List、Random<br>Access，Cloneable以及java.io.Serializable接口。<br>public class ArrayList extends AbstractList implements List, RandomAccess,<br>Cloneable, java.io.Serializable<br>AbstractList类继承了AbstractCollection类并实现了List接口。<br>实现RandomAccess接口使Vector拥有随机访问的能力，即通过下表索引访问数组元素。<br>实现Cloneable接口重写了接口定义的clone()方法，Vector可以使用clone()复制数组。<br>实现 java.io.Serializable接口使Vector支持序列化。<br><strong> Vector和ArrayList的最大不同是Vector是线程安全的而ArrayList不是。Vector几乎所有的方法都使用synchronized关键字是来保证线程安全使它的性能比不上ArrayList。 </strong><br><strong> Vector和ArrayList不同还体现在动态增长的策略上。ArrayList的基本增长策略是oldCapacity<em>1.5+1，如果还不够则容量为实际需要容量；Vector的基本增长策略是oldCapacity+设定好的增长幅度，如果没设定则新容量增长为oldCapacity</em>2，如果还不够则为实际需要的容量。 </strong><br>现在很少使用Vector。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ArrayList提供了增加、删除、判空等操作，具体提供的方法如下：</p>
+<pre><code>synchronized boolean        add(E object) //增加元素
+void                        add(int location, E object) //指定位置增加元素
+synchronized boolean        addAll(Collection&lt;? extends E&gt; collection) //将集合中的元素加入到数组的最后
+synchronized boolean        addAll(int location, Collection&lt;? extends E&gt; collection) //指定位置增加一盒中所有元素
+synchronized void           addElement(E object) //增加元素
+synchronized int            capacity() //数组容量
+void                        clear() //清空数组
+synchronized Object         clone() //复制元素
+boolean                     contains(Object object) //判断是否包含元素
+synchronized boolean        containsAll(Collection&lt;?&gt; collection) //判断是否包含集合中所有元素
+synchronized void           copyInto(Object[] elements) //将数组中的元素复制到element中
+synchronized E              elementAt(int location) //获取location位置的元素
+Enumeration&lt;E&gt;              elements() //返回一个包含数组元素的枚举
+synchronized void           ensureCapacity(int minimumCapacity) //增加数组空间
+synchronized boolean        equals(Object object) //比较元素
+synchronized E              firstElement() //获取第一个元素
+E                           get(int location) //获取location下标的元素
+synchronized int            hashCode() //获取对象的hashCode
+synchronized int            indexOf(Object object, int location) //从location开始第一次出现object的位置
+int                         indexOf(Object object) //第一次出现object的位置
+synchronized void           insertElementAt(E object, int location) //在location位置插入object
+synchronized boolean        isEmpty() //判空
+synchronized E              lastElement() //获取最后元素
+synchronized int            lastIndexOf(Object object, int location) //location之前最后出现object的位置
+synchronized int            lastIndexOf(Object object) //最后一次出现object的位置
+synchronized E              remove(int location) //删除location位置的元素
+boolean                     remove(Object object) //删除第一次出现的object
+synchronized boolean        removeAll(Collection&lt;?&gt; collection) //删除collection出现的所有元素
+synchronized void           removeAllElements() //将所有元素置为null
+synchronized boolean        removeElement(Object object) //同remove
+synchronized void           removeElementAt(int location) //同remove
+synchronized boolean        retainAll(Collection&lt;?&gt; collection) //删除除了collection中元素之外的所有元素
+synchronized E              set(int location, E object) //设置location位置的元素为object
+synchronized void           setElementAt(E object, int location) //同set
+synchronized void           setSize(int length) //设置数组大小,若length大于实际长度则空余元素置为null
+synchronized int            size() //获取实际大小
+synchronized List&lt;E&gt;        subList(int start, int end) //获取子串
+synchronized &lt;T&gt; T[]        toArray(T[] contents) //转换成数组
+synchronized Object[]       toArray() //
+synchronized void           trimToSize() //将数组容量改为实际数组大小
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestVector {
+    public void testVector() {
+        Vector vector = new Vector&lt;&gt;(10); //申请一个初始容量大小为10的Vector
+        for (int i = 0; i &lt; 5; i++) { //初始化元素为
+            vector.add(i);
+        }
+        System.out.println(&quot;此时数组实际大小为: &quot; + vector.size());
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        vector.set(4,44); //设置第5个元素为44
+        vector.add(2,22); //在第3个元素位置增加22
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        vector.add(2);
+        System.out.println(&quot;第1次出现2的位置为: &quot; + vector.indexOf(2));
+        vector.remove(2); //删除第3个元素
+        vector.remove((Object)44); //删除第一次出现的44
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        int size = vector.size();
+        for (int i = size; i &lt; size + 6; i++) {
+            vector.add(i);
+        }
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        System.out.println(&quot;Vector此时大小为: &quot; +  vector.size());
+        System.out.println(&quot;Vector此时的容量为: &quot; + vector.capacity()); //原有容量为10, 超出容量后新容量为2倍
+
+        //转为数组
+        Integer [] arr = (Integer[]) vector.toArray(new Integer[0]);
+        System.out.print(&quot;遍历数组结果: &quot;);
+        for (Integer i:arr) {
+            System.out.print(i + &quot; &quot;);
+        }
+    }
+
+    /**
+     * 打印Vector
+     * @param vector
+     */
+    protected void printVector(String comment, List vector) {
+        System.out.print(comment + &quot;: &quot;);
+        for (int i = 0; i &lt; vector.size(); i++) {
+            System.out.print(vector.get(i) + &quot; &quot;);
+        }
+        System.out.println(&quot;&quot;);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>此时数组实际大小为: 5
+Vector此时元素有: 0 1 2 3 4
+Vector此时元素有: 0 1 22 2 3 44
+第1次出现2的位置为: 3
+Vector此时元素有: 0 1 2 3 2
+Vector此时元素有: 0 1 2 3 2 5 6 7 8 9 10
+Vector此时大小为: 11
+Vector此时的容量为: 20
+遍历数组结果: 0 1 2 3 2 5 6 7 8 9 10
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><pre><code>/**
+ * 构造一个初始容量为initialCapacity,动态增长为capacityIncrement的Vector
+ * @param initialCapacity
+ * @param capacityIncrement
+ */
+public Vector(int initialCapacity, int capacityIncrement) {
+    super();
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    this.elementData = new Object[initialCapacity];
+    this.capacityIncrement = capacityIncrement;
+}
+
+/**
+ * 初始容量为initialCapacity,动态增长容量为0
+ * @param initialCapacity
+ */
+public Vector(int initialCapacity) {
+    this(initialCapacity, 0);
+}
+
+/**
+ * 初始容量为10,动态增长为0
+ */
+public Vector() {
+    this(10);
+}
+
+/**
+ * 申请一个Vector,并用c初始化
+ * @param c
+ */
+public Vector(Collection&lt;? extends E&gt; c) {
+    elementData = c.toArray();
+    elementCount = elementData.length;
+    // c.toArray might (incorrectly) not return Object[] (see 6260652)
+    if (elementData.getClass() != Object[].class) //bug 6260652,toArray可能不会返回Object数组,这是重新复制
+        elementData = Arrays.copyOf(elementData, elementCount, Object[].class);
+}
+</code></pre><h3 id="2-2-add方法"><a href="#2-2-add方法" class="headerlink" title="2.2 add方法"></a>2.2 add方法</h3><pre><code>/**
+ * 添加e到Vector末尾
+ * @param e
+ * @return
+ */
+public synchronized boolean add(E e) {
+    modCount++;
+    ensureCapacityHelper(elementCount + 1); //增加容量
+    elementData[elementCount++] = e;
+    return true;
+}
+
+/**
+ * 在index位置插入element
+ * @param index
+ * @param element
+ */
+public void add(int index, E element) {
+    insertElementAt(element, index);
+}
+
+/**
+ * 在index位置插入obj
+ * @param obj
+ * @param index
+ */
+public synchronized void insertElementAt(E obj, int index) {
+    modCount++;
+    if (index &gt; elementCount) {
+        throw new ArrayIndexOutOfBoundsException(index
+                + &quot; &gt; &quot; + elementCount);
+    }
+    ensureCapacityHelper(elementCount + 1);
+     //将elementData元素从index开始，复制到elementData的index+1开始，总共          elementCount - index长度，即后移1位
+    System.arraycopy(elementData, index, elementData, index + 1, elementCount - index);
+    elementData[index] = obj;
+    elementCount++;
+}
+</code></pre><h3 id="2-3-set方法"><a href="#2-3-set方法" class="headerlink" title="2.3 set方法"></a>2.3 set方法</h3><pre><code>/**
+ * 将index位置的元素置为element
+ * @param index
+ * @param element
+ * @return
+ */
+public synchronized E set(int index, E element) {
+    if (index &gt;= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+
+    E oldValue = elementData(index);
+    elementData[index] = element;
+    return oldValue;
+}
+</code></pre><h3 id="2-4-remove方法"><a href="#2-4-remove方法" class="headerlink" title="2.4 remove方法"></a>2.4 remove方法</h3><pre><code>/**
+ * 删除index位置的元素
+ * @param index
+ * @return
+ */
+public synchronized E remove(int index) {
+    modCount++;
+    if (index &gt;= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+    E oldValue = elementData(index); //获取元素
+
+    int numMoved = elementCount - index - 1;
+    if (numMoved &gt; 0) //不是删除最后一个元素,则所有元素前移1位
+        System.arraycopy(elementData, index+1, elementData, index,
+                numMoved);
+    elementData[--elementCount] = null; // Let gc do its work
+
+    return oldValue;
+}
+</code></pre><h3 id="2-5-toArray方法"><a href="#2-5-toArray方法" class="headerlink" title="2.5 toArray方法"></a>2.5 toArray方法</h3><pre><code>/**
+ * 返回T类型的数组,参数不能是基本类型
+ * @param a
+ * @param &lt;T&gt;
+ * @return
+ */
+public synchronized &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; elementCount) //a长度小于Vector已有的元素个数,重新申请一个数组
+        return (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());
+
+    System.arraycopy(elementData, 0, a, 0, elementCount); //将元素复制到a中
+
+    if (a.length &gt; elementCount)
+        a[elementCount] = null;
+
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3308833.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3308833.html
+</a><br>[2] <a href="http://blog.csdn.net/ns_code/article/details/35793865" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/35793865
+</a><br>[3] <a href="http://blog.csdn.net/mazhimazh/article/details/19568867" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/19568867
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：Vector使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/LeetCode:Increasing_Triplet_Subsequence/" >LeetCode:Increasing_Triplet_Subsequence</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Given an unsorted array return whether an increasing subsequence of length 3<br>exists or not in the array.</p>
+<p>Formally the function should:</p>
+<p>Return true if there exists i, j, k<br>such that arr[i] &lt; arr[j] &lt; arr[k] given 0 ≤ i &lt; j &lt; k ≤ n-1 else return<br>false.</p>
+<p>Your algorithm should run in O(n) time complexity and O(1) space complexity.</p>
+<p>Examples:<br>Given [1, 2, 3, 4, 5],<br>return true.</p>
+<p>Given [5, 4, 3, 2, 1],<br>return false.</p>
+<p>题干的意思是给定未排序数组，从中找到三个满足arr[i] &lt; arr[j] &lt; arr[k] given 0 ≤ i &lt; j &lt; k ≤<br>n-1递增数字时返回true，找不到返回false。</p>
+<h2 id="解题思路："><a href="#解题思路：" class="headerlink" title="解题思路："></a>解题思路：</h2><p>设定两个数字min和middle，min保存已发现的最小值，middle保存仅比min大的第二小值。</p>
+<pre><code>if num &lt;= min 则 min = num
+else if num &lt;= middle 则 middle = num
+else 则return true；原因是 此时的num 肯定比min,middle都大，有min &lt; middle &lt; num
+</code></pre><p>源码如下：</p>
+<pre><code>/**
+ * Increasing Triplet Subsequence
+ * @param nums
+ * @return
+ */
+public boolean increasingTriplet(int[] nums) {
+    int min = Integer.MAX_VALUE;
+    int middle = Integer.MAX_VALUE;
+    for (int num : nums) {
+        if (num &lt;= min) {
+            min = num;
+        } else if (num &lt;= middle) {
+            middle = num;
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/LeetCode:Increasing_Triplet_Subsequence/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/LeetCode:Fraction_to_Recurring_Decimal/" >LeetCode:Fraction_to_Recurring_Decimal</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1、题干"><a href="#1、题干" class="headerlink" title="1、题干"></a>1、题干</h2><p>Given two integers representing the numerator and denominator of a fraction,<br>return the fraction in string format.</p>
+<p>If the fractional part is repeating, enclose the repeating part in<br>parentheses.</p>
+<p>For example,</p>
+<ul>
+<li>Given numerator = 1, denominator = 2, return “0.5”. </li>
+<li>Given numerator = 2, denominator = 1, return “2”. </li>
+<li>Given numerator = 2, denominator = 3, return “0.(6)”. </li>
+</ul>
+<p>题干的意思是，给两个整数numerator，denominator，分别作为分子和分母，现在需要计算他的小数形式，并返回String类型，如果是循环小数，将<br>循环部分用小括号包起来。</p>
+<h2 id="2、解题思路"><a href="#2、解题思路" class="headerlink" title="2、解题思路"></a>2、解题思路</h2><p>本题的难点在小数部分计算，具体思路如下：<br>1）设两个变量分别存放每次计算完成的余数（remainder）和商（integer）,并将余数加入到一个数组中。<br>2）每次计算后先到数组中查是否有相同的余数，如果有则说明出现循环小数。<br>3）计算循环小数循环的位数，循环的位数是余数数组的长度减去重复余数上一次（也只会出现一次）出现的下标。</p>
+<h2 id="3、注意事项"><a href="#3、注意事项" class="headerlink" title="3、注意事项"></a>3、注意事项</h2><p>1）负数情况<br>2）Math.abs()处理Integer.MIN_VALUE返回的还是负值，整形衣橱</p>
+<h2 id="4、源码及注释"><a href="#4、源码及注释" class="headerlink" title="4、源码及注释"></a>4、源码及注释</h2><pre><code>/**
+ * Fraction to Recurring Decimal
+ * @param numerator
+ * @param denominator
+ * @return
+ */
+public String fractionToDecimal(int numerator, int denominator) {
+    if (numerator == 0) { //分子为0
+        return &quot;0&quot;;
+    }
+
+    if (denominator == 0) { //分母为0,返回空
+        return &quot;&quot;;
+    }
+
+    String result = &quot;&quot;; //存放最终结果
+
+    if (numerator &lt; 0 ^ denominator &lt; 0) { //有一个是负数
+        result += &quot;-&quot;;
+    }
+
+    long first = Math.abs(Long.valueOf(numerator)); //分子
+    long second = Math.abs(Long.valueOf(denominator)); //分母
+
+    long integer = first / second; //整数部分
+    long remainder = first % second; //余数
+    if (remainder == 0) { //能够整除
+        result += String.valueOf(integer);
+        return result;
+    } else { //有小数
+        result = result + String.valueOf(integer) + &quot;.&quot;;
+    }
+    List list = new ArrayList&lt;&gt;(); //存放余数, 下表即是余数出现的位置
+    list.add(remainder);
+    while (remainder != 0) {
+        integer = remainder * 10 / second; //小数部分的结果
+        remainder = remainder * 10 % second; //余数
+        if (list.contains(remainder)) { //余数存在则说明出现了循环小数
+            result += String.valueOf(integer);
+            int position = list.size() - list.indexOf(remainder); //&quot;(&quot;需要添加的位置,从后向前数
+            int length = result.length(); //字符串长度
+            String repeatNum = &quot;(&quot; + result.substring(length - position, length) + &quot;)&quot;;
+            String notRepeatNum = result.substring(0,length - position);
+            result = notRepeatNum.concat(repeatNum);
+            return result;
+        }
+
+        result += String.valueOf(integer); //正常计算
+        list.add(remainder); //余数存入map
+    }
+    return result;
+}
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/LeetCode:Fraction_to_Recurring_Decimal/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL中的两种临时表/" >MySQL中的两种临时表</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>转自： <a href="http://mysql.taobao.org/monthly/2016/06/07/" target="_blank" rel="noopener"> http://mysql.taobao.org/monthly/2016/06/07/
+</a></p>
+<h2 id="外部临时表"><a href="#外部临时表" class="headerlink" title="外部临时表"></a>外部临时表</h2><p><strong> 通过CREATE TEMPORARY TABLE </strong><br>创建的临时表，这种临时表称为外部临时表。这种临时表只对当前用户可见，当前会话结束的时候，该临时表会自动关闭。这种临时表的命名与非临时表可以同名（同名后非临时<br>表将对当前会话不可见，直到临时表被删除）。</p>
+<h2 id="内部临时表"><a href="#内部临时表" class="headerlink" title="内部临时表"></a>内部临时表</h2><p>内部临时表是一种特殊轻量级的临时表，用来进行性能优化。这种临时表会被MySQL自动创建并用来存储某些操作的中间结果。这些操作可能包括在优化阶段或者执行阶段。<br>这种内部表对用户来说是不可见的，但是通过EXPLAIN或者SHOW<br>STATUS可以查看MYSQL是否使用了内部临时表用来帮助完成某个操作。内部临时表在SQL语句的优化过程中扮演着非常重要的角色， MySQL中的很多操作都要<br>依赖于内部临时表来进行优化。但是使用内部临时表需要创建表以及中间数据的存取代价，所以用户在写SQL语句的时候应该尽量的去避免使用临时表。</p>
+<p>内部临时表有两种类型：一种是 <strong> HEAP临时表 </strong> ，这种临时表的所有数据都会存在内存中，对于这种表的操作不需要IO操作。另一种是 <strong><br>OnDisk临时表 </strong> ，顾名思义，这种临时表会将数据存储在磁盘上。OnDisk临时表用来处理 <strong> 中间结果比较大的操作 </strong> 。如果HEAP临时表存储<br>的数据大于MAX_HEAP_TABLE_SIZE（详情请参考MySQL手册中系统变量部分），HEAP临时表将会被自动转换成OnDisk临时表。OnDisk临<br>时表在5.7中可以通过INTERNAL_TMP_DISK_STORAGE_ENGINE系统变量选择使用MyISAM引擎或者InnoDB引擎。</p>
+<p>本篇文章主要介绍哪些操作可能会利用到内部临时表。如果用户在书写SQL语句的时候能够尽量少的使用内部临时表进行查询优化，将有效的提高查询执行的效率。</p>
+<p>首先我们定义一个表t1，</p>
+<pre><code>CREATE TABLE t1( a int, b int); INSERT INTO t1 VALUES(1,2),(3,4);
+</code></pre><p>下面所有的操作都是基于表t1进行举例的。</p>
+<p>在SQL语句中使用SQL_BUFFER_RESULT hint<br>SQL_BUFFER_RESULT主要用来让MySQL尽早的释放表上的锁。因为如果数据量很大的话，需要较长时间将数据发送到客户端，通过将数据缓冲到临时表中可<br>以有效的减少读锁对表的占用时间。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select SQL_BUFFER_RESULT * from t1;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.00&quot;
+    },
+    &quot;buffer_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table&quot;: {
+        &quot;table_name&quot;: &quot;t1&quot;,
+        &quot;access_type&quot;: &quot;ALL&quot;,
+    ...
+</code></pre><p>如果SQL语句中包含了DERIVED_TABLE。<br>在5.7中，由于采用了新的优化方式，我们需要使用 set optimizer_switch=’derived_merge=off’来禁止derived<br>table合并到外层的Query中。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from (select * from t1) as tt;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.40&quot;
+    },
+    &quot;table&quot;: {
+      &quot;table_name&quot;: &quot;tt&quot;,
+      &quot;access_type&quot;: &quot;ALL&quot;,
+      ...
+      &quot;materialized_from_subquery&quot;: {
+        &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果我们查询系统表的话，系统表的数据将被存储到内部临时表中。<br>我们当前不能使用EXPLAIN来查看是否读取系统表数据需要利用到内部临时表，但是可以通过SHOW STATUS来查看是否利用到了内部临时表。<br>例如：</p>
+<pre><code>mysql&gt; select * from information_schema.character_sets;
+mysql&gt; show status like &apos;CREATE%&apos;;
+</code></pre><p>如果DISTINCT语句没有被优化掉，即DISTINCT语句被优化转换为GROUP BY操作或者利用UNIQUE INDEX消除DISTINCT,<br>内部临时表将会被使用。</p>
+<pre><code>mysql&gt; explain format=json select distinct a from t1;
+EXPLAIN
+{
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.60&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果查询带有ORDER BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行排序。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)<br>例如：</p>
+<p>1))BNL默认是打开的</p>
+<pre><code>mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+  &quot;select_id&quot;: 1,
+  &quot;cost_info&quot;: {
+    &quot;query_cost&quot;: &quot;22.00&quot;
+  },
+  &quot;ordering_operation&quot;: {
+    &quot;using_temporary_table&quot;: true,
+  ...
+</code></pre><p>2))关掉BNL后，ORDER BY将直接使用filesort。</p>
+<pre><code>mysql&gt; set optimizer_switch=&apos;block_nested_loop=off&apos;;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+    ...
+</code></pre><p>2）ORDER BY的列不属于执行计划中第一个连接表的列。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from t as t1, t as t2 order by t2.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>3）如果ORDER BY的表达式是个复杂表达式。</p>
+<p>那么什么样的ORDER BY表达式，MySQL认为是复杂表达式呢？</p>
+<p>1))如果排序表达式是SP或者UDF。<br>例如：</p>
+<pre><code>drop function if exists func1;
+delimiter |
+create function func1(x int)
+returns int deterministic
+begin
+declare z1, z2 int;
+set z1 = x;
+set z2 = z1+2;
+return z2;
+end|
+delimiter ;
+explain format=json select * from t1 order by func1(a);
+{
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.20&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ..
+</code></pre><p>2))ORDER BY的列包含聚集函数</p>
+<p>为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>create index idx1 on t1(a);
+explain format=json SELECt a FROM t1 group by a order by sum(a);
+| {
+     &quot;query_block&quot;: {
+      &quot;select_id&quot;: 1,
+      &quot;cost_info&quot;: {
+        &quot;query_cost&quot;: &quot;1.20&quot;
+      },
+      &quot;ordering_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: true,
+        &quot;grouping_operation&quot;: {
+          &quot;using_filesort&quot;: false,
+      ...
+drop index idx1 on t1;
+</code></pre><p>3))ORDER BY的列中包含有SCALAR SUBQUERY,当然该SCALAR SUBQUERY没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select rand() from t1 limit 1) as a from t1 order by a;     
+| {
+      &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.20&quot;
+        },
+        &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+            ...
+</code></pre><p>4) 如果查询既带有ORDER BY同时也有GROUP BY语句，但是两个语句使用的列不相同。</p>
+<p>注意: 如果是5.7，我们需要将sql_mode设置为非only_full_group_by模式，否则会报错。</p>
+<p>同样为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+create index idx1 on t1(b);
+explain format=json select t1.a from t1 group by t1.b order by 1;
+| {
+     &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.40&quot;
+        },
+    &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+          &quot;grouping_operation&quot;: {
+            &quot;using_filesort&quot;: false,
+    ...
+drop index idx1 on t1;
+</code></pre><p>如果查询带有GROUP BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行GROUP BY。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t1.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+    ...
+</code></pre><p>2) 如果GROUP BY的列不属于执行计划中的第一个连接表。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t2.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;nested_loop&quot;: [
+    ...
+</code></pre><p>3) 如果GROUP BY语句使用的列与ORDER BY语句使用的列不同。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+explain format=json select t1.a from t1 group by t1.b order by t1.a;
+| {
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.40&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+      &quot;grouping_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: false,
+    ...
+</code></pre><p>4) 如果GROUP BY带有ROLLUP并且是基于多表外连接。<br>例如：</p>
+<pre><code>explain format=json select sum(t1.a) from t1 left join t1 as t2 on true group by t1.a with rollup;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;7.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+      },
+    ...
+</code></pre><p>5) 如果GROUP BY语句使用的列来自于SCALAR SUBQUERY，并且没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select avg(a) from t1) as a from t1 group by a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;3.40&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;2.00&quot;
+      },
+    ...
+</code></pre><p>IN表达式转换为semi-join进行优化<br>1) 如果semi-join执行方式为Materialization<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off,duplicateweedout=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;5.60&quot;
+    },
+    &quot;nested_loop&quot;: [
+      {
+         &quot;rows_examined_per_scan&quot;: 1,
+              &quot;materialized_from_subquery&quot;: {
+                &quot;using_temporary_table&quot;: true,
+                &quot;query_block&quot;: {
+                  &quot;table&quot;: {
+                    &quot;table_name&quot;: &quot;t1&quot;,
+                    &quot;access_type&quot;: &quot;ALL&quot;,
+
+    ... 
+</code></pre><p>2) 如果semi-join执行方式为Duplicate Weedout<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+ | {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;4.80&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;nested_loop&quot;: [
+            {
+    ...
+</code></pre><p>如果查询语句带有UNION，MySQL将利用内部临时表帮助UNION操作消除重复。<br>例如：</p>
+<pre><code>explain format=json select * from t1 union select * from t1;
+| {
+    &quot;query_block&quot;: {
+    &quot;union_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table_name&quot;: &quot;&lt;union1,2&gt;&quot;,
+    ...
+</code></pre><p>如果查询语句使用多表更新。<br>这里Explain不能看到内部临时表被利用，所以需要查看status。<br>例如：</p>
+<pre><code>update t1, t1 as t2 set t1.a=3;
+show status like &apos;CREATE%&apos;;
+</code></pre><p>如果聚集函数中包含如下函数，内部临时表也会被利用。<br>1) count(distinct *)<br>例如：</p>
+<pre><code>explain format=json select count(distinct a) from t1;
+</code></pre><p>2) group_concat<br>例如：</p>
+<pre><code>explain format=json select group_concat(b) from t1;
+</code></pre><p>总之，上面列出了10种情况，MySQL将利用内部临时表进行中间结果缓存，如果数据量比较大的话，内部临时表将会把数据存储在磁盘上，这样显然会对性能有所影响。<br><strong> 为了尽可能的减少性能损失，我们需要尽量避免上述情况的出现 </strong> 。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL中的两种临时表/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL事务介绍及原理/" >MySQL事务介绍及原理</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-为什么要事务"><a href="#1-为什么要事务" class="headerlink" title="1 为什么要事务"></a>1 为什么要事务</h2><p>事务是一组不可被分割执行的SQL语句集合，如果有必要，可以撤销。银行转账是经典的解释事务的例子。用户A给用户B转账5000元主要步骤可以概括为如下两步。<br>第一，账户A账户减去5000元；<br>第二，账户B账户增加5000元；<br>这两步要么成功，要么全不成功，否则都会导致数据不一致。这就可以用到事务来保证，如果是不同银行之间的转账还需要用到分布式事务。</p>
+<h2 id="2-事务的性质"><a href="#2-事务的性质" class="headerlink" title="2 事务的性质"></a>2 事务的性质</h2><p>事务的机制通常被概括为“ACID”原则即原子性（A）、稳定性（C）、隔离性（I）和持久性（D）。<br>原子性：构成事务的的所有操作必须是一个逻辑单元，要么全部执行，要么全部不执行。<br>稳定性：数据库在事务执行前后状态都必须是稳定的。<br>隔离性：事务之间不会相互影响。<br>持久性：事务执行成功后必须全部写入磁盘。</p>
+<h2 id="3-事务隔离性实现原理"><a href="#3-事务隔离性实现原理" class="headerlink" title="3 事务隔离性实现原理"></a>3 事务隔离性实现原理</h2><p>数据库事务会导致脏读、不可重复读和幻影读等问题。<br>脏读：事务还没提交，他的修改已经被其他事务看到。<br>不可重复读：同一事务中两个相同SQL读取的内容可能不同。两次读取之间其他事务提交了修改可能会造成读取数据不一致。<br>幻影数据：同一个事务突然发现他以前没发现的数据。和不可重复读很类似，不过修改数据改成增加数据。<br>针对可能的问题，InnoDB提供了四种不同级别的机制保证数据隔离性。<br><strong> 事务的隔离用是通过锁机制实现的，不同于MyISAM使用表级别的锁，InnoDB采用更细粒度的行级别锁，提高了数据表的性能。InnoDB的锁通过锁定索引来实现，如果查询条件中有主键则锁定主键，如果有索引则先锁定对应索引然后再锁定对应的主键（可能造成死锁），如果连索引都没有则会锁定整个数据表。 </strong></p>
+<h3 id="3-1-READ-UNCOMMIT"><a href="#3-1-READ-UNCOMMIT" class="headerlink" title="3.1 READ UNCOMMIT"></a>3.1 READ UNCOMMIT</h3><p>READ UNCOMMIT允许某个事务看到其他事务并没有提交的数据。可能会导致脏读、不可重复读、幻影数据。<br>原理：READ UNCOMMIT不会采用任何锁。</p>
+<h3 id="3-2-READ-COMMIT"><a href="#3-2-READ-COMMIT" class="headerlink" title="3.2 READ COMMIT"></a>3.2 READ COMMIT</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+</code></pre><p>READ COMMIT允许某个事务看到其他事务已经提交的数据。可能会导致不可重复读和幻影数据。<br>原理：数据的读是不加锁的，但是数据的写入、修改、删除加锁，避免了脏读。</p>
+<h3 id="3-3-REPEATABLE-READ"><a href="#3-3-REPEATABLE-READ" class="headerlink" title="3.3 REPEATABLE READ"></a>3.3 REPEATABLE READ</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+InnoDB中REPEATABLE READ级别同一个事务的两次相同读取肯定是一样的，其他事务的提交不会对本次事务有影响。
+</code></pre><p>原理：数据的读、写都会加锁，当前事务如果占据了锁，其他事务必须等待本次事务提交完成释放锁后才能对相同的数据行进行操作。</p>
+<h3 id="3-4-SERIALIZABLE"><a href="#3-4-SERIALIZABLE" class="headerlink" title="3.4 SERIALIZABLE"></a>3.4 SERIALIZABLE</h3><pre><code>**可能有误，学习时没看到多版本并发控制（MVCC），学习后更新**
+</code></pre><p>SERIALIZABLE 级别在InnoDB中和REPEATABLE READ采用相同的实现。</p>
+<h2 id="4-原子性、稳定性和持久性实现原理"><a href="#4-原子性、稳定性和持久性实现原理" class="headerlink" title="4 原子性、稳定性和持久性实现原理"></a>4 原子性、稳定性和持久性实现原理</h2><p>原子性、稳定性和持久性是通过redo 和 undo<br>日志文件实现的，不管是redo还是undo文件都会有一个缓存我们称之为redo_buf和undo_buf。同样，数据库文件也会有缓存称之为data_buf。</p>
+<h3 id="4-1-undo-日志文件"><a href="#4-1-undo-日志文件" class="headerlink" title="4.1 undo 日志文件"></a>4.1 undo 日志文件</h3><p>undo记录了数据在事务开始之前的值，当事务执行失败或者ROLLBACK时可以通过undo记录的值来恢复数据。例如 AA和BB的初始值分别为3，5。</p>
+<pre><code>A 事务开始
+B 记录AA=3到undo_buf
+C 修改AA=1
+D 记录BB=5到undo_buf
+E 修改BB=7
+F 将undo_buf写到undo(磁盘)
+G 将data_buf写到datafile(磁盘)
+H 事务提交
+</code></pre><p>通过undo可以保证原子性、稳定性和持久性<br><strong> 如果事务在F之前崩溃由于数据还没写入磁盘，所以数据不会被破坏。 </strong><br><strong> 如果事务在G之前崩溃或者回滚则可以根据undo恢复到初始状态。 </strong><br>数据在任务提交之前写到磁盘保证了持久性。<br>但是单纯使用undo保证原子性和持久性需要在事务提交之前将数据写到磁盘，浪费大量I/O。</p>
+<h3 id="4-2-redo-undo-日志文件"><a href="#4-2-redo-undo-日志文件" class="headerlink" title="4.2 redo/undo 日志文件"></a>4.2 redo/undo 日志文件</h3><p>引入redo日志记录数据修改后的值，可以避免数据在事务提交之前必须写入到磁盘的需求，减少I/O。</p>
+<pre><code>A 事务开始
+B 记录AA=3到undo_buf
+C 修改AA=1 记录redo_buf
+D 记录BB=5到undo_buf
+E 修改BB=7 记录redo_buf
+F 将redo_buf写到redo（磁盘）
+G 事务提交
+</code></pre><p><strong> 通过undo保证事务的原子性，redo保证持久性。 </strong><br><strong> F之前崩溃由于所有数据都在内存，恢复后重新冲磁盘载入之前的数据，数据没有被破坏。 </strong><br><strong> FG之间的崩溃可以使用redo来恢复。 </strong><br><strong> G之前的回滚都可以使用undo来完成。 </strong></p>
+<h2 id="5-事务操作命令"><a href="#5-事务操作命令" class="headerlink" title="5 事务操作命令"></a>5 事务操作命令</h2><p>如果需要使用事务就必须选用支持事务的数据库引擎如InnoDB和Falcon，MyISAM并不支持事务。<br>在默认情况下MySQL开启的是autocommit模式，也就是隐含的将每条语句当做一个事务处理，每条SQL都会被自动提交。当我们使用BEGIN或者START<br>TRANSCATION时会把自动提交挂起，直到显示的调用COMMIT。使用事务可以有如下两种方法：</p>
+<pre><code>BEGIN; //开始事务，挂起自动提交
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10001, 1, 10001, 0);
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10002, 1, 10001, 0);
+COMMIT; //提交事务，恢复自动提交
+
+
+set autocommit = 0; //挂起自动提交
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10001, 1, 10001, 0);
+insert into t_cart_shopcart (user_id, sku_id, amount, shop_id,  status) values(10001, 10002, 1, 10001, 0);
+COMMIT; //提交事务
+set autocommit = 1; //恢复自动提交
+</code></pre><p>这两种方式效果相同。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>[1] <a href="http://www.cnblogs.com/Bozh/archive/2013/03/18/2966494.html" target="_blank" rel="noopener"> http://www.cnblogs.com/Bozh/archive/2013/03/18/2966494.html
+</a><br>[2] <a href="http://www.letiantian.me/2014-06-18-db-undo-redo-checkpoint/" target="_blank" rel="noopener"> http://www.letiantian.me/2014-06-18-db-undo-redo-checkpoint/
+</a><br>[3] <a href="http://blog.csdn.net/mchdba/article/details/12242685" target="_blank" rel="noopener"> http://blog.csdn.net/mchdba/article/details/12242685
+</a><br>[4] 《MySQL技术内幕》<br>[5] <a href="http://tech.meituan.com
+/innodb-lock.html" target="_blank" rel="noopener"> http://tech.meituan.com/innodb-lock.html </a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL事务介绍及原理/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/MySQL主从复制原理/" >MySQL主从复制原理</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>MySQL主从复制原理</p>
+<p>当一台MySQL服务器无法满足现有的访问量时，一般会采用主从服务器模式，通过数据库代理做到读写分离。主服务器负责处理写入请求，从服务器服务器负责处理读取请求<br>。大部分情况是读取量远大于写入量，一般会配置多个从服务器。参考《高性能MySQL》，本文介绍了MySQL主从复制的原理和常见的拓扑结构。</p>
+<h2 id="1-MySQL主从复制的过程"><a href="#1-MySQL主从复制的过程" class="headerlink" title="1 MySQL主从复制的过程"></a>1 MySQL主从复制的过程</h2><p>MySQL主从负责依赖binlog，要想实现复制必须打开binlog。主从复制的过程中由主服务器（Master）的IO进程配合从服务器（Slave）的IO进<br>程和SQL进程共同完成，具体不知如下：<br>1）Slave的IO进程向Master请求指定日志文件指定位置后的日志内容；<br>2）Master收到请求后，通过Master的IO进程读取Slave请求的数据并返回给Slave的IO进程，除了请求的内容还会给Slave返回本次读取到的b<br>inlog文件名称和位置；<br>3）Slave的IO进程收到返回内容后将日志内容添加到relay-log后面，并将文件位置信息保存到master-info中；<br>4）Slave的SQL进程发现relay-log有新内容后就会取出relay-log中的语句执行。<br><img src="http://img.blog.csdn.net/20160217195636237" alt="mysql主从复制过程"></p>
+<h2 id="2-MySQL主从复制级别"><a href="#2-MySQL主从复制级别" class="headerlink" title="2 MySQL主从复制级别"></a>2 MySQL主从复制级别</h2><p>MySQL主从复制分为基于语句复制、基于行复制和混合复制三种。</p>
+<h3 id="2-1-基于语句复制"><a href="#2-1-基于语句复制" class="headerlink" title="2.1 基于语句复制"></a>2.1 基于语句复制</h3><p>基于语句复制是MySQL根据binlog中的语句在Slave上重做这些操作，MySQL默认级别。优点是快速简单binlog文件小，缺点是使用到UUID()、<br>USER()以及部分UPDATE操作时没法正确的复制等。</p>
+<h3 id="2-2-基于行复制"><a href="#2-2-基于行复制" class="headerlink" title="2.2 基于行复制"></a>2.2 基于行复制</h3><p>采用行复制时，binlog中记录的将不再是操作语句而是记录每一行的修改，这样避免了基于语句复制的缺点，保证每条修改都能被正确复制。但是行复制的binlog可<br>能会很大，比如说alter操作会在日志中记录所有行的变化，binlog就会过大。</p>
+<h3 id="2-3-混合复制"><a href="#2-3-混合复制" class="headerlink" title="2.3 混合复制"></a>2.3 混合复制</h3><p>混合复制是前两种复制方式的结合，MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在语句复制和行复制之间选择一种。当使用语句复制无<br>法准确复制会自动切换到行复制，如下几种情况会自动切换。<br>1）当函数中包含 UUID() 时；<br>2）2个及以上包含 AUTO_INCREMENT 字段的表被更新时；<br>3）执行 INSERT DELAYED 语句时；<br>4）用 UDF 时；<br>5）视图中必须要求运用 row 时，例如建立视图时使用了 UUID() 函数；<br>6）当 DML 语句更新一个 NDB 表时；</p>
+<h2 id="3-主从复制常见的拓扑结构"><a href="#3-主从复制常见的拓扑结构" class="headerlink" title="3 主从复制常见的拓扑结构"></a>3 主从复制常见的拓扑结构</h2><p>常见的主从复制拓扑结构有一主多从、主动、级联等模式</p>
+<h3 id="3-1-一主多从模式"><a href="#3-1-一主多从模式" class="headerlink" title="3.1 一主多从模式"></a>3.1 一主多从模式</h3><p>一主多从模式中有且只有一个Master有一组Slave，当前大部分主从复制采用这种模式。这种模式扩展方便，主从延时少。当写操作较少而读操作较多时采用这种方式<br>较合适，但是当Slave过多时会导致Master负载较重以及消耗较多带宽的问题。</p>
+<h3 id="3-2-主动模式"><a href="#3-2-主动模式" class="headerlink" title="3.2 主动模式"></a>3.2 主动模式</h3><p>主动模式的两台服务器，既是master，又是另一台服务器的slave。这样，任何一方所做的变更，都会通过复制应用到另外一方的数据库中。</p>
+<h3 id="3-3-级联模式"><a href="#3-3-级联模式" class="headerlink" title="3.3 级联模式"></a>3.3 级联模式</h3><p>当读压力较大时，连接到Master上的Slave较多，会给Master带来较大压力。采用级联的方式即Master只连接一定数量的Slave，这些Slave又<br>充当其他Slave的Master。级联模式减少了Master的压力但是也会带来主从复制延时较大的问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="http://blog.csdn.net/hguisu/article/details/7325124" target="_blank" rel="noopener"> http://blog.csdn.net/hguisu/article/details/7325124
+</a><br>[2] <a href="http://database.51cto.com/art/200906/128162.htm" target="_blank" rel="noopener"> http://database.51cto.com/art/200906/128162.htm
+</a><br>[3] <a href="http://wangwei007.blog.51cto.com/68019/965575" target="_blank" rel="noopener"> http://wangwei007.blog.51cto.com/68019/965575
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/MySQL主从复制原理/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Redis主从同步原理-SYNC/" >Redis主从同步原理-SYNC</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>和MySQL主从复制的原因一样，Redis虽然读取写入的速度都特别快，但是也会产生读压力特别大的情况。为了分担读压力，Redis支持主从复制，Redis的主<br>从结构可以采用一主多从或者级联结构，下图为级联结构。<br><img src="http://img.blog.csdn.net/20160223183441769" alt="Redis主从结构"><br>Redis主从复制可以根据是否是全量分为全量同步和增量同步。</p>
+<h2 id="1-全量同步"><a href="#1-全量同步" class="headerlink" title="1 全量同步"></a>1 全量同步</h2><p>Redis全量复制一般发生在Slave初始化阶段，这时Slave需要将Master上的所有数据都复制一份。具体步骤如下：<br>1）从服务器连接主服务器，发送SYNC命令；<br>2）主服务器接收到SYNC命名后，开始执行BGSAVE命令生成RDB文件并使用缓冲区记录此后执行的所有写命令；<br>3）主服务器BGSAVE执行完后，向所有从服务器发送快照文件，并在发送期间继续记录被执行的写命令；<br>4）从服务器收到快照文件后丢弃所有旧数据，载入收到的快照；<br>5）主服务器快照发送完毕后开始向从服务器发送缓冲区中的写命令；<br>6）从服务器完成对快照的载入，开始接收命令请求，并执行来自主服务器缓冲区的写命令；<br><img src="http://img.blog.csdn.net/20160223183521160" alt="Redis全量同步过程"><br>完成上面几个步骤后就完成了从服务器数据初始化的所有操作，从服务器此时可以接收来自用户的读请求。</p>
+<h2 id="2-增量同步"><a href="#2-增量同步" class="headerlink" title="2 增量同步"></a>2 增量同步</h2><p>Redis增量复制是指Slave初始化后开始正常工作时主服务器发生的写操作同步到从服务器的过程。<br>增量复制的过程主要是主服务器每执行一个写命令就会向从服务器发送相同的写命令，从服务器接收并执行收到的写命令。</p>
+<h2 id="3-Redis主从同步策略"><a href="#3-Redis主从同步策略" class="headerlink" title="3 Redis主从同步策略"></a>3 Redis主从同步策略</h2><p>主从刚刚连接的时候，进行全量同步；全同步结束后，进行增量同步。当然，如果有需要，slave 在任何时候都可以发起全量同步。redis<br>策略是，无论如何，首先会尝试进行增量同步，如不成功，要求从机进行全量同步。</p>
+<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4 其他"></a>4 其他</h2><p>Redis 2.8以后提供了PSYNC优化了断线重连的效率<br><a href="http://blog.csdn.net/sk199048/article/details/77922589" target="_blank" rel="noopener"> http://blog.csdn.net/sk199048/article/details/77922589
+</a></p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] 《Redis IN ACTION》<br>[2] <a href="http://blog.csdn.net/houjixin/article/details/27680183" target="_blank" rel="noopener"> http://blog.csdn.net/houjixin/article/details/27680183
+</a><br>[3] <a href="http://daoluan.net/blog/2014/04/22/decode-redis-replication/" target="_blank" rel="noopener"> http://daoluan.net/blog/2014/04/22/decode-redis-replication/
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Redis主从同步原理-SYNC/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Redis主从同步原理-PSYNC/" >Redis主从同步原理-PSYNC</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>之前写过一篇博客（ <a href="http://blog.csdn.net/sk199048/article/details/50725369" target="_blank" rel="noopener"> http://blog.csdn.net/sk199048/article/details/50725369
+</a><br>）来介绍了Redis主从同步的过程，里面主要介绍从服务器使用SYNC命令复制数据的过程。Reids复制数据主要有2种场景：<br>1. 从服务器从来第一次和当前主服务器连接，即初次复制<br>2. 从服务器断线后重新和之前连接的主服务器恢复连接，即断线后重复制<br>对于初次复制来说使用SYNC命令进行全量复制是合适高效的，但是对于 <strong> 断线后重复制 </strong> 来说效率就不太能接受了。举例来说：<br><img src="http://img.blog.csdn.net/20170910141439297?watermark/2/text/aHR0c
+DovL2Jsb2cuY3Nkbi5uZXQvc2sxOTkwNDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA
+==/dissolve/70/gravity/SouthEast" alt="Redis断线重连"><br>如图所示，Master在断开连接期间只传播了3个写入命令，但是重新连接之后却要全量复制，显然这是低效并且不太必要的。</p>
+<h3 id="PSYNC概念"><a href="#PSYNC概念" class="headerlink" title="PSYNC概念"></a>PSYNC概念</h3><p>为了应对这种情况，Redis在2.8版本提供了PSYNC命令来带代替SYNC命令，为Redis主从复制提供了部分复制的能力。PSYNC命令格式是：</p>
+<pre><code>PSYNC &lt;runid&gt; &lt;offset&gt;
+runid:主服务器ID
+offset:从服务器最后接收命令的偏移量
+</code></pre><p>PSYNC执行过程中比较重要的概念有3个：runid、offset（复制偏移量）以及复制积压缓冲区。</p>
+<h4 id="runid"><a href="#runid" class="headerlink" title="runid"></a>runid</h4><p>每个Redis服务器都会有一个表明自己身份的ID。在PSYNC中发送的这个ID是指之前连接的Master的ID，如果没保存这个ID，PSYNC的命令会使用”<br>PSYNC ? -1” 这种形式发送给Master，表示需要全量复制。</p>
+<h4 id="offset（复制偏移量）"><a href="#offset（复制偏移量）" class="headerlink" title="offset（复制偏移量）"></a>offset（复制偏移量）</h4><p>在主从复制的Master和Slave双方都会各自维持一个offset。Master成功发送N个字节的命令后会将Master的offset加上N，Slave在<br>接收到N个字节命令后同样会将Slave的offset增加N。Master和Slave如果状态是一致的那么它的的offset也应该是一致的。</p>
+<h4 id="复制积压缓冲区"><a href="#复制积压缓冲区" class="headerlink" title="复制积压缓冲区"></a>复制积压缓冲区</h4><p>复制积压缓冲区是由Master维护的一个固定长度的FIFO队列，它的作用是缓存已经传播出去的命令。当Master进行命令传播时，不仅将命令发送给所有Slav<br>e，还会将命令写入到复制积压缓冲区里面。</p>
+<h3 id="PSYNC执行过程"><a href="#PSYNC执行过程" class="headerlink" title="PSYNC执行过程"></a>PSYNC执行过程</h3><p>理解了上面三个基本概念，PSYNC的执行过程就好理解了。<br><img src="http://img.blog.csdn.net/20170910152114918?watermark/2/text/aHR0c
+DovL2Jsb2cuY3Nkbi5uZXQvc2sxOTkwNDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA
+==/dissolve/70/gravity/SouthEast" alt="PSYNC执行过程"><br>1 客户端向服务器发送SLAVEOF命令，让当前服务器成为Slave；<br>2 当前服务器根据自己是否保存Master runid来判断是否是第一次复制，如果是第一次同步则跳转到3，否则跳转到4；<br>3 向Master发送PSYNC ? -1 命令来进行完整同步；<br>4 向Master发送PSYNC runid offset；<br>5 Master接收到PSYNC 命令后首先判断runid是否和本机的id一致，如果一致则会再次判断offset偏移量和本机的偏移量相差有没有超过复制积压缓<br>冲区大小，如果没有那么就给Slave发送CONTINUE，此时Slave只需要等待Master传回失去连接期间丢失的命令；<br>6 如果runid和本机id不一致或者双方offset差距超过了复制积压缓冲区大小，那么就会返回FULLRESYNC runid<br>offset，Slave将runid保存起来，并进行完整同步。</p>
+<h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>上面内容大多数是《Redis设计与实现》这本书中的内容，接下来会仔细看下这部分实现的源码，将实现细节理出来。</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>《Redis设计与实现》黄健宏</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Redis主从同步原理-PSYNC/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Redis事务介绍/" >Redis事务介绍</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-什么是Redis事务"><a href="#1-什么是Redis事务" class="headerlink" title="1 什么是Redis事务"></a>1 什么是Redis事务</h2><p>Redis通过MULTI、EXEC、DISCARD以及WATCH命令提供事务功能。Redis的事务提供一次性、按顺序执行命令的机制，并且不会中断事务去执行其<br>他命令。Redis事务和我们常理解的事务还是有些区别的，即事务中的部分命令执行失败不会导致事务回滚。Redis事务的核心思想是维护一个事务命令队列，将事务中<br>的所有命令先预存到队列中，等待EXEC一起执行或者DISCARD清空队列。</p>
+<h2 id="2-Redis事务命令"><a href="#2-Redis事务命令" class="headerlink" title="2 Redis事务命令"></a>2 Redis事务命令</h2><p>事务的执行分为三个步骤，事务开始、命令入队列以及事务执行。</p>
+<h3 id="2-1-MULTI（事务开始）"><a href="#2-1-MULTI（事务开始）" class="headerlink" title="2.1 MULTI（事务开始）"></a>2.1 MULTI（事务开始）</h3><p>当Redis服务器接收到某个客户端发送过来的MULTI命令后就会将这个客户端的状态标志为事务状态（REDIS_MULTI），事务状态的客户端会将除了MULT<br>I、EXEC、DISCARD以及WATCH命令都加入到命令队列中。如果有错误命令，会导致事务取消。例如：</p>
+<pre><code>127.0.0.1:6379&gt; MULTI
+OK
+127.0.0.1:6379&gt; set name &quot;shi ke&quot;
+QUEUED
+127.0.0.1:6379&gt; set firstName &quot;shi&quot;
+QUEUED
+127.0.0.1:6379&gt; err set
+(error) ERR unknown command &apos;err&apos;
+127.0.0.1:6379&gt; get name
+QUEUED
+127.0.0.1:6379&gt; get firstName
+QUEUED
+127.0.0.1:6379&gt; exec
+(error) EXECABORT Transaction discarded because of previous errors.
+</code></pre><h3 id="2-2-EXEC-（事务执行）"><a href="#2-2-EXEC-（事务执行）" class="headerlink" title="2.2 EXEC （事务执行）"></a>2.2 EXEC （事务执行）</h3><p>当Redis服务器接收到客户端的EXEC命令后会遍历这个服务器的所有事务命令并且依次执行，返回结果，将客户端状态改回非事务。需要注意的是Redis服务器不保<br>证每个命令都能执行成功，已经执行成功的会改变数据库库状态，不提供回滚功能。</p>
+<h3 id="2-3-DISCARD-（事务取消）"><a href="#2-3-DISCARD-（事务取消）" class="headerlink" title="2.3 DISCARD （事务取消）"></a>2.3 DISCARD （事务取消）</h3><p>当Redis服务器收到DISCARD命令后会清空该客户端的事务命令队列并且将客户端状态修改成非事务。例如：</p>
+<pre><code>127.0.0.1:6379&gt; MULTI
+OK
+127.0.0.1:6379&gt; set name &quot;keshi&quot;
+QUEUED
+127.0.0.1:6379&gt; DISCARD
+OK
+127.0.0.1:6379&gt; EXEC
+(error) ERR EXEC without MULTI
+</code></pre><h3 id="2-4-WATCH-（监控）"><a href="#2-4-WATCH-（监控）" class="headerlink" title="2.4 WATCH （监控）"></a>2.4 WATCH （监控）</h3><p>在事务开始之前可以用WATCH命令监控特定的键，当有其他客户端修改了监控的键，那么服务器将拒绝执行这个客户端接下来的一个事务。例如：</p>
+<pre><code>redis-cli-1                          redis-cli-2
+127.0.0.1:6379&gt; WATCH name
+OK
+127.0.0.1:6379&gt; MULTI
+OK
+127.0.0.1:6379&gt; get name
+QUEUED
+127.0.0.1:6379&gt; set firstName &quot;Yang&quot;  127.0.0.1:6379&gt; set name &quot;Yang Li&quot;
+QUEUED
+127.0.0.1:6379&gt; EXEC
+(nil)
+127.0.0.1:6379&gt; get firstName
+&quot;shike&quot;
+127.0.0.1:6379&gt; get name
+&quot;Yang Li&quot;
+</code></pre><h2 id="3-Redis事务的ACID原则"><a href="#3-Redis事务的ACID原则" class="headerlink" title="3 Redis事务的ACID原则"></a>3 Redis事务的ACID原则</h2><p>事务的ACID即事务的原子性、一致性、隔离性、持久性，Redis事务能够保证原子性、一致性、隔离性但是不会保证持久性。</p>
+<h3 id="3-1-原子性"><a href="#3-1-原子性" class="headerlink" title="3.1 原子性"></a>3.1 原子性</h3><p>事务的原子性是指一组操作要么全部执行，要么全不执行。Redis可以保证一组数据同时执行或者不执行。 <strong><br>但是不同于MySQL等关系数据库事务操作，Redis不提供回滚操作即部分操作失败不会引起整个事务回滚。 </strong></p>
+<h3 id="3-2-一致性"><a href="#3-2-一致性" class="headerlink" title="3.2 一致性"></a>3.2 一致性</h3><p>事务的一致性指数据库中的数据全部符合数据库的规范，不会出现不符合规范的数据存在。Redis通过严格的错误检测保证事务的一致性。<br>第一、入队时的错误回直接导致整个事务失败，保证一致性。<br>第二、执行时错误会跳过错误命令，继续执行其他命令。<br>第三、服务器重启，如果有持久化则通过RDB、AOF文件恢复数据，否则数据库为空。</p>
+<h3 id="3-3-隔离性"><a href="#3-3-隔离性" class="headerlink" title="3.3 隔离性"></a>3.3 隔离性</h3><p>Redis事务在执行之前只是将命令存在操作队列中，不会真正去操作数据库，所有事务之间不会相互影响。</p>
+<h3 id="3-4-持久性"><a href="#3-4-持久性" class="headerlink" title="3.4 持久性"></a>3.4 持久性</h3><p>Redis事务是否具有持久性是由他的持久化策略决定的，当且仅当采用AOF模式并且appendfsync设为always时才具有持久性，具体原因请看Redis<br>持久化介绍（ <a href="http://blog.csdn.net/sk199048/article/details/50589491" target="_blank" rel="noopener"> http://blog.csdn.net/sk199048/article/details/50589491
+</a> ）</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Redis事务介绍/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Redis持久化方式介绍/" >Redis持久化方式介绍</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Redis的持久化方法持久化方法有RDB文件和AOF文件两种。下面主要介绍两种持久化方法的原理缺点以及我在做交易系统异步化改造项目时用到redis的场景。</p>
+<h2 id="1-RDB文件"><a href="#1-RDB文件" class="headerlink" title="1 RDB文件"></a>1 RDB文件</h2><p>RDB文件是一个经过压缩的二进制文件，通过这个文件可以还原生成RDB文件时的数据库状态。RDB文件是直接保存在硬盘中的，所以即使Redis宕机也可以通过RD<br>B文件恢复。生成RDB文件的Redis命令有SAVE和BGSAVE两个。</p>
+<h3 id="1-1-SAVE命令"><a href="#1-1-SAVE命令" class="headerlink" title="1.1 SAVE命令"></a>1.1 SAVE命令</h3><p>Redis是单进程工作的，SAVE命令会阻塞Redis服务器进程，直到RDB文件创建完成之前，服务器不能接受任何处理命令。</p>
+<h3 id="1-2-BGSAVE命令"><a href="#1-2-BGSAVE命令" class="headerlink" title="1.2 BGSAVE命令"></a>1.2 BGSAVE命令</h3><p>不同于SAVE命令，BGSAVE通过子进程创建RDB文件。当接收到BGSAVE命令后，Redis主进程会fork一个子进程负责创建RDB文件，Redis此时<br>还可以继续处理客户端命令。BGSAVE执行期间如果客户端再次发送BGSAVE时会被拒绝，防止争用rdbSave。同样客户端发送SAVE也会被拒绝。</p>
+<h3 id="1-3-RDB文件载入"><a href="#1-3-RDB文件载入" class="headerlink" title="1.3 RDB文件载入"></a>1.3 RDB文件载入</h3><p>当RDB文件载入时，Redis会被阻塞，直到文件载入完成。</p>
+<h2 id="2-AOF文件"><a href="#2-AOF文件" class="headerlink" title="2 AOF文件"></a>2 AOF文件</h2><p>AOF文件文件是Redis提供的另一种持久化方案，他记录Redis服务器的执行命令还记录数据库的状态（和MySQL的Binlog有点类似）。AOF命令中记录<br>的是纯文本格式的命令。AOF持久化的过程分为命令追加、文件写入和文件同步三个过程。</p>
+<h3 id="2-1-命令追加"><a href="#2-1-命令追加" class="headerlink" title="2.1 命令追加"></a>2.1 命令追加</h3><p>当AOF持久化功能打开时，服务器在执行完一条命令后会以协议格式将执行完的命令追加到aof_buf缓冲区的末尾。</p>
+<h3 id="2-2-文件写入与同步"><a href="#2-2-文件写入与同步" class="headerlink" title="2.2 文件写入与同步"></a>2.2 文件写入与同步</h3><p>Redis服务进程是个事件循环，服务器每次在执行完一次事件之前都会调用flushAppendOnlyFile决定是否将aof缓冲区中的内容保存到AOF文件中<br>。Redis服务器根据配置appendfsync决定同步策略，Redis为appendfsync提供了三种配置，分别为always、everysec、no。<br>当配置为always时，服务器每次事件循环都会将缓冲区中的所有内容都写到文件中，速度最慢但是最安全。<br>当配置为everysec时，服务器每隔1秒回将缓存中数据写到文件中，速度够快，最多丢失1秒的数据。<br>当配置为no时，由操作系统决定什么时间将缓存中内容写入到AOF文件中。</p>
+<h3 id="2-3-数据还原"><a href="#2-3-数据还原" class="headerlink" title="2.3 数据还原"></a>2.3 数据还原</h3><p>Redis服务器利用AOF还原的原理是创建一个不带网络连接的伪客户端执行AOF中保存的命令即可。</p>
+<h3 id="2-4-缺点"><a href="#2-4-缺点" class="headerlink" title="2.4 缺点"></a>2.4 缺点</h3><p>AOF文件持久化得缺点是AOF文件往往会过大，虽然Redis提供了文件重写机制，但是在操作较多的时候AOF文件仍会很大。</p>
+<h2 id="3-交易系统场景Redis使用"><a href="#3-交易系统场景Redis使用" class="headerlink" title="3 交易系统场景Redis使用"></a>3 交易系统场景Redis使用</h2><p>我们交易系统Redis只当缓存用，并且不开启持久化功能，redis中的数据通过消息队列（kafka）同步到MySQL中，通过MySQL保证数据完整性、一致性<br>。交易是个高频写入、峰值写入会特别大的系统，由上面分析的Redis两种持久化方案都会导致系统性能剧烈下降。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Redis持久化方式介绍/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/3/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> Prev</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/5/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

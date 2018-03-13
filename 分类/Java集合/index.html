@@ -1,0 +1,2070 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java集合 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+<!-- title -->
+<div class="page-header page-header-inverse ">
+  <h1 class="archive-title-category title title-inverse ">Java集合</h1>
+</div>
+
+<div class="row page">
+  <!-- cols -->
+  
+  <div class="col-md-9">
+	
+
+	  <div id="top_search"></div>
+
+      
+         <!-- display as entry -->
+	     <div class="mypage">
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：ArrayList使用详解及源码分析/" >Java集合：ArrayList使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ArrayList是数组队列，可以实现容量的动态增长。ArrayList类继承了AbstractList抽象类并且实现了List、RandomAccess，<br>Cloneable以及java.io.Serializable接口。<br>public class ArrayList extends AbstractList implements List, RandomAccess,<br>Cloneable, java.io.Serializable<br>AbstractList类继承了AbstractCollection类并实现了List接口。<br>实现RandomAccess接口使ArrayList拥有随机访问的能力，即通过下表索引访问数组元素。<br>实现Cloneable接口重写了接口定义的clone()方法，ArrayList可以使用clone()复制数组。<br>实现 java.io.Serializable接口使ArrayList支持序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ArrayList提供了增加、删除、判空等操作，具体提供的方法如下：</p>
+<pre><code>// Collection中定义的API
+boolean             add(E object)  //增加元素
+boolean             addAll(Collection&lt;? extends E&gt; collection) //复制另一个Collection中的所有元素
+void                clear() //清空数组
+boolean             contains(Object object) //判断数组中是否包含object
+boolean             containsAll(Collection&lt;?&gt; collection) //判断另一个数组是否是这个数组的子集
+boolean             equals(Object object) //判断元素是否相等
+int                 hashCode() //获取hash code
+boolean             isEmpty() //判空
+Iterator&lt;E&gt;         iterator() //迭代器
+boolean             remove(Object object) //删除元素
+boolean             removeAll(Collection&lt;?&gt; collection)  //删除collection包含的元素
+boolean             retainAll(Collection&lt;?&gt; collection) //保留collection包含的元素
+int                 size() //获取数组大小
+&lt;T&gt; T[]             toArray(T[] array)  //转换成T类型的数组
+Object[]            toArray() //转换成Object类型的数组
+// AbstractCollection中定义的API
+void                add(int location, E object) //指定位置增加元素
+boolean             addAll(int location, Collection&lt;? extends E&gt; collection) //指定位置开始增加多个元素
+E                   get(int location) //获取location位置的元素
+int                 indexOf(Object object) //获取object首次出现的位置
+int                 lastIndexOf(Object object) //获取object最后一次出现的位置
+ListIterator&lt;E&gt;     listIterator(int location) //迭代器，从location起始
+ListIterator&lt;E&gt;     listIterator() //迭代器
+E                   remove(int location) //删除location位置的元素
+E                   set(int location, E object) //重置location位置的元素为object
+List&lt;E&gt;             subList(int start, int end) //获取[start, end)之间的元素
+// ArrayList新增的API
+Object               clone() //复制元素
+void                 ensureCapacity(int minimumCapacity) //最低容量
+void                 trimToSize() //修剪数组大小为当前元素个数
+void                 removeRange(int fromIndex, int toIndex) //删除[fromIndex, toIndex)之间的元素
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>package com;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+   // write your code here
+        List list = new ArrayList&lt;&gt;(20); //申请一个初始容量为20的ArrayList
+        String element; //要填充的元素
+        for (int i = 0; i &lt; 10; i++) {
+            element = &quot;num-&quot; + i;
+            list.add(element); // 填充list
+        }
+        list.add(10, &quot;num-10&quot;); //在指定位置增加元素
+
+        //使用Iterator遍历list
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+            System.out.print(iter.next() + &quot; &quot;);
+        }
+        System.out.println(&quot; &quot;);
+
+        System.out.println(&quot;The second element is: &quot; + list.get(1)); //获取第2个元素
+        System.out.println(&quot;array size is: &quot; + list.size()); //获取list大小
+        System.out.println(&quot;is array list contains num-15:&quot; + list.contains(&quot;num-15&quot;)); //判断list是否含有num-15
+        list.set(2,&quot;num-3-1&quot;); //将第三个元素设置为num-3-1
+
+        String[] arr = (String[])list.toArray(new String[0]); //将ArrayList转换为数组
+        for (String str:arr) { //遍历数组
+            System.out.print(str + &quot; &quot;);
+        }
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>num-0 num-1 num-2 num-3 num-4 num-5 num-6 num-7 num-8 num-9 num-10
+The second element is: num-1
+array size is: 11
+is array list contains num-15:false
+num-0 num-1 num-3-1 num-3 num-4 num-5 num-6 num-7 num-8 num-9 num-10
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ArrayList有三个构造函数，提供三种创建ArrayList实例的方法。</p>
+<pre><code>/**
+ * 获取一个初始长度为initialCapacity的空ArrayList
+ * @param initialCapacity
+ */
+public ArrayList(int initialCapacity) {
+    if (initialCapacity &gt; 0) {
+        this.elementData = new Object[initialCapacity];
+    } else if (initialCapacity == 0) {
+        this.elementData = EMPTY_ELEMENTDATA;
+    } else {
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    }
+}
+
+/**
+ * 返回一个空ArrayList
+ */
+public ArrayList() {
+    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+}
+
+/**
+ * 返回一个用ArrayList,并且用集合c进行初始化
+ * @param c
+ */
+public ArrayList(Collection&lt;? extends E&gt; c) {
+    elementData = c.toArray();
+    if ((size = elementData.length) != 0) {
+        // c.toArray might (incorrectly) not return Object[] (see 6260652)
+        if (elementData.getClass() != Object[].class)
+            elementData = Arrays.copyOf(elementData, size, Object[].class);
+    } else {
+        // replace with empty array.
+        this.elementData = EMPTY_ELEMENTDATA;
+    }
+}
+</code></pre><h3 id="2-2-add方法"><a href="#2-2-add方法" class="headerlink" title="2.2 add方法"></a>2.2 add方法</h3><pre><code>/**
+ * 增加元素
+ * @param e
+ * @return
+ */
+public boolean add(E e) {
+    ensureCapacityInternal(size + 1);  // 确定ArrayList长度
+    elementData[size++] = e; //向数组中增加元素
+    return true;
+}
+</code></pre><h3 id="2-3-remove方法"><a href="#2-3-remove方法" class="headerlink" title="2.3 remove方法"></a>2.3 remove方法</h3><pre><code>/**
+ * 删除元素
+ * @param index
+ * @return
+ */
+public E remove(int index) {
+    rangeCheck(index); //检查下标是否合法
+
+    modCount++;
+    E oldValue = elementData(index); //获取删除的元素
+
+    int numMoved = size - index - 1;
+    if (numMoved &gt; 0) //移动元素
+        System.arraycopy(elementData, index+1, elementData, index,
+                numMoved);
+    elementData[--size] = null; // clear to let GC do its work
+
+    return oldValue;
+}
+</code></pre><h3 id="2-4-toArray方法"><a href="#2-4-toArray方法" class="headerlink" title="2.4 toArray方法"></a>2.4 toArray方法</h3><p>toArray有两个重载方法，一个不带参数返回Object数字，另一个带参数，返回任意类型的数组。</p>
+<pre><code>/**
+ * 返回Object对象的数组
+ * @return
+ */
+public Object[] toArray() {
+    return Arrays.copyOf(elementData, size);
+}
+
+/**
+ * 返回任意对象类型的数组
+ * @param a
+ * @param &lt;T&gt;
+ * @return
+ */
+public &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; size) //传入数组大小小于size时,直接返回一个新数组
+        // Make a new array of a&apos;s runtime type, but my contents:
+        return (T[]) Arrays.copyOf(elementData, size, a.getClass());
+    System.arraycopy(elementData, 0, a, 0, size); //传入数组大小大于size,将ArrayList中的内容复制到数组中
+    if (a.length &gt; size)
+        a[size] = null;
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3308556.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3308556.html
+</a><br>[2] <a href="http://blog.chinaunix.net/uid-29702073-id-4334609.html" target="_blank" rel="noopener"> http://blog.chinaunix.net/uid-29702073-id-4334609.html
+</a><br>[3] <a href="http://www.cnblogs.com/hzmark/archive/2012/12/20/ArrayList.html" target="_blank" rel="noopener"> http://www.cnblogs.com/hzmark/archive/2012/12/20/ArrayList.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：ArrayList使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：Hashtable使用详解及源码分析/" >Java集合：Hashtable使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>Hashtable是和HashMap类似的散列表，存储的内容为key-value键值对，key的值是唯一的，和HashMap不同的是key和value都不能<br>为null。Hashtable和HashMap的关系可以参考Vector和ArrayList的关系，操作和功能大部分相同，Hashtable是线程安全的但是<br>速度较慢，建议使用HashMap，如果遇到多线程情况则使用concurrentHashMap或者Collections提供静态函数SynchronizedM<br>ap等来保证线程安全。</p>
+<pre><code>public class Hashtable&lt;K,V&gt;
+        extends Dictionary&lt;K,V&gt;
+        implements Map&lt;K,V&gt;, Cloneable, java.io.Serializable {}
+</code></pre><p>HashMap继承了Dictionary并实现了Map、Cloneable以及Serializable接口，所以HashMap支持clone和序列化。</p>
+<h3 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h3><p>Hashtable提供的API主要有如下几种：</p>
+<pre><code>synchronized void                clear() //清空Hashtable
+synchronized Object              clone() //复制Hashtable
+boolean             contains(Object value) //判断是否包含value
+synchronized boolean             containsKey(Object key) //是否包含key
+synchronized boolean             containsValue(Object value) //是否包含value
+synchronized Enumeration&lt;V&gt;      elements() //获取value组成的枚举
+synchronized Set&lt;Entry&lt;K, V&gt;&gt;    entrySet() //获取entry组成的Set集合
+synchronized boolean             equals(Object object) //判断相等
+synchronized V                   get(Object key) //获取键值为key的entry
+synchronized int                 hashCode() //获取hashCode
+synchronized boolean             isEmpty() //判空
+synchronized Set&lt;K&gt;              keySet() //获取key组成的Set集合
+synchronized Enumeration&lt;K&gt;      keys() //获取key组成的枚举
+synchronized V                   put(K key, V value) //添加元素
+synchronized void                putAll(Map&lt;? extends K, ? extends V&gt; map) //添加一组元素
+synchronized V                   remove(Object key) //删除键为key的元素
+synchronized int                 size() //获取大小
+synchronized String              toString() //返回Hashtable键值组成的字符串
+synchronized Collection&lt;V&gt;       values() //获取值组成的Collection集合
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testHashtable() {
+        //新建hashtable
+        Hashtable hashtable = new Hashtable();
+        //添加元素
+        hashtable.put(1, &quot;one&quot;);
+        hashtable.put(2, &quot;two&quot;);
+        hashtable.put(3, &quot;three&quot;);
+        hashtable.put(4, &quot;four&quot;);
+        //打印元素
+        this.printMapByEntrySet(hashtable);
+        //获取大小
+        System.out.println(&quot;hashtable的大小为: &quot; + hashtable.size());
+        //是否包含key为4的元素
+        System.out.println(&quot;hashtable是否包含key为4的元素: &quot; + hashtable.containsKey(4));
+        //是否包含值为5的元素
+        System.out.println(&quot;hashtable是否包含value为two的元素: &quot; + hashtable.containsValue(&quot;two&quot;));
+
+        hashtable.put(5, &quot;five&quot;);
+        hashtable.put(6, &quot;six&quot;);
+
+        //删除元素
+        System.out.println(&quot;删除key为2的元素: &quot; + hashtable.remove(2));
+        //打印元素
+        this.printMapByKeySet(hashtable);
+        //clone
+        Hashtable cloneTable = (Hashtable) hashtable.clone();
+        //打印克隆table
+        System.out.println(&quot;clonetable的元素为: &quot; + cloneTable);
+        //打印克隆table的keys
+        this.printHashtableKeysByEnum(cloneTable);
+        //清空hashtable
+        hashtable.clear();
+        //判空
+        System.out.println(&quot;hashtable是否为空: &quot; + hashtable.isEmpty());
+    }
+
+    /**
+     * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+     * @param hashtable
+     */
+    private void printMapByEntrySet(Hashtable hashtable) {
+        Integer key = null;
+        String value = null;
+        Iterator iterator = hashtable.entrySet().iterator(); //
+        System.out.print(&quot;hashtable中含有的元素有: &quot;);
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            key = (Integer) entry.getKey();
+            value = (String) entry.getValue();
+            System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    /**
+     * 使用keySet获取key的Set集合,利用key获取值
+     * @param hashtable
+     */
+    private void printMapByKeySet(Hashtable hashtable) {
+        Integer key = null;
+        String value = null;
+        Iterator iterator = hashtable.keySet().iterator();
+        System.out.print(&quot;hashtable中含有的元素有: &quot;);
+        while (iterator.hasNext()) {
+            key = (Integer) iterator.next();
+            value = (String) hashtable.get(key);
+            System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+        }
+        System.out.println();
+    }
+
+    /**
+     * 使用枚举获取hashtable的keys
+     * @param hashtable
+     */
+    private void printHashtableKeysByEnum(Hashtable hashtable) {
+        Enumeration enumeration = hashtable.keys();
+        System.out.print(&quot;hashtable的key有: &quot;);
+        while (enumeration.hasMoreElements()) {
+            System.out.print(enumeration.nextElement() + &quot; &quot;);
+        }
+        System.out.println();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>hashtable中含有的元素有: key/value : 4/four key/value : 3/three key/value : 2/two key/value : 1/one
+hashtable的大小为: 4
+hashtable是否包含key为4的元素: true
+hashtable是否包含value为two的元素: true
+删除key为2的元素: two
+hashtable中含有的元素有: key/value : 6/six key/value : 5/five key/value : 4/four key/value : 3/three key/value : 1/one
+clonetable的元素为: {6=six, 5=five, 4=four, 3=three, 1=one}
+hashtable的key有: 6 5 4 3 1
+hashtable是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>Hashtable有四个构造函数，每个构造函数的不同之处和hashMap构造函数类似在于初始容量和加载因子不同。初始容量为申请的Hashtable初始大小，<br>当加入元素后的容量大于加载因子和当前容量的乘积是，Hashtable需要再hash增大容量。</p>
+<pre><code>/**
+ * 构造一个空的Hashtable,容量为initialCapacity,加载因子为loadFactor
+ *
+ * @param      initialCapacity   the initial capacity of the hashtable.
+ * @param      loadFactor        the load factor of the hashtable.
+ * @exception  IllegalArgumentException  if the initial capacity is less
+ *             than zero, or if the load factor is nonpositive.
+ */
+public Hashtable(int initialCapacity, float loadFactor) {
+    if (initialCapacity &lt; 0) //非法参数检查
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal Load: &quot;+loadFactor);
+
+    if (initialCapacity==0) //最少容量为1
+        initialCapacity = 1;
+    this.loadFactor = loadFactor;
+    table = new Entry&lt;?,?&gt;[initialCapacity]; //元素数组
+    //再hash阈值,和HashMap不同.HashMap构造时阈值为大于或者等于initialCapacity的最小的2的倍数
+    threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+}
+
+/**
+ * 构造一个初始容量为initialCapacity,加载因子为0.75的Hashtable.
+ *
+ * @param     initialCapacity   the initial capacity of the hashtable.
+ * @exception IllegalArgumentException if the initial capacity is less
+ *              than zero.
+ */
+public Hashtable(int initialCapacity) {
+    this(initialCapacity, 0.75f);
+}
+
+/**
+ * Constructs a new, empty hashtable with a default initial capacity (11)
+ * and load factor (0.75).
+ */
+public Hashtable() {
+    this(11, 0.75f);
+}
+
+/**
+ * 构造并使用t初始化一个Hashtable,大小为t大小两倍和者11中的较大数,加载因子为0.75.
+ *
+ * @param t the map whose mappings are to be placed in this map.
+ * @throws NullPointerException if the specified map is null.
+ * @since   1.2
+ */
+public Hashtable(Map&lt;? extends K, ? extends V&gt; t) {
+    this(Math.max(2*t.size(), 11), 0.75f);
+    putAll(t);
+}
+</code></pre><h3 id="2-2-put方法"><a href="#2-2-put方法" class="headerlink" title="2.2 put方法"></a>2.2 put方法</h3><pre><code>/**
+ * 向Hashtable中添加元素
+ *
+ * @param      key     the hashtable key
+ * @param      value   the value
+ * @return     the previous value of the specified key in this hashtable,
+ *             or &lt;code&gt;null&lt;/code&gt; if it did not have one
+ * @exception  NullPointerException  if the key or value is
+ *               &lt;code&gt;null&lt;/code&gt;
+ * @see     Object#equals(Object)
+ * @see     #get(Object)
+ */
+public synchronized V put(K key, V value) {
+    // Make sure the value is not null
+    if (value == null) {
+        throw new NullPointerException();
+    }
+
+    // Makes sure the key is not already in the hashtable.
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; entry = (Entry&lt;K,V&gt;)tab[index];
+    for(; entry != null ; entry = entry.next) {
+        if ((entry.hash == hash) &amp;&amp; entry.key.equals(key)) {
+            V old = entry.value;
+            entry.value = value;
+            return old;
+        }
+    }
+
+    addEntry(hash, key, value, index);
+    return null;
+}
+
+private void addEntry(int hash, K key, V value, int index) {
+    modCount++;
+
+    Entry&lt;?,?&gt; tab[] = table;
+    if (count &gt;= threshold) {
+        // Rehash the table if the threshold is exceeded
+        rehash();
+
+        tab = table;
+        hash = key.hashCode();
+        index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    }
+
+    // Creates the new entry.
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;) tab[index];
+    tab[index] = new Entry&lt;&gt;(hash, key, value, e);
+    count++;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * Returns the value to which the specified key is mapped,
+ * or {@code null} if this map contains no mapping for the key.
+ *
+ * &lt;p&gt;More formally, if this map contains a mapping from a key
+ * {@code k} to a value {@code v} such that {@code (key.equals(k))},
+ * then this method returns {@code v}; otherwise it returns
+ * {@code null}.  (There can be at most one such mapping.)
+ *
+ * @param key the key whose associated value is to be returned
+ * @return the value to which the specified key is mapped, or
+ *         {@code null} if this map contains no mapping for the key
+ * @throws NullPointerException if the specified key is null
+ * @see     #put(Object, Object)
+ */
+@SuppressWarnings(&quot;unchecked&quot;)
+public synchronized V get(Object key) {
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length; //获取下标
+    for (Entry&lt;?,?&gt; e = tab[index] ; e != null ; e = e.next) { //遍历链表
+        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+            return (V)e.value;
+        }
+    }
+    return null;
+}
+</code></pre><p>2.4 remove方法</p>
+<pre><code>/**
+ * Removes the key (and its corresponding value) from this
+ * hashtable. This method does nothing if the key is not in the hashtable.
+ *
+ * @param   key   the key that needs to be removed
+ * @return  the value to which the key had been mapped in this hashtable,
+ *          or &lt;code&gt;null&lt;/code&gt; if the key did not have a mapping
+ * @throws  NullPointerException  if the key is &lt;code&gt;null&lt;/code&gt;
+ */
+public synchronized V remove(Object key) {
+    Entry&lt;?,?&gt; tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash &amp; 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;)tab[index];
+    for(Entry&lt;K,V&gt; prev = null ; e != null ; prev = e, e = e.next) {
+        if ((e.hash == hash) &amp;&amp; e.key.equals(key)) {
+            modCount++;
+            if (prev != null) { //不是链表的第一个元素, 跳过要删除的节点
+                prev.next = e.next;
+            } else {
+                tab[index] = e.next; //第一个节点
+            }
+            count--;
+            V oldValue = e.value;
+            e.value = null; //删除节点的value, help GC
+            return oldValue;
+        }
+    }
+    return null;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310887.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310887.html
+</a><br>[2] <a href="http://blog.csdn.net/ns_code/article/details/36191279" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36191279
+</a><br>[3] 《Java编程思想》第4版</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：Hashtable使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：HashMap使用详解及源码分析/" >Java集合：HashMap使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>HashMap是散列表，存储的内容为key-value键值对，key的值是唯一的，可以为null。</p>
+<pre><code>public class HashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt; implements Map&lt;K,V&gt;, Cloneable, Serializable {}
+</code></pre><p>HashMap继承了AbstractMap并实现了Map、Cloneable以及Serializable接口，所以HashMap支持clone和序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>HashMap提供的API主要如下：</p>
+<pre><code>void                 clear() //清空HashMap
+Object               clone() //复制HashMap
+boolean              containsKey(Object key) //判断是否存在key
+boolean              containsValue(Object value) //判断是否存在Value
+Set&lt;Entry&lt;K, V&gt;&gt;     entrySet() //返回HashMap的Entry组成的set集合
+V                    get(Object key) //获取键为key的元素值
+boolean              isEmpty() //判空
+Set&lt;K&gt;               keySet() //获取HashMap的key组成的set集合
+V                    put(K key, V value) //加入HashMap
+void                 putAll(Map&lt;? extends K, ? extends V&gt; map) //批量加入
+V                    remove(Object key) //删除键为key的Entry
+int                  size() //获取大小
+Collection&lt;V&gt;        values() //获取HashMap的value集合
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testHashMap() {
+    //新建hashMap
+    HashMap hashMap = new HashMap(); //新建hashMap
+    //添加元素
+    hashMap.put(1, &quot;one&quot;);
+    hashMap.put(2, &quot;two&quot;);
+    hashMap.put(3, &quot;three&quot;);
+    hashMap.put(4, &quot;four&quot;);
+    //打印元素
+    this.printMapByEntrySet(hashMap);
+    //获取大小
+    System.out.println(&quot;hashMap的大小为: &quot; + hashMap.size());
+    //是否包含key为4的元素
+    System.out.println(&quot;hashMap是否包含key为4的元素: &quot; + hashMap.containsKey(4));
+    //是否包含值为5的元素
+    System.out.println(&quot;hashMap是否包含value为two的元素: &quot; + hashMap.containsValue(&quot;two&quot;));
+
+    hashMap.put(5, &quot;five&quot;);
+    hashMap.put(6, &quot;six&quot;);
+
+    //删除元素
+    System.out.println(&quot;删除key为2的元素: &quot; + hashMap.remove(2));
+    //打印元素
+    this.printMapByKeySet(hashMap);
+    //clone
+    HashMap cloneMap = (HashMap) hashMap.clone();
+    //打印克隆map
+    System.out.println(&quot;cloneMap的元素为: &quot; + cloneMap);
+    //清空map
+    hashMap.clear();
+    //判空
+    System.out.println(&quot;hashMap是否为空: &quot; + hashMap.isEmpty());
+}
+
+/**
+ * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+ * @param map
+ */
+private void printMapByEntrySet(HashMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.entrySet().iterator(); //
+    System.out.print(&quot;hashMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        Map.Entry entry = (Map.Entry) iterator.next();
+        key = (Integer) entry.getKey();
+        value = (String) entry.getValue();
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+
+/**
+ * 使用keySet获取key的Set集合,利用key获取值
+ * @param map
+ */
+private void printMapByKeySet(HashMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.keySet().iterator();
+    System.out.print(&quot;hashMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        key = (Integer) iterator.next();
+        value = (String) map.get(key);
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>hashMap中含有的元素有: key/value : 1/one key/value : 2/two key/value : 3/three key/value : 4/four
+hashMap的大小为: 4
+hashMap是否包含key为4的元素: true
+hashMap是否包含value为two的元素: true
+删除key为2的元素: two
+hashMap中含有的元素有: key/value : 1/one key/value : 3/three key/value : 4/four key/value : 5/five key/value : 6/six
+cloneMap的元素为: {1=one, 3=three, 4=four, 5=five, 6=six}
+hashMap是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>HashMap有四个构造函数，每个构造函数的不同之处在于初始容量和加载因子不同。初始容量为申请的HashMap初始大小，当加入元素后的容量大于加载因子和当前<br>容量的乘积是，HashMap需要再hash增大容量。</p>
+<pre><code>/**
+ * 申请初始容量为initialCapacity, 加载因子为loadFactor
+ * @param initialCapacity 初始容量
+ * @param loadFactor 加载因子
+ * @throws IllegalArgumentException 非法参数异常
+ */
+public HashMap(int initialCapacity, float loadFactor) {
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
+                initialCapacity);
+    if (initialCapacity &gt; MAXIMUM_CAPACITY) //最大容量为2^30
+        initialCapacity = MAXIMUM_CAPACITY;
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
+                loadFactor);
+    this.loadFactor = loadFactor; //加载因子
+    this.threshold = tableSizeFor(initialCapacity); //容量大小, &gt;=initialCapacity的最小的2的倍数
+}
+
+/**
+ * 初始容量大小为initialCapacity, 加载因子为默认0.75
+ * @param  initialCapacity the initial capacity.
+ * @throws IllegalArgumentException if the initial capacity is negative.
+ */
+public HashMap(int initialCapacity) {
+    this(initialCapacity, DEFAULT_LOAD_FACTOR);
+}
+
+/**
+ * 初始容量大小为0, 加载因子为0.75
+ */
+public HashMap() {
+    this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+}
+
+/**
+ * 申请一个HashMap并且用m初始化
+ *
+ * @param   m the map whose mappings are to be placed in this map
+ * @throws  NullPointerException if the specified map is null
+ */
+public HashMap(Map&lt;? extends K, ? extends V&gt; m) {
+    this.loadFactor = DEFAULT_LOAD_FACTOR;
+    putMapEntries(m, false);
+}
+</code></pre><h3 id="2-2-put方法"><a href="#2-2-put方法" class="headerlink" title="2.2 put方法"></a>2.2 put方法</h3><pre><code>/**
+ * 为HashMap插入一个键为key,值为value的元素
+ * @param key
+ * @param value
+ * @return
+ */
+public V put(K key, V value) {
+    return putVal(hash(key), key, value, false, true);
+}
+/**
+ * Implements Map.put and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to put
+ * @param onlyIfAbsent if true, don&apos;t change existing value
+ * @param evict if false, the table is in creation mode.
+ * @return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0) //hash数组为null或者长度为0
+        n = (tab = resize()).length; //初始化数组
+    if ((p = tab[i = (n - 1) &amp; hash]) == null) //下标不存在,则这个下表所对应的元素为一个新节点
+        tab[i] = newNode(hash, key, value, null);
+    else { //将元素节点链接到链表最后
+        Node&lt;K,V&gt; e; K k;
+        if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k)))) //键已经存在
+            e = p;
+        else if (p instanceof TreeNode) //TreeNode节点
+            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) { //将元素节点链接到最后
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k)))) //键存在
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &gt; threshold) //超过容量值
+        resize();
+    afterNodeInsertion(evict);
+    return null;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * 获取键为key的键值对的值
+ * @param key
+ * @return
+ */
+public V get(Object key) {
+    Node&lt;K,V&gt; e;
+    return (e = getNode(hash(key), key)) == null ? null : e.value;
+}
+
+/**
+ * Implements Map.get and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @return the node, or null if none
+ */
+final Node&lt;K,V&gt; getNode(int hash, Object key) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; int n; K k;
+    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+            (first = tab[(n - 1) &amp; hash]) != null) {
+        if (first.hash == hash &amp;&amp; // always check first node
+                ((k = first.key) == key || (key != null &amp;&amp; key.equals(k))))
+            return first;
+        if ((e = first.next) != null) {
+            if (first instanceof TreeNode)
+                return ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);
+            do {
+                if (e.hash == hash &amp;&amp;
+                        ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+    }
+    return null;
+}
+2.4 remove方法
+/**
+ * 删除键为key的键值对
+ * @param key
+ * @return
+ */
+public V remove(Object key) {
+    Node&lt;K,V&gt; e;
+    return (e = removeNode(hash(key), key, null, false, true)) == null ?
+            null : e.value;
+}
+
+/**
+ * Implements Map.remove and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to match if matchValue, else ignored
+ * @param matchValue if true only remove if value is equal
+ * @param movable if false do not move other nodes while removing
+ * @return the node, or null if none
+ */
+final Node&lt;K,V&gt; removeNode(int hash, Object key, Object value,
+                           boolean matchValue, boolean movable) {
+    Node&lt;K, V&gt;[] tab;
+    Node&lt;K, V&gt; p;
+    int n, index;
+    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;
+            (p = tab[index = (n - 1) &amp; hash]) != null) { //hash表不为空,长度 &gt; 0,下标对应的元素存在
+        Node&lt;K, V&gt; node = null, e;
+        K k;
+        V v;
+        if (p.hash == hash &amp;&amp;
+                ((k = p.key) == key || (key != null &amp;&amp; key.equals(k)))) //判断第一个元素
+            node = p;
+        else if ((e = p.next) != null) { //同一下标有多个元素,遍历链表
+            if (p instanceof TreeNode)
+                node = ((TreeNode&lt;K, V&gt;) p).getTreeNode(hash, key);
+            else {
+                do {
+                    if (e.hash == hash &amp;&amp;
+                            ((k = e.key) == key ||
+                                    (key != null &amp;&amp; key.equals(k)))) {
+                        node = e;
+                        break;
+                    }
+                    p = e;
+                } while ((e = e.next) != null);
+            }
+        }
+        if (node != null &amp;&amp; (!matchValue || (v = node.value) == value ||
+                (value != null &amp;&amp; value.equals(v)))) { //删除元素
+            if (node instanceof TreeNode)
+                ((TreeNode&lt;K, V&gt;) node).removeTreeNode(this, tab, movable);
+            else if (node == p)
+                tab[index] = node.next;
+            else
+                p.next = node.next;
+            ++modCount;
+            --size;
+            afterNodeRemoval(node);
+            return node;
+        }
+    }
+}
+</code></pre><h2 id="3-HashMap和Hashtable区别"><a href="#3-HashMap和Hashtable区别" class="headerlink" title="3 HashMap和Hashtable区别"></a>3 HashMap和Hashtable区别</h2><p>HashMap和Hashtable从功能上来说几乎完全相同，主要区别在于Hashtable是线程安全的而HashMap不是。<br>1）HashMap的key和Value可以接受null，Hashtable不行；<br>2）Hashtable除了构造函数外几乎所有的方法都加上了synchronized保证线程安全，HashMap没有线程安全保证；<br>3） Hashtable由于使用了synchronized导致在单线程情况下速度较慢；<br>4） Hashtable构造时默认大小为11，HashMap为16；</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310835.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310835.html
+</a><br>[2] <a href="http://blog.csdn.net/mazhimazh/article/details/17876641" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17876641
+</a><br>[3] <a href="http://blog.csdn.net/ns_code/article/details/36034955" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36034955
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：HashMap使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：集合框架/" >Java集合：集合框架</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java集合源码位于Java.util包下，主要包括List、Set、Map、Iterator以及工具类Arrays和Collections。Java集合框<br>架的顶级接口包括Collection和Map两个，其中Collection的子接口包括List、Set和Queue。具体结构如下：<br><img src="http://img.blog.csdn.net/20160218204126299" alt="Java集合框架"></p>
+<h2 id="1-Collection接口"><a href="#1-Collection接口" class="headerlink" title="1 Collection接口"></a>1 Collection接口</h2><p>Collection是集合的顶级接口之一，他继承了Iterable接口，并声明了集合中一些常用的方法，例如size()，contains(Object<br>o)等方法。Java SDK提供了继承与Collection的子接口List、Set或者Queue，并通过实现子接口实现了具体集合类。所有实现Collect<br>ion接口的类都必须提供两个标准的构造函数：无参数的构造函数用于创建一个空的Collection，有一个<br>Collection参数的构造函数用于创建一个新的Collection，这个新的Collection与传入的Collection有相同的元素。后<br>一个构造函数允许用户复制一个Collection。<br><!--阅读全文--></p>
+<h3 id="1-1-List接口"><a href="#1-1-List接口" class="headerlink" title="1.1 List接口"></a>1.1 List接口</h3><p>List接口继承与Collection接口，它是一个允许有重复元素的的列表，能够控制元素的插入位置，通过索引来访问List中的元素。常见的List的实现有L<br>inkedList，ArrayList，Vector和Stack。</p>
+<h3 id="1-2-Set接口"><a href="#1-2-Set接口" class="headerlink" title="1.2 Set接口"></a>1.2 Set接口</h3><p>Set接口同样继承与Collection接口，它不允许有重复的元素。常用实现类有HashSet和TreeSet，HashSet是通过Map中的HashMap<br>实现的，而TreeSet是通过Map中的TreeMap实现的。另外，TreeSet还实现了SortedSet接口，因此是有序的集合。</p>
+<h3 id="1-3-Queue接口"><a href="#1-3-Queue接口" class="headerlink" title="1.3 Queue接口"></a>1.3 Queue接口</h3><p>Queue接口继承与Collection接口，提供一种先进先出的机制，常见的实现类有ArrayBlockingQueue、ConcurrentLinkedQ<br>ueue等，这些实现类都处于concurrent包下，用于线程同步机制的实现。</p>
+<h2 id="2-Map接口"><a href="#2-Map接口" class="headerlink" title="2 Map接口"></a>2 Map接口</h2><p>Map接口是和Collection接口并行的顶级集合接口，他提供key-<br>value映射机制。Map接口常见的实现类有HashTable、Hashmap以及Weakhashmap等。</p>
+<p>参考：<br>[1] <a href="http://blog.csdn.net/softwave/article/details/4166598" target="_blank" rel="noopener"> http://blog.csdn.net/softwave/article/details/4166598
+</a><br>[2] <a href="http://blog.csdn.net/mazhimazh/article/details/17730517" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17730517
+</a><br>[3] <a href="http://blog.csdn.net/ns_code/article/details/35564663" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/35564663
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：集合框架/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：LinkedList使用详解及源码分析/" >Java集合：LinkedList使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>LinkedList基于双端链表实现，可以作为栈、队列或者双端队列使用。</p>
+<pre><code>public class LinkedList&lt;E&gt;
+    extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+</code></pre><p>LinkedList继承了AbstractSequentialList，实现了get等方法；<br>LinkedList实现了Deque接口，可以作为双端队列使用；<br>LinkedList实现Cloneable接口重写了接口定义的clone()方法，可以使用clone()复制链表。<br>LinkedList实现 java.io.Serializable接口使LinkedList支持序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>LinkedList提供了增加，弹出，获取元素等操作，具体提供的方法如下：</p>
+<pre><code>boolean       add(E object)  //在末尾增加一个元素
+void          add(int location, E object) //在指定位置增加元素
+boolean       addAll(Collection&lt;? extends E&gt; collection) //在末尾加入一组元素
+boolean       addAll(int location, Collection&lt;? extends E&gt; collection) //从指定位置开始加一组元素
+void          addFirst(E object) //在表头增加一个元素
+void          addLast(E object) //在表尾增加一个元素
+void          clear() //清空链表
+Object        clone() //复制一个元素
+boolean       contains(Object object) //判断是否包含object
+Iterator&lt;E&gt;   descendingIterator() //逆序迭代器
+E             element() //获取链表第一个元素,不存在会抛出异常
+E             get(int location) //获取location位置的元素,不存在会抛出异常
+E             getFirst() //获取链表第一个元素,不存在会抛出异常
+E             getLast() //获取链表最后一个元素,不存在会抛出异常
+int           indexOf(Object object) //获取object第一次出现的位置
+int           lastIndexOf(Object object) //获取object最后一次出现的位置
+ListIterator&lt;E&gt;     listIterator(int location) //从location开始的迭代器
+boolean       offer(E o) //在末尾增加一个元素
+boolean       offerFirst(E e) //在表头增加一个元素
+boolean       offerLast(E e) //在表尾增加一个元素
+E             peek() //获取表头元素,不存在不会抛出异常
+E             peekFirst() //获取表头元素,不存在不会抛出异常
+E             peekLast() //获取表尾元素,不存在不会抛出异常
+E             poll() //弹出表头元素
+E             pollFirst() //弹出表头元素
+E             pollLast() //弹出表尾元素
+E             pop() //弹出表头元素,不存在会抛异常
+void          push(E e) //在表头增加一个元素
+E             remove() //删除最后一个元素
+E             remove(int location) //删除location位置的元素
+boolean       remove(Object object) //删除第一个出现的object
+E             removeFirst() //删除第一个元素
+boolean       removeFirstOccurrence(Object o) //删除第一个出现的o
+E             removeLast() //删除最后一个元素
+boolean       removeLastOccurrence(Object o) //删除最后一个出现的o
+E             set(int location, E object) //将location位置设置为object
+int           size() //链表大小
+&lt;T&gt; T[]       toArray(T[] contents) //转换为T类型的数组
+Object[]     toArray() //转换为Object类型的数组
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestLinkedList {
+    public void testLinkedList() throws Exception {
+        LinkedList&lt;String&gt; linkedList = new LinkedList&lt;String&gt;();
+        linkedList.add(&quot;a&quot;); //在表尾增加元素
+        linkedList.add(&quot;b&quot;);
+        printLinkedList(linkedList);
+        linkedList.addFirst(&quot;pre-a&quot;); //在表头增加元素
+        System.out.println(&quot;链表中包含 &apos;a&apos; 元素:&quot; + linkedList.contains(&quot;a&quot;)); //包含元素判断
+        System.out.println(&quot;链表的第一个元素: &quot; + linkedList.peek());
+        System.out.println(&quot;链表的最后一个元素: &quot; + linkedList.peekLast());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取删除链表的第一个元素: &quot; + linkedList.poll());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取并弹出链表的最后一个元素&quot; + linkedList.pollLast());
+        printLinkedList(linkedList);
+        linkedList.offer(&quot;d&quot;);
+        linkedList.offer(&quot;e&quot;);
+        linkedList.offer(&quot;f&quot;);
+        printLinkedList(linkedList);
+        System.out.println(&quot;第三个元素为: &quot; + linkedList.get(2)); //获取第三个元素
+        System.out.println(&quot;将第四个元素设置为g: &quot; + linkedList.set(3, &quot;g&quot;));
+        printLinkedList(linkedList);
+        //转换成数组
+        String[] arr = (String[]) linkedList.toArray(new String[0]);
+        for (String e: arr) {
+            System.out.print(e + &quot; &quot;);
+        }
+    }
+
+    protected void printLinkedList(LinkedList&lt;String&gt; linkedList) {
+        Iterator&lt;String&gt; iterator = linkedList.iterator();
+        System.out.print(&quot;linkList包含的元素有: &quot;);
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + &quot; &quot;);
+        }
+        System.out.println(&quot;\n&quot;);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>linkList包含的元素有: a b
+
+链表中包含 &apos;a&apos; 元素:true
+链表的第一个元素: pre-a
+链表的最后一个元素: b
+linkList包含的元素有: pre-a a b
+
+获取删除链表的第一个元素: pre-a
+linkList包含的元素有: a b
+
+获取并弹出链表的最后一个元素b
+linkList包含的元素有: a
+
+linkList包含的元素有: a d e f
+
+第三个元素为: e
+将第四个元素设置为g: f
+linkList包含的元素有: a d e g
+
+a d e g 
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1-add方法"><a href="#2-1-add方法" class="headerlink" title="2.1 add方法"></a>2.1 add方法</h3><pre><code>public boolean add(E e) { //在末尾增加一个元素
+    linkLast(e);
+    return true;
+}
+
+void linkLast(E e) {
+    final Node&lt;E&gt; l = last; //末尾元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null); //申请一个值为e的元素,前一个元素为l,后一个为null
+    last = newNode; //新元素为最后一个元素
+    if (l == null) //空链表
+        first = newNode;
+    else
+        l.next = newNode;
+    size++; //链表长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-2-addFirst方法"><a href="#2-2-addFirst方法" class="headerlink" title="2.2 addFirst方法"></a>2.2 addFirst方法</h3><pre><code>public void addFirst(E e) { //在表头增加元素
+    linkFirst(e);
+}
+
+private void linkFirst(E e) {
+    final Node&lt;E&gt; f = first; //表头元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(null, e, f); //申请一个值为e的元素,前一个元素为null,后一个元素为f
+    first = newNode; //新元素为表头元素
+    if (f == null) //空链表
+        last = newNode;
+    else
+        f.prev = newNode;
+    size++; //长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-3-peek方法"><a href="#2-3-peek方法" class="headerlink" title="2.3 peek方法"></a>2.3 peek方法</h3><pre><code>public E peek() {
+        final Node&lt;E&gt; f = first; //获取表头元素
+        return (f == null) ? null : f.item; //返回null或者表头元素的值
+}
+</code></pre><h3 id="2-4-poll方法"><a href="#2-4-poll方法" class="headerlink" title="2.4 poll方法"></a>2.4 poll方法</h3><pre><code>public E poll() {
+    final Node&lt;E&gt; f = first;
+    return (f == null) ? null : unlinkFirst(f);
+}
+
+private E unlinkFirst(Node&lt;E&gt; f) {
+    // assert f == first &amp;&amp; f != null;
+    final E element = f.item; //获取第一个元素的值
+    final Node&lt;E&gt; next = f.next; //获取第二个元素
+    f.item = null; //将第一个元素置为null
+    f.next = null; // help GC,
+    first = next; //将原有的第二个元素设为头元素
+    if (next == null) //原链表只有一个元素,此时链表为空
+        last = null;
+    else
+        next.prev = null; //头元素的前置元素为null
+    size--;
+    modCount++;
+    return element;
+}
+</code></pre><h3 id="2-5-toArray-T-contents-方法"><a href="#2-5-toArray-T-contents-方法" class="headerlink" title="2.5 toArray(T[] contents) 方法"></a>2.5 toArray(T[] contents) 方法</h3><pre><code>public &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; size) //a长度小于链表长度,则重新申请一个长度为size的数组
+        a = (T[])java.lang.reflect.Array.newInstance(
+                a.getClass().getComponentType(), size);
+    int i = 0;
+    Object[] result = a;
+    for (Node&lt;E&gt; x = first; x != null; x = x.next) //为数组赋值
+        result[i++] = x.item;
+
+    if (a.length &gt; size) //如果长度大于链表长度,最后一个元素后一个设为null,表示数组结束
+        a[size] = null;
+
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/crave_shy/article/details/17440835" target="_blank" rel="noopener"> http://blog.csdn.net/crave_shy/article/details/17440835
+</a><br>[2] <a href="http://blog.csdn.net/wanghao109/article/details/13287877" target="_blank" rel="noopener"> http://blog.csdn.net/wanghao109/article/details/13287877
+</a><br>[3] <a href="http://fjohnny.iteye.com/blog/696750" target="_blank" rel="noopener"> http://fjohnny.iteye.com/blog/696750
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：LinkedList使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：Vector使用详解及源码分析/" >Java集合：Vector使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>Vector和ArrayList类似，是数组队列，可以实现容量的动态增长。Vector类继承了AbstractList抽象类并且实现了List、Random<br>Access，Cloneable以及java.io.Serializable接口。<br>public class ArrayList extends AbstractList implements List, RandomAccess,<br>Cloneable, java.io.Serializable<br>AbstractList类继承了AbstractCollection类并实现了List接口。<br>实现RandomAccess接口使Vector拥有随机访问的能力，即通过下表索引访问数组元素。<br>实现Cloneable接口重写了接口定义的clone()方法，Vector可以使用clone()复制数组。<br>实现 java.io.Serializable接口使Vector支持序列化。<br><strong> Vector和ArrayList的最大不同是Vector是线程安全的而ArrayList不是。Vector几乎所有的方法都使用synchronized关键字是来保证线程安全使它的性能比不上ArrayList。 </strong><br><strong> Vector和ArrayList不同还体现在动态增长的策略上。ArrayList的基本增长策略是oldCapacity<em>1.5+1，如果还不够则容量为实际需要容量；Vector的基本增长策略是oldCapacity+设定好的增长幅度，如果没设定则新容量增长为oldCapacity</em>2，如果还不够则为实际需要的容量。 </strong><br>现在很少使用Vector。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ArrayList提供了增加、删除、判空等操作，具体提供的方法如下：</p>
+<pre><code>synchronized boolean        add(E object) //增加元素
+void                        add(int location, E object) //指定位置增加元素
+synchronized boolean        addAll(Collection&lt;? extends E&gt; collection) //将集合中的元素加入到数组的最后
+synchronized boolean        addAll(int location, Collection&lt;? extends E&gt; collection) //指定位置增加一盒中所有元素
+synchronized void           addElement(E object) //增加元素
+synchronized int            capacity() //数组容量
+void                        clear() //清空数组
+synchronized Object         clone() //复制元素
+boolean                     contains(Object object) //判断是否包含元素
+synchronized boolean        containsAll(Collection&lt;?&gt; collection) //判断是否包含集合中所有元素
+synchronized void           copyInto(Object[] elements) //将数组中的元素复制到element中
+synchronized E              elementAt(int location) //获取location位置的元素
+Enumeration&lt;E&gt;              elements() //返回一个包含数组元素的枚举
+synchronized void           ensureCapacity(int minimumCapacity) //增加数组空间
+synchronized boolean        equals(Object object) //比较元素
+synchronized E              firstElement() //获取第一个元素
+E                           get(int location) //获取location下标的元素
+synchronized int            hashCode() //获取对象的hashCode
+synchronized int            indexOf(Object object, int location) //从location开始第一次出现object的位置
+int                         indexOf(Object object) //第一次出现object的位置
+synchronized void           insertElementAt(E object, int location) //在location位置插入object
+synchronized boolean        isEmpty() //判空
+synchronized E              lastElement() //获取最后元素
+synchronized int            lastIndexOf(Object object, int location) //location之前最后出现object的位置
+synchronized int            lastIndexOf(Object object) //最后一次出现object的位置
+synchronized E              remove(int location) //删除location位置的元素
+boolean                     remove(Object object) //删除第一次出现的object
+synchronized boolean        removeAll(Collection&lt;?&gt; collection) //删除collection出现的所有元素
+synchronized void           removeAllElements() //将所有元素置为null
+synchronized boolean        removeElement(Object object) //同remove
+synchronized void           removeElementAt(int location) //同remove
+synchronized boolean        retainAll(Collection&lt;?&gt; collection) //删除除了collection中元素之外的所有元素
+synchronized E              set(int location, E object) //设置location位置的元素为object
+synchronized void           setElementAt(E object, int location) //同set
+synchronized void           setSize(int length) //设置数组大小,若length大于实际长度则空余元素置为null
+synchronized int            size() //获取实际大小
+synchronized List&lt;E&gt;        subList(int start, int end) //获取子串
+synchronized &lt;T&gt; T[]        toArray(T[] contents) //转换成数组
+synchronized Object[]       toArray() //
+synchronized void           trimToSize() //将数组容量改为实际数组大小
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestVector {
+    public void testVector() {
+        Vector vector = new Vector&lt;&gt;(10); //申请一个初始容量大小为10的Vector
+        for (int i = 0; i &lt; 5; i++) { //初始化元素为
+            vector.add(i);
+        }
+        System.out.println(&quot;此时数组实际大小为: &quot; + vector.size());
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        vector.set(4,44); //设置第5个元素为44
+        vector.add(2,22); //在第3个元素位置增加22
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        vector.add(2);
+        System.out.println(&quot;第1次出现2的位置为: &quot; + vector.indexOf(2));
+        vector.remove(2); //删除第3个元素
+        vector.remove((Object)44); //删除第一次出现的44
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        int size = vector.size();
+        for (int i = size; i &lt; size + 6; i++) {
+            vector.add(i);
+        }
+        printVector(&quot;Vector此时元素有&quot;, vector);
+        System.out.println(&quot;Vector此时大小为: &quot; +  vector.size());
+        System.out.println(&quot;Vector此时的容量为: &quot; + vector.capacity()); //原有容量为10, 超出容量后新容量为2倍
+
+        //转为数组
+        Integer [] arr = (Integer[]) vector.toArray(new Integer[0]);
+        System.out.print(&quot;遍历数组结果: &quot;);
+        for (Integer i:arr) {
+            System.out.print(i + &quot; &quot;);
+        }
+    }
+
+    /**
+     * 打印Vector
+     * @param vector
+     */
+    protected void printVector(String comment, List vector) {
+        System.out.print(comment + &quot;: &quot;);
+        for (int i = 0; i &lt; vector.size(); i++) {
+            System.out.print(vector.get(i) + &quot; &quot;);
+        }
+        System.out.println(&quot;&quot;);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>此时数组实际大小为: 5
+Vector此时元素有: 0 1 2 3 4
+Vector此时元素有: 0 1 22 2 3 44
+第1次出现2的位置为: 3
+Vector此时元素有: 0 1 2 3 2
+Vector此时元素有: 0 1 2 3 2 5 6 7 8 9 10
+Vector此时大小为: 11
+Vector此时的容量为: 20
+遍历数组结果: 0 1 2 3 2 5 6 7 8 9 10
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><pre><code>/**
+ * 构造一个初始容量为initialCapacity,动态增长为capacityIncrement的Vector
+ * @param initialCapacity
+ * @param capacityIncrement
+ */
+public Vector(int initialCapacity, int capacityIncrement) {
+    super();
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+
+                initialCapacity);
+    this.elementData = new Object[initialCapacity];
+    this.capacityIncrement = capacityIncrement;
+}
+
+/**
+ * 初始容量为initialCapacity,动态增长容量为0
+ * @param initialCapacity
+ */
+public Vector(int initialCapacity) {
+    this(initialCapacity, 0);
+}
+
+/**
+ * 初始容量为10,动态增长为0
+ */
+public Vector() {
+    this(10);
+}
+
+/**
+ * 申请一个Vector,并用c初始化
+ * @param c
+ */
+public Vector(Collection&lt;? extends E&gt; c) {
+    elementData = c.toArray();
+    elementCount = elementData.length;
+    // c.toArray might (incorrectly) not return Object[] (see 6260652)
+    if (elementData.getClass() != Object[].class) //bug 6260652,toArray可能不会返回Object数组,这是重新复制
+        elementData = Arrays.copyOf(elementData, elementCount, Object[].class);
+}
+</code></pre><h3 id="2-2-add方法"><a href="#2-2-add方法" class="headerlink" title="2.2 add方法"></a>2.2 add方法</h3><pre><code>/**
+ * 添加e到Vector末尾
+ * @param e
+ * @return
+ */
+public synchronized boolean add(E e) {
+    modCount++;
+    ensureCapacityHelper(elementCount + 1); //增加容量
+    elementData[elementCount++] = e;
+    return true;
+}
+
+/**
+ * 在index位置插入element
+ * @param index
+ * @param element
+ */
+public void add(int index, E element) {
+    insertElementAt(element, index);
+}
+
+/**
+ * 在index位置插入obj
+ * @param obj
+ * @param index
+ */
+public synchronized void insertElementAt(E obj, int index) {
+    modCount++;
+    if (index &gt; elementCount) {
+        throw new ArrayIndexOutOfBoundsException(index
+                + &quot; &gt; &quot; + elementCount);
+    }
+    ensureCapacityHelper(elementCount + 1);
+     //将elementData元素从index开始，复制到elementData的index+1开始，总共          elementCount - index长度，即后移1位
+    System.arraycopy(elementData, index, elementData, index + 1, elementCount - index);
+    elementData[index] = obj;
+    elementCount++;
+}
+</code></pre><h3 id="2-3-set方法"><a href="#2-3-set方法" class="headerlink" title="2.3 set方法"></a>2.3 set方法</h3><pre><code>/**
+ * 将index位置的元素置为element
+ * @param index
+ * @param element
+ * @return
+ */
+public synchronized E set(int index, E element) {
+    if (index &gt;= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+
+    E oldValue = elementData(index);
+    elementData[index] = element;
+    return oldValue;
+}
+</code></pre><h3 id="2-4-remove方法"><a href="#2-4-remove方法" class="headerlink" title="2.4 remove方法"></a>2.4 remove方法</h3><pre><code>/**
+ * 删除index位置的元素
+ * @param index
+ * @return
+ */
+public synchronized E remove(int index) {
+    modCount++;
+    if (index &gt;= elementCount)
+        throw new ArrayIndexOutOfBoundsException(index);
+    E oldValue = elementData(index); //获取元素
+
+    int numMoved = elementCount - index - 1;
+    if (numMoved &gt; 0) //不是删除最后一个元素,则所有元素前移1位
+        System.arraycopy(elementData, index+1, elementData, index,
+                numMoved);
+    elementData[--elementCount] = null; // Let gc do its work
+
+    return oldValue;
+}
+</code></pre><h3 id="2-5-toArray方法"><a href="#2-5-toArray方法" class="headerlink" title="2.5 toArray方法"></a>2.5 toArray方法</h3><pre><code>/**
+ * 返回T类型的数组,参数不能是基本类型
+ * @param a
+ * @param &lt;T&gt;
+ * @return
+ */
+public synchronized &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; elementCount) //a长度小于Vector已有的元素个数,重新申请一个数组
+        return (T[]) Arrays.copyOf(elementData, elementCount, a.getClass());
+
+    System.arraycopy(elementData, 0, a, 0, elementCount); //将元素复制到a中
+
+    if (a.length &gt; elementCount)
+        a[elementCount] = null;
+
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3308833.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3308833.html
+</a><br>[2] <a href="http://blog.csdn.net/ns_code/article/details/35793865" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/35793865
+</a><br>[3] <a href="http://blog.csdn.net/mazhimazh/article/details/19568867" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/19568867
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：Vector使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：TreeMap使用详解及源码分析/" >Java集合：TreeMap使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>TreeMap和HashMap一样是散列表，但是他们内部实现完全不同，TreeMap基于红黑树实现，是一个有序的散列表，而HashMap使用数组加链表实现是<br>无序的。</p>
+<pre><code>public class TreeMap&lt;K,V&gt;
+        extends AbstractMap&lt;K,V&gt;
+        implements NavigableMap&lt;K,V&gt;, Cloneable, java.io.Serializable {}
+</code></pre><p>TreeMap继承了AbstractMap，储的是key-value键值对；<br>TreeMap实现了NavigableMap接口，支持多种导航方法，可以精准的获得键值对；<br>TreeMap和HashMap一样实现了Cloneable和Serializable接口，可以复制和序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>TreeMap提供的API主要有如下：</p>
+<pre><code>Entry&lt;K, V&gt;                ceilingEntry(K key) //返回键不小于key的最小键值对entry
+K                          ceilingKey(K key) //返回键不小于key的最小键
+void                       clear() //清空TreeMap
+Object                     clone() //克隆TreeMap
+Comparator&lt;? super K&gt;      comparator() //比较器
+boolean                    containsKey(Object key) //是否包含键为key的键值对
+NavigableSet&lt;K&gt;            descendingKeySet() //获取降序排列key的Set集合
+NavigableMap&lt;K, V&gt;         descendingMap() //获取降序排列的Map
+Set&lt;Entry&lt;K, V&gt;&gt;           entrySet() //获取键值对entry的Set集合
+Entry&lt;K, V&gt;                firstEntry() //第一个entry
+K                          firstKey() //第一个key
+Entry&lt;K, V&gt;                floorEntry(K key) //获取不大于key的最大键值对
+K                          floorKey(K key) //获取不大于key的最大Key
+V                          get(Object key) //获取键为key的值value
+NavigableMap&lt;K, V&gt;         headMap(K to, boolean inclusive) //获取从第一个节点开始到to的子Map, inclusive表示是否包含to节点
+SortedMap&lt;K, V&gt;            headMap(K toExclusive) //获取从第一个节点开始到to的子Map, 不包括toExclusive
+Entry&lt;K, V&gt;                higherEntry(K key) //获取键大于key的最小键值对
+K                          higherKey(K key) //获取键大于key的最小键
+boolean                    isEmpty() //判空
+Set&lt;K&gt;                     keySet() //获取key的Set集合
+Entry&lt;K, V&gt;                lastEntry() //最后一个键值对
+K                          lastKey() //最后一个键
+Entry&lt;K, V&gt;                lowerEntry(K key) //键小于key的最大键值对
+K                          lowerKey(K key) //键小于key的最大键值对
+NavigableSet&lt;K&gt;            navigableKeySet() //返回key的Set集合
+Entry&lt;K, V&gt;                pollFirstEntry() //获取第一个节点,并删除
+Entry&lt;K, V&gt;                pollLastEntry() //获取最后一个节点并删除
+V                          put(K key, V value) //插入一个节点
+V                          remove(Object key) //删除键为key的节点
+int                        size() //Map大小
+SortedMap&lt;K, V&gt;            subMap(K fromInclusive, K toExclusive) //获取从fromInclusive到toExclusive子Map,前闭后开
+NavigableMap&lt;K, V&gt;         subMap(K from, boolean fromInclusive, K to, boolean toInclusive)
+NavigableMap&lt;K, V&gt;         tailMap(K from, boolean inclusive) //获取从from开始到最后的子Map,inclusive标志是否包含from
+SortedMap&lt;K, V&gt;            tailMap(K fromInclusive)
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testTreeMap() {
+    //新建treeMap
+    TreeMap treeMap = new TreeMap();
+    //添加元素
+    treeMap.put(11, &quot;eleven&quot;);
+    treeMap.put(1, &quot;one&quot;);
+    treeMap.put(2, &quot;two&quot;);
+    treeMap.put(3, &quot;three&quot;);
+    treeMap.put(4, &quot;four&quot;);
+    //打印元素
+    this.printMapByEntrySet(treeMap);
+    //获取大小
+    System.out.println(&quot;treeMap的大小为: &quot; + treeMap.size());
+    //是否包含key为4的元素
+    System.out.println(&quot;treeMap是否包含key为4的元素: &quot; + treeMap.containsKey(4));
+    //是否包含值为5的元素
+    System.out.println(&quot;treeMap是否包含value为two的元素: &quot; + treeMap.containsValue(&quot;two&quot;));
+
+    treeMap.put(5, &quot;five&quot;);
+    treeMap.put(6, &quot;six&quot;);
+    treeMap.put(9, &quot;nine&quot;);
+    treeMap.put(11, &quot;eleven&quot;);
+
+    //获取treeMap中键不小于8最小的entry
+    System.out.println(&quot;treeMap中键不小于8的最小entry为: &quot; + treeMap.ceilingEntry(8));
+    //获取第一个entry
+    System.out.println(&quot;treeMap中第一个entry为: &quot; + treeMap.firstEntry());
+    //获取从from开始到to结束的子map,前闭后开
+    System.out.println(&quot;从2开始到9结束的子map为: &quot; + treeMap.subMap(2,9));
+    //删除元素
+    System.out.println(&quot;删除key为2的元素: &quot; + treeMap.remove(2));
+    //获取并删除最后一个元素
+    System.out.println(&quot;获取并删除最后一个元素&quot; + treeMap.pollLastEntry());
+    //打印元素
+    this.printMapByKeySet(treeMap);
+    //clone
+    TreeMap cloneMap = (TreeMap) treeMap.clone();
+    //打印克隆map
+    System.out.println(&quot;cloneMap的元素为: &quot; + cloneMap);
+    //清空map
+    treeMap.clear();
+    //判空
+    System.out.println(&quot;treeMap是否为空: &quot; + treeMap.isEmpty());
+}
+
+/**
+ * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+ * @param map
+ */
+private void printMapByEntrySet(TreeMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.entrySet().iterator(); //
+    System.out.print(&quot;treeMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        Map.Entry entry = (Map.Entry) iterator.next();
+        key = (Integer) entry.getKey();
+        value = (String) entry.getValue();
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+
+/**
+ * 使用keySet获取key的Set集合,利用key获取值
+ * @param map
+ */
+private void printMapByKeySet(TreeMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.keySet().iterator();
+    System.out.print(&quot;treeMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        key = (Integer) iterator.next();
+        value = (String) map.get(key);
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>treeMap中含有的元素有: key/value : 1/one key/value : 2/two key/value : 3/three key/value : 4/four key/value : 11/eleven
+treeMap的大小为: 5
+treeMap是否包含key为4的元素: true
+treeMap是否包含value为two的元素: true
+treeMap中键不小于8的最小entry为: 9=nine
+treeMap中第一个entry为: 1=one
+从2开始到9结束的子map为: {2=two, 3=three, 4=four, 5=five, 6=six}
+删除key为2的元素: two
+获取并删除最后一个元素11=eleven
+treeMap中含有的元素有: key/value : 1/one key/value : 3/three key/value : 4/four key/value : 5/five key/value : 6/six key/value : 9/nine
+cloneMap的元素为: {1=one, 3=three, 4=four, 5=five, 6=six, 9=nine}
+treeMap是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>TreeMap有四个构造函数，这四个构造函数的区别在于使用什么样的构造器，以及是否要初始化，源码中有注释解释。</p>
+<pre><code>/**
+ * Constructs a new, empty tree map, using the natural ordering of its
+ * keys.  All keys inserted into the map must implement the {@link
+ * Comparable} interface.  Furthermore, all such keys must be
+ * &lt;em&gt;mutually comparable&lt;/em&gt;: {@code k1.compareTo(k2)} must not throw
+ * a {@code ClassCastException} for any keys {@code k1} and
+ * {@code k2} in the map.  If the user attempts to put a key into the
+ * map that violates this constraint (for example, the user attempts to
+ * put a string key into a map whose keys are integers), the
+ * {@code put(Object key, Object value)} call will throw a
+ * {@code ClassCastException}.
+ */
+public TreeMap() {
+    comparator = null;
+}
+
+/**
+ * Constructs a new, empty tree map, ordered according to the given
+ * comparator.  All keys inserted into the map must be &lt;em&gt;mutually
+ * comparable&lt;/em&gt; by the given comparator: {@code comparator.compare(k1,
+ * k2)} must not throw a {@code ClassCastException} for any keys
+ * {@code k1} and {@code k2} in the map.  If the user attempts to put
+ * a key into the map that violates this constraint, the {@code put(Object
+ * key, Object value)} call will throw a
+ * {@code ClassCastException}.
+ *
+ * @param comparator the comparator that will be used to order this map.
+ *        If {@code null}, the {@linkplain Comparable natural
+ *        ordering} of the keys will be used.
+ */
+public TreeMap(Comparator&lt;? super K&gt; comparator) {
+    this.comparator = comparator;
+}
+
+/**
+ * Constructs a new tree map containing the same mappings as the given
+ * map, ordered according to the &lt;em&gt;natural ordering&lt;/em&gt; of its keys.
+ * All keys inserted into the new map must implement the {@link
+ * Comparable} interface.  Furthermore, all such keys must be
+ * &lt;em&gt;mutually comparable&lt;/em&gt;: {@code k1.compareTo(k2)} must not throw
+ * a {@code ClassCastException} for any keys {@code k1} and
+ * {@code k2} in the map.  This method runs in n*log(n) time.
+ *
+ * @param  m the map whose mappings are to be placed in this map
+ * @throws ClassCastException if the keys in m are not {@link Comparable},
+ *         or are not mutually comparable
+ * @throws NullPointerException if the specified map is null
+ */
+public TreeMap(Map&lt;? extends K, ? extends V&gt; m) {
+    comparator = null;
+    putAll(m);
+}
+
+/**
+ * Constructs a new tree map containing the same mappings and
+ * using the same ordering as the specified sorted map.  This
+ * method runs in linear time.
+ *
+ * @param  m the sorted map whose mappings are to be placed in this map,
+ *         and whose comparator is to be used to sort this map
+ * @throws NullPointerException if the specified map is null
+ */
+public TreeMap(SortedMap&lt;K, ? extends V&gt; m) {
+    comparator = m.comparator();
+    try {
+        buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
+    } catch (java.io.IOException cannotHappen) {
+    } catch (ClassNotFoundException cannotHappen) {
+    }
+}
+###2.2 put方法
+/*
+* Associates the specified value with the specified key in this map.
+* If the map previously contained a mapping for the key, the old
+* value is replaced.
+*
+        * @param key key with which the specified value is to be associated
+* @param value value to be associated with the specified key
+*
+        * @return the previous value associated with {@code key}, or
+*         {@code null} if there was no mapping for {@code key}.
+        *         (A {@code null} return can also indicate that the map
+*         previously associated {@code null} with {@code key}.)
+        * @throws ClassCastException if the specified key cannot be compared
+*         with the keys currently in the map
+* @throws NullPointerException if the specified key is null
+        *         and this map uses natural ordering, or its comparator
+*         does not permit null keys
+*/
+}
+public V put(K key, V value) {
+    Entry&lt;K,V&gt; t = root;
+    if (t == null) { //空树,插入根节点
+        compare(key, key); // type (and possibly null) check
+
+        root = new Entry&lt;&gt;(key, value, null);
+        size = 1;
+        modCount++;
+        return null;
+    }
+    int cmp;
+    Entry&lt;K,V&gt; parent; //父节点
+    // split comparator and comparable paths
+    Comparator&lt;? super K&gt; cpr = comparator;
+    if (cpr != null) { //如果有自定义的比较器则使用自定义比较器比较key
+        do {
+            parent = t;
+            cmp = cpr.compare(key, t.key); //首先比较父节点
+            if (cmp &lt; 0) //比父节点小,则比较左孩子
+                t = t.left;
+            else if (cmp &gt; 0) //比父节点大比较则比较右孩子
+                t = t.right;
+            else
+                return t.setValue(value); //键相同则替换原value
+        } while (t != null); //t==null时则找到要插入的节点
+    }
+    else {
+        if (key == null) //同上
+            throw new NullPointerException();
+        @SuppressWarnings(&quot;unchecked&quot;)
+        Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+        do {
+            parent = t;
+            cmp = k.compareTo(t.key);
+            if (cmp &lt; 0)
+                t = t.left;
+            else if (cmp &gt; 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent); //插入的节点
+    if (cmp &lt; 0) //比较为小于0,则将新节点设为上一个t的左孩子,反之右孩子
+        parent.left = e;
+    else
+        parent.right = e;
+    fixAfterInsertion(e); //恢复红黑数的特性
+    size++;
+    modCount++;
+    return null;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * Returns the value to which the specified key is mapped,
+ * or {@code null} if this map contains no mapping for the key.
+ *
+ * &lt;p&gt;More formally, if this map contains a mapping from a key
+ * {@code k} to a value {@code v} such that {@code key} compares
+ * equal to {@code k} according to the map&apos;s ordering, then this
+ * method returns {@code v}; otherwise it returns {@code null}.
+ * (There can be at most one such mapping.)
+ *
+ * &lt;p&gt;A return value of {@code null} does not &lt;em&gt;necessarily&lt;/em&gt;
+ * indicate that the map contains no mapping for the key; it&apos;s also
+ * possible that the map explicitly maps the key to {@code null}.
+ * The {@link #containsKey containsKey} operation may be used to
+ * distinguish these two cases.
+ *
+ * @throws ClassCastException if the specified key cannot be compared
+ *         with the keys currently in the map
+ * @throws NullPointerException if the specified key is null
+ *         and this map uses natural ordering, or its comparator
+ *         does not permit null keys
+ */
+public V get(Object key) {
+    Entry&lt;K,V&gt; p = getEntry(key);
+    return (p==null ? null : p.value);
+}
+
+final Entry&lt;K,V&gt; getEntry(Object key) {
+    // Offload comparator-based version for sake of performance
+    if (comparator != null)
+        return getEntryUsingComparator(key); //有比较器,大部分情况下都是没有比较器的,所以拆出来
+    if (key == null)
+        throw new NullPointerException();
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+    Entry&lt;K,V&gt; p = root;
+    while (p != null) {
+        int cmp = k.compareTo(p.key);
+        if (cmp &lt; 0)
+            p = p.left;
+        else if (cmp &gt; 0)
+            p = p.right;
+        else
+            return p;
+    }
+    return null;
+}
+
+/**
+ * Version of getEntry using comparator. Split off from getEntry
+ * for performance. (This is not worth doing for most methods,
+ * that are less dependent on comparator performance, but is
+ * worthwhile here.)
+ */
+final Entry&lt;K,V&gt; getEntryUsingComparator(Object key) {
+    @SuppressWarnings(&quot;unchecked&quot;)
+    K k = (K) key;
+    Comparator&lt;? super K&gt; cpr = comparator;
+    if (cpr != null) {
+        Entry&lt;K,V&gt; p = root;
+        while (p != null) {
+            int cmp = cpr.compare(k, p.key);
+            if (cmp &lt; 0)
+                p = p.left;
+            else if (cmp &gt; 0)
+                p = p.right;
+            else
+                return p;
+        }
+    }
+    return null;
+}
+</code></pre><p>2.4 remove方法</p>
+<pre><code>/**
+ * Removes the mapping for this key from this TreeMap if present.
+ *
+ * @param  key key for which mapping should be removed
+ * @return the previous value associated with {@code key}, or
+ *         {@code null} if there was no mapping for {@code key}.
+ *         (A {@code null} return can also indicate that the map
+ *         previously associated {@code null} with {@code key}.)
+ * @throws ClassCastException if the specified key cannot be compared
+ *         with the keys currently in the map
+ * @throws NullPointerException if the specified key is null
+ *         and this map uses natural ordering, or its comparator
+ *         does not permit null keys
+ */
+public V remove(Object key) {
+    Entry&lt;K,V&gt; p = getEntry(key); //获取节点
+    if (p == null)
+        return null;
+
+    V oldValue = p.value;
+    deleteEntry(p); //删除节点
+    return oldValue;
+}
+
+/**
+ * Delete node p, and then rebalance the tree.
+ */
+private void deleteEntry(Entry&lt;K,V&gt; p) {
+    modCount++;
+    size--;
+
+    // If strictly internal, copy successor&apos;s element to p and then make p
+    // point to successor.
+    if (p.left != null &amp;&amp; p.right != null) { //有左右孩子, 则将后继节点的值复制给父节点,然后处理他的后继节点
+        Entry&lt;K,V&gt; s = successor(p); //获取后继节点
+        p.key = s.key;
+        p.value = s.value;
+        p = s;
+    } // p has 2 children
+
+    // Start fixup at replacement node, if it exists.
+    Entry&lt;K,V&gt; replacement = (p.left != null ? p.left : p.right);
+
+    if (replacement != null) { //后继节点有子节点
+        // Link replacement to parent
+        replacement.parent = p.parent; //将 后继节点的子节点的父节点 设置为后继节点的父节点
+        if (p.parent == null) //后继节点为根节点
+            root = replacement;
+        else if (p == p.parent.left)
+            p.parent.left  = replacement;
+        else
+            p.parent.right = replacement;
+
+        // Null out links so they are OK to use by fixAfterDeletion.
+        p.left = p.right = p.parent = null; //删除掉后继节点, help GC
+
+        // Fix replacement
+        if (p.color == BLACK) //如果后继节点的颜色为黑色
+            //根据红黑树的特性&quot;从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点&quot;, 删除的黑节点,会破坏平衡性
+            fixAfterDeletion(replacement); //重新染色, 平衡的红黑树
+    } else if (p.parent == null) { // return if we are the only node.
+        root = null;
+    } else { //  No children. Use self as phantom replacement and unlink.
+        if (p.color == BLACK)
+            fixAfterDeletion(p);
+
+        if (p.parent != null) {
+            if (p == p.parent.left)
+                p.parent.left = null;
+            else if (p == p.parent.right)
+                p.parent.right = null;
+            p.parent = null;
+        }
+    }
+}
+
+/**
+ * 红黑树的后继节点为
+ * 1 如果有右孩子, 则为右孩子的最深左孩子
+ * 2 如果没有右孩子, 则为最浅的以t为右子树节点的节点
+ * Returns the successor of the specified Entry, or null if no such.
+ */
+static &lt;K,V&gt; TreeMap.Entry&lt;K,V&gt; successor(Entry&lt;K,V&gt; t) {
+    if (t == null)
+        return null;
+    else if (t.right != null) {
+        Entry&lt;K,V&gt; p = t.right;
+        while (p.left != null)
+            p = p.left;
+        return p;
+    } else {
+        Entry&lt;K,V&gt; p = t.parent;
+        Entry&lt;K,V&gt; ch = t;
+        while (p != null &amp;&amp; ch == p.right) {
+            ch = p;
+            p = p.parent;
+        }
+        return p;
+    }
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310928.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310928.html
+</a></p>
+<p>[2] <a href="http://blog.csdn.net/ns_code/article/details/36421085" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36421085
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：TreeMap使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+	     </div>
+	     <div>
+	       <center>
+	         <div class="pagination">
+<ul class="pagination">
+	 
+</ul>
+</div>
+
+	       </center>
+	     </div>	
+      
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

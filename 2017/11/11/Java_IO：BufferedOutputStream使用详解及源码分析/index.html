@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：BufferedOutputStream使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="使用方法BufferedOutputStream继承于FilterOutputStream，提供缓冲输出流功能。缓冲输出流相对于普通输出流的优势是，它提供了一个缓冲数组，只有缓冲数组满了或者手动flush时才会向磁盘写数据，避免频繁IO。核心思想是，提供一个缓冲数组，写入时首先操作缓冲数组。
+方法介">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：BufferedOutputStream使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：BufferedOutputStream使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedOutputStream继承于FilterOutputStream，提供缓冲输出流功能。缓冲输出流相对于普通输出流的优势是，它提供了一个缓冲<br>数组，只有缓冲数组满了或者手动flush时才会向磁盘写数据，避免频繁IO。核心思想是，提供一个缓冲数组，写入时首先操作缓冲数组。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedOutputStream提供的API如下：</p>
+<pre><code>//构造函数
+BufferedOutputStream(OutputStream out) //默认缓冲数组大小为8192
+BufferedOutputStream(OutputStream out, int size)
+
+synchronized void     close() //关闭
+synchronized void     flush() //刷盘
+synchronized void     write(byte[] b, int off, int len) //向输出流写数据
+synchronized void     write(int b)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedOutput() {
+    try {
+        final byte [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        /*
+         *创建文件输出流out,缓冲区大小为8
+         */
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*将letters前6个字符写入到输出流*/
+        out.write(letters, 0 ,6);
+        /*此时不会写入任何数据到磁盘文件*/
+        readFile();
+        /*继续写入4个字符*/
+        for (int i = 0; i &lt; 4; i++) {
+            out.write(&apos;g&apos; + i);
+        }
+        /*此时只会写入8个字符到磁盘文件*/
+        readFile();
+        /*此时会把所有内容写入磁盘文件*/
+        out.flush();
+        readFile();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+private void readFile() {
+    try {
+        InputStream in = new FileInputStream(&quot;buff.txt&quot;);
+        byte [] bytes = new byte[20];
+        in.read(bytes, 0, bytes.length);
+        System.out.println(&quot;文件中的内容为: &quot;  + new String(bytes));
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>文件中的内容为:
+文件中的内容为: abcdefgh
+文件中的内容为: abcdefghij
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedOutputStream的构造方法有两个，区别是字节缓冲数组大小。</p>
+<pre><code>/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream.
+ *
+ * @param   out   the underlying output stream.
+ */
+public BufferedOutputStream(OutputStream out) {
+    this(out, 8192);
+}
+
+/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream with the specified buffer
+ * size.
+ *
+ * @param   out    the underlying output stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if size &amp;lt;= 0.
+ */
+public BufferedOutputStream(OutputStream out, int size) {
+    super(out);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write方法有两个重载方法，分别是协议一个字节的write(int b)和写入一个字节数组的write(byte b[], int off, int<br>len)。下面分析第二个方法的源码。</p>
+<pre><code>/**
+ * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+ * starting at offset &lt;code&gt;off&lt;/code&gt; to this buffered output stream.
+ *
+ * &lt;p&gt; Ordinarily this method stores bytes from the given array into this
+ * stream&apos;s buffer, flushing the buffer to the underlying output stream as
+ * needed.  If the requested length is at least as large as this stream&apos;s
+ * buffer, however, then this method will flush the buffer and write the
+ * bytes directly to the underlying output stream.  Thus redundant
+ * &lt;code&gt;BufferedOutputStream&lt;/code&gt;s will not copy data unnecessarily.
+ *
+ * @param      b     the data.
+ * @param      off   the start offset in the data.
+ * @param      len   the number of bytes to write.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void write(byte b[], int off, int len) throws IOException {
+    if (len &gt;= buf.length) { //如果写入长度比buf长度长,直接写入文件，不走缓冲区
+        /* If the request length exceeds the size of the output buffer,
+           flush the output buffer and then write the data directly.
+           In this way buffered streams will cascade harmlessly. */
+        flushBuffer(); //将原有缓冲区内容刷盘
+        out.write(b, off, len); //直接写入文件
+        return;
+    }
+    if (len &gt; buf.length - count) { //可用空间不足,先刷盘
+        flushBuffer();
+    }
+    System.arraycopy(b, off, buf, count, len); //复制写入
+    count += len;
+}
+/** Flush the internal buffer */
+private void flushBuffer() throws IOException {
+    if (count &gt; 0) {
+        out.write(buf, 0, count);
+        count = 0;
+    }
+}
+</code></pre><h3 id="flush方法"><a href="#flush方法" class="headerlink" title="flush方法"></a>flush方法</h3><pre><code>/**
+ * Flushes this buffered output stream. This forces any buffered
+ * output bytes to be written out to the underlying output stream.
+ *
+ * @exception  IOException  if an I/O error occurs.
+ * @see        java.io.FilterOutputStream#out
+ */
+public synchronized void flush() throws IOException {
+    flushBuffer(); //刷盘
+    out.flush(); //未做任何实现
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_13.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_13.html
+</a><br>[2] <a href="http://czj4451.iteye.com/blog/1545159" target="_blank" rel="noopener"> http://czj4451.iteye.com/blog/1545159
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java并发编程：线程创建/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java集合：ArrayList使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

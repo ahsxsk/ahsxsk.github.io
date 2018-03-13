@@ -1,0 +1,2671 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 2 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header page-header-inverse ">
+  <h1 class="title title-inverse ">史可的博客</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+        <!-- render top articles firstly -->
+        
+        <!-- render other articles -->
+        
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析/" >Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：PipedOutputStream和PipedInputStream使用详解及源码分析</p>
+<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>PipedOutputStream和PipedInputStream是管道输出流和管道输入流，配合使用可以实现线程间通信。<br>使用管道实现线程间通信的主要流程如下：建立输出流out和输入流in，将out和in绑定，out中写入的数据则会同步写入的in的缓冲区（实际情况是，out中写<br>入数据就是往in的缓冲区写数据，out中没有数据缓冲区）。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>PipedOutputStream提供的API如下：</p>
+<pre><code>//构造函数
+public PipedOutputStream(PipedInputStream snk);
+public PipedOutputStream();
+
+public synchronized void connect(PipedInputStream snk); //将PipedOutputStream 和 PipedInputSteam绑定
+public void write(int b); //向output写入b
+public void write(byte b[], int off, int len); //向output写入字节数组b
+
+public synchronized void flush();//刷新缓冲区,通知其他input读取数据
+public void close();// 关闭
+PipedOutputStream提供的API如下：
+//构造函数
+public PipedInputStream(PipedOutputStream src);
+public PipedInputStream(PipedOutputStream src, int pipeSize);
+
+public void connect(PipedOutputStream src); //将PipedOutputStream 和 PipedInputSteam绑定
+protected synchronized void receive(int b); //向input缓冲区写入b
+synchronized void receive(byte b[], int off, int len); //向input写入字节数组b
+
+public synchronized int read(); //读取缓冲区下一个字节
+public synchronized int read(byte b[], int off, int len) //读取缓冲区字节数组到b
+public synchronized int available();// 缓冲区可读字节数组的个数
+public void close(); // 关闭
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>/**
+ * 生产者线程
+ */
+public class Producer extends Thread {
+    //输出流
+    private PipedOutputStream out = new PipedOutputStream();
+
+    //构造方法
+    public Producer(PipedOutputStream out) {
+        this.out = out;
+    }
+    @Override
+    public void run() {
+        writeMessage();
+    }
+
+    private void writeMessage() {
+        StringBuilder sb = new StringBuilder(&quot;Hello World!!!&quot;);
+        try {
+            out.write(sb.toString().getBytes());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+/**
+ * 消费线程
+ */
+public class Consumer extends Thread {
+    //输入流, 默认缓冲区大小为1024
+    private PipedInputStream in = new PipedInputStream();
+
+    //构造方法
+    public Consumer(PipedInputStream in) {
+        this.in = in;
+    }
+
+    @Override
+    public void run() {
+        readMessage();
+    }
+    private void readMessage() {
+        byte [] buf = new byte[1024];
+        try {
+            int len = in.read(buf);
+            System.out.println(&quot;缓冲区的内容为: &quot; + new String(buf, 0, len));
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
+}
+
+@org.junit.Test
+public void testPiped() {
+    /**
+     * 流程
+     * 1 建立输入输出流
+     * 2 绑定输入输出流
+     * 3 向缓冲区写数据
+     * 4 读取缓冲区数据
+     */
+    PipedOutputStream out = new PipedOutputStream();
+    PipedInputStream in = new PipedInputStream();
+    Producer producer = new Producer(out);
+    Consumer consumer = new Consumer(in);
+
+    try {
+        out.connect(in);
+        producer.start();
+        consumer.start();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>缓冲区的内容为: Hello World!!!
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><p>按照演示程序运行过程分析源码，主要有 <strong> 构造方法、connect、out写、in读 </strong> 等。</p>
+<h3 id="2-1-PipedOutputStream构造方法"><a href="#2-1-PipedOutputStream构造方法" class="headerlink" title="2.1 PipedOutputStream构造方法"></a>2.1 PipedOutputStream构造方法</h3><pre><code>/**
+ * Creates a piped output stream connected to the specified piped
+ * input stream. Data bytes written to this stream will then be
+ * available as input from &lt;code&gt;snk&lt;/code&gt;.
+ *
+ * @param      snk   The piped input stream to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public PipedOutputStream(PipedInputStream snk)  throws IOException {
+    connect(snk);
+}
+
+/**
+ * Creates a piped output stream that is not yet connected to a
+ * piped input stream. It must be connected to a piped input stream,
+ * either by the receiver or the sender, before being used.
+ *
+ * @see     java.io.PipedInputStream#connect(java.io.PipedOutputStream)
+ * @see     java.io.PipedOutputStream#connect(java.io.PipedInputStream)
+ */
+public PipedOutputStream() {
+}
+</code></pre><h3 id="2-2-PipedInputStream构造方法"><a href="#2-2-PipedInputStream构造方法" class="headerlink" title="2.2 PipedInputStream构造方法"></a>2.2 PipedInputStream构造方法</h3><pre><code>/**
+ * Creates a &lt;code&gt;PipedInputStream&lt;/code&gt; so that it is
+ * connected to the piped output stream
+ * &lt;code&gt;src&lt;/code&gt; and uses the specified pipe size for
+ * the pipe&apos;s buffer.
+ * Data bytes written to &lt;code&gt;src&lt;/code&gt; will then
+ * be available as input from this stream.
+ *
+ * @param      src   the stream to connect to.
+ * @param      pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IOException  if an I/O error occurs.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedInputStream(PipedOutputStream src, int pipeSize)
+        throws IOException {
+    initPipe(pipeSize);
+    connect(src);
+}
+public PipedInputStream(PipedOutputStream src) throws IOException {
+    this(src, DEFAULT_PIPE_SIZE);
+}
+
+/**
+ * Creates a &lt;code&gt;PipedInputStream&lt;/code&gt; so that it is not yet
+ * {@linkplain #connect(java.io.PipedOutputStream) connected} and
+ * uses the specified pipe size for the pipe&apos;s buffer.
+ * It must be {@linkplain java.io.PipedOutputStream#connect(
+ * java.io.PipedInputStream)
+ * connected} to a &lt;code&gt;PipedOutputStream&lt;/code&gt; before being used.
+ *
+ * @param      pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedInputStream(int pipeSize) {
+    initPipe(pipeSize);
+}
+public PipedInputStream() {
+    initPipe(DEFAULT_PIPE_SIZE);
+}
+</code></pre><h3 id="2-3-PipedOutputStream-connect方法"><a href="#2-3-PipedOutputStream-connect方法" class="headerlink" title="2.3 PipedOutputStream connect方法"></a>2.3 PipedOutputStream connect方法</h3><pre><code>/**
+ * Connects this piped output stream to a receiver. If this object
+ * is already connected to some other piped input stream, an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;snk&lt;/code&gt; is an unconnected piped input stream and
+ * &lt;code&gt;src&lt;/code&gt; is an unconnected piped output stream, they may
+ * be connected by either the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * src.connect(snk)&lt;/pre&gt;&lt;/blockquote&gt;
+ * or the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * snk.connect(src)&lt;/pre&gt;&lt;/blockquote&gt;
+ * The two calls have the same effect.
+ *
+ * @param      snk   the piped input stream to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void connect(PipedInputStream snk) throws IOException {
+    if (snk == null) {
+        throw new NullPointerException();
+    } else if (sink != null || snk.connected) {
+        throw new IOException(&quot;Already connected&quot;);
+    }
+    sink = snk; //设置输入流
+    snk.in = -1; //写入缓冲区下标
+    snk.out = 0; //读取缓冲区下标
+    snk.connected = true; //设置连接状态
+}
+</code></pre><h3 id="2-4-PipedOutputStream-write方法"><a href="#2-4-PipedOutputStream-write方法" class="headerlink" title="2.4 PipedOutputStream write方法"></a>2.4 PipedOutputStream write方法</h3><pre><code>/**
+ * Writes the specified &lt;code&gt;byte&lt;/code&gt; to the piped output stream.
+ * &lt;p&gt;
+ * Implements the &lt;code&gt;write&lt;/code&gt; method of &lt;code&gt;OutputStream&lt;/code&gt;.
+ *
+ * @param      b   the &lt;code&gt;byte&lt;/code&gt; to be written.
+ * @exception IOException if the pipe is &lt;a href=#BROKEN&gt; broken&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedInputStream) unconnected},
+ *          closed, or if an I/O error occurs.
+ */
+public void write(int b)  throws IOException {
+    if (sink == null) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    }
+    sink.receive(b); //直接调用输入流方法操作输入流缓冲区
+}
+
+/**
+ * Receives a byte of data.  This method will block if no input is
+ * available.
+ * @param b the byte being received
+ * @exception IOException If the pipe is &lt;a href=&quot;#BROKEN&quot;&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedOutputStream) unconnected},
+ *          closed, or if an I/O error occurs.
+ * @since     JDK1.1
+ */
+protected synchronized void receive(int b) throws IOException {
+    checkStateForReceive(); //检查可写入状态
+    writeSide = Thread.currentThread(); //获取输入流线程
+    if (in == out) //满,即缓冲区数据已读取完
+        awaitSpace();
+    if (in &lt; 0) { //缓冲区为空
+        in = 0;
+        out = 0;
+    }
+    buffer[in++] = (byte)(b &amp; 0xFF); //写入,限定为8位
+    if (in &gt;= buffer.length) { //
+        in = 0;
+    }
+}
+</code></pre><h3 id="2-5-PipedInputStream-read方法"><a href="#2-5-PipedInputStream-read方法" class="headerlink" title="2.5 PipedInputStream read方法"></a>2.5 PipedInputStream read方法</h3><pre><code>/**
+ * Reads the next byte of data from this piped input stream. The
+ * value byte is returned as an &lt;code&gt;int&lt;/code&gt; in the range
+ * &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;255&lt;/code&gt;.
+ * This method blocks until input data is available, the end of the
+ * stream is detected, or an exception is thrown.
+ *
+ * @return     the next byte of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the
+ *             stream is reached.
+ * @exception  IOException  if the pipe is
+ *           {@link #connect(java.io.PipedOutputStream) unconnected},
+ *           &lt;a href=&quot;#BROKEN&quot;&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;, closed,
+ *           or if an I/O error occurs.
+ */
+public synchronized int read()  throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (writeSide != null &amp;&amp; !writeSide.isAlive()
+            &amp;&amp; !closedByWriter &amp;&amp; (in &lt; 0)) {
+        throw new IOException(&quot;Write end dead&quot;);
+    }
+
+    readSide = Thread.currentThread(); //获取当前读取线程
+    int trials = 2;
+    while (in &lt; 0) { //没有可读内容
+        if (closedByWriter) {
+            /* closed by writer, return EOF */
+            return -1;
+        }
+        if ((writeSide != null) &amp;&amp; (!writeSide.isAlive()) &amp;&amp; (--trials &lt; 0)) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* might be a writer waiting */
+        notifyAll(); //通知写入
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    int ret = buffer[out++] &amp; 0xFF; //读取字节
+    if (out &gt;= buffer.length) { //超过缓冲区长度,则从头开始读,写的时候一样,所以能保证读写一样顺序
+        out = 0;
+    }
+    if (in == out) { //没有可读内容
+        /* now empty */
+        in = -1; //receive中将out置为0
+    }
+
+    return ret;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_04.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_04.html
+</a><br>[2] <a href="http://www.2cto.com/kf/201402/279143.html" target="_blank" rel="noopener"> http://www.2cto.com/kf/201402/279143.html
+</a><br>[3] <a href="http://www.cnblogs.com/meng72ndsc/archive/2010/12/23/1915358.html" target="_blank" rel="noopener"> http://www.cnblogs.com/meng72ndsc/archive/2010/12/23/1915358.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：PipedReader和PipedWriter使用详解及源码分析/" >Java_IO：PipedReader和PipedWriter使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：PipedReader和PipedWriter使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>PipedReader和PipedWriter即管道输入流和输出流，可用于线程间管道通信。它们和PipedInputStream/PipedOutputSt<br>ream区别是前者操作的是字符后者是字节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>PipedReader提供的API如下：</p>
+<pre><code>//构造方法
+PipedReader(PipedWriter src)    //使用默认的buf的大小和传入的pw构造pr
+PipedReader(PipedWriter src, int pipeSize)      //使用指定的buf的大小和传入的pw构造pr
+PipedReader()       //使用默认大小构造pr
+PipedReader(int pipeSize)       //使用指定大小构造pr
+
+//关闭流
+void close()
+//绑定Writer
+void connect(PipedWriter src)
+//是否可读
+synchronized boolean ready()
+//读取一个字符
+synchronized int read()
+//读取多个字符到cbuf
+synchronized int read(char cbuf[], int off, int len)
+//Writer调用, 向Reader缓冲区写数据
+synchronized void receive(int c)
+synchronized void receive(char c[], int off, int len)
+synchronized void receivedLast()
+</code></pre><p>PipedWriter提供的API如下：</p>
+<pre><code>//构造方法
+PipedWriter(PipedReader snk)
+PipedWriter()
+
+//绑定Reader Writer
+synchronized void connect(PipedReader snk)
+//关闭流
+void close()
+//刷新流,唤醒Reader
+synchronized void flush()
+//写入1个字符,实际是写到绑定Reader的缓冲区
+void write(int c)
+//写入多个字符到Reader缓冲区
+void write(char cbuf[], int off, int len)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>/**
+ * 写线程
+ */
+public class Producer extends Thread {
+    //输出流
+    private PipedWriter writer = new PipedWriter();
+    public Producer(PipedWriter writer) {
+        this.writer = writer;
+    }
+
+    @Override
+    public void run() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(&quot;Hello World!&quot;);
+            writer.write(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+/**
+ * 读取线程
+ */
+public class Consumer extends Thread{
+    //输入流
+    private PipedReader reader = new PipedReader();
+
+    public Consumer(PipedReader reader) {
+        this.reader = reader;
+    }
+
+    @Override
+    public void run() {
+        try {
+            char [] cbuf = new char[20];
+            reader.read(cbuf, 0, cbuf.length);
+            System.out.println(&quot;管道流中的数据为: &quot; + new String(cbuf));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+@org.junit.Test
+public void testPipedReaderWriter() {
+    /**
+     * 管道流通信核心是,Writer和Reader公用一块缓冲区,缓冲区在Reader中申请,
+     * 由Writer调用和它绑定的Reader的Receive方法进行写.
+     *
+     * 线程间通过管道流通信的步骤为
+     * 1 建立输入输出流
+     * 2 绑定输入输出流
+     * 3 Writer写
+     * 4 Reader读
+     */
+    PipedReader reader = new PipedReader();
+    PipedWriter writer = new PipedWriter();
+    Producer producer = new Producer(writer);
+    Consumer consumer = new Consumer(reader);
+
+    try {
+        writer.connect(reader);
+        producer.start();
+        consumer.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>管道流中的数据为: Hello World!
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>按照演示程序运行过程分析源码，主要有 <strong> 构造方法、connect、writer写、reader读 </strong> 等。</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><h4 id="PipedWriter构造方法"><a href="#PipedWriter构造方法" class="headerlink" title="PipedWriter构造方法"></a>PipedWriter构造方法</h4><p>PipedWriter构造方法有两个，区别是是否指定需要连接的PipedReader对象。</p>
+<pre><code>/**
+ * Creates a piped writer connected to the specified piped
+ * reader. Data characters written to this stream will then be
+ * available as input from &lt;code&gt;snk&lt;/code&gt;.
+ *
+ * @param      snk   The piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public PipedWriter(PipedReader snk)  throws IOException {
+    connect(snk);
+}
+
+/**
+ * Creates a piped writer that is not yet connected to a
+ * piped reader. It must be connected to a piped reader,
+ * either by the receiver or the sender, before being used.
+ *
+ * @see     java.io.PipedReader#connect(java.io.PipedWriter)
+ * @see     java.io.PipedWriter#connect(java.io.PipedReader)
+ */
+public PipedWriter() {
+}
+</code></pre><h4 id="PipedReader-构造方法"><a href="#PipedReader-构造方法" class="headerlink" title="PipedReader 构造方法"></a>PipedReader 构造方法</h4><p>PipedReader构造方法有四个，区别是是否指定要连接的PipedWriter对象以及缓冲区大小设置，默认缓冲区大小为1024。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is connected
+ * to the piped writer &lt;code&gt;src&lt;/code&gt; and uses the specified
+ * pipe size for the pipe&apos;s buffer. Data written to &lt;code&gt;src&lt;/code&gt;
+ * will then be  available as input from this stream.
+
+ * @param      src       the stream to connect to.
+ * @param      pipeSize  the size of the pipe&apos;s buffer.
+ * @exception  IOException  if an I/O error occurs.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(PipedWriter src, int pipeSize) throws IOException {
+    initPipe(pipeSize); //设置缓冲区大小
+    connect(src);  //连接对应的PipedWriter
+}
+
+public PipedReader(PipedWriter src) throws IOException {
+    this(src, DEFAULT_PIPE_SIZE); //默认缓冲区大小
+}
+
+/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is not yet
+ * {@link #connect(java.io.PipedWriter) connected} and uses
+ * the specified pipe size for the pipe&apos;s buffer.
+ * It must be  {@linkplain java.io.PipedWriter#connect(
+ * java.io.PipedReader) connected} to a &lt;code&gt;PipedWriter&lt;/code&gt;
+ * before being used.
+ *
+ * @param   pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(int pipeSize) {
+    initPipe(pipeSize); //指定大小
+}
+
+public PipedReader() {
+    initPipe(DEFAULT_PIPE_SIZE); //默认1024
+}
+</code></pre><h3 id="connect方法"><a href="#connect方法" class="headerlink" title="connect方法"></a>connect方法</h3><p>PipedWriter和PipedReader都有connect方法，两者作用相同。实际上PipedReader的connect方法是调用PipedWrit<br>er中connect方法实现的。</p>
+<h4 id="PipedWriter-connect方法"><a href="#PipedWriter-connect方法" class="headerlink" title="PipedWriter connect方法"></a>PipedWriter connect方法</h4><pre><code>/**
+ * Connects this piped writer to a receiver. If this object
+ * is already connected to some other piped reader, an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;snk&lt;/code&gt; is an unconnected piped reader and
+ * &lt;code&gt;src&lt;/code&gt; is an unconnected piped writer, they may
+ * be connected by either the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * src.connect(snk)&lt;/pre&gt;&lt;/blockquote&gt;
+ * or the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * snk.connect(src)&lt;/pre&gt;&lt;/blockquote&gt;
+ * The two calls have the same effect.
+ *
+ * @param      snk   the piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void connect(PipedReader snk) throws IOException {
+    if (snk == null) {
+        throw new NullPointerException();
+    } else if (sink != null || snk.connected) {
+        throw new IOException(&quot;Already connected&quot;);
+    } else if (snk.closedByReader || closed) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    }
+
+    sink = snk; //绑定对应的PipedReader
+    snk.in = -1; //写入操作下标
+    snk.out = 0; //读取操作下标
+    snk.connected = true; //连接状态
+}
+</code></pre><h4 id="PipedReader-connect方法"><a href="#PipedReader-connect方法" class="headerlink" title="PipedReader connect方法"></a>PipedReader connect方法</h4><pre><code>/**
+ * Causes this piped reader to be connected
+ * to the piped  writer &lt;code&gt;src&lt;/code&gt;.
+ * If this object is already connected to some
+ * other piped writer, an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown.
+ * @param      src   The piped writer to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public void connect(PipedWriter src) throws IOException {
+    src.connect(this); //调用PipedWriter的方法
+}
+</code></pre><h3 id="PipedWriter-write方法"><a href="#PipedWriter-write方法" class="headerlink" title="PipedWriter write方法"></a>PipedWriter write方法</h3><p>write有写入一个字符和写入多个字符两种重载方法，实现原理都一样，调用和它绑定的PipedReader的receive方法向缓冲区写数据，下面分析写入多个<br>字符的write方法。</p>
+<pre><code>/**
+ * Writes the specified &lt;code&gt;char&lt;/code&gt; to the piped output stream.
+ * If a thread was reading data characters from the connected piped input
+ * stream, but the thread is no longer alive, then an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * Implements the &lt;code&gt;write&lt;/code&gt; method of &lt;code&gt;Writer&lt;/code&gt;.
+ *
+ * @param      c   the &lt;code&gt;char&lt;/code&gt; to be written.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedOutputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedReader) unconnected}, closed
+ *          or an I/O error occurs.
+ */
+public void write(int c)  throws IOException {
+    if (sink == null) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    }
+    sink.receive(c); //调用PipedReader的receive方法
+}
+
+/**
+ * Receives a char of data. This method will block if no input is
+ * available.
+ */
+synchronized void receive(int c) throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByWriter || closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (readSide != null &amp;&amp; !readSide.isAlive()) {
+        throw new IOException(&quot;Read end dead&quot;);
+    }
+
+    writeSide = Thread.currentThread(); //获取当前线程
+    while (in == out) { //满，唤醒读者。（有点疑惑）
+        if ((readSide != null) &amp;&amp; !readSide.isAlive()) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* full: kick any waiting readers */
+        notifyAll();
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    if (in &lt; 0) {
+        in = 0;
+        out = 0;
+    }
+    buffer[in++] = (char) c;
+    if (in &gt;= buffer.length) {
+        in = 0;
+    }
+}
+</code></pre><h3 id="PipedReader-read方法"><a href="#PipedReader-read方法" class="headerlink" title="PipedReader read方法"></a>PipedReader read方法</h3><p>read方法同样有读取一个字符和读取多个字符两种重载方法，下面分析读取一个字符的read。</p>
+<pre><code>/**
+ * Reads the next character of data from this piped stream.
+ * If no character is available because the end of the stream
+ * has been reached, the value &lt;code&gt;-1&lt;/code&gt; is returned.
+ * This method blocks until input data is available, the end of
+ * the stream is detected, or an exception is thrown.
+ *
+ * @return     the next character of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the
+ *             stream is reached.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedInputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedWriter) unconnected}, closed,
+ *          or an I/O error occurs.
+ */
+public synchronized int read()  throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (writeSide != null &amp;&amp; !writeSide.isAlive()
+            &amp;&amp; !closedByWriter &amp;&amp; (in &lt; 0)) {
+        throw new IOException(&quot;Write end dead&quot;);
+    }
+
+    readSide = Thread.currentThread();
+    int trials = 2;
+    while (in &lt; 0) { //缓冲区为空
+        if (closedByWriter) {
+            /* closed by writer, return EOF */
+            return -1;
+        }
+        if ((writeSide != null) &amp;&amp; (!writeSide.isAlive()) &amp;&amp; (--trials &lt; 0)) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* might be a writer waiting */
+        notifyAll(); //唤醒写者
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    int ret = buffer[out++]; //读
+    if (out &gt;= buffer.length) {
+        out = 0;
+    }
+    if (in == out) { //所有字符都被读取
+        /* now empty */
+        in = -1;
+    }
+    return ret;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.2cto.com/kf/201312/263319.html" target="_blank" rel="noopener"> http://www.2cto.com/kf/201312/263319.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_20.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_20.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：PipedReader和PipedWriter使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：StringBuffer使用详解及源码分析/" >Java字符串：StringBuffer使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>StringBuffer和StringBuilder功能基本相同，他们的区别在于StringBuffer是线程安全的而StringBuilder不是线程安全<br>的。他们的关系和HashMap-Hashtable、Vector-ArrrayList类似。</p>
+<pre><code>public final class StringBuffer
+        extends AbstractStringBuilder
+        implements java.io.Serializable, CharSequence{}
+</code></pre><p>StringBuffer和StringBuilder一样继承了AbstractStringBuilder并且实现了Serializable和CharSequ<br>ence。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>StringBuffer提供的的API主要如下：</p>
+<pre><code>//构造函数
+StringBuffer()
+StringBuffer(int capacity)
+StringBuffer(String string)
+StringBuffer(CharSequence cs)
+//追加
+synchronized StringBuffer     append(boolean b)
+synchronized StringBuffer     append(int i)
+synchronized StringBuffer     append(long l)
+synchronized StringBuffer     append(float f)
+synchronized StringBuffer     append(double d)
+synchronized StringBuffer     append(char ch)
+synchronized StringBuffer     append(char[] chars)
+synchronized StringBuffer     append(char[] chars, int start, int length)
+synchronized StringBuffer     append(Object obj)
+synchronized StringBuffer     append(String string)
+synchronized StringBuffer     append(StringBuffer sb)
+synchronized StringBuffer     append(CharSequence s)
+synchronized StringBuffer     append(CharSequence s, int start, int end)
+synchronized StringBuffer     appendCodePoint(int codePoint)
+synchronized int     capacity() //获取容量
+synchronized char     charAt(int index) //获取index下标的字符
+synchronized int     codePointAt(int index) //获取index下标的Unicode编码
+synchronized int     codePointBefore(int index)
+synchronized int     codePointCount(int beginIndex, int endIndex)
+synchronized StringBuffer     delete(int start, int end) //删除[start,end)的字符
+synchronized StringBuffer     deleteCharAt(int location) //删除location下标的字符
+synchronized void     ensureCapacity(int min) //确认货增加容量(length*2 + 2)
+synchronized void     getChars(int start, int end, char[] buffer, int idx) //将[start,end)中的字符添加的buffer的idx及以后的位置
+synchronized int     indexOf(String subString, int start) //获取提一次出现的位置
+int     indexOf(String string) //通过调用其他同步方法实现同步
+//插入字符串
+StringBuffer     insert(int index, boolean b)
+StringBuffer     insert(int index, int i)
+StringBuffer     insert(int index, long l)
+StringBuffer     insert(int index, float f)
+StringBuffer     insert(int index, double d)
+synchronized StringBuffer     insert(int index, char ch)
+synchronized StringBuffer     insert(int index, char[] chars)
+synchronized StringBuffer     insert(int index, char[] chars, int start, int length)
+synchronized StringBuffer     insert(int index, String string)
+StringBuffer     insert(int index, Object obj)
+synchronized StringBuffer     insert(int index, CharSequence s)
+synchronized StringBuffer     insert(int index, CharSequence s, int start, int end)
+int     lastIndexOf(String string)
+synchronized int     lastIndexOf(String subString, int start)
+int     length()
+synchronized int     offsetByCodePoints(int index, int codePointOffset)
+synchronized StringBuffer     replace(int start, int end, String string) //替换
+synchronized StringBuffer     reverse() //反转
+synchronized void     setCharAt(int index, char ch) //替换指定下标的字符
+synchronized void     setLength(int length)
+synchronized CharSequence     subSequence(int start, int end)
+synchronized String     substring(int start) //子串
+synchronized String     substring(int start, int end)
+synchronized String     toString()
+synchronized void     trimToSize()
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testStringBuffer() {
+    //构造并初始化
+    StringBuffer StringBuffer = new StringBuffer(&quot;0123456&quot;);
+    //获取容量
+    System.out.println(&quot;StringBuffer的容量为: &quot; + StringBuffer.capacity());
+    //获取字符数量
+    System.out.println(&quot;StringBuffer的字符数量为: &quot; + StringBuffer.length());
+    //获取指定index的字符
+    System.out.println(&quot;StringBuffer的第2个字符为: &quot; + StringBuffer.charAt(1));
+    //子串第一次出现的位置
+    System.out.println(&quot;\&quot;23\&quot;在StringBuffer中第一次出现的位置为: &quot; + StringBuffer.indexOf(&quot;23&quot;));
+    //子串最后一次出现的位置,从后往前
+    System.out.println(&quot;\&quot;34\&quot;在StringBuffer从第5个字符以前的字符串中第一次一次出现的位置为: &quot;
+            + StringBuffer.lastIndexOf(&quot;34&quot;, 5));
+    //替换字符串
+    System.out.println(&quot;将StringBuffer的第2-3个字符替换为abcde: &quot; + StringBuffer.replace(1, 3, &quot;abcde&quot;));
+    //设置指定位置字符
+    StringBuffer.setCharAt(1, &apos;A&apos;);
+    System.out.println(&quot;将第2个字符设置为A: &quot; + StringBuffer);
+    //删除滴定位置的字符串
+    StringBuffer.delete(2,5);
+    System.out.println(&quot;删除第3到第5个字符: &quot; + StringBuffer);
+    //追加字符
+    System.out.println(&quot;StringBuffer尾部追加一个7&quot; + StringBuffer.append(&quot;7&quot;));
+    //追加double
+    System.out.println(&quot;StringBuffer尾部追加8.0d&quot; + StringBuffer.append(8.0d));
+    //插入字符串
+    System.out.println(&quot;StringBuffer第3个字符看是追加test: &quot; + StringBuffer.insert(2, &quot;test&quot;));
+    String s = null;
+    System.out.println(&quot;StringBuffer第3个字符看是追加null: &quot; + StringBuffer.insert(2, s));
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>StringBuffer的容量为: 23
+StringBuffer的字符数量为: 7
+StringBuffer的第2个字符为: 1
+&quot;23&quot;在StringBuffer中第一次出现的位置为: 2
+&quot;34&quot;在StringBuffer从第5个字符以前的字符串中第一次一次出现的位置为: 3
+将StringBuffer的第2-3个字符替换为abcde: 0abcde3456
+将第2个字符设置为A: 0Abcde3456
+删除第3到第5个字符: 0Ae3456
+StringBuffer尾部追加一个70Ae34567
+StringBuffer尾部追加8.0d0Ae345678.0
+StringBuffer第3个字符看是追加test: 0Ateste345678.0
+StringBuffer第3个字符看是追加null: 0Anullteste345678.0
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>StringBuffer和StringBuilder的构造方法也几乎是相同的。</p>
+<pre><code>/**
+ * Constructs a string buffer with no characters in it and an
+ * initial capacity of 16 characters.
+ */
+public StringBuffer() {
+    super(16);
+}
+
+/**
+ * Constructs a string buffer with no characters in it and
+ * the specified initial capacity.
+ *
+ * @param      capacity  the initial capacity.
+ * @exception  NegativeArraySizeException  if the {@code capacity}
+ *               argument is less than {@code 0}.
+ */
+public StringBuffer(int capacity) {
+    super(capacity);
+}
+
+/**
+ * Constructs a string buffer initialized to the contents of the
+ * specified string. The initial capacity of the string buffer is
+ * {@code 16} plus the length of the string argument.
+ *
+ * @param   str   the initial contents of the buffer.
+ */
+public StringBuffer(String str) {
+    super(str.length() + 16);
+    append(str);
+}
+</code></pre><h3 id="2-2-insert方法"><a href="#2-2-insert方法" class="headerlink" title="2.2 insert方法"></a>2.2 insert方法</h3><p>insert方法有插入字符串、整形、布尔型等多个重载方法，实现方法都是调用父类AbstractStringBuilder的insert方法。</p>
+<h4 id="2-2-1-插入一个对象"><a href="#2-2-1-插入一个对象" class="headerlink" title="2.2.1 插入一个对象"></a>2.2.1 插入一个对象</h4><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public  StringBuffer insert(int offset, boolean b) {
+    // Note, synchronization achieved via invocation of StringBuffer insert(int, String)
+    // after conversion of b to String by super class method
+    // Ditto for toStringCache clearing
+    super.insert(offset, b); //调用父类的insert
+    return this;
+}
+/**
+ * Inserts the string representation of the {@code boolean}
+ * argument into this sequence.
+ * &lt;p&gt;
+ * The overall effect is exactly as if the second argument were
+ * converted to a string by the method {@link String#valueOf(boolean)},
+ * and the characters of that string were then
+ * {@link #insert(int,String) inserted} into this character
+ * sequence at the indicated offset.
+ * &lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      b        a {@code boolean}.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, boolean b) {
+    return insert(offset, String.valueOf(b)); //子类中insert(int, String),已经重写,调用子类的方法,子类已经保证同步
+}
+</code></pre><h4 id="2-2-2-插入一个字符串"><a href="#2-2-2-插入一个字符串" class="headerlink" title="2.2.2 插入一个字符串"></a>2.2.2 插入一个字符串</h4><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public synchronized StringBuffer insert(int offset, String str) {
+    toStringCache = null;
+    super.insert(offset, str);
+    return this;
+}
+/**
+ * Inserts the string into this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are inserted, in
+ * order, into this sequence at the indicated offset, moving up any
+ * characters originally above that position and increasing the length
+ * of this sequence by the length of the argument. If
+ * {@code str} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are inserted into this sequence.
+ * &lt;p&gt;
+ * The character at index &lt;i&gt;k&lt;/i&gt; in the new character sequence is
+ * equal to:
+ * &lt;ul&gt;
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if
+ * &lt;i&gt;k&lt;/i&gt; is less than {@code offset}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -offset} in the
+ * argument {@code str}, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset} but is less than {@code offset+str.length()}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -str.length()} in the
+ * old character sequence, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset+str.length()}
+ * &lt;/ul&gt;&lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      str      a string.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, String str) {
+    if ((offset &lt; 0) || (offset &gt; length()))
+        throw new StringIndexOutOfBoundsException(offset);
+    if (str == null)
+        str = &quot;null&quot;;
+    int len = str.length();
+    ensureCapacityInternal(count + len);
+    System.arraycopy(value, offset, value, offset + len, count - offset);
+    str.getChars(value, offset);
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-3-append方法"><a href="#2-3-append方法" class="headerlink" title="2.3 append方法"></a>2.3 append方法</h3><pre><code>public synchronized StringBuffer append(String str) {
+    toStringCache = null;
+    super.append(str);
+    return this;
+}
+/**
+ * Appends the specified string to this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are appended, in
+ * order, increasing the length of this sequence by the length of the
+ * argument. If {@code str} is {@code null}, then the four
+ * characters {@code &quot;null&quot;} are appended.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character
+ * at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less
+ * than &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index
+ * &lt;i&gt;k-n&lt;/i&gt; in the argument {@code str}.
+ *
+ * @param   str   a string.
+ * @return  a reference to this object.
+ */
+public AbstractStringBuilder append(String str) {
+    if (str == null)
+        return appendNull();
+    int len = str.length();
+    ensureCapacityInternal(count + len);
+    str.getChars(0, len, value, count);
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ * @since      1.2
+ */
+@Override
+public synchronized StringBuffer replace(int start, int end, String str) {
+    toStringCache = null;
+    super.replace(start, end, str);
+    return this;
+}
+/**
+ * Replaces the characters in a substring of this sequence
+ * with characters in the specified {@code String}. The substring
+ * begins at the specified {@code start} and extends to the character
+ * at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. First the
+ * characters in the substring are removed and then the specified
+ * {@code String} is inserted at {@code start}. (This
+ * sequence will be lengthened to accommodate the
+ * specified String if necessary.)
+ *
+ * @param      start    The beginning index, inclusive.
+ * @param      end      The ending index, exclusive.
+ * @param      str   String that will replace previous contents.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder replace(int start, int end, String str) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (start &gt; count)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; length()&quot;);
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; end&quot;);
+
+    if (end &gt; count)
+        end = count;
+    int len = str.length();
+    int newCount = count + len - (end - start);
+    ensureCapacityInternal(newCount);
+
+    System.arraycopy(value, end, value, start + len, count - end);
+    str.getChars(value, start);
+    count = newCount;
+    return this;
+}
+</code></pre><h3 id="2-5-delete方法"><a href="#2-5-delete方法" class="headerlink" title="2.5 delete方法"></a>2.5 delete方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ * @since      1.2
+ */
+@Override
+public synchronized StringBuffer delete(int start, int end) {
+    toStringCache = null;
+    super.delete(start, end);
+    return this;
+}
+/**
+ * Removes the characters in a substring of this sequence.
+ * The substring begins at the specified {@code start} and extends to
+ * the character at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. If
+ * {@code start} is equal to {@code end}, no changes are made.
+ *
+ * @param      start  The beginning index, inclusive.
+ * @param      end    The ending index, exclusive.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder delete(int start, int end) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (end &gt; count)
+        end = count;
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException();
+    int len = end - start;
+    if (len &gt; 0) {
+        System.arraycopy(value, start+len, value, start, count-end);
+        count -= len;
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/string03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string03.html
+</a><br>[2] <a href="http://blog.csdn.net/linbooooo1987/article/details/7531517" target="_blank" rel="noopener"> http://blog.csdn.net/linbooooo1987/article/details/7531517
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：StringBuffer使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：String、StringBuilder、StringBuffer区别/" >Java字符串：String、StringBuilder、StringBuffer区别</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>在学习String、StringBuilder、StringBuffer这三个类的时候在github上看到如下几个问题：</p>
+<h3 id="1-成员变量、局部变量在什么场景下用哪个更合适"><a href="#1-成员变量、局部变量在什么场景下用哪个更合适" class="headerlink" title="1. 成员变量、局部变量在什么场景下用哪个更合适"></a>1. 成员变量、局部变量在什么场景下用哪个更合适</h3><h3 id="2-他们之间效率如何，为什么"><a href="#2-他们之间效率如何，为什么" class="headerlink" title="2. 他们之间效率如何，为什么"></a>2. 他们之间效率如何，为什么</h3><h3 id="3-有没有存在特殊情况"><a href="#3-有没有存在特殊情况" class="headerlink" title="3. 有没有存在特殊情况"></a>3. 有没有存在特殊情况</h3><h3 id="4-编译器对他们的优化"><a href="#4-编译器对他们的优化" class="headerlink" title="4. 编译器对他们的优化"></a>4. 编译器对他们的优化</h3><p>下面尝试对这几个问题进行回答  </p>
+<h3 id="回答1："><a href="#回答1：" class="headerlink" title="回答1："></a>回答1：</h3><p>String是不可变的字符串，任何拼接、修改操作都是返回的新的String对象，原对象并没有改变；StringBuilder和StringBuffer是可变<br>字符串，修改操作改变的是原有的对象。StringBuilder和StringBuffer的区别是StringBuffer是线程安全的，他的大部分API都使用<br>synchronized 关键字修饰。所以针对这三个类的使用场景归纳如下<br>1）修改操作较少的场景可以用String；<br>2）单线程情况下字符串需要大量操作的适合使用StringBuilder；<br>3）多线程操作情况下大量操作字符串适合使用StringBuffer。</p>
+<h3 id="回答2："><a href="#回答2：" class="headerlink" title="回答2："></a>回答2：</h3><p>String的修改、拼接等操作由于需要重新申请新对象所以速度一般情况下比StringBuilder和StringBuffer慢。StringBuffer<br>API采用synchronized修饰，一般速度会比StringBuilder慢。</p>
+<h3 id="回答3："><a href="#回答3：" class="headerlink" title="回答3："></a>回答3：</h3><p>用例子回答这个问题</p>
+<pre><code>String s = “a” + “b” + “c” + “d”;
+StringBuilder sb = new StringBuilder(&quot;a&quot;).append(&quot;b&quot;).append(&quot;c&quot;).append(&quot;d&quot;);
+</code></pre><p>回答2指出StringBuilder速度比String快，这两个语句执行效率情况如下：</p>
+<pre><code>public void testSpeed() {
+    long t1 = System.nanoTime();
+    String s = &quot;a&quot; + &quot;b&quot; + &quot;c&quot; + &quot;d&quot;;
+    long t2 = System.nanoTime();
+    System.out.println(&quot;String耗时为: &quot; + (t2 - t1));
+    long t3 = System.nanoTime();
+    StringBuilder sb = new StringBuilder(&quot;a&quot;).append(&quot;b&quot;).append(&quot;c&quot;).append(&quot;d&quot;);
+    long t4 = System.nanoTime();
+    System.out.println(&quot;StringBuilder耗时为: &quot; + (t4 -t3));
+}
+</code></pre><p>执行结果为：</p>
+<pre><code>String耗时为: 3611
+StringBuilder耗时为: 13617
+</code></pre><h3 id="回答4："><a href="#回答4：" class="headerlink" title="回答4："></a>回答4：</h3><p>回答3中指出了String效率可能会比StringBuilder高，产生这种情况的原因是JVM对此进行了优化。理论上说String s = “a” +<br>“b” + “c” + “d”; 这条语句会产生4个对象，实际向JVM将这条语句优化为String s = “abcd”;所以效率高。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：String、StringBuilder、StringBuffer区别/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：StringBuilder使用详解及源码分析/" >Java字符串：StringBuilder使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>StringBuilder是可变字符串，和String的主要区别是他的字符串是可变的，例如拼接等操作不会重返回新的StringBuilder实例。</p>
+<pre><code>public final class StringBuilder
+        extends AbstractStringBuilder
+        implements java.io.Serializable, CharSequence{}
+</code></pre><p>StringBuilder继承了AbstractStringBuilder并且实现了Serializable和CharSequence。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>StringBuilder提供的的API主要如下：</p>
+<pre><code>//构造函数
+StringBuilder()
+StringBuilder(int capacity)
+StringBuilder(CharSequence seq)
+StringBuilder(String str)
+
+//尾部添加字符(串)
+StringBuilder     append(float f)
+StringBuilder     append(double d)
+StringBuilder     append(boolean b)
+StringBuilder     append(int i)
+StringBuilder     append(long l)
+StringBuilder     append(char c)
+StringBuilder     append(char[] chars)
+StringBuilder     append(char[] str, int offset, int len)
+StringBuilder     append(String str)
+StringBuilder     append(Object obj)
+StringBuilder     append(StringBuffer sb)
+StringBuilder     append(CharSequence csq)
+StringBuilder     append(CharSequence csq, int start, int end)
+StringBuilder     appendCodePoint(int codePoint)
+int     capacity() //容量
+char     charAt(int index) //获取index下标的字符
+int     codePointAt(int index) //获取index下标字符的Unicode编码
+int     codePointBefore(int index)
+int     codePointCount(int start, int end)
+StringBuilder     delete(int start, int end) //删除[start,end)之间的字符
+StringBuilder     deleteCharAt(int index) //删除index下标的字符
+void     getChars(int start, int end, char[] dst, int dstStart) //获取将[start,end)间的字符填充到到dst中,dstStart为开始位置
+int     indexOf(String subString, int start) //子串的第一次出现位置, 从start开始查找
+int     indexOf(String string) //子串的第一次出现位置
+//插入字符
+StringBuilder     insert(int offset, boolean b)
+StringBuilder     insert(int offset, int i)
+StringBuilder     insert(int offset, long l)
+StringBuilder     insert(int offset, float f)
+StringBuilder     insert(int offset, double d)
+StringBuilder     insert(int offset, char c)
+StringBuilder     insert(int offset, char[] ch)
+StringBuilder     insert(int offset, char[] str, int strOffset, int strLen)
+StringBuilder     insert(int offset, String str)
+StringBuilder     insert(int offset, Object obj)
+StringBuilder     insert(int offset, CharSequence s)
+StringBuilder     insert(int offset, CharSequence s, int start, int end)
+int     lastIndexOf(String string) //子串从后往前第一次出现的位置
+int     lastIndexOf(String subString, int start)
+int     length() //StringBuilder中字符数量
+StringBuilder     replace(int start, int end, String string) //将[start,end)替换为string
+StringBuilder     reverse() //反转字符串
+void     setCharAt(int index, char ch) //将index字符设置为ch
+CharSequence     subSequence(int start, int end) //获取子串
+String     substring(int start)
+String     substring(int start, int end)
+String     toString()
+void     trimToSize()
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>@Component
+public class TestStringBuilder {
+    public void testStringBuilder() {
+        //构造并初始化
+        StringBuilder stringBuilder = new StringBuilder(&quot;0123456&quot;);
+        //获取容量
+        System.out.println(&quot;stringBuilder的容量为: &quot; + stringBuilder.capacity());
+        //获取字符数量
+        System.out.println(&quot;stringBuilder的字符数量为: &quot; + stringBuilder.length());
+        //获取指定index的字符
+        System.out.println(&quot;stringBuilder的第2个字符为: &quot; + stringBuilder.charAt(1));
+        //子串第一次出现的位置
+        System.out.println(&quot;\&quot;23\&quot;在stringBuilder中第一次出现的位置为: &quot; + stringBuilder.indexOf(&quot;23&quot;));
+        //子串最后一次出现的位置,从后往前
+        System.out.println(&quot;\&quot;34\&quot;在stringBuilder从第5个字符以前的字符串中第一次一次出现的位置为: &quot;
+                + stringBuilder.lastIndexOf(&quot;34&quot;, 5));
+        //替换字符串
+        System.out.println(&quot;将stringBuilder的第2-3个字符替换为abcde: &quot; + stringBuilder.replace(1, 3, &quot;abcde&quot;));
+        //设置指定位置字符
+        stringBuilder.setCharAt(1, &apos;A&apos;);
+        System.out.println(&quot;将第2个字符设置为A: &quot; + stringBuilder);
+        //删除滴定位置的字符串
+        stringBuilder.delete(2,5);
+        System.out.println(&quot;删除第3到第5个字符: &quot; + stringBuilder);
+        //追加字符
+        System.out.println(&quot;stringBuilder尾部追加一个7&quot; + stringBuilder.append(&quot;7&quot;));
+        //追加double
+        System.out.println(&quot;stringBuilder尾部追加8.0d&quot; + stringBuilder.append(8.0d));
+        //插入字符串
+        System.out.println(&quot;stringBuilder第3个字符看是追加test: &quot; + stringBuilder.insert(2, &quot;test&quot;));
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>stringBuilder的容量为: 23
+stringBuilder的字符数量为: 7
+stringBuilder的第2个字符为: 1
+&quot;23&quot;在stringBuilder中第一次出现的位置为: 2
+&quot;34&quot;在stringBuilder从第5个字符以前的字符串中第一次一次出现的位置为: 3
+将stringBuilder的第2-3个字符替换为abcde: 0abcde3456
+将第2个字符设置为A: 0Abcde3456
+删除第3到第5个字符: 0Ae3456
+stringBuilder尾部追加一个70Ae34567
+stringBuilder尾部追加8.0d0Ae345678.0
+stringBuilder第3个字符看是追加test: 0Ateste345678.0
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>StringBuilder的构造函数有多个，基本的区别是初始容量大小和是否用字符串进行初始化，下面列举3个典型的构造方法。</p>
+<pre><code>/**
+ * Constructs a string builder with no characters in it and an
+ * initial capacity of 16 characters.
+ */
+public StringBuilder() {
+    super(16);
+}
+
+/**
+ * Constructs a string builder with no characters in it and an
+ * initial capacity specified by the {@code capacity} argument.
+ *
+ * @param      capacity  the initial capacity.
+ * @throws     NegativeArraySizeException  if the {@code capacity}
+ *               argument is less than {@code 0}.
+ */
+public StringBuilder(int capacity) {
+    super(capacity);
+}
+
+/**
+ * Constructs a string builder initialized to the contents of the
+ * specified string. The initial capacity of the string builder is
+ * {@code 16} plus the length of the string argument.
+ *
+ * @param   str   the initial contents of the buffer.
+ */
+public StringBuilder(String str) {
+    super(str.length() + 16);
+    append(str);
+}
+</code></pre><h3 id="2-2-insert方法"><a href="#2-2-insert方法" class="headerlink" title="2.2 insert方法"></a>2.2 insert方法</h3><p>insert方法有插入字符串、整形、布尔型等多个重载方法，实现方法都是调用父类AbstractStringBuilder的insert方法。</p>
+<h4 id="2-2-1-插入一个对象"><a href="#2-2-1-插入一个对象" class="headerlink" title="2.2.1 插入一个对象"></a>2.2.1 插入一个对象</h4><pre><code>/**
+ * 插入一个对象(int/boolean/double....etc)
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder insert(int offset, Object obj) {
+    super.insert(offset, obj); //调用AbstractStringBuilder类中的insert方法
+    return this;
+}
+
+/**
+ * 父类AbstractStringBuilder中的方法
+ * @param offset
+ * @param obj
+ * @return
+ */
+public AbstractStringBuilder insert(int offset, Object obj) {
+    return insert(offset, String.valueOf(obj)); //调用insert(int offset, String str)
+}
+
+/**
+ * Inserts the string into this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are inserted, in
+ * order, into this sequence at the indicated offset, moving up any
+ * characters originally above that position and increasing the length
+ * of this sequence by the length of the argument. If
+ * {@code str} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are inserted into this sequence.
+ * &lt;p&gt;
+ * The character at index &lt;i&gt;k&lt;/i&gt; in the new character sequence is
+ * equal to:
+ * &lt;ul&gt;
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if
+ * &lt;i&gt;k&lt;/i&gt; is less than {@code offset}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -offset} in the
+ * argument {@code str}, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset} but is less than {@code offset+str.length()}
+ * &lt;li&gt;the character at index &lt;i&gt;k&lt;/i&gt;{@code -str.length()} in the
+ * old character sequence, if &lt;i&gt;k&lt;/i&gt; is not less than
+ * {@code offset+str.length()}
+ * &lt;/ul&gt;&lt;p&gt;
+ * The {@code offset} argument must be greater than or equal to
+ * {@code 0}, and less than or equal to the {@linkplain #length() length}
+ * of this sequence.
+ *
+ * @param      offset   the offset.
+ * @param      str      a string.
+ * @return     a reference to this object.
+ * @throws     StringIndexOutOfBoundsException  if the offset is invalid.
+ */
+public AbstractStringBuilder insert(int offset, String str) {
+    if ((offset &lt; 0) || (offset &gt; length()))
+        throw new StringIndexOutOfBoundsException(offset);
+    if (str == null)
+        str = &quot;null&quot;; //str为null时
+    int len = str.length();
+    ensureCapacityInternal(count + len); //确定容量是否够用,不够则增加(length*2 + 2)
+    System.arraycopy(value, offset, value, offset + len, count - offset); //offset开始的字符后移len位
+    str.getChars(value, offset); //str字符填充
+    count += len;
+    return this;
+}
+</code></pre><h4 id="2-2-2-插入一个字符串"><a href="#2-2-2-插入一个字符串" class="headerlink" title="2.2.2 插入一个字符串"></a>2.2.2 插入一个字符串</h4><pre><code>/**
+ * 插入字符串
+ * @throws IndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder insert(int dstOffset, CharSequence s,
+                            int start, int end)
+{
+    super.insert(dstOffset, s, start, end);
+    return this;
+}
+/**
+ * Inserts the string representation of a subarray of the {@code str}
+ * array argument into this sequence. The subarray begins at the
+ * specified {@code offset} and extends {@code len} {@code char}s.
+ * The characters of the subarray are inserted into this sequence at
+ * the position indicated by {@code index}. The length of this
+ * sequence increases by {@code len} {@code char}s.
+ *
+ * @param      index    position at which to insert subarray.
+ * @param      str       A {@code char} array.
+ * @param      offset   the index of the first {@code char} in subarray to
+ *             be inserted.
+ * @param      len      the number of {@code char}s in the subarray to
+ *             be inserted.
+ * @return     This object
+ * @throws     StringIndexOutOfBoundsException  if {@code index}
+ *             is negative or greater than {@code length()}, or
+ *             {@code offset} or {@code len} are negative, or
+ *             {@code (offset+len)} is greater than
+ *             {@code str.length}.
+ */
+public AbstractStringBuilder insert(int index, char[] str, int offset,
+                                    int len)
+{
+    if ((index &lt; 0) || (index &gt; length()))
+        throw new StringIndexOutOfBoundsException(index);
+    if ((offset &lt; 0) || (len &lt; 0) || (offset &gt; str.length - len))
+        throw new StringIndexOutOfBoundsException(
+                &quot;offset &quot; + offset + &quot;, len &quot; + len + &quot;, str.length &quot;
+                        + str.length);
+    ensureCapacityInternal(count + len); //确定容量
+    System.arraycopy(value, index, value, index + len, count - index); //后移len位
+    System.arraycopy(str, offset, value, index, len); //将str从offset开始的len个字符复制到value
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-3-append方法"><a href="#2-3-append方法" class="headerlink" title="2.3 append方法"></a>2.3 append方法</h3><p>append和insert方法类似，也有很多重载版本，主要是追加对象或者字符串，也是调用父类的方法。</p>
+<pre><code>/**
+ * Appends the specified {@code StringBuffer} to this sequence.
+ * &lt;p&gt;
+ * The characters of the {@code StringBuffer} argument are appended,
+ * in order, to this sequence, increasing the
+ * length of this sequence by the length of the argument.
+ * If {@code sb} is {@code null}, then the four characters
+ * {@code &quot;null&quot;} are appended to this sequence.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at index
+ * &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less than
+ * &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index &lt;i&gt;k-n&lt;/i&gt;
+ * in the argument {@code sb}.
+ *
+ * @param   sb   the {@code StringBuffer} to append.
+ * @return  a reference to this object.
+ */
+public StringBuilder append(StringBuffer sb) {
+    super.append(sb);
+    return this;
+}
+/**
+ * Appends the specified string to this character sequence.
+ * &lt;p&gt;
+ * The characters of the {@code String} argument are appended, in
+ * order, increasing the length of this sequence by the length of the
+ * argument. If {@code str} is {@code null}, then the four
+ * characters {@code &quot;null&quot;} are appended.
+ * &lt;p&gt;
+ * Let &lt;i&gt;n&lt;/i&gt; be the length of this character sequence just prior to
+ * execution of the {@code append} method. Then the character at
+ * index &lt;i&gt;k&lt;/i&gt; in the new character sequence is equal to the character
+ * at index &lt;i&gt;k&lt;/i&gt; in the old character sequence, if &lt;i&gt;k&lt;/i&gt; is less
+ * than &lt;i&gt;n&lt;/i&gt;; otherwise, it is equal to the character at index
+ * &lt;i&gt;k-n&lt;/i&gt; in the argument {@code str}.
+ *
+ * @param   str   a string.
+ * @return  a reference to this object.
+ */
+public AbstractStringBuilder append(String str) {
+    if (str == null)
+        return appendNull();
+    int len = str.length();
+    ensureCapacityInternal(count + len); //确定容量
+    str.getChars(0, len, value, count); //将str追缴到value最后
+    count += len;
+    return this;
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder replace(int start, int end, String str) {
+    super.replace(start, end, str);
+    return this;
+}
+/**
+ * Replaces the characters in a substring of this sequence
+ * with characters in the specified {@code String}. The substring
+ * begins at the specified {@code start} and extends to the character
+ * at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. First the
+ * characters in the substring are removed and then the specified
+ * {@code String} is inserted at {@code start}. (This
+ * sequence will be lengthened to accommodate the
+ * specified String if necessary.)
+ *
+ * @param      start    The beginning index, inclusive.
+ * @param      end      The ending index, exclusive.
+ * @param      str   String that will replace previous contents.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder replace(int start, int end, String str) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (start &gt; count)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; length()&quot;);
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException(&quot;start &gt; end&quot;);
+
+    if (end &gt; count)
+        end = count;
+    int len = str.length();
+    int newCount = count + len - (end - start); //新数组长度
+    ensureCapacityInternal(newCount); //确定容量
+
+    System.arraycopy(value, end, value, start + len, count - end); //将value从end开始的字符移动到start+len的位置,共count -end个
+    str.getChars(value, start); //填充字符
+    count = newCount;
+    return this;
+}
+</code></pre><h3 id="2-5-delete方法"><a href="#2-5-delete方法" class="headerlink" title="2.5 delete方法"></a>2.5 delete方法</h3><pre><code>/**
+ * @throws StringIndexOutOfBoundsException {@inheritDoc}
+ */
+@Override
+public StringBuilder delete(int start, int end) {
+    super.delete(start, end);
+    return this;
+}
+/**
+ * Removes the characters in a substring of this sequence.
+ * The substring begins at the specified {@code start} and extends to
+ * the character at index {@code end - 1} or to the end of the
+ * sequence if no such character exists. If
+ * {@code start} is equal to {@code end}, no changes are made.
+ *
+ * @param      start  The beginning index, inclusive.
+ * @param      end    The ending index, exclusive.
+ * @return     This object.
+ * @throws     StringIndexOutOfBoundsException  if {@code start}
+ *             is negative, greater than {@code length()}, or
+ *             greater than {@code end}.
+ */
+public AbstractStringBuilder delete(int start, int end) {
+    if (start &lt; 0)
+        throw new StringIndexOutOfBoundsException(start);
+    if (end &gt; count)
+        end = count;
+    if (start &gt; end)
+        throw new StringIndexOutOfBoundsException();
+    int len = end - start;
+    if (len &gt; 0) {
+        //将value从start+len开始的count-end个字符复制到start开始的位置,即向前覆盖掉要删除的字符串
+        System.arraycopy(value, start+len, value, start, count-end);
+        count -= len;
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/jiutianhe/article/details/42171103" target="_blank" rel="noopener"> http://blog.csdn.net/jiutianhe/article/details/42171103
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/string02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string02.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：StringBuilder使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：并发基础概念/" >Java并发编程：并发基础概念</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>并发编程可以使我们的程序执行速度得到提高，多进程和多线程是常见的并发技术。</p>
+<p><strong> 1、多进程 </strong><br><strong> 2、多线程 </strong><br><strong> 3、Java并发编程采用的方法 </strong></p>
+<hr>
+<h4 id="1、多进程"><a href="#1、多进程" class="headerlink" title="1、多进程"></a>1、多进程</h4><p>多进程是实现并发技术最直接的方法，它是操作系统级别的，操作系统周期性的快速的将CPU在给各个进程间切换，达到并发的目的。多进程的特点是每个进程都有自己的系统<br>资源、地址空间等，进程之间的运行不会相互影响。进程和程序的区别就是进程是正在执行的指令集，而程序是静态的指令集。多进程的调度采用抢占式的方式。</p>
+<h4 id="2、多线程"><a href="#2、多线程" class="headerlink" title="2、多线程"></a>2、多线程</h4><p>多线程可以实现进程内部的并发，它是进程执行的单位，每个进程至少会有一个主线程。多线程的特点是每个线程拥有自己的堆栈和计数器等，但是他们没有自己独立的系统资源<br>和地址空间，它与同一进程的所有线程共享进程的全部资源。所以，线程可以独立的运行，但是线程的运行可能会影响同一进程的其他线程。多线程的调度和多进程一样采用抢占<br>式的方式，可以防止其他线程一直等待。</p>
+<h4 id="3、Java并发编程采用的方法"><a href="#3、Java并发编程采用的方法" class="headerlink" title="3、Java并发编程采用的方法"></a>3、Java并发编程采用的方法</h4><p>java中并发采用多线程的方式， <strong> <em> 《Java编程思想》 </em> </strong> 中介绍了Java的一个重要设计目标就是对系统透明，而多进程是系统级别的。Java<br>早期的重要目标系统Mac并不支持多任务，只有采用多线程技术才能在Mac系统上实现并发。为了满足“一次编写，到处运行”的目标，Java并发采用了多线程技术。<br>3.1 线程的创建成本小。由于线程共享进程的系统资源和地址空间，所以创建新的线程不需要再重新分配。<br>3.2 线程共享进程的内存空间、文件句柄等，进程拥有独立的内存空间，线程比进程执行更高效。<br>3.3 线程间共享代码段，进程变量等数据是的线程间通信更加方便。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：并发基础概念/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：ThreadPoolExecutor类及方法源码分析/" >Java并发编程：ThreadPoolExecutor类及方法源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>ThreadPoolExecutor是jdk自带线程池实现类，现有的Executors工具类实现的几种线程池核心都是调用ThreadPoolExecutor<br>类。ThreadPoolExecutor在jdk1.7及以后做了部分修改， <strong> 本文以JDK1.8为准 </strong> 。</p>
+<h2 id="1-构造函数"><a href="#1-构造函数" class="headerlink" title="1 构造函数"></a>1 构造函数</h2><p>ThreadPoolExecutor类共有4个构造函数，其他三个构造函数都是调用下参数最全的一个，下面只介绍参数最全的的一个。</p>
+<pre><code>public ThreadPoolExecutor(int corePoolSize,  //参数的意义已经在上一篇中介绍
+                             int maximumPoolSize,
+                             long keepAliveTime,
+                             TimeUnit unit,
+                             BlockingQueue&lt;Runnable&gt; workQueue,
+                             ThreadFactory threadFactory,
+                             RejectedExecutionHandler handler) {
+       if (corePoolSize &lt; 0 ||  //参数检查
+           maximumPoolSize &lt;= 0 ||
+           maximumPoolSize &lt; corePoolSize ||
+           keepAliveTime &lt; 0)
+           throw new IllegalArgumentException();
+       if (workQueue == null || threadFactory == null || handler == null)
+           throw new NullPointerException();
+       this.corePoolSize = corePoolSize; //设置基本线程数
+       this.maximumPoolSize = maximumPoolSize; //设置最大线程数
+       this.workQueue = workQueue;  //设置任务队列
+       this.keepAliveTime = unit.toNanos(keepAliveTime); //设置存活时间
+       this.threadFactory = threadFactory; //设置线程工厂
+       this.handler = handler; //设局拒绝策略
+   }
+</code></pre><h2 id="2-ThreadPoolExecutor类的方法"><a href="#2-ThreadPoolExecutor类的方法" class="headerlink" title="2 ThreadPoolExecutor类的方法"></a>2 ThreadPoolExecutor类的方法</h2><p>ThreadPoolExecutor类的主要方法有提交任务的execute()方法和submit()方法，终止线程的shutdown()方法和shutdow<br>mNow方法。<br><strong> execute方法用于提交任务，在Executor接口中声明并在ThreadPoolExecutor类中实现。 </strong><br><strong> submit方法用于提交任务并且有返回结果，在ExecutorService中声明并且在AbstractExecutorService类中实现，ThreadPoolExecutor类并没有重写。 </strong><br><strong> shutdown方法用于关闭线程池，但是允许正在运行的任务运行完，将状态置为SHUTDOWN。 </strong><br><strong> shutdownNow方法在关闭线程池时尝试终止正在运行的任务，将状态置为STOP。 </strong></p>
+<h2 id="3-ThreadPoolExecutor类重要方法源码分析"><a href="#3-ThreadPoolExecutor类重要方法源码分析" class="headerlink" title="3 ThreadPoolExecutor类重要方法源码分析"></a>3 ThreadPoolExecutor类重要方法源码分析</h2><h3 id="3-1-execute方法源码分析"><a href="#3-1-execute方法源码分析" class="headerlink" title="3.1 execute方法源码分析"></a>3.1 execute方法源码分析</h3><p>execute方法在JDK1.7及以后具体实现做了重大修改，分析execute源码之前先列举ThreadPoolExecutor类定义的一些常量。</p>
+<pre><code>  private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); //采用原子整型来记录线程数量及状态
+private static final int COUNT_BITS = Integer.SIZE - 3;  //线程池中线程数量存在低29位，高3位是线程池状态
+private static final int CAPACITY   = (1 &lt;&lt; COUNT_BITS) - 1;
+
+// runState is stored in the high-order bits
+private static final int RUNNING    = -1 &lt;&lt; COUNT_BITS; //
+private static final int SHUTDOWN   =  0 &lt;&lt; COUNT_BITS;
+private static final int STOP       =  1 &lt;&lt; COUNT_BITS;
+private static final int TIDYING    =  2 &lt;&lt; COUNT_BITS;
+private static final int TERMINATED =  3 &lt;&lt; COUNT_BITS;
+
+// Packing and unpacking ctl
+private static int runStateOf(int c)    { return c &amp; ~CAPACITY; }
+private static int workerCountOf(int c)  { return c &amp; CAPACITY; }
+private static int ctlOf(int rs, int wc) { return rs | wc; }
+</code></pre><p><strong> 线程池的五种状态： </strong><br><strong> RUNNING 在ThreadPoolExecutor被实例化的时候就是这个状态。 </strong><br><strong> SHUTDOWN 通常是已经执行过shutdown()方法，不再接受新任务，等待线程池中和队列中任务完成。 </strong><br><strong> STOP 通常是已经执行过shutdownNow()方法，不接受新任务，队列中的任务也不再执行，并尝试终止线程池中的线程。 </strong><br><strong> TIDYING 线程池为空，就会到达这个状态，执行terminated()方法。 </strong><br><strong> TERMINATED terminated()执行完毕，就会到达这个状态。 </strong><br>下面直接上代码，代码分析放在注释里：</p>
+<pre><code>public void execute(Runnable command) {
+        if (command == null) //参数检查
+            throw new NullPointerException();
+        int c = ctl.get(); //获取当前记录线程池状态和池中线程数量的变量
+        if (workerCountOf(c) &lt; corePoolSize) { //如果当前线程池中线程数量小于基本线程数量
+            if (addWorker(command, true))  //新起一个线程处理任务，并将这个任务作为这个线程的第一个任务
+                return;
+            c = ctl.get(); //增加线程失败，再次获取变量。（其他线程可能改变了线程池中线程数量，线程也可能die）
+        }
+        if (isRunning(c) &amp;&amp; workQueue.offer(command)) { //如果线程池还是RUNNING状态就将任务加入工作队列
+            int recheck = ctl.get(); //需要double check主要是时间差的问题，在上一句和这一句中间其他线程可能改变了线程池状态
+            if (! isRunning(recheck) &amp;&amp; remove(command)) //如果线程池状态不再是RUNNING，则从工作队列移除这个任务
+                reject(command); //移除任务成功，对这个任务使用拒绝策略
+            else if (workerCountOf(recheck) == 0) //如果线程池状态是RUNNING，并且线程数量为0，说明基本线程数为0
+                addWorker(null, false); //线程池启动一个线程,启动后并不直接处理任务，并且判断界限变为maximumPoolSize
+        }
+        else if (!addWorker(command, false))  //如果工作队列已满，则增加线程处理，线程判断条件变为maximumPoolSize
+            reject(command);
+    }
+</code></pre><p>忽略细节后总的逻辑如下：<br><strong> 第一，线程池中线程数量小于基本线程数（corePoolSize），则启动新线程处理新的任务。 </strong><br><strong> 第二，线程池中线程数不小于基本线程数，则将任务加入工作队列。 </strong><br><strong> 第三，工作队列如果已满，判断线程数如果小于最大线程数（maximumPoolSize），则启动新线程处理当前任务。 </strong><br>execute方法中最核心的方法就是addWorker方法，这个方法负责创建线程，下面重点分析洗addWorker源码。</p>
+<pre><code>private boolean addWorker(Runnable firstTask, boolean core) {
+     retry:
+     for (;;) {
+         int c = ctl.get();
+         int rs = runStateOf(c); //获取线程池状态
+
+         // Check if queue empty only if necessary.
+         if (rs &gt;= SHUTDOWN &amp;&amp;
+             ! (rs == SHUTDOWN &amp;&amp; //队列没有任务并且没有提交新任务则不会创建新线程
+                firstTask == null &amp;&amp;
+                ! workQueue.isEmpty()))
+             return false;
+
+         for (;;) {
+             int wc = workerCountOf(c);
+             if (wc &gt;= CAPACITY ||
+                 wc &gt;= (core ? corePoolSize : maximumPoolSize)) //线程数量大于线程池容量或者传入的最大池数量则不会创建新线程
+                 return false;
+             if (compareAndIncrementWorkerCount(c)) //如果线程池的状态和线程数量都没有改变，则将线程数量+1并且开始真正创建线程
+                 break retry;
+             c = ctl.get();  // Re-read ctl，线程数量或者线程池状态改变重新获取线程状态
+             if (runStateOf(c) != rs) //线程池状态改变则重新判断是否要创建新线程
+                 continue retry;
+             // else CAS failed due to workerCount change; retry inner loop
+         }
+     }
+
+     boolean workerStarted = false;
+     boolean workerAdded = false;
+     //private final class Worker extends AbstractQueuedSynchronizer implements Runnable
+     Worker w = null;
+     try {
+         w = new Worker(firstTask);
+         final Thread t = w.thread;
+         if (t != null) {
+             final ReentrantLock mainLock = this.mainLock;
+             mainLock.lock(); //加锁，防止其他线程同事操作
+             try {
+                 // Recheck while holding lock.
+                 // Back out on ThreadFactory failure or if
+                 // shut down before lock acquired.
+                 int rs = runStateOf(ctl.get());//获取线程状态
+
+                 if (rs &lt; SHUTDOWN ||
+                     (rs == SHUTDOWN &amp;&amp; firstTask == null)) { //检查线程池状态
+                     if (t.isAlive()) // precheck that t is startable
+                         throw new IllegalThreadStateException();
+                     workers.add(w);  //添加创建好的worker对象
+                     int s = workers.size();
+                     if (s &gt; largestPoolSize) //更新线程池最大数量记录
+                         largestPoolSize = s;
+                     workerAdded = true;
+                 }
+             } finally {
+                 mainLock.unlock();
+             }
+             if (workerAdded) {
+                 t.start();  //启动线程
+                 workerStarted = true;
+             }
+         }
+     } finally {
+         if (! workerStarted) //线程未启动成功，失败处理
+             addWorkerFailed(w);
+     }
+     return workerStarted;
+ }
+</code></pre><h3 id="3-2-shutdown方法源码分析"><a href="#3-2-shutdown方法源码分析" class="headerlink" title="3.2 shutdown方法源码分析"></a>3.2 shutdown方法源码分析</h3><p><strong> shutdown方法关闭线程池时将线程池的状态置为SHUTDOWN，不再接受新任务，等待队列中的任务执行完成。 </strong></p>
+<pre><code>public void shutdown() {
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess(); //检查当前线程是否有权限终端线程池中的所有线程
+            advanceRunState(SHUTDOWN); //将线程池状态改为SHUTDOWN
+            interruptIdleWorkers(); //中断空闲线程
+            onShutdown(); // hook for ScheduledThreadPoolExecutor
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate(); //将线程池状态置为TERMINATED
+    }
+</code></pre><h3 id="3-3-shutdownNow方法源码分析"><a href="#3-3-shutdownNow方法源码分析" class="headerlink" title="3.3 shutdownNow方法源码分析"></a>3.3 shutdownNow方法源码分析</h3><p><strong> shutdownNow方法关闭线程池时将线程池的状态置为STOP，并且停止队列中正在进行的任务。 </strong></p>
+<pre><code>public List&lt;Runnable&gt; shutdownNow() {
+        List&lt;Runnable&gt; tasks;
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess();
+            advanceRunState(STOP); //将线程池状态改为STOP
+
+            interruptWorkers();
+            tasks = drainQueue(); //和shutdown方法的区别就在于shutdownNow会停止正在处理的任务
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate();
+        return tasks;
+    }
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：ThreadPoolExecutor类及方法源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java字符串：String使用详解及源码分析/" >Java字符串：String使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>String类型的字符串是不可变字符串，提供了较多操作API。</p>
+<pre><code>public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {}
+</code></pre><p>String可以序列化,可以使用compareTo比较字符串。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>String提供了的API主要如下：</p>
+<pre><code>public char    charAt(int index) //index位置的字符
+public int    compareTo(String anotherString) //按字典顺序比较两个字符串
+public String    concat(String str) //拼接字符串
+public boolean    contains(CharSequence s) //是否包含s
+public boolean    contentEquals(StringBuffer sb) //比较当前String和cs是否相同
+public boolean    contentEquals(CharSequence cs) //同上
+public static String    copyValueOf(char[] data, int offset, int count) //返回从offset开始的count个字符组成的字符串String
+public boolean    endsWith(String suffix) //是否以suffix结尾
+public boolean    equals(Object anObject) //比较字符串
+public static String    format(String format, Object[] args) //将args格式化为format
+public int    hashCode() //hash code
+public int    indexOf(int ch) //第一次出现ch所在的下标
+public int    indexOf(int ch, int fromIndex)
+public int    indexOf(String str) //第一次出现str的下标
+public int    indexOf(String str, int fromIndex)
+public int    lastIndexOf(int ch) //最后一次出现ch的下标
+public int    lastIndexOf(int ch, int fromIndex)
+public int    lastIndexOf(String str) //租后一次出现str的下标
+public int    lastIndexOf(String str, int fromIndex)
+public int    length() //长度
+public boolean    matches(String regex) //正则匹配
+public int    offsetByCodePoints(int index, int codePointOffset)
+public boolean    regionMatches(int toffset, String other, int ooffset, int len) //比较指定子串
+public boolean    regionMatches(boolean ignoreCase, int toffset, String other, int ooffset, int len)
+public String    replace(char oldChar, char newChar) //替换oldChar为newChar
+public String    replace(CharSequence target, CharSequence replacement) //替换
+public String    replaceAll(String regex, String replacement)
+public String    replaceFirst(String regex, String replacement)
+public boolean    startsWith(String prefix, int toffset) //从toffset开始是否以prefix开头
+public boolean    startsWith(String prefix)
+public CharSequence    subSequence(int beginIndex, int endIndex) //获取子串
+public String    substring(int beginIndex)
+public String    substring(int beginIndex, int endIndex)
+public char[]    toCharArray()
+public String    toLowerCase(Locale locale) //转为小写字母
+public String    toLowerCase()
+public String    toString()
+public String    toUpperCase(Locale locale) //转为大写字母
+public String    toUpperCase()
+public String    trim()
+public static String    valueOf(Object obj) //转换为string
+public void    getBytes(int srcBegin, int srcEnd, byte[] dst, int dstBegin) //获取byte数组
+public byte[]    getBytes(String charsetName)
+public byte[]    getBytes(Charset charset)
+public byte[]    getBytes()
+public void    getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin)
+public boolean    isEmpty() //判空
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testString () {
+    String myStr = new String(&quot;MYSTR&quot;);
+    //myStr的长度
+    System.out.println(&quot;myStr的长度为: &quot; + myStr.length());
+    //myStr判空
+    System.out.println(&quot;myStr是否为空: &quot; + myStr.isEmpty());
+    //获取指定位置的字符
+    System.out.println(&quot;myStr的第4个字符为: &quot; + myStr.charAt(3));
+    //将myStr转换为数组
+    char [] chars = myStr.toCharArray();
+    try {
+        printChars(chars);
+    } catch (Exception e) {
+        System.out.println(&quot;myStr转换数组失败!&quot;);
+    }
+    System.out.println();
+    //格式化字符串
+    System.out.println(&quot;格式化myStr: &quot; + String.format(&quot;%s-%d-%b&quot;, myStr, 3, true));
+    //追加字符串
+    System.out.println(&quot;myStr追加字符ING!: &quot; + myStr.concat(&quot;ING!&quot;));
+    //拼接的字符串为一个新的对象,不影响原有字符串
+    System.out.println(&quot;myStr的字符串为: &quot; + myStr);
+    //获取子串
+    System.out.println(&quot;myStr第2到5个字符的子串为: &quot; + myStr.substring(1,5));
+    //替换
+    System.out.println(&quot;替换Y为y: &quot; + myStr.replace(&quot;Y&quot;, &quot;y&quot;));
+    //比较
+    System.out.println(&quot;myStr字符串和\&quot;MySTR\&quot;是否相等: &quot; + myStr.compareTo(&quot;MySTR&quot;));
+    //忽略大小写比较
+    System.out.println(&quot;myStr字符串和\&quot;MySTR\&quot;是否相等: &quot; + myStr.compareToIgnoreCase(&quot;MySTR&quot;));
+    //获取字符的index
+    System.out.println(&quot;\&quot;ST\&quot;在myStr中第一次出现的位置: &quot; + myStr.indexOf(&quot;ST&quot;));
+    //获取Unicode编码
+    System.out.printf(&quot;%s0x%x&quot;, &quot;第一个字符M的Unicode编码为: &quot;,myStr.codePointAt(0));
+}
+
+/**
+ * 打印字符数组
+ * @param chars
+ * @throws NullPointerException
+ */
+public void printChars(char[] chars) throws Exception {
+    if (chars == null) {
+        throw new NullPointerException();
+    }
+    for (int i = 0; i &lt; chars.length; i++) {
+        System.out.printf(&quot;char[%d]=%c &quot;, i, chars[i]);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>myStr的长度为: 5
+myStr是否为空: false
+myStr的第4个字符为: T
+char[0]=M char[1]=Y char[2]=S char[3]=T char[4]=R
+格式化myStr: MYSTR-3-true
+myStr追加字符ING!: MYSTRING!
+myStr的字符串为: MYSTR
+myStr第2到5个字符的子串为: YSTR
+替换Y为y: MySTR
+myStr字符串和&quot;MySTR&quot;是否相等: -32
+myStr字符串和&quot;MySTR&quot;是否相等: 0
+&quot;ST&quot;在myStr中第一次出现的位置: 2
+第一个字符M的Unicode编码为: 0x4d
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><p>String的字符串是不可变的，拼接替换等操作都会返回新的String实例，不会影响原有的字符串。</p>
+<pre><code>/** The value is used for character storage. */
+private final char value[]; //final类型
+</code></pre><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>String包含的构造函数很多，主要区别是是否初始化和初始化方式。下面列举两个代表行的例子。</p>
+<pre><code>/**
+ * 申请一个空的String
+ * Initializes a newly created {@code String} object so that it represents
+ * an empty character sequence.  Note that use of this constructor is
+ * unnecessary since Strings are immutable.
+ */
+public String() {
+    this.value = new char[0];
+}
+
+/**
+ * Allocates a new {@code String} that contains characters from a subarray
+ * of the character array argument. The {@code offset} argument is the
+ * index of the first character of the subarray and the {@code count}
+ * argument specifies the length of the subarray. The contents of the
+ * subarray are copied; subsequent modification of the character array does
+ * not affect the newly created string.
+ *
+ * @param  value
+ *         Array that is the source of characters
+ *
+ * @param  offset
+ *         The initial offset
+ *
+ * @param  count
+ *         The length
+ *
+ * @throws  IndexOutOfBoundsException
+ *          If the {@code offset} and {@code count} arguments index
+ *          characters outside the bounds of the {@code value} array
+ */
+public String(char value[], int offset, int count) {
+    if (offset &lt; 0) {
+        throw new StringIndexOutOfBoundsException(offset);
+    }
+    if (count &lt; 0) {
+        throw new StringIndexOutOfBoundsException(count);
+    }
+    // Note: offset or count might be near -1&gt;&gt;&gt;1.
+    if (offset &gt; value.length - count) {
+        throw new StringIndexOutOfBoundsException(offset + count);
+    }
+    this.value = Arrays.copyOfRange(value, offset, offset+count);
+}
+</code></pre><h3 id="2-2-compareTo方法"><a href="#2-2-compareTo方法" class="headerlink" title="2.2 compareTo方法"></a>2.2 compareTo方法</h3><pre><code>/**
+ * Compares two strings lexicographically.
+ * The comparison is based on the Unicode value of each character in
+ * the strings. The character sequence represented by this
+ * {@code String} object is compared lexicographically to the
+ * character sequence represented by the argument string. The result is
+ * a negative integer if this {@code String} object
+ * lexicographically precedes the argument string. The result is a
+ * positive integer if this {@code String} object lexicographically
+ * follows the argument string. The result is zero if the strings
+ * are equal; {@code compareTo} returns {@code 0} exactly when
+ * the {@link #equals(Object)} method would return {@code true}.
+ * &lt;p&gt;
+ * This is the definition of lexicographic ordering. If two strings are
+ * different, then either they have different characters at some index
+ * that is a valid index for both strings, or their lengths are different,
+ * or both. If they have different characters at one or more index
+ * positions, let &lt;i&gt;k&lt;/i&gt; be the smallest such index; then the string
+ * whose character at position &lt;i&gt;k&lt;/i&gt; has the smaller value, as
+ * determined by using the &amp;lt; operator, lexicographically precedes the
+ * other string. In this case, {@code compareTo} returns the
+ * difference of the two character values at position {@code k} in
+ * the two string -- that is, the value:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * this.charAt(k)-anotherString.charAt(k)
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ * If there is no index position at which they differ, then the shorter
+ * string lexicographically precedes the longer string. In this case,
+ * {@code compareTo} returns the difference of the lengths of the
+ * strings -- that is, the value:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * this.length()-anotherString.length()
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   anotherString   the {@code String} to be compared.
+ * @return  the value {@code 0} if the argument string is equal to
+ *          this string; a value less than {@code 0} if this string
+ *          is lexicographically less than the string argument; and a
+ *          value greater than {@code 0} if this string is
+ *          lexicographically greater than the string argument.
+ */
+public int compareTo(String anotherString) {
+    int len1 = value.length;
+    int len2 = anotherString.value.length;
+    int lim = Math.min(len1, len2);
+    char v1[] = value;
+    char v2[] = anotherString.value;
+
+    int k = 0;
+    while (k &lt; lim) {
+        char c1 = v1[k];
+        char c2 = v2[k];
+        if (c1 != c2) {
+            return c1 - c2;
+        }
+        k++;
+    }
+    return len1 - len2;
+}
+</code></pre><h3 id="2-3-concat方法"><a href="#2-3-concat方法" class="headerlink" title="2.3 concat方法"></a>2.3 concat方法</h3><pre><code>/**
+ * Concatenates the specified string to the end of this string.
+ * &lt;p&gt;
+ * If the length of the argument string is {@code 0}, then this
+ * {@code String} object is returned. Otherwise, a
+ * {@code String} object is returned that represents a character
+ * sequence that is the concatenation of the character sequence
+ * represented by this {@code String} object and the character
+ * sequence represented by the argument string.&lt;p&gt;
+ * Examples:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * &quot;cares&quot;.concat(&quot;s&quot;) returns &quot;caress&quot;
+ * &quot;to&quot;.concat(&quot;get&quot;).concat(&quot;her&quot;) returns &quot;together&quot;
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   str   the {@code String} that is concatenated to the end
+ *                of this {@code String}.
+ * @return  a string that represents the concatenation of this object&apos;s
+ *          characters followed by the string argument&apos;s characters.
+ */
+public String concat(String str) {
+    int otherLen = str.length();
+    if (otherLen == 0) { //判空
+        return this;
+    }
+    int len = value.length;
+    char buf[] = Arrays.copyOf(value, len + otherLen); //获取原字符串的字符数组
+    str.getChars(buf, len); //将str存到buf的尾部
+    return new String(buf, true); //返回新String
+}
+</code></pre><h3 id="2-4-replace方法"><a href="#2-4-replace方法" class="headerlink" title="2.4 replace方法"></a>2.4 replace方法</h3><p>replace方法有很多重载方法，下面只分析其中一种。</p>
+<pre><code>/**
+ * Returns a string resulting from replacing all occurrences of
+ * {@code oldChar} in this string with {@code newChar}.
+ * &lt;p&gt;
+ * If the character {@code oldChar} does not occur in the
+ * character sequence represented by this {@code String} object,
+ * then a reference to this {@code String} object is returned.
+ * Otherwise, a {@code String} object is returned that
+ * represents a character sequence identical to the character sequence
+ * represented by this {@code String} object, except that every
+ * occurrence of {@code oldChar} is replaced by an occurrence
+ * of {@code newChar}.
+ * &lt;p&gt;
+ * Examples:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * &quot;mesquite in your cellar&quot;.replace(&apos;e&apos;, &apos;o&apos;)
+ *         returns &quot;mosquito in your collar&quot;
+ * &quot;the war of baronets&quot;.replace(&apos;r&apos;, &apos;y&apos;)
+ *         returns &quot;the way of bayonets&quot;
+ * &quot;sparring with a purple porpoise&quot;.replace(&apos;p&apos;, &apos;t&apos;)
+ *         returns &quot;starring with a turtle tortoise&quot;
+ * &quot;JonL&quot;.replace(&apos;q&apos;, &apos;x&apos;) returns &quot;JonL&quot; (no change)
+ * &lt;/pre&gt;&lt;/blockquote&gt;
+ *
+ * @param   oldChar   the old character.
+ * @param   newChar   the new character.
+ * @return  a string derived from this string by replacing every
+ *          occurrence of {@code oldChar} with {@code newChar}.
+ */
+public String replace(char oldChar, char newChar) {
+    if (oldChar != newChar) { //新老字符相同则返回原字符串
+        int len = value.length;
+        int i = -1;
+        char[] val = value; /* avoid getfield opcode */
+
+        while (++i &lt; len) { //找到第一个需要替换的字符
+            if (val[i] == oldChar) {
+                break;
+            }
+        }
+        if (i &lt; len) {
+            char buf[] = new char[len];
+            for (int j = 0; j &lt; i; j++) { //第一个之前的字符直接存储
+                buf[j] = val[j];
+            }
+            while (i &lt; len) { //替换并且查找
+                char c = val[i];
+                buf[i] = (c == oldChar) ? newChar : c;
+                i++;
+            }
+            return new String(buf, true); //返回新字符串
+        }
+    }
+    return this;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/mazhimazh/article/details/17715677" target="_blank" rel="noopener"> http://blog.csdn.net/mazhimazh/article/details/17715677
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/string01.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/string01.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java字符串：String使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：死锁及解决方法/" >Java并发编程：死锁及解决方法</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-什么是死锁"><a href="#1-什么是死锁" class="headerlink" title="1 什么是死锁"></a>1 什么是死锁</h2><p>死锁是多个进程\线程为了完成任务申请多个不可剥夺的资源并且以不正确的方式推进导致的一直互相等待对方释放资源的状态。下面以经典的哲学家就餐问题为例，描述死锁产<br>生的场景。</p>
+<h2 id="2-哲学家就餐问题"><a href="#2-哲学家就餐问题" class="headerlink" title="2 哲学家就餐问题"></a>2 哲学家就餐问题</h2><p>五个哲学家坐在一个圆桌上，每个哲学家两侧都放着1根筷子，总共有5只筷子。哲学家需要分别或者左右手的两只筷子才能就餐，就餐完成后将筷子放回原处，其他哲学家可以<br>获取放回的筷子。有这样一种状态，每个哲学家都获取了他右手的筷子，试图获取左手的筷子时都会失败（被他左手边的哲学家拿走了），然后所有哲学家都会一直等待他左手边<br>哲学家释放筷子，这就导致了死锁状态。</p>
+<pre><code>public class PhilosopherEat {
+    /*
+     *筷子类
+     */
+    public static class Chop {
+        private volatile boolean taken = false; //筷子状态
+        ReentrantLock lock = new ReentrantLock(); //定义锁
+        Condition isTaken = lock.newCondition();
+
+        //拿起筷子
+        public void take() throws InterruptedException {
+            lock.lock();
+            try {
+                while (taken) { //筷子已被其他哲学家拿走
+                    isTaken.await();
+                }
+                taken = true; //标记筷子被拿走
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 放下筷子
+        public  void put() throws InterruptedException {
+            lock.lock();
+            try {
+                taken = false; //放下筷子
+                isTaken.signalAll(); //通知邻座的哲学家拿筷子
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+    /*
+     * 哲学家就餐类
+     */
+    public static class Philosopher implements Runnable {
+        private Chop left; //左手的筷子
+        private Chop right; //右手的筷子
+        private int id; //哲学家编号
+        private int ponderFactor; //思考时间
+        private Random random = new Random(47);
+        //暂停时间,模拟哲学家吃饭用时等
+        private void pasue() throws InterruptedException {
+            if (ponderFactor == 0) {
+                return;
+            }
+            //TimeUnit.MILLISECONDS.sleep(random.nextInt(ponderFactor * 250));
+            TimeUnit.MILLISECONDS.sleep(10);
+        }
+
+        //构造方法
+        public Philosopher(Chop left, Chop right, int id, int ponderFactor) {
+            this.left = left;
+            this.right = right;
+            this.id = id;
+            this.ponderFactor = ponderFactor;
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (!Thread.interrupted()) {
+                    System.out.println(this + &quot; &quot; + &quot;thinking&quot;);
+                    pasue();
+                    right.take();
+                    System.out.println(this + &quot; &quot; + &quot;take right&quot;);
+                    left.take();
+                    System.out.println(this + &quot; &quot; + &quot;take left&quot;);
+                    System.out.println(this + &quot; &quot; + &quot;eat&quot;);
+                    pasue();
+                    left.put();
+                    System.out.println(this + &quot; &quot; + &quot;put left&quot;);
+                    right.put();
+                    System.out.println(this + &quot; &quot; + &quot;put right&quot;);
+                }
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static void main(String[] args) {
+        int size = 5;
+        int ponder = 5;
+        Chop [] chops = new Chop[5]; //5跟筷子
+        for (int i = 0; i &lt; 5; i++) {
+            chops[i] = new Chop();
+        }
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; size; i++) {
+            pool.execute(new Philosopher(chops[i], chops[(i + 1) % 5], i, ponder));
+        }
+        try {
+            System.out.println(&quot;quit&quot;);
+            System.in.read();
+        } catch (IOException e) {}
+        pool.shutdown();
+    }
+}
+</code></pre><p>大部分情况下执行不会发生死锁，就餐和思考时间越短越容易发生死锁，这也是死锁问题的可怕之处，不易复现。</p>
+<h2 id="3-死锁的必要条件"><a href="#3-死锁的必要条件" class="headerlink" title="3 死锁的必要条件"></a>3 死锁的必要条件</h2><p>死锁的必要条件有如下四个：</p>
+<h3 id="3-1-互斥条件"><a href="#3-1-互斥条件" class="headerlink" title="3.1 互斥条件"></a>3.1 互斥条件</h3><p>一个资源每次只能被一个线程使用，如IO等。</p>
+<h3 id="3-2-请求与保持条件"><a href="#3-2-请求与保持条件" class="headerlink" title="3.2 请求与保持条件"></a>3.2 请求与保持条件</h3><p>一个进程因请求资源而阻塞时，对已获得的资源保持不放。</p>
+<h3 id="3-3-不剥夺条件"><a href="#3-3-不剥夺条件" class="headerlink" title="3.3 不剥夺条件"></a>3.3 不剥夺条件</h3><p>进程已获得的资源，在未使用完之前，不能强行剥夺。</p>
+<h3 id="3-4-循环等待条件"><a href="#3-4-循环等待条件" class="headerlink" title="3.4 循环等待条件"></a>3.4 循环等待条件</h3><p>若干进程之间形成一种头尾相接的循环等待资源关系。</p>
+<h2 id="4-解决死锁的方法"><a href="#4-解决死锁的方法" class="headerlink" title="4 解决死锁的方法"></a>4 解决死锁的方法</h2><p>死锁的必要条件必须全部满足才会产生死锁，所以要解决死锁问题只需要任意破坏其中一个条件就可以解决死锁问题。</p>
+<h3 id="4-1-互斥条件"><a href="#4-1-互斥条件" class="headerlink" title="4.1 互斥条件"></a>4.1 互斥条件</h3><p>很多系统资源如IO等必须是互斥的，破坏互斥条件的成本较大。</p>
+<h3 id="4-2-请求与保持条件"><a href="#4-2-请求与保持条件" class="headerlink" title="4.2 请求与保持条件"></a>4.2 请求与保持条件</h3><p>可以通过一次性获取所有资源即对需要的资源进行原子申请可以解决死锁问题，这种方式对系统开销较大，不太理想。</p>
+<h3 id="4-3-不可剥夺条件"><a href="#4-3-不可剥夺条件" class="headerlink" title="4.3 不可剥夺条件"></a>4.3 不可剥夺条件</h3><p>可以通过定时释放占有的资源解决死锁问题，但是这也会带来过多的资源占有释放操作。</p>
+<h3 id="4-4-循环等待条件"><a href="#4-4-循环等待条件" class="headerlink" title="4.4 循环等待条件"></a>4.4 循环等待条件</h3><p>这是解决死锁常用的方法，例如哲学家就餐问题中，最后一个哲学家可以先拿左手的筷子，拿不到就会等待，他右手的筷子就可以供第一个哲学家使用。</p>
+<pre><code>public static void main(String[] args) {
+    int size = 5;
+    int ponder = 5;
+    Chop [] chops = new Chop[5]; //5跟筷子
+    for (int i = 0; i &lt; 5; i++) {
+        chops[i] = new Chop();
+    }
+    ExecutorService pool = Executors.newCachedThreadPool();
+    for (int i = 0; i &lt; size; i++) {
+        if (i &lt; size - 1) {
+            pool.execute(new Philosopher(chops[i], chops[(i + 1) % 5], i, ponder));
+        } else {
+            pool.execute(new Philosopher(chops[0], chops[i], i, ponder));
+        }
+    }
+    try {
+        System.out.println(&quot;quit&quot;);
+        System.in.read();
+    } catch (IOException e) {}
+    pool.shutdown();
+}
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：死锁及解决方法/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：生产者-消费者模式/" >Java并发编程：生产者-消费者模式</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>生产者消费者模型是并发编程的经典模型，生产者模型的核心思想是生产者生产的产品通过一块共享的资源与消费者交互，通过共享资源的交互实现了生产者与消费者的解耦。现<br>在的消息队列使用的也是这种思想。<br>本文实现了如下描述的生产者-消费者模型：<br>1、生产者和消费者各有1个；<br>2、通信所使用的队列大小一定（200），并且队列不能溢出；<br>3、生产者和我消费者的消费速度不做假设，生产速度和消费速度大小大概率不一致；<br>4、生产者生产完商品后会通知消费者取商品，消费者消费完后会通知生产者生产商品；<br>5、队列承载不了本次生产的商品时生产者会进入wait，队列里的商品不够本次消费时消费者会进入wait。</p>
+<p>具体代码可解释如下：</p>
+<pre><code>public class ProduceConsumer {
+    //定义产品类
+    public static class Product {
+        private int name; //产品名称,编号
+
+        @Override
+        public String toString() {
+            return &quot;Product:&quot; + name;
+        }
+    }
+
+    //仓库类,主要逻辑在这里实现
+    public static class WareHouse {
+        private static Queue&lt;Product&gt; products = new LinkedList&lt;Product&gt;(); //产品队列
+        private final int MAX = 200; //仓库最大容量
+        private static int currentCount = 0; //当前仓储量
+        private static int name = 1; //产品编号
+        private static Lock lock = new ReentrantLock(); //自定义锁对象
+        private static Condition condition = lock.newCondition();
+        //生产产品
+        public void produce(Product product, int amount) {
+            lock.lock();
+            try {
+                while (currentCount + amount &gt; MAX) { //队列满
+                    System.out.println(Thread.currentThread().getName() + &quot;生产后的产品总量大于承载能力, wait&quot;);
+                    try {
+                        condition.await(); //进入等待
+                        System.out.println(Thread.currentThread().getName() + &quot;Get signal&quot;);
+                    } catch (InterruptedException e) {
+                        System.out.println(e.getStackTrace());
+                    }
+                }
+                for (int i = 0; i &lt; amount; i++) {
+                    product.name = name++; //设置产品编号
+                    products.add(product); //向队列中加入产品
+                    currentCount++; //仓储数量增加
+                }
+                System.out.println(Thread.currentThread().getName() + &quot;生产了 &quot; + amount + &quot; 个商品, 现在库存为: &quot; + currentCount);
+                condition.signalAll(); //通知消费者
+                System.out.println(Thread.currentThread().getName() + &quot; signalAll...&quot;);
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        //消费产品
+        public void consume(int amount) {
+            lock.lock();
+            try {
+                while (currentCount &lt; amount) { //商品不够本次消费
+                    System.out.println(Thread.currentThread().getName() + &quot;要消费数量为: &quot; + amount + &quot;仓储数量: &quot; + currentCount + &quot; 仓储数量不足, wait&quot;);
+                    try {
+                        condition.await(); //进入等待
+                        System.out.println(Thread.currentThread().getName() + &quot;Get signal&quot;);
+                    } catch (InterruptedException e) {
+                    }
+                }
+                for (int i = 0; i &lt; amount; i++) {
+                    Product product = products.poll();
+                    currentCount--; //减仓储
+                }
+                System.out.println(Thread.currentThread().getName() + &quot;消费了 &quot; + amount + &quot; 个商品, 现在库存为: &quot; + currentCount);
+                condition.signalAll(); //通知生产者
+                System.out.println(Thread.currentThread().getName() + &quot;signalAll...&quot;);
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+    //生产者类
+    public static class Producer implements Runnable {
+        @Override
+        public void run() {
+            int amount = (int) (Math.random() * 100); //最多生产仓储量的一半
+            Product product = new Product();
+            WareHouse wareHouse = new WareHouse();
+            wareHouse.produce(product, amount);
+        }
+    }
+
+    //消费者类
+    public static class Consumer implements  Runnable{
+        @Override
+        public void run() {
+            int amount = (int) (Math.random() * 100); //最多生产仓储量的一半
+            WareHouse wareHouse = new WareHouse();
+            wareHouse.consume(amount);
+        }
+    }
+
+    public static void main(String[] args) {
+        //生产者线程池
+        ExecutorService producerPool = Executors.newFixedThreadPool(1);
+        ExecutorService consumerPool = Executors.newSingleThreadExecutor();
+        int i = 0;
+        while (true) {
+            Producer producer = new Producer();
+            producerPool.execute(producer);
+            Consumer consumer = new Consumer();
+            consumerPool.execute(consumer);
+            if (i++ &gt; 200) {
+                break;
+            }
+        }
+    }
+}
+</code></pre><p>部分执行结果如下：</p>
+<pre><code>pool-1-thread-1生产了 44 个商品, 现在库存为: 44
+pool-1-thread-1 signalAll...
+pool-2-thread-1消费了 44 个商品, 现在库存为: 0
+pool-2-thread-1signalAll...
+pool-1-thread-1生产了 3 个商品, 现在库存为: 3
+pool-1-thread-1 signalAll...
+pool-2-thread-1要消费数量为: 54仓储数量: 3 仓储数量不足, wait
+pool-1-thread-1生产了 91 个商品, 现在库存为: 94
+pool-1-thread-1 signalAll...
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 54 个商品, 现在库存为: 40
+pool-2-thread-1signalAll...
+pool-1-thread-1生产了 34 个商品, 现在库存为: 74
+pool-1-thread-1 signalAll...
+pool-2-thread-1要消费数量为: 95仓储数量: 74 仓储数量不足, wait
+pool-1-thread-1生产了 62 个商品, 现在库存为: 136
+pool-1-thread-1 signalAll...
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 95 个商品, 现在库存为: 41
+pool-2-thread-1signalAll...
+pool-2-thread-1要消费数量为: 89仓储数量: 41 仓储数量不足, wait
+pool-1-thread-1生产了 82 个商品, 现在库存为: 123
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 14 个商品, 现在库存为: 137
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 28 个商品, 现在库存为: 165
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产了 19 个商品, 现在库存为: 184
+pool-1-thread-1 signalAll...
+pool-1-thread-1生产后的产品总量大于承载能力, wait
+pool-2-thread-1Get signal
+pool-2-thread-1消费了 89 个商品, 现在库存为: 95
+</code></pre><p>这段代码里控制了生产者消费者的速度都不能超过100即仓储总量的一半，否则可能发生消费者和生产者相互等待的情况。例如：仓储现在已有110个商品，消费者需要消费<br>120个，所以消费者进入wait；此时生产者线程获得cpu，并且需要生产100个商品，由于现在剩下的仓储只有90个，所以生产者线程此时也进入wait，导致两<br>个线程相互等待。大家看看怎么解决。</p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：生产者-消费者模式/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> Prev</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/3/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

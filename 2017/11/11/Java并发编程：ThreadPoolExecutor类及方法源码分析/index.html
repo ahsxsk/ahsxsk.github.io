@@ -1,0 +1,434 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java并发编程：ThreadPoolExecutor类及方法源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="ThreadPoolExecutor是jdk自带线程池实现类，现有的Executors工具类实现的几种线程池核心都是调用ThreadPoolExecutor类。ThreadPoolExecutor在jdk1.7及以后做了部分修改，  本文以JDK1.8为准  。
+1 构造函数ThreadPoolEx">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java并发编程：ThreadPoolExecutor类及方法源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java并发编程：ThreadPoolExecutor类及方法源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>ThreadPoolExecutor是jdk自带线程池实现类，现有的Executors工具类实现的几种线程池核心都是调用ThreadPoolExecutor<br>类。ThreadPoolExecutor在jdk1.7及以后做了部分修改， <strong> 本文以JDK1.8为准 </strong> 。</p>
+<h2 id="1-构造函数"><a href="#1-构造函数" class="headerlink" title="1 构造函数"></a>1 构造函数</h2><p>ThreadPoolExecutor类共有4个构造函数，其他三个构造函数都是调用下参数最全的一个，下面只介绍参数最全的的一个。</p>
+<pre><code>public ThreadPoolExecutor(int corePoolSize,  //参数的意义已经在上一篇中介绍
+                             int maximumPoolSize,
+                             long keepAliveTime,
+                             TimeUnit unit,
+                             BlockingQueue&lt;Runnable&gt; workQueue,
+                             ThreadFactory threadFactory,
+                             RejectedExecutionHandler handler) {
+       if (corePoolSize &lt; 0 ||  //参数检查
+           maximumPoolSize &lt;= 0 ||
+           maximumPoolSize &lt; corePoolSize ||
+           keepAliveTime &lt; 0)
+           throw new IllegalArgumentException();
+       if (workQueue == null || threadFactory == null || handler == null)
+           throw new NullPointerException();
+       this.corePoolSize = corePoolSize; //设置基本线程数
+       this.maximumPoolSize = maximumPoolSize; //设置最大线程数
+       this.workQueue = workQueue;  //设置任务队列
+       this.keepAliveTime = unit.toNanos(keepAliveTime); //设置存活时间
+       this.threadFactory = threadFactory; //设置线程工厂
+       this.handler = handler; //设局拒绝策略
+   }
+</code></pre><h2 id="2-ThreadPoolExecutor类的方法"><a href="#2-ThreadPoolExecutor类的方法" class="headerlink" title="2 ThreadPoolExecutor类的方法"></a>2 ThreadPoolExecutor类的方法</h2><p>ThreadPoolExecutor类的主要方法有提交任务的execute()方法和submit()方法，终止线程的shutdown()方法和shutdow<br>mNow方法。<br><strong> execute方法用于提交任务，在Executor接口中声明并在ThreadPoolExecutor类中实现。 </strong><br><strong> submit方法用于提交任务并且有返回结果，在ExecutorService中声明并且在AbstractExecutorService类中实现，ThreadPoolExecutor类并没有重写。 </strong><br><strong> shutdown方法用于关闭线程池，但是允许正在运行的任务运行完，将状态置为SHUTDOWN。 </strong><br><strong> shutdownNow方法在关闭线程池时尝试终止正在运行的任务，将状态置为STOP。 </strong></p>
+<h2 id="3-ThreadPoolExecutor类重要方法源码分析"><a href="#3-ThreadPoolExecutor类重要方法源码分析" class="headerlink" title="3 ThreadPoolExecutor类重要方法源码分析"></a>3 ThreadPoolExecutor类重要方法源码分析</h2><h3 id="3-1-execute方法源码分析"><a href="#3-1-execute方法源码分析" class="headerlink" title="3.1 execute方法源码分析"></a>3.1 execute方法源码分析</h3><p>execute方法在JDK1.7及以后具体实现做了重大修改，分析execute源码之前先列举ThreadPoolExecutor类定义的一些常量。</p>
+<pre><code>  private final AtomicInteger ctl = new AtomicInteger(ctlOf(RUNNING, 0)); //采用原子整型来记录线程数量及状态
+private static final int COUNT_BITS = Integer.SIZE - 3;  //线程池中线程数量存在低29位，高3位是线程池状态
+private static final int CAPACITY   = (1 &lt;&lt; COUNT_BITS) - 1;
+
+// runState is stored in the high-order bits
+private static final int RUNNING    = -1 &lt;&lt; COUNT_BITS; //
+private static final int SHUTDOWN   =  0 &lt;&lt; COUNT_BITS;
+private static final int STOP       =  1 &lt;&lt; COUNT_BITS;
+private static final int TIDYING    =  2 &lt;&lt; COUNT_BITS;
+private static final int TERMINATED =  3 &lt;&lt; COUNT_BITS;
+
+// Packing and unpacking ctl
+private static int runStateOf(int c)    { return c &amp; ~CAPACITY; }
+private static int workerCountOf(int c)  { return c &amp; CAPACITY; }
+private static int ctlOf(int rs, int wc) { return rs | wc; }
+</code></pre><p><strong> 线程池的五种状态： </strong><br><strong> RUNNING 在ThreadPoolExecutor被实例化的时候就是这个状态。 </strong><br><strong> SHUTDOWN 通常是已经执行过shutdown()方法，不再接受新任务，等待线程池中和队列中任务完成。 </strong><br><strong> STOP 通常是已经执行过shutdownNow()方法，不接受新任务，队列中的任务也不再执行，并尝试终止线程池中的线程。 </strong><br><strong> TIDYING 线程池为空，就会到达这个状态，执行terminated()方法。 </strong><br><strong> TERMINATED terminated()执行完毕，就会到达这个状态。 </strong><br>下面直接上代码，代码分析放在注释里：</p>
+<pre><code>public void execute(Runnable command) {
+        if (command == null) //参数检查
+            throw new NullPointerException();
+        int c = ctl.get(); //获取当前记录线程池状态和池中线程数量的变量
+        if (workerCountOf(c) &lt; corePoolSize) { //如果当前线程池中线程数量小于基本线程数量
+            if (addWorker(command, true))  //新起一个线程处理任务，并将这个任务作为这个线程的第一个任务
+                return;
+            c = ctl.get(); //增加线程失败，再次获取变量。（其他线程可能改变了线程池中线程数量，线程也可能die）
+        }
+        if (isRunning(c) &amp;&amp; workQueue.offer(command)) { //如果线程池还是RUNNING状态就将任务加入工作队列
+            int recheck = ctl.get(); //需要double check主要是时间差的问题，在上一句和这一句中间其他线程可能改变了线程池状态
+            if (! isRunning(recheck) &amp;&amp; remove(command)) //如果线程池状态不再是RUNNING，则从工作队列移除这个任务
+                reject(command); //移除任务成功，对这个任务使用拒绝策略
+            else if (workerCountOf(recheck) == 0) //如果线程池状态是RUNNING，并且线程数量为0，说明基本线程数为0
+                addWorker(null, false); //线程池启动一个线程,启动后并不直接处理任务，并且判断界限变为maximumPoolSize
+        }
+        else if (!addWorker(command, false))  //如果工作队列已满，则增加线程处理，线程判断条件变为maximumPoolSize
+            reject(command);
+    }
+</code></pre><p>忽略细节后总的逻辑如下：<br><strong> 第一，线程池中线程数量小于基本线程数（corePoolSize），则启动新线程处理新的任务。 </strong><br><strong> 第二，线程池中线程数不小于基本线程数，则将任务加入工作队列。 </strong><br><strong> 第三，工作队列如果已满，判断线程数如果小于最大线程数（maximumPoolSize），则启动新线程处理当前任务。 </strong><br>execute方法中最核心的方法就是addWorker方法，这个方法负责创建线程，下面重点分析洗addWorker源码。</p>
+<pre><code>private boolean addWorker(Runnable firstTask, boolean core) {
+     retry:
+     for (;;) {
+         int c = ctl.get();
+         int rs = runStateOf(c); //获取线程池状态
+
+         // Check if queue empty only if necessary.
+         if (rs &gt;= SHUTDOWN &amp;&amp;
+             ! (rs == SHUTDOWN &amp;&amp; //队列没有任务并且没有提交新任务则不会创建新线程
+                firstTask == null &amp;&amp;
+                ! workQueue.isEmpty()))
+             return false;
+
+         for (;;) {
+             int wc = workerCountOf(c);
+             if (wc &gt;= CAPACITY ||
+                 wc &gt;= (core ? corePoolSize : maximumPoolSize)) //线程数量大于线程池容量或者传入的最大池数量则不会创建新线程
+                 return false;
+             if (compareAndIncrementWorkerCount(c)) //如果线程池的状态和线程数量都没有改变，则将线程数量+1并且开始真正创建线程
+                 break retry;
+             c = ctl.get();  // Re-read ctl，线程数量或者线程池状态改变重新获取线程状态
+             if (runStateOf(c) != rs) //线程池状态改变则重新判断是否要创建新线程
+                 continue retry;
+             // else CAS failed due to workerCount change; retry inner loop
+         }
+     }
+
+     boolean workerStarted = false;
+     boolean workerAdded = false;
+     //private final class Worker extends AbstractQueuedSynchronizer implements Runnable
+     Worker w = null;
+     try {
+         w = new Worker(firstTask);
+         final Thread t = w.thread;
+         if (t != null) {
+             final ReentrantLock mainLock = this.mainLock;
+             mainLock.lock(); //加锁，防止其他线程同事操作
+             try {
+                 // Recheck while holding lock.
+                 // Back out on ThreadFactory failure or if
+                 // shut down before lock acquired.
+                 int rs = runStateOf(ctl.get());//获取线程状态
+
+                 if (rs &lt; SHUTDOWN ||
+                     (rs == SHUTDOWN &amp;&amp; firstTask == null)) { //检查线程池状态
+                     if (t.isAlive()) // precheck that t is startable
+                         throw new IllegalThreadStateException();
+                     workers.add(w);  //添加创建好的worker对象
+                     int s = workers.size();
+                     if (s &gt; largestPoolSize) //更新线程池最大数量记录
+                         largestPoolSize = s;
+                     workerAdded = true;
+                 }
+             } finally {
+                 mainLock.unlock();
+             }
+             if (workerAdded) {
+                 t.start();  //启动线程
+                 workerStarted = true;
+             }
+         }
+     } finally {
+         if (! workerStarted) //线程未启动成功，失败处理
+             addWorkerFailed(w);
+     }
+     return workerStarted;
+ }
+</code></pre><h3 id="3-2-shutdown方法源码分析"><a href="#3-2-shutdown方法源码分析" class="headerlink" title="3.2 shutdown方法源码分析"></a>3.2 shutdown方法源码分析</h3><p><strong> shutdown方法关闭线程池时将线程池的状态置为SHUTDOWN，不再接受新任务，等待队列中的任务执行完成。 </strong></p>
+<pre><code>public void shutdown() {
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess(); //检查当前线程是否有权限终端线程池中的所有线程
+            advanceRunState(SHUTDOWN); //将线程池状态改为SHUTDOWN
+            interruptIdleWorkers(); //中断空闲线程
+            onShutdown(); // hook for ScheduledThreadPoolExecutor
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate(); //将线程池状态置为TERMINATED
+    }
+</code></pre><h3 id="3-3-shutdownNow方法源码分析"><a href="#3-3-shutdownNow方法源码分析" class="headerlink" title="3.3 shutdownNow方法源码分析"></a>3.3 shutdownNow方法源码分析</h3><p><strong> shutdownNow方法关闭线程池时将线程池的状态置为STOP，并且停止队列中正在进行的任务。 </strong></p>
+<pre><code>public List&lt;Runnable&gt; shutdownNow() {
+        List&lt;Runnable&gt; tasks;
+        final ReentrantLock mainLock = this.mainLock;
+        mainLock.lock();
+        try {
+            checkShutdownAccess();
+            advanceRunState(STOP); //将线程池状态改为STOP
+
+            interruptWorkers();
+            tasks = drainQueue(); //和shutdown方法的区别就在于shutdownNow会停止正在处理的任务
+        } finally {
+            mainLock.unlock();
+        }
+        tryTerminate();
+        return tasks;
+    }
+</code></pre>	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java并发编程：并发基础概念/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java字符串：String使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

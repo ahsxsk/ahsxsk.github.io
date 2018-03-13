@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java并发编程：线程池创建及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="Java5引入了线程池的顶级接口Executor，ExecutorService继承了Executor接口并增加了自己的方法。Executors工具类为Executor，ExecutorService，ScheduledExecutorService，ThreadFactory和Callable类提">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java并发编程：线程池创建及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java并发编程：线程池创建及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>Java5引入了线程池的顶级接口Executor，ExecutorService继承了Executor接口并增加了自己的方法。Executors工具类为Ex<br>ecutor，ExecutorService，ScheduledExecutorService，ThreadFactory和Callable类提供了一些工具<br>方法，通过这个工具类提供的方法可以方便的创建线程池。</p>
+<h2 id="1-使用线程池的好处"><a href="#1-使用线程池的好处" class="headerlink" title="1 使用线程池的好处"></a>1 使用线程池的好处</h2><p>使用线程池的好处主要有三点：<br>第一，降低资源消耗。通过预先创建的线程池，避免了高频率的创建和销毁线程，最大可能的重用线程。<br>第二，提高响应速度。有任务到达的时候可以直接使用线程池中的空闲线程，避免即时创建线程导致的效率降低。<br>第三，方便线程管理。通过线程池可以对线程进行统一创建、监控。</p>
+<h2 id="2-创建线程池"><a href="#2-创建线程池" class="headerlink" title="2 创建线程池"></a>2 创建线程池</h2><p>Executors工具类为创建线程池提供了 <strong> newCachedThreadPool，newFixedThreadPool，newSingleThrea<br>dExecutor以及newScheduledThreadPool </strong> 四个工厂方法创建不同类型的线程池。</p>
+<h3 id="2-1-newCachedThreadPool示例"><a href="#2-1-newCachedThreadPool示例" class="headerlink" title="2.1 newCachedThreadPool示例"></a>2.1 newCachedThreadPool示例</h3><p>这个方法创建的是一个可以动态改变大小的线程池。当任务较多时会增加线程池中线程的数量，如果需要处理的任务较少，导致线程60s没有运行，JVM则会回收线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        ExecutorService MyThreadPool =  
+            Executors.newCachedThreadPool();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-3 is running...
+pool-1-thread-5 is running...
+pool-1-thread-4 is running...
+pool-1-thread-2 is running...
+pool-1-thread-1 is running...
+</code></pre><p>由执行结果可知，线程池为了处理5个任务启动了5个线程。</p>
+<h3 id="2-2-newFixedThreadPool-示例"><a href="#2-2-newFixedThreadPool-示例" class="headerlink" title="2.2 newFixedThreadPool 示例"></a>2.2 newFixedThreadPool 示例</h3><p>这个方法可以创建一个大小固定的线程池，当需要处理的任务书大于空闲线程个数时会暂时存在等待队列中直到有空闲的线程。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+    @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-2 is running...
+pool-1-thread-3 is running...
+pool-1-thread-1 is running...
+pool-1-thread-3 is running...
+pool-1-thread-2 is running...
+</code></pre><p>由执行结果可知，5个任务1\2\3号线程同时执行，当2\3号线程空闲后执行最后两个任务。</p>
+<h3 id="2-3-newSingleThreadExecutor示例"><a href="#2-3-newSingleThreadExecutor示例" class="headerlink" title="2.3 newSingleThreadExecutor示例"></a>2.3 newSingleThreadExecutor示例</h3><p>这个方法和2.2中的方法类似，不过本方法产生固定大小为1的线程池，所有任务由一个线程完成。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running...&quot;);
+        }
+    }
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ExecutorService MyThreadPool = Executors.newSingleThreadExecutor();
+        for (int i = 0; i &lt; 5; i++) {
+            MyThread t = new MyThread();
+            MyThreadPool.execute(t);
+        }
+        MyThreadPool.shutdown();
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+pool-1-thread-1 is running...
+</code></pre><p>5个任务全是由线程1完成的。</p>
+<h3 id="2-4-newScheduledThreadPool示例"><a href="#2-4-newScheduledThreadPool示例" class="headerlink" title="2.4 newScheduledThreadPool示例"></a>2.4 newScheduledThreadPool示例</h3><p>这个方法创建的是一个大小固定，但是支持延时和周期操作的线程池。</p>
+<pre><code>import java.io.*;
+import java.util.concurrent.*;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+public class TestThreadPool {
+    public static class MyThread implements Runnable {
+        @Override
+        public void run() {
+        System.out.println(Thread.currentThread().getName() + &quot; is running... 1&quot;);
+        }
+    }
+    public static class Scheduled1 implements Runnable {
+        @Override
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + &quot; is running... 2&quot;);
+        }
+    }
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        //ExecutorService MyThreadPool = Executors.newCachedThreadPool();
+        //创建大小为3的线程池
+        //ExecutorService MyThreadPool = Executors.newFixedThreadPool(3);
+        ScheduledThreadPoolExecutor MyThreadPool = new ScheduledThreadPoolExecutor(2);
+        Runnable r1 = new MyThread();
+        Runnable r2 = new Scheduled1();
+        MyThreadPool.scheduleAtFixedRate(r1, 1000, 2000, TimeUnit.MILLISECONDS);
+        MyThreadPool.scheduleAtFixedRate(r2, 1000, 5000, TimeUnit.MILLISECONDS);
+    }
+}
+</code></pre><p>执行结果如下：</p>
+<pre><code>pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+pool-1-thread-2 is running... 2
+pool-1-thread-1 is running... 1
+pool-1-thread-1 is running... 1
+</code></pre><h2 id="3-几种线程池源码分析"><a href="#3-几种线程池源码分析" class="headerlink" title="3 几种线程池源码分析"></a>3 几种线程池源码分析</h2><p>第二节介绍的几种线程池创建方法都是通过调用ThreadPoolExecutor方法实现的，区别是调用ThreadPoolExecutor时传递的参数不同。</p>
+<h3 id="3-1ThreadPoolExecutor使用方法介绍"><a href="#3-1ThreadPoolExecutor使用方法介绍" class="headerlink" title="3.1ThreadPoolExecutor使用方法介绍"></a>3.1ThreadPoolExecutor使用方法介绍</h3><p>ThreadPoolExecutor的的构造方法如下：</p>
+<pre><code>ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue&lt;Runnable&gt; workQueue, ThreadFactory threadFactory, RejectedExecutionHandler handler)
+</code></pre><p>corePoolSize: 线程池中基本线程数。线程池初始化会创建corePoolSize个基本线程用于处理任务。<br>maximumPoolSize：线程池最大容量。线程池最多允许存在的线程数。<br>keepAliveTime：线程空闲回收时间。线程池中除了基本线程的外的线程空闲时间达到keepAliveTime时就会由JVM自动销毁回收。<br>unit：时间单位。keepAliveTime的时间单位。<br>workQueue：线程的排队队列。常见的线程队列有无界队列（LinkedBlockingQueue），同步队列（SynchronousQueue），有界队<br>列（ArrayBlockingQueue）。任务的提交策略由选用哪种任务队列决定。<br>threadFactory：线程工厂。创建线程的方法，可以通过这个参数为线程命名一个有意义的名称。<br>handler：饱和处理策略。当线程池和队列都满时的处理策略。</p>
+<h3 id="3-2-newCachedThreadPool源码分析"><a href="#3-2-newCachedThreadPool源码分析" class="headerlink" title="3.2 newCachedThreadPool源码分析"></a>3.2 newCachedThreadPool源码分析</h3><pre><code> public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,60L, TimeUnit.SECONDS,new SynchronousQueue&lt;Runnable&gt;());
+}
+</code></pre><p>newCachedThreadPool是一个静态方法，内部返回了一个ThreadPoolExecutor实例。<br>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：0，线程池的基本线程数为0。线程池不会维护固定大小的基本线程。<br>maximumPoolSize：Integer.MAX_VALUE,2^31 - 1。线程池的大小可以认为是无限大的。<br>keepAliveTime：60L，保活时间为60。当基本线程外的线程超过60个时间单位没有处理任务则回收。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：SynchronousQueue，同步队列。等待队列为同步队列，只有线程将队列中的任务取走时新的任务才会入队列。<br><strong> 由源码分析可知，newCachedThreadPool方法创建的线程池是一个无线大小的线程池，他会根据任务的多少动态增减线程池中线程的数量。 </strong></p>
+<h3 id="3-3-newFixedThreadPool源码分析"><a href="#3-3-newFixedThreadPool源码分析" class="headerlink" title="3.3 newFixedThreadPool源码分析"></a>3.3 newFixedThreadPool源码分析</h3><pre><code>public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：nThreads，线程池的基本线程数为nThreads。<br>maximumPoolSize：nThreads。线程池的包含的最大数量和基本线程数量是一样的。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br><strong> 由源码分析可知，newFixedThreadPool方法创建的是一个大小固定的线程池，当线程池中线程数量大于基本线程数时，任务会加入等workQueue。 </strong></p>
+<h3 id="3-4-newSingleThreadExecutor源码分析"><a href="#3-4-newSingleThreadExecutor源码分析" class="headerlink" title="3.4 newSingleThreadExecutor源码分析"></a>3.4 newSingleThreadExecutor源码分析</h3><pre><code> public static ExecutorService newSingleThreadExecutor() {
+  return new FinalizableDelegatedExecutorService (new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue&lt;Runnable&gt;()));
+}
+</code></pre><p>ThreadPoolExecutor的具体参数如下：<br>corePoolSize：1，线程池的基本线程数为1。<br>maximumPoolSize：1。线程池的包含的最大数量和基本线程数量是一样的，并且最多只允许有1个线程。<br>keepAliveTime：0L，保活时间为0。由于不存在线程池中数量大于基本线程数量的情况，所以JVM不会制动回收线程。<br>unit：TimeUnit.SECONDS，时间单位为秒。<br>workQueue：LinkedBlockingQueue，无界队列。队列的大小可以认为是无限的。<br>由源码分析可知，newFixedThreadPool方法和newFixedThreadPool方法几乎一样，只是线程池大小固定为1。</p>
+<h2 id="4"><a href="#4" class="headerlink" title="4"></a>4</h2><p>ThreadPoolExecutor、AbstractExecutorService、ExecutorService和Executor的关系及下一篇预告。</p>
+<p>Executor是线程池的顶级接口，他只声明了execute方法。<br>ExecutorService继承了Executor接口并声明了submit的方法。<br>AbstractExecutorService类实现了ExecutorService的几乎所有方法。<br>ThreadPoolExecutor继承了AbstractExecutorService类。</p>
+<p>下一篇会详细分析ThreadPoolExecutor。</p>
+<h2 id="5-参考"><a href="#5-参考" class="headerlink" title="5 参考"></a>5 参考</h2><p>[1] <a href="http://blog.csdn.net/sd0902/article/details/8395677" target="_blank" rel="noopener"> http://blog.csdn.net/sd0902/article/details/8395677
+</a><br>[2] <a href="http://www.infoq.com/cn/articles/java-threadPool#anch92136" target="_blank" rel="noopener"> http://www.infoq.com/cn/articles/java-threadPool#anch92136
+</a><br>[3] <a href="http://www.cnblogs.com/nayitian/p/3262031.html" target="_blank" rel="noopener"> http://www.cnblogs.com/nayitian/p/3262031.html
+</a><br>[4] <a href="http://www.cnblogs.com/dolphin0520/p/3932921.html" target="_blank" rel="noopener"> http://www.cnblogs.com/dolphin0520/p/3932921.html
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java并发编程：线程同步机制/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java并发编程：线程创建/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

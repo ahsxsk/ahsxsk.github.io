@@ -1,0 +1,2448 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+<!-- title -->
+<div class="page-header page-header-inverse ">
+  <h1 class="archive-title-category title title-inverse ">Java_IO</h1>
+</div>
+
+<div class="row page">
+  <!-- cols -->
+  
+  <div class="col-md-9">
+	
+
+	  <div id="top_search"></div>
+
+      
+         <!-- display as entry -->
+	     <div class="mypage">
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：BufferedOutputStream使用详解及源码分析/" >Java_IO：BufferedOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedOutputStream继承于FilterOutputStream，提供缓冲输出流功能。缓冲输出流相对于普通输出流的优势是，它提供了一个缓冲<br>数组，只有缓冲数组满了或者手动flush时才会向磁盘写数据，避免频繁IO。核心思想是，提供一个缓冲数组，写入时首先操作缓冲数组。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedOutputStream提供的API如下：</p>
+<pre><code>//构造函数
+BufferedOutputStream(OutputStream out) //默认缓冲数组大小为8192
+BufferedOutputStream(OutputStream out, int size)
+
+synchronized void     close() //关闭
+synchronized void     flush() //刷盘
+synchronized void     write(byte[] b, int off, int len) //向输出流写数据
+synchronized void     write(int b)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedOutput() {
+    try {
+        final byte [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        /*
+         *创建文件输出流out,缓冲区大小为8
+         */
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*将letters前6个字符写入到输出流*/
+        out.write(letters, 0 ,6);
+        /*此时不会写入任何数据到磁盘文件*/
+        readFile();
+        /*继续写入4个字符*/
+        for (int i = 0; i &lt; 4; i++) {
+            out.write(&apos;g&apos; + i);
+        }
+        /*此时只会写入8个字符到磁盘文件*/
+        readFile();
+        /*此时会把所有内容写入磁盘文件*/
+        out.flush();
+        readFile();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+private void readFile() {
+    try {
+        InputStream in = new FileInputStream(&quot;buff.txt&quot;);
+        byte [] bytes = new byte[20];
+        in.read(bytes, 0, bytes.length);
+        System.out.println(&quot;文件中的内容为: &quot;  + new String(bytes));
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>文件中的内容为:
+文件中的内容为: abcdefgh
+文件中的内容为: abcdefghij
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedOutputStream的构造方法有两个，区别是字节缓冲数组大小。</p>
+<pre><code>/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream.
+ *
+ * @param   out   the underlying output stream.
+ */
+public BufferedOutputStream(OutputStream out) {
+    this(out, 8192);
+}
+
+/**
+ * Creates a new buffered output stream to write data to the
+ * specified underlying output stream with the specified buffer
+ * size.
+ *
+ * @param   out    the underlying output stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if size &amp;lt;= 0.
+ */
+public BufferedOutputStream(OutputStream out, int size) {
+    super(out);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write方法有两个重载方法，分别是协议一个字节的write(int b)和写入一个字节数组的write(byte b[], int off, int<br>len)。下面分析第二个方法的源码。</p>
+<pre><code>/**
+ * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+ * starting at offset &lt;code&gt;off&lt;/code&gt; to this buffered output stream.
+ *
+ * &lt;p&gt; Ordinarily this method stores bytes from the given array into this
+ * stream&apos;s buffer, flushing the buffer to the underlying output stream as
+ * needed.  If the requested length is at least as large as this stream&apos;s
+ * buffer, however, then this method will flush the buffer and write the
+ * bytes directly to the underlying output stream.  Thus redundant
+ * &lt;code&gt;BufferedOutputStream&lt;/code&gt;s will not copy data unnecessarily.
+ *
+ * @param      b     the data.
+ * @param      off   the start offset in the data.
+ * @param      len   the number of bytes to write.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void write(byte b[], int off, int len) throws IOException {
+    if (len &gt;= buf.length) { //如果写入长度比buf长度长,直接写入文件，不走缓冲区
+        /* If the request length exceeds the size of the output buffer,
+           flush the output buffer and then write the data directly.
+           In this way buffered streams will cascade harmlessly. */
+        flushBuffer(); //将原有缓冲区内容刷盘
+        out.write(b, off, len); //直接写入文件
+        return;
+    }
+    if (len &gt; buf.length - count) { //可用空间不足,先刷盘
+        flushBuffer();
+    }
+    System.arraycopy(b, off, buf, count, len); //复制写入
+    count += len;
+}
+/** Flush the internal buffer */
+private void flushBuffer() throws IOException {
+    if (count &gt; 0) {
+        out.write(buf, 0, count);
+        count = 0;
+    }
+}
+</code></pre><h3 id="flush方法"><a href="#flush方法" class="headerlink" title="flush方法"></a>flush方法</h3><pre><code>/**
+ * Flushes this buffered output stream. This forces any buffered
+ * output bytes to be written out to the underlying output stream.
+ *
+ * @exception  IOException  if an I/O error occurs.
+ * @see        java.io.FilterOutputStream#out
+ */
+public synchronized void flush() throws IOException {
+    flushBuffer(); //刷盘
+    out.flush(); //未做任何实现
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_13.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_13.html
+</a><br>[2] <a href="http://czj4451.iteye.com/blog/1545159" target="_blank" rel="noopener"> http://czj4451.iteye.com/blog/1545159
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：BufferedOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：BufferedInputStream使用详解及源码分析/" >Java_IO：BufferedInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：BufferedInputStream使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedInputStream继承于FilterInputStream，提供缓冲输入流功能。缓冲输入流相对于普通输入流的优势是，它提供了一个缓冲数组<br>，每次调用read方法的时候，它首先尝试从缓冲区里读取数据，若读取失败（缓冲区无可读数据），则选择从物理数据源（譬如文件）读取新数据（这里会尝试尽可能读取多<br>的字节）放入到缓冲区中，最后再将缓冲区中的内容部分或全部返回给用户.由于从缓冲区里读取数据远比直接从物理数据源（譬如文件）读取速度快。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedInputStream提供的API如下：</p>
+<pre><code>//构造方法
+BufferedInputStream(InputStream in)
+BufferedInputStream(InputStream in, int size)
+
+//下一字节是否可读
+synchronized int     available()
+//关闭
+void     close()
+//标记, readlimit为mark后最多可读取的字节数
+synchronized void     mark(int readlimit)
+//是否支持mark, true
+boolean     markSupported()
+//读取一个字节
+synchronized int     read()
+//读取多个字节到b
+synchronized int     read(byte[] b, int off, int len)
+//重置会mark位置
+synchronized void     reset()
+//跳过n个字节
+synchronized long     skip(long n)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedInput() {
+    try {
+        /**
+         * 建立输入流 BufferedInputStream, 缓冲区大小为8
+         * buffer.txt内容为
+         * abcdefghij
+         */
+        InputStream in = new BufferedInputStream(new FileInputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*从字节流中读取5个字节*/
+        byte [] tmp = new byte[5];
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流的前5个字节为: &quot; + new String(tmp));
+        /*标记测试*/
+        in.mark(6);
+        /*读取5个字节*/
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流中第6到10个字节为: &quot; +  new String(tmp));
+        /*reset*/
+        in.reset();
+        System.out.printf(&quot;reset后读取的第一个字节为: %c&quot; , in.read());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>字节流的前5个字节为: abcde
+字节流中第6到10个字节为: fghij
+reset后读取的第一个字节为: f
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedInputStream的构造方法有两个，区别是缓冲区大小设置。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use. An internal
+ * buffer array is created and  stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in   the underlying input stream.
+ */
+public BufferedInputStream(InputStream in) {
+    this(in, DEFAULT_BUFFER_SIZE); //默认8192, 8M
+}
+
+/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * with the specified buffer size,
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use.  An internal
+ * buffer array of length  &lt;code&gt;size&lt;/code&gt;
+ * is created and stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in     the underlying input stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if {@code size &lt;= 0}.
+ */
+public BufferedInputStream(InputStream in, int size) {
+    super(in);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="read方法"><a href="#read方法" class="headerlink" title="read方法"></a>read方法</h3><p>read方法有每次读取一个字节和一次读取多个字节两种重载。下面主要分析读取多个字节的read方法。 <strong> <em> 重点在于fill()方法 </em> </strong> 。</p>
+<pre><code>/**
+ * Reads bytes from this byte-input stream into the specified byte array,
+ * starting at the given offset.
+ *
+ * &lt;p&gt; This method implements the general contract of the corresponding
+ * &lt;code&gt;{@link InputStream#read(byte[], int, int) read}&lt;/code&gt; method of
+ * the &lt;code&gt;{@link InputStream}&lt;/code&gt; class.  As an additional
+ * convenience, it attempts to read as many bytes as possible by repeatedly
+ * invoking the &lt;code&gt;read&lt;/code&gt; method of the underlying stream.  This
+ * iterated &lt;code&gt;read&lt;/code&gt; continues until one of the following
+ * conditions becomes true: &lt;ul&gt;
+ *
+ * @param      b     destination buffer.
+ * @param      off   offset at which to start storing bytes.
+ * @param      len   maximum number of bytes to read.
+ * @return     the number of bytes read, or &lt;code&gt;-1&lt;/code&gt; if the end of the stream has been reached.
+ * @exception  IOException  if this input stream has been closed by invoking its {@link #close()} method,
+ *                   or an I/O error occurs.
+ */
+public synchronized int read(byte b[], int off, int len)
+        throws IOException
+{
+    getBufIfOpen(); // Check for closed stream
+    if ((off | len | (off + len) | (b.length - (off + len))) &lt; 0) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return 0;
+    }
+
+    int n = 0;
+    for (;;) {
+        int nread = read1(b, off + n, len - n); //读取len长度的字节到b中
+        if (nread &lt;= 0)
+            return (n == 0) ? nread : n;
+        n += nread;
+        if (n &gt;= len)
+            return n;
+        // if not closed but no bytes available, return
+        InputStream input = in;
+        if (input != null &amp;&amp; input.available() &lt;= 0)
+            return n;
+    }
+}
+
+/**
+ * Check to make sure that buffer has not been nulled out due to
+ * close; if not return it;
+ */
+private byte[] getBufIfOpen() throws IOException {
+    byte[] buffer = buf;
+    if (buffer == null)
+        throw new IOException(&quot;Stream closed&quot;);
+    return buffer;
+}
+
+/**
+ * Read characters into a portion of an array, reading from the underlying
+ * stream at most once if necessary.
+ */
+private int read1(byte[] b, int off, int len) throws IOException {
+    int avail = count - pos; //缓冲区中可读字节数
+    if (avail &lt;= 0) { //没可读字节
+        /* If the requested length is at least as large as the buffer, and
+           if there is no mark/reset activity, do not bother to copy the
+           bytes into the local buffer.  In this way buffered streams will
+           cascade harmlessly. */
+        if (len &gt;= getBufIfOpen().length &amp;&amp; markpos &lt; 0) { //没mark并且请求长度大于buff长度
+            return getInIfOpen().read(b, off, len); //直接从文件中读取,不走缓冲区
+        }
+        fill(); //修改或者扩展缓冲区
+        avail = count - pos; //可读字节数
+        if (avail &lt;= 0) return -1;
+    }
+    int cnt = (avail &lt; len) ? avail : len; //取最小值, 缓冲区中可能没有足够可读的字节
+    System.arraycopy(getBufIfOpen(), pos, b, off, cnt); //复制
+    pos += cnt;
+    return cnt;
+}
+
+/**
+ * Fills the buffer with more data, taking into account
+ * shuffling and other tricks for dealing with marks.
+ * Assumes that it is being called by a synchronized method.
+ * This method also assumes that all data has already been read in,
+ * hence pos &gt; count.
+ */
+private void fill() throws IOException {
+    /**
+     * 填充字符时如果没有mark标记, 则直接清空缓冲区,然后将输入流的数据写入缓冲区
+     * 如果有mark标记,则分如下几种情况
+     * 1 普通mark,直接将标记以前的字符用标记以后的字符覆盖,剩余的空间读取输入流的内容填充
+     * 2 当前位置pos &gt;= buffer的长度 &gt;= marklimit,说明mark已经失效,直接清空缓冲区,然后读取输入流内容
+     * 3 buffer长度超出限制,抛出异常
+     * 4 marklimit比buffer的长度还大,此时mark还没失效,则扩大buffer空间
+     */
+    byte[] buffer = getBufIfOpen();
+    if (markpos &lt; 0)
+        pos = 0;            /* no mark: throw away the buffer */
+    else if (pos &gt;= buffer.length)  /* no room left in buffer */
+        if (markpos &gt; 0) {  /* can throw away early part of the buffer */
+            int sz = pos - markpos;
+            System.arraycopy(buffer, markpos, buffer, 0, sz);
+            pos = sz;
+            markpos = 0;
+        } else if (buffer.length &gt;= marklimit) {
+            markpos = -1;   /* buffer got too big, invalidate mark */
+            pos = 0;        /* drop buffer contents */
+        } else if (buffer.length &gt;= MAX_BUFFER_SIZE) {
+            throw new OutOfMemoryError(&quot;Required array size too large&quot;);
+        } else {            /* grow buffer */
+            int nsz = (pos &lt;= MAX_BUFFER_SIZE - pos)
+                    pos * 2 : MAX_BUFFER_SIZE; //扩大后的大小
+            if (nsz &gt; marklimit)
+                nsz = marklimit;
+            byte nbuf[] = new byte[nsz];
+            System.arraycopy(buffer, 0, nbuf, 0, pos); //将buffer的数据复制到nbuf中
+            if (!bufUpdater.compareAndSet(this, buffer, nbuf)) {
+                // Can&apos;t replace buf if there was an async close.
+                // Note: This would need to be changed if fill()
+                // is ever made accessible to multiple threads.
+                // But for now, the only way CAS can fail is via close.
+                // assert buf == null;
+                throw new IOException(&quot;Stream closed&quot;);
+            }
+            buffer = nbuf; //修改缓冲区
+        }
+    count = pos;
+    int n = getInIfOpen().read(buffer, pos, buffer.length - pos); //读取输入流中内容填充缓冲区
+    if (n &gt; 0)
+        count = n + pos;
+}
+</code></pre><h3 id="mark-reset方法"><a href="#mark-reset方法" class="headerlink" title="mark\reset方法"></a>mark\reset方法</h3><pre><code>/**
+ * See the general contract of the &lt;code&gt;mark&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ *
+ * @param   readlimit   the maximum limit of bytes that can be read before
+ *                      the mark position becomes invalid.
+ * @see     java.io.BufferedInputStream#reset()
+ */
+public synchronized void mark(int readlimit) {
+    marklimit = readlimit;
+    markpos = pos;
+}
+
+/**
+ * See the general contract of the &lt;code&gt;reset&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ * &lt;p&gt;
+ * If &lt;code&gt;markpos&lt;/code&gt; is &lt;code&gt;-1&lt;/code&gt;
+ * (no mark has been set or the mark has been
+ * invalidated), an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown. Otherwise, &lt;code&gt;pos&lt;/code&gt; is
+ * set equal to &lt;code&gt;markpos&lt;/code&gt;.
+ *
+ * @exception  IOException  if this stream has not been marked or,
+ *                  if the mark has been invalidated, or the stream
+ *                  has been closed by invoking its {@link #close()}
+ *                  method, or an I/O error occurs.
+ * @see        java.io.BufferedInputStream#mark(int)
+ */
+public synchronized void reset() throws IOException {
+    getBufIfOpen(); // Cause exception if closed
+    if (markpos &lt; 0)
+        throw new IOException(&quot;Resetting to invalid mark&quot;);
+    pos = markpos;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://zhhphappy.iteye.com/blog/1562427" target="_blank" rel="noopener"> http://zhhphappy.iteye.com/blog/1562427
+</a><br>[2] <a href="http://blog.sina.com.cn/s/blog_67f995260101huxz.html" target="_blank" rel="noopener"> http://blog.sina.com.cn/s/blog_67f995260101huxz.html
+</a><br>[3] <a href="http://www.cnblogs.com/skywang12345/p/io_12.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_12.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：BufferedInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" >Java_IO：ByteArrayInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read<br>方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte<br>数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray()和 toString()获取数据。</p>
+<h3 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h3><p>ByteArrayInputStream提供的API如下：</p>
+<pre><code>// 构造函数
+    ByteArrayInputStream(byte[] buf)
+    ByteArrayInputStream(byte[] buf, int offset, int length)
+
+    synchronized int         available() //能否读取字节流的下一字节
+    void                     close() //关闭字节流
+    synchronized void        mark(int readlimit) //保存当前位置
+    boolean                  markSupported() //是否支持mark
+    synchronized int         read() //读取下一字节
+    synchronized int         read(byte[] buffer, int offset, int length) //将字节流写入buffer数组
+    synchronized void        reset() //重置索引到mark位置
+    synchronized long        skip(long byteCount) //跳过n个字节
+}
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestByteArray {
+    // 对应英文字母“abcddefghijklmnopqrsttuvwxyz”
+    private final byte[] ArrayLetters = {
+            0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
+            0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A
+    };
+
+    public void testByteArrayInputStream() {
+        //创建字节流,以ArrayLetters初始化
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(ArrayLetters);
+
+        //读取5个字节
+        int i = 0;
+        System.out.print(&quot;前5个字节为: &quot;);
+        while (i++ &lt; 5) {
+            //是否可读
+            if (inputStream.available() &gt;= 0) {
+                int buf = inputStream.read();
+                System.out.printf(&quot;0x%s &quot;, Integer.toHexString(buf));
+            }
+        }
+        System.out.println();
+
+        //是否支持标记
+        if (!inputStream.markSupported()) {
+            System.out.println(&quot;该字节流不支持标记&quot;);
+        } else {
+            System.out.println(&quot;该字节流支持标记&quot;);
+        }
+
+        //标记, 已经读取5个字节,标记处为0x66
+        System.out.println(&quot;标记该字节流为位置为0x66(f)&quot;);
+        inputStream.mark(0);
+
+        //跳过2个字节
+        inputStream.skip(2);
+
+        //读取5个字节到buffer
+        byte [] buffer = new byte[5];
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;buffer: &quot; + new String(buffer));
+
+        //重置
+        inputStream.reset();
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;重置后读取5个字符为: &quot; + new String(buffer));
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>前5个字节为: 0x61 0x62 0x63 0x64 0x65
+该字节流支持标记
+标记该字节流为位置为0x66(f)
+buffer: hijkl
+重置后读取5个字符为: fghij
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ByteArrayInputStream有两个构造函数，区别是初始化内容选择。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * so that it  uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array.
+ * The buffer array is not copied.
+ * The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;0&lt;/code&gt; and the initial value
+ * of  &lt;code&gt;count&lt;/code&gt; is the length of
+ * &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   buf   the input buffer.
+ */
+public ByteArrayInputStream(byte buf[]) {
+    this.buf = buf; //缓冲数组
+    this.pos = 0; //当前位置
+    this.count = buf.length; //输入流字节数
+}
+
+/**
+ * Creates &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * that uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array. The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;offset&lt;/code&gt; and the initial value
+ * of &lt;code&gt;count&lt;/code&gt; is the minimum of &lt;code&gt;offset+length&lt;/code&gt;
+ * and &lt;code&gt;buf.length&lt;/code&gt;.
+ * The buffer array is not copied. The buffer&apos;s mark is
+ * set to the specified offset.
+ *
+ * @param   buf      the input buffer.
+ * @param   offset   the offset in the buffer of the first byte to read.
+ * @param   length   the maximum number of bytes to read from the buffer.
+ */
+public ByteArrayInputStream(byte buf[], int offset, int length) {
+    this.buf = buf; //缓冲数组
+    this.pos = offset; //当前位置为传入buf的offset
+    this.count = Math.min(offset + length, buf.length); //输入流字节数
+    this.mark = offset; //标记
+}
+</code></pre><h3 id="2-2-read方法"><a href="#2-2-read方法" class="headerlink" title="2.2 read方法"></a>2.2 read方法</h3><p>read方法有两个，不带参数的read()每次读取字节流中一个字节，带参数的read(byte b[], int off, int<br>len)将字节流从当前位置开始，写入len个字节到b中，写入开始位置为off。</p>
+<pre><code>/**
+ * 读取字节流当前字节
+ * @return 一个字节
+ */
+public synchronized int read() {
+    return (pos &lt; count) ? (buf[pos++] &amp; 0xff) : -1; //&amp;0xff为限制返回值为一个字节,即8位
+}
+
+/**
+ * 将字节流当前位置开始的len个字节写入到 b从off开始的len个位置
+ * @param b
+ * @param off
+ * @param len
+ * @return
+ */
+public synchronized int read(byte b[], int off, int len) {
+    if (b == null) {
+        throw new NullPointerException();
+    } else if (off &lt; 0 || len &lt; 0 || len &gt; b.length - off) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    if (pos &gt;= count) { //超出字节流范围
+        return -1;
+    }
+
+    int avail = count - pos; //可读取的字节数量
+    if (len &gt; avail) {
+        len = avail;
+    }
+    if (len &lt;= 0) {
+        return 0;
+    }
+    System.arraycopy(buf, pos, b, off, len); //将buf从pos位置开始的字节复制到b从off开始的位置,共复制len长
+    pos += len;
+    return len;
+}
+</code></pre><h3 id="2-4-skip方法"><a href="#2-4-skip方法" class="headerlink" title="2.4 skip方法"></a>2.4 skip方法</h3><pre><code>/**
+ * Skips &lt;code&gt;n&lt;/code&gt; bytes of input from this input stream. Fewer
+ * bytes might be skipped if the end of the input stream is reached.
+ * The actual number &lt;code&gt;k&lt;/code&gt;
+ * of bytes to be skipped is equal to the smaller
+ * of &lt;code&gt;n&lt;/code&gt; and  &lt;code&gt;count-pos&lt;/code&gt;.
+ * The value &lt;code&gt;k&lt;/code&gt; is added into &lt;code&gt;pos&lt;/code&gt;
+ * and &lt;code&gt;k&lt;/code&gt; is returned.
+ *
+ * @param   n   the number of bytes to be skipped.
+ * @return  the actual number of bytes skipped.
+ */
+public synchronized long skip(long n) {
+    long k = count - pos; //剩余字节数
+    if (n &lt; k) {
+        k = n &lt; 0 ? 0 : n;
+    }
+
+    pos += k;
+    return k;
+}
+</code></pre><h3 id="2-5-mark和reset方法"><a href="#2-5-mark和reset方法" class="headerlink" title="2.5 mark和reset方法"></a>2.5 mark和reset方法</h3><pre><code>/**
+ * Set the current marked position in the stream.
+ * ByteArrayInputStream objects are marked at position zero by
+ * default when constructed.  They may be marked at another
+ * position within the buffer by this method.
+ * &lt;p&gt;
+ * If no mark has been set, then the value of the mark is the
+ * offset passed to the constructor (or 0 if the offset was not
+ * supplied).
+ *
+ * &lt;p&gt; Note: The &lt;code&gt;readAheadLimit&lt;/code&gt; for this class
+ *  has no meaning.
+ *
+ * @since   JDK1.1
+ */
+public void mark(int readAheadLimit) {
+    mark = pos;
+}
+
+/**
+ * Resets the buffer to the marked position.  The marked position
+ * is 0 unless another position was marked or an offset was specified
+ * in the constructor.
+ */
+public synchronized void reset() {
+    pos = mark;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_02.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_03.html
+</a><br>[3] <a href="http://blog.csdn.net/rcoder/article/details/6118313" target="_blank" rel="noopener"> http://blog.csdn.net/rcoder/article/details/6118313
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" >Java_IO：CharArrayWriter使用及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>CharArrayWriter即字符数组输出流，用于向输出流写写入字符，和ByteArrayOutputStream的区别就是前者写入的是字符后者写入的是字<br>节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>CharArrayWriter提供的API如下：</p>
+<pre><code>//构造方法
+CharArrayWriter()
+CharArrayWriter(int initialSize)
+
+//追加写
+CharArrayWriter     append(CharSequence csq, int start, int end)
+CharArrayWriter     append(char c)
+CharArrayWriter     append(CharSequence csq)
+//关闭,未做实现
+void     close()
+//未做实现
+void     flush()
+//清空输出流
+void     reset()
+//输出流大小
+int     size()
+//返回char数组
+char[]     toCharArray()
+//返回String
+String     toString()
+//写入
+void     write(char[] buffer, int offset, int len)
+void     write(int oneChar)
+void     write(String str, int offset, int count)
+//写入到其他Writer
+void     writeTo(Writer out)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testCharArrayWriter() {
+    try {
+        char [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        //创建输出流Writer
+        CharArrayWriter writer = new CharArrayWriter();
+        //写入&apos;1&apos;
+        writer.write(&apos;1&apos;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入字符串&apos;2345&apos;
+        writer.write(&quot;2345&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //追加4567
+        writer.append(&quot;456&quot;).append(&quot;7&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入abc
+        writer.write(letters, 0, 3);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>输出流的内容为: 1
+输出流的内容为: 12345
+输出流的内容为: 123454567
+输出流的内容为: 123454567abc
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>CharArrayWriter的构造方法有两个，区别是字符数组大小设置。</p>
+<pre><code>/**
+ * Creates a new CharArrayWriter.
+ */
+public CharArrayWriter() {
+    this(32);
+}
+
+/**
+ * Creates a new CharArrayWriter with the specified initial size.
+ *
+ * @param initialSize  an int specifying the initial buffer size.
+ * @exception IllegalArgumentException if initialSize is negative
+ */
+public CharArrayWriter(int initialSize) {
+    if (initialSize &lt; 0) {
+        throw new IllegalArgumentException(&quot;Negative initial size: &quot;
+                + initialSize);
+    }
+    buf = new char[initialSize];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write有多种重载方法，重点分析其中一种。</p>
+<pre><code>/**
+ * Writes characters to the buffer.
+ * @param c the data to be written
+ * @param off       the start offset in the data
+ * @param len       the number of chars that are written
+ */
+public void write(char c[], int off, int len) {
+    if ((off &lt; 0) || (off &gt; c.length) || (len &lt; 0) ||
+            ((off + len) &gt; c.length) || ((off + len) &lt; 0)) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return;
+    }
+    synchronized (lock) { //线程安全
+        int newcount = count + len;
+        if (newcount &gt; buf.length) {
+            //数组扩容方案是: 2倍和实际需要大小中的最大值
+            buf = Arrays.copyOf(buf, Math.max(buf.length &lt;&lt; 1, newcount));
+        }
+        System.arraycopy(c, off, buf, count, len); //写入
+        count = newcount;
+    }
+}
+</code></pre><h3 id="append方法"><a href="#append方法" class="headerlink" title="append方法"></a>append方法</h3><p>将要追加的字符（串）写在输出流最后。</p>
+<pre><code>/**
+ * Appends the specified character sequence to this writer.
+ * @param  csq
+ *         The character sequence to append.  If &lt;tt&gt;csq&lt;/tt&gt; is
+ *         &lt;tt&gt;null&lt;/tt&gt;, then the four characters &lt;tt&gt;&quot;null&quot;&lt;/tt&gt; are
+ *         appended to this writer.
+ *
+ * @return  This writer
+ *
+ * @since  1.5
+ */
+public CharArrayWriter append(CharSequence csq) {
+    String s = (csq == null ? &quot;null&quot; : csq.toString());
+    write(s, 0, s.length()); //写入
+    return this; //可以拼接追加
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_19.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_19.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：CharArrayReader使用及源码分析/" >Java_IO：CharArrayReader使用及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>CharArrayReader即字符数组输入流，用于从输入流读取字符，和ByteArrayInputStream的区别就是前者以字符为单位后者是字节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>CharArrayReader提供的API如下：</p>
+<pre><code>//构造方法
+CharArrayReader(char[] buf)
+CharArrayReader(char[] buf, int offset, int length)
+//关闭输入流
+void      close()
+//mark
+void      mark(int readLimit)
+boolean   markSupported()
+//读取下一个字符
+int       read()
+//读取多个字符
+int       read(char[] b, int off, int len)
+//是否可读
+boolean   ready()
+//返回mark的位置
+void      reset()
+//跳过n个字符
+long      skip(long n)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testCharArrayReader() {
+    try {
+        char [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        //创建输入流
+        CharArrayReader reader = new CharArrayReader(letters);
+        //读取第一个字符
+        System.out.printf(&quot;第一个字符为: %c\n&quot;, reader.read());
+        //mark
+        reader.mark(10);
+        //读取bcd到tmp
+        char [] tmp = new char[3];
+        reader.read(tmp, 0, 3);
+        System.out.println(&quot;读取三个字符到tmp: &quot; + new String(tmp));
+        //读取reset后的第一个字符(b)
+        reader.reset();
+        System.out.printf(&quot;reset后第一个字符为: %c\n&quot;, reader.read());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>第一个字符为: a
+读取三个字符到tmp: bcd
+reset后第一个字符为: b
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>CharArrayReader的构造方法有两个，区别是初始化输入流的内容不同。</p>
+<pre><code>/**
+ * Creates a CharArrayReader from the specified array of chars.
+ * 以buf中所有字符初始化输入流
+ * @param buf       Input buffer (not copied)
+ */
+public CharArrayReader(char buf[]) {
+    this.buf = buf;
+    this.pos = 0;
+    this.count = buf.length;
+}
+
+/**
+ * Creates a CharArrayReader from the specified array of chars.
+ * 以buf中部分字符为输入流
+ * @throws IllegalArgumentException
+ *         If &lt;tt&gt;offset&lt;/tt&gt; is negative or greater than
+ *         &lt;tt&gt;buf.length&lt;/tt&gt;, or if &lt;tt&gt;length&lt;/tt&gt; is negative, or if
+ *         the sum of these two values is negative.
+ *
+ * @param buf       Input buffer (not copied)
+ * @param offset    Offset of the first char to read
+ * @param length    Number of chars to read
+ */
+public CharArrayReader(char buf[], int offset, int length) {
+    if ((offset &lt; 0) || (offset &gt; buf.length) || (length &lt; 0) ||
+            ((offset + length) &lt; 0)) {
+        throw new IllegalArgumentException();
+    }
+    //以buf中从offset开始length长度的字符初始化输入流
+    this.buf = buf;
+    this.pos = offset;
+    this.count = Math.min(offset + length, buf.length);
+    this.markedPos = offset;
+}
+</code></pre><h3 id="read方法"><a href="#read方法" class="headerlink" title="read方法"></a>read方法</h3><p>read方法有读取下一个字符和读取多个字符两种重载方法，下面分析读取多个字符的源码。</p>
+<pre><code>/**
+ * Reads characters into a portion of an array.
+ * @param b  Destination buffer
+ * @param off  Offset at which to start storing characters
+ * @param len   Maximum number of characters to read
+ * @return  The actual number of characters read, or -1 if
+ *          the end of the stream has been reached
+ *
+ * @exception   IOException  If an I/O error occurs
+ */
+public int read(char b[], int off, int len) throws IOException {
+    synchronized (lock) {
+        ensureOpen(); //确保输入流正常
+        if ((off &lt; 0) || (off &gt; b.length) || (len &lt; 0) ||
+                ((off + len) &gt; b.length) || ((off + len) &lt; 0)) {
+            throw new IndexOutOfBoundsException();
+        } else if (len == 0) {
+            return 0;
+        }
+
+        if (pos &gt;= count) { //没有可读字符
+            return -1;
+        }
+        if (pos + len &gt; count) { //可读字符不足len,只读剩下的字符
+            len = count - pos;
+        }
+        if (len &lt;= 0) {
+            return 0;
+        }
+        System.arraycopy(buf, pos, b, off, len); //读取
+        pos += len;
+        return len;
+    }
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_18.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_18.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：CharArrayReader使用及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：ByteArrayOutputStream使用详解及源码分析/" >Java_IO：ByteArrayOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read<br>方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte<br>数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray()和 toString()获取数据。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ByteArrayOutputStream提供的API如下：</p>
+<pre><code>// 构造函数
+    ByteArrayOutputStream()
+    ByteArrayOutputStream(int size)
+
+    void    close() //关闭字节流
+    synchronized void    reset() //重置计数器
+    int     size() //获取当前计数
+    synchronized byte[]  toByteArray() //将字节流转换为字节数组
+    String  toString(int hibyte) //将字节流转换为String
+    String  toString(String charsetName)
+    String  toString()
+    synchronized void    write(byte[] buffer, int offset, int len) //写入字节数组buffer到字节流, offset是buffer的起始位置
+    synchronized void    write(int oneByte) //写入一个字节到字节流
+    synchronized void    writeTo(OutputStream out) //写输出流到其他输出流out
+}
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testByteArrayOutputStream() {
+    byte [] letter = {&apos;h&apos;, &apos;i&apos;, &apos;j&apos;, &apos;k&apos;};
+    //新建字节流
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    //写入abcdefg
+    int i = &apos;a&apos;; //a
+    while (i &lt; &apos;h&apos;) {
+        outputStream.write(i);
+        i++;
+    }
+    System.out.println(&quot;当前字节流中的内容有: &quot; + outputStream.toString());
+
+    //写入多个
+    outputStream.write(letter, 1, 3);
+    System.out.println(&quot;写入letter数组中的第2,3,4个字母字节流中的内容有: &quot; + outputStream.toString());
+    System.out.println(&quot;当前output字节流中的字节数为: &quot; + outputStream.size());
+
+    byte [] byteArr = outputStream.toByteArray();
+    i = 0;
+    System.out.print(&quot;byte数组内容为: &quot;);
+    while (i &lt; byteArr.length) {
+        System.out.print(byteArr[i++] + &quot; &quot;);
+    }
+    System.out.println();
+
+    OutputStream cloneOut = new ByteArrayOutputStream();
+    try {
+        outputStream.writeTo(cloneOut);
+        System.out.println(&quot;cloneOut的内容为: &quot; + cloneOut.toString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>当前字节流中的内容有: abcdefg
+写入letter数组中的第2,3,4个字母字节流中的内容有: abcdefgijk
+当前output字节流中的字节数为: 10
+byte数组内容为: 97 98 99 100 101 102 103 105 106 107
+cloneOut的内容为: abcdefgijk
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ByteArrayOutputStream有两个构造函数,区别是初始大小不同。</p>
+<pre><code>/**
+ * Creates a new byte array output stream. The buffer capacity is
+ * initially 32 bytes, though its size increases if necessary.
+ */
+public ByteArrayOutputStream() {
+    this(32);
+}
+
+/**
+ * Creates a new byte array output stream, with a buffer capacity of
+ * the specified size, in bytes.
+ *
+ * @param   size   the initial size.
+ * @exception  IllegalArgumentException if size is negative.
+ */
+public ByteArrayOutputStream(int size) {
+    if (size &lt; 0) {
+        throw new IllegalArgumentException(&quot;Negative initial size: &quot;
+                + size);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="2-2-write方法"><a href="#2-2-write方法" class="headerlink" title="2.2 write方法"></a>2.2 write方法</h3><pre><code>/**
+ * Writes the specified byte to this byte array output stream.
+ *
+ * @param   b   the byte to be written.
+ */
+public synchronized void write(int b) {
+    ensureCapacity(count + 1); //增加容量, 容量不够则加倍
+    buf[count] = (byte) b; //写入字节
+    count += 1;
+}
+
+/**
+ * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+ * starting at offset &lt;code&gt;off&lt;/code&gt; to this byte array output stream.
+ *
+ * @param   b     the data.
+ * @param   off   the start offset in the data.
+ * @param   len   the number of bytes to write.
+ */
+public synchronized void write(byte b[], int off, int len) {
+    if ((off &lt; 0) || (off &gt; b.length) || (len &lt; 0) ||
+            ((off + len) - b.length &gt; 0)) {
+        throw new IndexOutOfBoundsException();
+    }
+    ensureCapacity(count + len); //增加容量,容量不够则加倍
+    System.arraycopy(b, off, buf, count, len); //写入字节数组
+    count += len;
+}
+</code></pre><h3 id="2-3-writeTo方法"><a href="#2-3-writeTo方法" class="headerlink" title="2.3 writeTo方法"></a>2.3 writeTo方法</h3><pre><code>/**
+ * Writes the complete contents of this byte array output stream to
+ * the specified output stream argument, as if by calling the output
+ * stream&apos;s write method using &lt;code&gt;out.write(buf, 0, count)&lt;/code&gt;.
+ *
+ * @param      out   the output stream to which to write the data.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void writeTo(OutputStream out) throws IOException {
+    out.write(buf, 0, count); //将 当前OutputStream的buf中内容写到out中
+}
+</code></pre><h3 id="2-4-toString-toByteArray方法"><a href="#2-4-toString-toByteArray方法" class="headerlink" title="2.4 toString , toByteArray方法"></a>2.4 toString , toByteArray方法</h3><pre><code>/**
+ * Creates a newly allocated byte array. Its size is the current
+ * size of this output stream and the valid contents of the buffer
+ * have been copied into it.
+ *
+ * @return  the current contents of this output stream, as a byte array.
+ * @see     java.io.ByteArrayOutputStream#size()
+ */
+public synchronized byte toByteArray()[] {
+    return Arrays.copyOf(buf, count); //返回信得数组
+}
+
+/**
+ * Converts the buffer&apos;s contents into a string decoding bytes using the
+ * platform&apos;s default character set. The length of the new &lt;tt&gt;String&lt;/tt&gt;
+ * is a function of the character set, and hence may not be equal to the
+ * size of the buffer.
+ *
+ * &lt;p&gt; This method always replaces malformed-input and unmappable-character
+ * sequences with the default replacement string for the platform&apos;s
+ * default character set. The {@linkplain java.nio.charset.CharsetDecoder}
+ * class should be used when more control over the decoding process is
+ * required.
+ *
+ * @return String decoded from the buffer&apos;s contents.
+ * @since  JDK1.1
+ */
+public synchronized String toString() {
+    return new String(buf, 0, count); //返回String对象
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_02.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_03.html
+</a><br>[3] <a href="http://blog.csdn.net/rcoder/article/details/6118313" target="_blank" rel="noopener"> http://blog.csdn.net/rcoder/article/details/6118313
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：ByteArrayOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：FileInputStream和FileOutputStream使用详解及源码分析/" >Java_IO：FileInputStream和FileOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>FileInputStream即文件输入流，使用它从文件中获得字节流，FileOutputStream即问价输出流，使用它将字节流写入文件。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>FileInputStream提供的API如下：</p>
+<pre><code>FileInputStream(File file)         // 创建“File对象”对应的“文件输入流”
+FileInputStream(FileDescriptor fd) // 创建“文件描述符”对应的“文件输入流”
+FileInputStream(String path)       // 创建“文件(路径为path)”对应的“文件输入流”
+
+int      available()             // 返回“剩余的可读取的字节数”或者“skip的字节数”
+void     close()                 // 关闭“文件输入流”
+FileChannel      getChannel()    // 返回“FileChannel”
+final FileDescriptor     getFD() // 返回“文件描述符”
+int      read()                  // 返回“文件输入流”的下一个字节
+int      read(byte[] buffer, int off, int len) // 读取“文件输入流”的数据并存在到buffer，从off开始存储，存储长度是len。
+long     skip(long n)    // 跳过n个字节
+</code></pre><p>FileOutputStream提供的API如下：</p>
+<pre><code>FileOutputStream(File file)                   // 创建“File对象”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(File file, boolean append)   // 创建“File对象”对应的“文件输入流”；指定“追加模式”。
+FileOutputStream(FileDescriptor fd)           // 创建“文件描述符”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path)                 // 创建“文件(路径为path)”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path, boolean append) // 创建“文件(路径为path)”对应的“文件输入流”；指定“追加模式”。
+
+void                    close()      // 关闭“输出流”
+FileChannel             getChannel() // 返回“FileChannel”
+final FileDescriptor    getFD()      // 返回“文件描述符”
+void                    write(byte[] buffer, int off, int len) // 将buffer写入到“文件输出流”中，从buffer的off开始写，写入长度是len。
+void                    write(int n)  // 写入字节n到“文件输出流”中
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>/**
+ * 在源码所在目录生成一个test.txt,并写入abcdefghijklmn123456
+ */
+public void testFileOutputStream() {
+    try {
+        byte [] content = {&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;, &apos;f&apos;, &apos;g&apos;, &apos;h&apos;, &apos;i&apos;, &apos;j&apos;, &apos;k&apos;, &apos;l&apos;, &apos;m&apos;, &apos;n&apos;};
+        //床架test.txt文件
+        File file = new File(&quot;test.txt&quot;);
+        //创建文件输出流
+        FileOutputStream outputStream = new FileOutputStream(file);
+        outputStream.write(content, 0, 14);
+        //PrintStream写入方便
+        PrintStream printStream = new PrintStream(outputStream);
+        printStream.print(&quot;123456&quot;);
+        printStream.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+/**
+ * 测试文件输入流
+ */
+public void testFileInputStream() {
+    try {
+        //新建输入流,文件中的内容为abcdefghijklmn123456
+        FileInputStream inputStream = new FileInputStream(&quot;test.txt&quot;);
+        //读取一个字节a
+        System.out.println(&quot;读取一个字节: &quot; + inputStream.read());
+        //跳过两个字节 b c
+        inputStream.skip(2);
+        //读取三个字节到buff中def
+        byte [] buff = new byte[3];
+        inputStream.read(buff, 0, 3);
+        System.out.println(&quot;buff中的内容为: &quot; + new String(buff));
+        inputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>读取一个字节: 97
+buff中的内容为: def
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1FileInputStream源码分析"><a href="#2-1FileInputStream源码分析" class="headerlink" title="2.1FileInputStream源码分析"></a>2.1FileInputStream源码分析</h3><h4 id="2-1-1-构造方法"><a href="#2-1-1-构造方法" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><p>FileInputStream提供三个构造方法，区别是传入的参数类型（文件路径，FIle对象，文件描述符对象）。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the path name &lt;code&gt;name&lt;/code&gt;
+ * in the file system.  A new &lt;code&gt;FileDescriptor&lt;/code&gt;
+ * object is created to represent this file
+ * connection.
+ * &lt;p&gt;
+ * First, if there is a security
+ * manager, its &lt;code&gt;checkRead&lt;/code&gt; method
+ * is called with the &lt;code&gt;name&lt;/code&gt; argument
+ * as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      name   the system-dependent file name.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the &lt;code&gt;File&lt;/code&gt;
+ * object &lt;code&gt;file&lt;/code&gt; in the file system.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object
+ * is created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager,
+ * its &lt;code&gt;checkRead&lt;/code&gt; method  is called
+ * with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file   the file to be opened for reading.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(File file) throws FileNotFoundException {
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkRead(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    fd = new FileDescriptor();
+    fd.attach(this);
+    path = name;
+    open(name);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by using the file descriptor
+ * &lt;code&gt;fdObj&lt;/code&gt;, which represents an existing connection to an
+ * actual file in the file system.
+ * &lt;p&gt;
+ * If there is a security manager, its &lt;code&gt;checkRead&lt;/code&gt; method is
+ * called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt; as its argument to
+ * see if it&apos;s ok to read the file descriptor. If read access is denied
+ * to the file descriptor a &lt;code&gt;SecurityException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for reading.
+ * @throws     SecurityException      if a security manager exists and its
+ *                 &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the
+ *                 file descriptor.
+ * @see        SecurityManager#checkRead(java.io.FileDescriptor)
+ */
+public FileInputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkRead(fdObj);
+    }
+    fd = fdObj;
+    path = null;
+
+    /*
+     * FileDescriptor is being shared by streams.
+     * Register this stream with FileDescriptor tracker.
+     */
+    fd.attach(this);
+}
+</code></pre><h3 id="2-2-FileOutputStream源码分析"><a href="#2-2-FileOutputStream源码分析" class="headerlink" title="2.2 FileOutputStream源码分析"></a>2.2 FileOutputStream源码分析</h3><h4 id="2-1-1-构造方法-1"><a href="#2-1-1-构造方法-1" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><pre><code>public FileOutputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null, false);
+}
+
+/**
+ * Creates a file output stream to write to the file with the specified
+ * name.  If the second argument is &lt;code&gt;true&lt;/code&gt;, then
+ * bytes will be written to the end of the file rather than the beginning.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is created to represent this
+ * file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with &lt;code&gt;name&lt;/code&gt; as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param     name        the system-dependent file name
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason.
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since     JDK1.1
+ */
+public FileOutputStream(String name, boolean append)
+        throws FileNotFoundException
+{
+    this(name != null ? new File(name) : null, append);
+}
+
+public FileOutputStream(File file) throws FileNotFoundException {
+    this(file, false);
+}
+
+/**
+ * Creates a file output stream to write to the file represented by
+ * the specified &lt;code&gt;File&lt;/code&gt; object. If the second argument is
+ * &lt;code&gt;true&lt;/code&gt;, then bytes will be written to the end of the file
+ * rather than the beginning. A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is
+ * created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file               the file to be opened for writing.
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityException
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since 1.4
+ */
+public FileOutputStream(File file, boolean append)
+        throws FileNotFoundException
+{
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkWrite(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    this.fd = new FileDescriptor();
+    fd.attach(this);
+    this.append = append;
+    this.path = name;
+
+    open(name, append);
+}
+
+/**
+ * Creates a file output stream to write to the specified file
+ * descriptor, which represents an existing connection to an actual
+ * file in the file system.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for writing
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies
+ *               write access to the file descriptor
+ * @see        java.lang.SecurityManager#checkWrite(java.io.FileDescriptor)
+ */
+public FileOutputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkWrite(fdObj);
+    }
+    this.fd = fdObj;
+    this.append = false;
+    this.path = null;
+
+    fd.attach(this);
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_07.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_07.html
+</a><br>[2] <a href="http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/" target="_blank" rel="noopener"><br>http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：FileInputStream和FileOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：IO框架/" >Java_IO：IO框架</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：IO框架</p>
+<p>Java 流处理分为字节流和字符流。字节流处理的单位是byte，而字符流处理的单位是以2个字节为单位的Unicode编码字符。字符流的操作效率比字节流高，字<br>符流按字符处理，字节流一次只能处理一个字节。下面是网上盗用的图（ <a href="http://blog.csdn.net/yczz/article/details/38761237" target="_blank" rel="noopener"><br>http://blog.csdn.net/yczz/article/details/38761237
+</a> ）<br><img src="http://img.blog.csdn.net/20160324162626046" alt="IO框架图"></p>
+<h2 id="1-字节流-InputStream-OutputStream（创建一个输入-输出的Stream流）"><a href="#1-字节流-InputStream-OutputStream（创建一个输入-输出的Stream流）" class="headerlink" title="1 字节流 InputStream/OutputStream（创建一个输入/输出的Stream流）"></a>1 字节流 InputStream/OutputStream（创建一个输入/输出的Stream流）</h2><p>InputStream是字节输入流的基类，是一个抽象类，它提供的方法有：<br>int available() //返回stream中的可读字节数，inputstream类中的这个方法始终返回的是0，这个方法需要子类去实现。</p>
+<pre><code>void close() //关闭stream方法，这个是每次在用完流之后必须调用的方法。
+int read() //方法是读取一个byte字节,但是返回的是int。
+int read(byte[]) //一次性读取内容到缓冲字节数组
+int read(byte[],int,int) //从数据流中的哪个位置offset开始读长度为len的内容到缓冲字节数组
+long skip(long) //从stream中跳过long类型参数个位置
+synchronized void mark(int) //用于标记stream的作用
+boolean markSupported() //返回的是boolean类型，因为不是所有的stream都可以调用mark方法的，这个方法就是用来判断stream是否可以调用mark方法和reset方法
+synchronized void reset() //这个方法和mark方法一起使用的，让stream回到mark的位置。
+</code></pre><p>OutputStream是一个输出字节流，是一个抽象类，他提供的方法有：</p>
+<pre><code>void write(int) //写入一个字节到stream中
+void write(byte[]) //写入一个byte数组到stream中
+void write(byte[],int,int) //把byte数组中从offset开始处写入长度为len的数据
+void close() //关闭流，这个是在操作完stream之后必须要调用的方法
+void flush() //这个方法是用来刷新stream中的数据，让缓冲区中的数据强制的输出
+</code></pre><h3 id="1-1-FileInputStream-FileOutputStream"><a href="#1-1-FileInputStream-FileOutputStream" class="headerlink" title="1.1 FileInputStream/FileOutputStream"></a>1.1 FileInputStream/FileOutputStream</h3><p>把一个文件作为InputStream/OutputStream，实现对文件的读写操作。</p>
+<h3 id="1-2-FilterInputStream-FilterOutputStream"><a href="#1-2-FilterInputStream-FilterOutputStream" class="headerlink" title="1.2 FilterInputStream/FilterOutputStream"></a>1.2 FilterInputStream/FilterOutputStream</h3><p>一个提供过滤功能的InputStream/OutputStream，并不常用，常用的是他们的子类BufferedInputStream、DataInputS<br>tream、BufferedOutputStream、DataOutputStream和PrintStream。<br>BufferedInputStream提供了将原始数据分批加载到内存的功能，提高处理效率。<br>DataInputStream提供了允许应用程序以与机器无关方式从底层输入流中读取基本 Java 数据类型。<br>BufferedOutputStream通过字节数组来缓冲数据，当缓冲区满或者用户调用flush()函数时，它就会将缓冲区的数据写入到输出流中。<br>DataOutputStream提供了允许应用程序以与机器无关方式从底层输入流中写入基本 Java 数据类型。<br>PrintStream是用来装饰其它输出流。它能为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。</p>
+<h3 id="1-3-ObjectInputStream-ObjectOutputStream"><a href="#1-3-ObjectInputStream-ObjectOutputStream" class="headerlink" title="1.3 ObjectInputStream/ObjectOutputStream"></a>1.3 ObjectInputStream/ObjectOutputStream</h3><p>对基本数据或对象进行序列化操作。</p>
+<h3 id="1-4-PipedInputStream-PipedOutputStream"><a href="#1-4-PipedInputStream-PipedOutputStream" class="headerlink" title="1.4 PipedInputStream/PipedOutputStream"></a>1.4 PipedInputStream/PipedOutputStream</h3><p>它们的作用是让多线程可以通过管道进行线程间的通讯。在使用管道通信时，必须将PipedOutputStream和PipedInputStream配套使用。<br>使用管道通信时，大致的流程是：我们在线程A中向PipedOutputStream中写入数据，这些数据会自动的发送到与PipedOutputStream对应的<br>PipedInputStream中，进而存储在PipedInputStream的缓冲中；此时，线程B通过读取PipedInputStream中的数据。就可以<br>实现，线程A和线程B的通信。</p>
+<h3 id="1-5-ByteArrayInputStream-ByteArrayOutputStream"><a href="#1-5-ByteArrayInputStream-ByteArrayOutputStream" class="headerlink" title="1.5 ByteArrayInputStream/ByteArrayOutputStream"></a>1.5 ByteArrayInputStream/ByteArrayOutputStream</h3><p>ByteArrayInputStream它包含一个内部缓冲区，该缓冲区包含从流中读取的字节;<br>ByteArrayOutputStream中的数据被写入一个 byte 数组。</p>
+<h2 id="2-字符流-Reader-Writer"><a href="#2-字符流-Reader-Writer" class="headerlink" title="2 字符流 Reader/Writer"></a>2 字符流 Reader/Writer</h2><p>Reader/Writer和InputStream/OutputStream功能类似，Reader/Writer操作的是字符char而InputStream<br>/OutputStream操作的是字节byte。</p>
+<h3 id="2-1-FileReader-FileWriter"><a href="#2-1-FileReader-FileWriter" class="headerlink" title="2.1 FileReader/FileWriter"></a>2.1 FileReader/FileWriter</h3><p>和FileInputStream/FileOutputStream对应。</p>
+<h3 id="2-2-BufferedReader-BufferedWriter"><a href="#2-2-BufferedReader-BufferedWriter" class="headerlink" title="2.2 BufferedReader/BufferedWriter"></a>2.2 BufferedReader/BufferedWriter</h3><p>和BufferedInputStream/BufferedOutputStream对应。</p>
+<h3 id="2-3-PipedReader-PipedWriter"><a href="#2-3-PipedReader-PipedWriter" class="headerlink" title="2.3 PipedReader/PipedWriter"></a>2.3 PipedReader/PipedWriter</h3><p>和PipedInputStream/PipedOutputStream对应。</p>
+<h3 id="2-4-InputStreamReader-OutputStreamWriter"><a href="#2-4-InputStreamReader-OutputStreamWriter" class="headerlink" title="2.4 InputStreamReader/OutputStreamWriter"></a>2.4 InputStreamReader/OutputStreamWriter</h3><p>实现InputStream/OutputStream和Reader/Writer转换。</p>
+<h3 id="2-5-CharArrayReader-CharArrayWriter"><a href="#2-5-CharArrayReader-CharArrayWriter" class="headerlink" title="2.5 CharArrayReader/CharArrayWriter"></a>2.5 CharArrayReader/CharArrayWriter</h3><p>和ByteArrayInputStream/ByteArrayOutputStream对应。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="http://blog.csdn.net/yczz/article/details/38761237" target="_blank" rel="noopener"> http://blog.csdn.net/yczz/article/details/38761237
+</a><br>[2] <a href="http://blog.csdn.net/jiangwei0910410003/article/details/22376895" target="_blank" rel="noopener"> http://blog.csdn.net/jiangwei0910410003/article/details/22376895
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：IO框架/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析/" >Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：PipedOutputStream和PipedInputStream使用详解及源码分析</p>
+<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>PipedOutputStream和PipedInputStream是管道输出流和管道输入流，配合使用可以实现线程间通信。<br>使用管道实现线程间通信的主要流程如下：建立输出流out和输入流in，将out和in绑定，out中写入的数据则会同步写入的in的缓冲区（实际情况是，out中写<br>入数据就是往in的缓冲区写数据，out中没有数据缓冲区）。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>PipedOutputStream提供的API如下：</p>
+<pre><code>//构造函数
+public PipedOutputStream(PipedInputStream snk);
+public PipedOutputStream();
+
+public synchronized void connect(PipedInputStream snk); //将PipedOutputStream 和 PipedInputSteam绑定
+public void write(int b); //向output写入b
+public void write(byte b[], int off, int len); //向output写入字节数组b
+
+public synchronized void flush();//刷新缓冲区,通知其他input读取数据
+public void close();// 关闭
+PipedOutputStream提供的API如下：
+//构造函数
+public PipedInputStream(PipedOutputStream src);
+public PipedInputStream(PipedOutputStream src, int pipeSize);
+
+public void connect(PipedOutputStream src); //将PipedOutputStream 和 PipedInputSteam绑定
+protected synchronized void receive(int b); //向input缓冲区写入b
+synchronized void receive(byte b[], int off, int len); //向input写入字节数组b
+
+public synchronized int read(); //读取缓冲区下一个字节
+public synchronized int read(byte b[], int off, int len) //读取缓冲区字节数组到b
+public synchronized int available();// 缓冲区可读字节数组的个数
+public void close(); // 关闭
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>/**
+ * 生产者线程
+ */
+public class Producer extends Thread {
+    //输出流
+    private PipedOutputStream out = new PipedOutputStream();
+
+    //构造方法
+    public Producer(PipedOutputStream out) {
+        this.out = out;
+    }
+    @Override
+    public void run() {
+        writeMessage();
+    }
+
+    private void writeMessage() {
+        StringBuilder sb = new StringBuilder(&quot;Hello World!!!&quot;);
+        try {
+            out.write(sb.toString().getBytes());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+/**
+ * 消费线程
+ */
+public class Consumer extends Thread {
+    //输入流, 默认缓冲区大小为1024
+    private PipedInputStream in = new PipedInputStream();
+
+    //构造方法
+    public Consumer(PipedInputStream in) {
+        this.in = in;
+    }
+
+    @Override
+    public void run() {
+        readMessage();
+    }
+    private void readMessage() {
+        byte [] buf = new byte[1024];
+        try {
+            int len = in.read(buf);
+            System.out.println(&quot;缓冲区的内容为: &quot; + new String(buf, 0, len));
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
+}
+
+@org.junit.Test
+public void testPiped() {
+    /**
+     * 流程
+     * 1 建立输入输出流
+     * 2 绑定输入输出流
+     * 3 向缓冲区写数据
+     * 4 读取缓冲区数据
+     */
+    PipedOutputStream out = new PipedOutputStream();
+    PipedInputStream in = new PipedInputStream();
+    Producer producer = new Producer(out);
+    Consumer consumer = new Consumer(in);
+
+    try {
+        out.connect(in);
+        producer.start();
+        consumer.start();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>缓冲区的内容为: Hello World!!!
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><p>按照演示程序运行过程分析源码，主要有 <strong> 构造方法、connect、out写、in读 </strong> 等。</p>
+<h3 id="2-1-PipedOutputStream构造方法"><a href="#2-1-PipedOutputStream构造方法" class="headerlink" title="2.1 PipedOutputStream构造方法"></a>2.1 PipedOutputStream构造方法</h3><pre><code>/**
+ * Creates a piped output stream connected to the specified piped
+ * input stream. Data bytes written to this stream will then be
+ * available as input from &lt;code&gt;snk&lt;/code&gt;.
+ *
+ * @param      snk   The piped input stream to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public PipedOutputStream(PipedInputStream snk)  throws IOException {
+    connect(snk);
+}
+
+/**
+ * Creates a piped output stream that is not yet connected to a
+ * piped input stream. It must be connected to a piped input stream,
+ * either by the receiver or the sender, before being used.
+ *
+ * @see     java.io.PipedInputStream#connect(java.io.PipedOutputStream)
+ * @see     java.io.PipedOutputStream#connect(java.io.PipedInputStream)
+ */
+public PipedOutputStream() {
+}
+</code></pre><h3 id="2-2-PipedInputStream构造方法"><a href="#2-2-PipedInputStream构造方法" class="headerlink" title="2.2 PipedInputStream构造方法"></a>2.2 PipedInputStream构造方法</h3><pre><code>/**
+ * Creates a &lt;code&gt;PipedInputStream&lt;/code&gt; so that it is
+ * connected to the piped output stream
+ * &lt;code&gt;src&lt;/code&gt; and uses the specified pipe size for
+ * the pipe&apos;s buffer.
+ * Data bytes written to &lt;code&gt;src&lt;/code&gt; will then
+ * be available as input from this stream.
+ *
+ * @param      src   the stream to connect to.
+ * @param      pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IOException  if an I/O error occurs.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedInputStream(PipedOutputStream src, int pipeSize)
+        throws IOException {
+    initPipe(pipeSize);
+    connect(src);
+}
+public PipedInputStream(PipedOutputStream src) throws IOException {
+    this(src, DEFAULT_PIPE_SIZE);
+}
+
+/**
+ * Creates a &lt;code&gt;PipedInputStream&lt;/code&gt; so that it is not yet
+ * {@linkplain #connect(java.io.PipedOutputStream) connected} and
+ * uses the specified pipe size for the pipe&apos;s buffer.
+ * It must be {@linkplain java.io.PipedOutputStream#connect(
+ * java.io.PipedInputStream)
+ * connected} to a &lt;code&gt;PipedOutputStream&lt;/code&gt; before being used.
+ *
+ * @param      pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedInputStream(int pipeSize) {
+    initPipe(pipeSize);
+}
+public PipedInputStream() {
+    initPipe(DEFAULT_PIPE_SIZE);
+}
+</code></pre><h3 id="2-3-PipedOutputStream-connect方法"><a href="#2-3-PipedOutputStream-connect方法" class="headerlink" title="2.3 PipedOutputStream connect方法"></a>2.3 PipedOutputStream connect方法</h3><pre><code>/**
+ * Connects this piped output stream to a receiver. If this object
+ * is already connected to some other piped input stream, an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;snk&lt;/code&gt; is an unconnected piped input stream and
+ * &lt;code&gt;src&lt;/code&gt; is an unconnected piped output stream, they may
+ * be connected by either the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * src.connect(snk)&lt;/pre&gt;&lt;/blockquote&gt;
+ * or the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * snk.connect(src)&lt;/pre&gt;&lt;/blockquote&gt;
+ * The two calls have the same effect.
+ *
+ * @param      snk   the piped input stream to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void connect(PipedInputStream snk) throws IOException {
+    if (snk == null) {
+        throw new NullPointerException();
+    } else if (sink != null || snk.connected) {
+        throw new IOException(&quot;Already connected&quot;);
+    }
+    sink = snk; //设置输入流
+    snk.in = -1; //写入缓冲区下标
+    snk.out = 0; //读取缓冲区下标
+    snk.connected = true; //设置连接状态
+}
+</code></pre><h3 id="2-4-PipedOutputStream-write方法"><a href="#2-4-PipedOutputStream-write方法" class="headerlink" title="2.4 PipedOutputStream write方法"></a>2.4 PipedOutputStream write方法</h3><pre><code>/**
+ * Writes the specified &lt;code&gt;byte&lt;/code&gt; to the piped output stream.
+ * &lt;p&gt;
+ * Implements the &lt;code&gt;write&lt;/code&gt; method of &lt;code&gt;OutputStream&lt;/code&gt;.
+ *
+ * @param      b   the &lt;code&gt;byte&lt;/code&gt; to be written.
+ * @exception IOException if the pipe is &lt;a href=#BROKEN&gt; broken&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedInputStream) unconnected},
+ *          closed, or if an I/O error occurs.
+ */
+public void write(int b)  throws IOException {
+    if (sink == null) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    }
+    sink.receive(b); //直接调用输入流方法操作输入流缓冲区
+}
+
+/**
+ * Receives a byte of data.  This method will block if no input is
+ * available.
+ * @param b the byte being received
+ * @exception IOException If the pipe is &lt;a href=&quot;#BROKEN&quot;&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedOutputStream) unconnected},
+ *          closed, or if an I/O error occurs.
+ * @since     JDK1.1
+ */
+protected synchronized void receive(int b) throws IOException {
+    checkStateForReceive(); //检查可写入状态
+    writeSide = Thread.currentThread(); //获取输入流线程
+    if (in == out) //满,即缓冲区数据已读取完
+        awaitSpace();
+    if (in &lt; 0) { //缓冲区为空
+        in = 0;
+        out = 0;
+    }
+    buffer[in++] = (byte)(b &amp; 0xFF); //写入,限定为8位
+    if (in &gt;= buffer.length) { //
+        in = 0;
+    }
+}
+</code></pre><h3 id="2-5-PipedInputStream-read方法"><a href="#2-5-PipedInputStream-read方法" class="headerlink" title="2.5 PipedInputStream read方法"></a>2.5 PipedInputStream read方法</h3><pre><code>/**
+ * Reads the next byte of data from this piped input stream. The
+ * value byte is returned as an &lt;code&gt;int&lt;/code&gt; in the range
+ * &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;255&lt;/code&gt;.
+ * This method blocks until input data is available, the end of the
+ * stream is detected, or an exception is thrown.
+ *
+ * @return     the next byte of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the
+ *             stream is reached.
+ * @exception  IOException  if the pipe is
+ *           {@link #connect(java.io.PipedOutputStream) unconnected},
+ *           &lt;a href=&quot;#BROKEN&quot;&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;, closed,
+ *           or if an I/O error occurs.
+ */
+public synchronized int read()  throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (writeSide != null &amp;&amp; !writeSide.isAlive()
+            &amp;&amp; !closedByWriter &amp;&amp; (in &lt; 0)) {
+        throw new IOException(&quot;Write end dead&quot;);
+    }
+
+    readSide = Thread.currentThread(); //获取当前读取线程
+    int trials = 2;
+    while (in &lt; 0) { //没有可读内容
+        if (closedByWriter) {
+            /* closed by writer, return EOF */
+            return -1;
+        }
+        if ((writeSide != null) &amp;&amp; (!writeSide.isAlive()) &amp;&amp; (--trials &lt; 0)) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* might be a writer waiting */
+        notifyAll(); //通知写入
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    int ret = buffer[out++] &amp; 0xFF; //读取字节
+    if (out &gt;= buffer.length) { //超过缓冲区长度,则从头开始读,写的时候一样,所以能保证读写一样顺序
+        out = 0;
+    }
+    if (in == out) { //没有可读内容
+        /* now empty */
+        in = -1; //receive中将out置为0
+    }
+
+    return ret;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_04.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_04.html
+</a><br>[2] <a href="http://www.2cto.com/kf/201402/279143.html" target="_blank" rel="noopener"> http://www.2cto.com/kf/201402/279143.html
+</a><br>[3] <a href="http://www.cnblogs.com/meng72ndsc/archive/2010/12/23/1915358.html" target="_blank" rel="noopener"> http://www.cnblogs.com/meng72ndsc/archive/2010/12/23/1915358.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+		     
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：PipedReader和PipedWriter使用详解及源码分析/" >Java_IO：PipedReader和PipedWriter使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+		     <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：PipedReader和PipedWriter使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>PipedReader和PipedWriter即管道输入流和输出流，可用于线程间管道通信。它们和PipedInputStream/PipedOutputSt<br>ream区别是前者操作的是字符后者是字节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>PipedReader提供的API如下：</p>
+<pre><code>//构造方法
+PipedReader(PipedWriter src)    //使用默认的buf的大小和传入的pw构造pr
+PipedReader(PipedWriter src, int pipeSize)      //使用指定的buf的大小和传入的pw构造pr
+PipedReader()       //使用默认大小构造pr
+PipedReader(int pipeSize)       //使用指定大小构造pr
+
+//关闭流
+void close()
+//绑定Writer
+void connect(PipedWriter src)
+//是否可读
+synchronized boolean ready()
+//读取一个字符
+synchronized int read()
+//读取多个字符到cbuf
+synchronized int read(char cbuf[], int off, int len)
+//Writer调用, 向Reader缓冲区写数据
+synchronized void receive(int c)
+synchronized void receive(char c[], int off, int len)
+synchronized void receivedLast()
+</code></pre><p>PipedWriter提供的API如下：</p>
+<pre><code>//构造方法
+PipedWriter(PipedReader snk)
+PipedWriter()
+
+//绑定Reader Writer
+synchronized void connect(PipedReader snk)
+//关闭流
+void close()
+//刷新流,唤醒Reader
+synchronized void flush()
+//写入1个字符,实际是写到绑定Reader的缓冲区
+void write(int c)
+//写入多个字符到Reader缓冲区
+void write(char cbuf[], int off, int len)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>/**
+ * 写线程
+ */
+public class Producer extends Thread {
+    //输出流
+    private PipedWriter writer = new PipedWriter();
+    public Producer(PipedWriter writer) {
+        this.writer = writer;
+    }
+
+    @Override
+    public void run() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(&quot;Hello World!&quot;);
+            writer.write(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+/**
+ * 读取线程
+ */
+public class Consumer extends Thread{
+    //输入流
+    private PipedReader reader = new PipedReader();
+
+    public Consumer(PipedReader reader) {
+        this.reader = reader;
+    }
+
+    @Override
+    public void run() {
+        try {
+            char [] cbuf = new char[20];
+            reader.read(cbuf, 0, cbuf.length);
+            System.out.println(&quot;管道流中的数据为: &quot; + new String(cbuf));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+@org.junit.Test
+public void testPipedReaderWriter() {
+    /**
+     * 管道流通信核心是,Writer和Reader公用一块缓冲区,缓冲区在Reader中申请,
+     * 由Writer调用和它绑定的Reader的Receive方法进行写.
+     *
+     * 线程间通过管道流通信的步骤为
+     * 1 建立输入输出流
+     * 2 绑定输入输出流
+     * 3 Writer写
+     * 4 Reader读
+     */
+    PipedReader reader = new PipedReader();
+    PipedWriter writer = new PipedWriter();
+    Producer producer = new Producer(writer);
+    Consumer consumer = new Consumer(reader);
+
+    try {
+        writer.connect(reader);
+        producer.start();
+        consumer.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>管道流中的数据为: Hello World!
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>按照演示程序运行过程分析源码，主要有 <strong> 构造方法、connect、writer写、reader读 </strong> 等。</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><h4 id="PipedWriter构造方法"><a href="#PipedWriter构造方法" class="headerlink" title="PipedWriter构造方法"></a>PipedWriter构造方法</h4><p>PipedWriter构造方法有两个，区别是是否指定需要连接的PipedReader对象。</p>
+<pre><code>/**
+ * Creates a piped writer connected to the specified piped
+ * reader. Data characters written to this stream will then be
+ * available as input from &lt;code&gt;snk&lt;/code&gt;.
+ *
+ * @param      snk   The piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public PipedWriter(PipedReader snk)  throws IOException {
+    connect(snk);
+}
+
+/**
+ * Creates a piped writer that is not yet connected to a
+ * piped reader. It must be connected to a piped reader,
+ * either by the receiver or the sender, before being used.
+ *
+ * @see     java.io.PipedReader#connect(java.io.PipedWriter)
+ * @see     java.io.PipedWriter#connect(java.io.PipedReader)
+ */
+public PipedWriter() {
+}
+</code></pre><h4 id="PipedReader-构造方法"><a href="#PipedReader-构造方法" class="headerlink" title="PipedReader 构造方法"></a>PipedReader 构造方法</h4><p>PipedReader构造方法有四个，区别是是否指定要连接的PipedWriter对象以及缓冲区大小设置，默认缓冲区大小为1024。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is connected
+ * to the piped writer &lt;code&gt;src&lt;/code&gt; and uses the specified
+ * pipe size for the pipe&apos;s buffer. Data written to &lt;code&gt;src&lt;/code&gt;
+ * will then be  available as input from this stream.
+
+ * @param      src       the stream to connect to.
+ * @param      pipeSize  the size of the pipe&apos;s buffer.
+ * @exception  IOException  if an I/O error occurs.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(PipedWriter src, int pipeSize) throws IOException {
+    initPipe(pipeSize); //设置缓冲区大小
+    connect(src);  //连接对应的PipedWriter
+}
+
+public PipedReader(PipedWriter src) throws IOException {
+    this(src, DEFAULT_PIPE_SIZE); //默认缓冲区大小
+}
+
+/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is not yet
+ * {@link #connect(java.io.PipedWriter) connected} and uses
+ * the specified pipe size for the pipe&apos;s buffer.
+ * It must be  {@linkplain java.io.PipedWriter#connect(
+ * java.io.PipedReader) connected} to a &lt;code&gt;PipedWriter&lt;/code&gt;
+ * before being used.
+ *
+ * @param   pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(int pipeSize) {
+    initPipe(pipeSize); //指定大小
+}
+
+public PipedReader() {
+    initPipe(DEFAULT_PIPE_SIZE); //默认1024
+}
+</code></pre><h3 id="connect方法"><a href="#connect方法" class="headerlink" title="connect方法"></a>connect方法</h3><p>PipedWriter和PipedReader都有connect方法，两者作用相同。实际上PipedReader的connect方法是调用PipedWrit<br>er中connect方法实现的。</p>
+<h4 id="PipedWriter-connect方法"><a href="#PipedWriter-connect方法" class="headerlink" title="PipedWriter connect方法"></a>PipedWriter connect方法</h4><pre><code>/**
+ * Connects this piped writer to a receiver. If this object
+ * is already connected to some other piped reader, an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;snk&lt;/code&gt; is an unconnected piped reader and
+ * &lt;code&gt;src&lt;/code&gt; is an unconnected piped writer, they may
+ * be connected by either the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * src.connect(snk)&lt;/pre&gt;&lt;/blockquote&gt;
+ * or the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * snk.connect(src)&lt;/pre&gt;&lt;/blockquote&gt;
+ * The two calls have the same effect.
+ *
+ * @param      snk   the piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void connect(PipedReader snk) throws IOException {
+    if (snk == null) {
+        throw new NullPointerException();
+    } else if (sink != null || snk.connected) {
+        throw new IOException(&quot;Already connected&quot;);
+    } else if (snk.closedByReader || closed) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    }
+
+    sink = snk; //绑定对应的PipedReader
+    snk.in = -1; //写入操作下标
+    snk.out = 0; //读取操作下标
+    snk.connected = true; //连接状态
+}
+</code></pre><h4 id="PipedReader-connect方法"><a href="#PipedReader-connect方法" class="headerlink" title="PipedReader connect方法"></a>PipedReader connect方法</h4><pre><code>/**
+ * Causes this piped reader to be connected
+ * to the piped  writer &lt;code&gt;src&lt;/code&gt;.
+ * If this object is already connected to some
+ * other piped writer, an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown.
+ * @param      src   The piped writer to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public void connect(PipedWriter src) throws IOException {
+    src.connect(this); //调用PipedWriter的方法
+}
+</code></pre><h3 id="PipedWriter-write方法"><a href="#PipedWriter-write方法" class="headerlink" title="PipedWriter write方法"></a>PipedWriter write方法</h3><p>write有写入一个字符和写入多个字符两种重载方法，实现原理都一样，调用和它绑定的PipedReader的receive方法向缓冲区写数据，下面分析写入多个<br>字符的write方法。</p>
+<pre><code>/**
+ * Writes the specified &lt;code&gt;char&lt;/code&gt; to the piped output stream.
+ * If a thread was reading data characters from the connected piped input
+ * stream, but the thread is no longer alive, then an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * Implements the &lt;code&gt;write&lt;/code&gt; method of &lt;code&gt;Writer&lt;/code&gt;.
+ *
+ * @param      c   the &lt;code&gt;char&lt;/code&gt; to be written.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedOutputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedReader) unconnected}, closed
+ *          or an I/O error occurs.
+ */
+public void write(int c)  throws IOException {
+    if (sink == null) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    }
+    sink.receive(c); //调用PipedReader的receive方法
+}
+
+/**
+ * Receives a char of data. This method will block if no input is
+ * available.
+ */
+synchronized void receive(int c) throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByWriter || closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (readSide != null &amp;&amp; !readSide.isAlive()) {
+        throw new IOException(&quot;Read end dead&quot;);
+    }
+
+    writeSide = Thread.currentThread(); //获取当前线程
+    while (in == out) { //满，唤醒读者。（有点疑惑）
+        if ((readSide != null) &amp;&amp; !readSide.isAlive()) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* full: kick any waiting readers */
+        notifyAll();
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    if (in &lt; 0) {
+        in = 0;
+        out = 0;
+    }
+    buffer[in++] = (char) c;
+    if (in &gt;= buffer.length) {
+        in = 0;
+    }
+}
+</code></pre><h3 id="PipedReader-read方法"><a href="#PipedReader-read方法" class="headerlink" title="PipedReader read方法"></a>PipedReader read方法</h3><p>read方法同样有读取一个字符和读取多个字符两种重载方法，下面分析读取一个字符的read。</p>
+<pre><code>/**
+ * Reads the next character of data from this piped stream.
+ * If no character is available because the end of the stream
+ * has been reached, the value &lt;code&gt;-1&lt;/code&gt; is returned.
+ * This method blocks until input data is available, the end of
+ * the stream is detected, or an exception is thrown.
+ *
+ * @return     the next character of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the
+ *             stream is reached.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedInputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedWriter) unconnected}, closed,
+ *          or an I/O error occurs.
+ */
+public synchronized int read()  throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (writeSide != null &amp;&amp; !writeSide.isAlive()
+            &amp;&amp; !closedByWriter &amp;&amp; (in &lt; 0)) {
+        throw new IOException(&quot;Write end dead&quot;);
+    }
+
+    readSide = Thread.currentThread();
+    int trials = 2;
+    while (in &lt; 0) { //缓冲区为空
+        if (closedByWriter) {
+            /* closed by writer, return EOF */
+            return -1;
+        }
+        if ((writeSide != null) &amp;&amp; (!writeSide.isAlive()) &amp;&amp; (--trials &lt; 0)) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* might be a writer waiting */
+        notifyAll(); //唤醒写者
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    int ret = buffer[out++]; //读
+    if (out &gt;= buffer.length) {
+        out = 0;
+    }
+    if (in == out) { //所有字符都被读取
+        /* now empty */
+        in = -1;
+    }
+    return ret;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.2cto.com/kf/201312/263319.html" target="_blank" rel="noopener"> http://www.2cto.com/kf/201312/263319.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_20.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_20.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：PipedReader和PipedWriter使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+	       
+	     </div>
+	     <div>
+	       <center>
+	         <div class="pagination">
+<ul class="pagination">
+	 
+</ul>
+</div>
+
+	       </center>
+	     </div>	
+      
+
+</div> <!-- col-md-9/col-md-12 -->
+
+
+<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

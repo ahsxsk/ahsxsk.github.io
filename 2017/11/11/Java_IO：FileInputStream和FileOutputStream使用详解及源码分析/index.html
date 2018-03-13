@@ -1,0 +1,596 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：FileInputStream和FileOutputStream使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="1 使用方法FileInputStream即文件输入流，使用它从文件中获得字节流，FileOutputStream即问价输出流，使用它将字节流写入文件。
+1.1 方法介绍FileInputStream提供的API如下：
+FileInputStream(File file)         // 创建">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：FileInputStream和FileOutputStream使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：FileInputStream和FileOutputStream使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>FileInputStream即文件输入流，使用它从文件中获得字节流，FileOutputStream即问价输出流，使用它将字节流写入文件。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>FileInputStream提供的API如下：</p>
+<pre><code>FileInputStream(File file)         // 创建“File对象”对应的“文件输入流”
+FileInputStream(FileDescriptor fd) // 创建“文件描述符”对应的“文件输入流”
+FileInputStream(String path)       // 创建“文件(路径为path)”对应的“文件输入流”
+
+int      available()             // 返回“剩余的可读取的字节数”或者“skip的字节数”
+void     close()                 // 关闭“文件输入流”
+FileChannel      getChannel()    // 返回“FileChannel”
+final FileDescriptor     getFD() // 返回“文件描述符”
+int      read()                  // 返回“文件输入流”的下一个字节
+int      read(byte[] buffer, int off, int len) // 读取“文件输入流”的数据并存在到buffer，从off开始存储，存储长度是len。
+long     skip(long n)    // 跳过n个字节
+</code></pre><p>FileOutputStream提供的API如下：</p>
+<pre><code>FileOutputStream(File file)                   // 创建“File对象”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(File file, boolean append)   // 创建“File对象”对应的“文件输入流”；指定“追加模式”。
+FileOutputStream(FileDescriptor fd)           // 创建“文件描述符”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path)                 // 创建“文件(路径为path)”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path, boolean append) // 创建“文件(路径为path)”对应的“文件输入流”；指定“追加模式”。
+
+void                    close()      // 关闭“输出流”
+FileChannel             getChannel() // 返回“FileChannel”
+final FileDescriptor    getFD()      // 返回“文件描述符”
+void                    write(byte[] buffer, int off, int len) // 将buffer写入到“文件输出流”中，从buffer的off开始写，写入长度是len。
+void                    write(int n)  // 写入字节n到“文件输出流”中
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>/**
+ * 在源码所在目录生成一个test.txt,并写入abcdefghijklmn123456
+ */
+public void testFileOutputStream() {
+    try {
+        byte [] content = {&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;, &apos;f&apos;, &apos;g&apos;, &apos;h&apos;, &apos;i&apos;, &apos;j&apos;, &apos;k&apos;, &apos;l&apos;, &apos;m&apos;, &apos;n&apos;};
+        //床架test.txt文件
+        File file = new File(&quot;test.txt&quot;);
+        //创建文件输出流
+        FileOutputStream outputStream = new FileOutputStream(file);
+        outputStream.write(content, 0, 14);
+        //PrintStream写入方便
+        PrintStream printStream = new PrintStream(outputStream);
+        printStream.print(&quot;123456&quot;);
+        printStream.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+/**
+ * 测试文件输入流
+ */
+public void testFileInputStream() {
+    try {
+        //新建输入流,文件中的内容为abcdefghijklmn123456
+        FileInputStream inputStream = new FileInputStream(&quot;test.txt&quot;);
+        //读取一个字节a
+        System.out.println(&quot;读取一个字节: &quot; + inputStream.read());
+        //跳过两个字节 b c
+        inputStream.skip(2);
+        //读取三个字节到buff中def
+        byte [] buff = new byte[3];
+        inputStream.read(buff, 0, 3);
+        System.out.println(&quot;buff中的内容为: &quot; + new String(buff));
+        inputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>读取一个字节: 97
+buff中的内容为: def
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1FileInputStream源码分析"><a href="#2-1FileInputStream源码分析" class="headerlink" title="2.1FileInputStream源码分析"></a>2.1FileInputStream源码分析</h3><h4 id="2-1-1-构造方法"><a href="#2-1-1-构造方法" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><p>FileInputStream提供三个构造方法，区别是传入的参数类型（文件路径，FIle对象，文件描述符对象）。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the path name &lt;code&gt;name&lt;/code&gt;
+ * in the file system.  A new &lt;code&gt;FileDescriptor&lt;/code&gt;
+ * object is created to represent this file
+ * connection.
+ * &lt;p&gt;
+ * First, if there is a security
+ * manager, its &lt;code&gt;checkRead&lt;/code&gt; method
+ * is called with the &lt;code&gt;name&lt;/code&gt; argument
+ * as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      name   the system-dependent file name.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the &lt;code&gt;File&lt;/code&gt;
+ * object &lt;code&gt;file&lt;/code&gt; in the file system.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object
+ * is created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager,
+ * its &lt;code&gt;checkRead&lt;/code&gt; method  is called
+ * with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file   the file to be opened for reading.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(File file) throws FileNotFoundException {
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkRead(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    fd = new FileDescriptor();
+    fd.attach(this);
+    path = name;
+    open(name);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by using the file descriptor
+ * &lt;code&gt;fdObj&lt;/code&gt;, which represents an existing connection to an
+ * actual file in the file system.
+ * &lt;p&gt;
+ * If there is a security manager, its &lt;code&gt;checkRead&lt;/code&gt; method is
+ * called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt; as its argument to
+ * see if it&apos;s ok to read the file descriptor. If read access is denied
+ * to the file descriptor a &lt;code&gt;SecurityException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for reading.
+ * @throws     SecurityException      if a security manager exists and its
+ *                 &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the
+ *                 file descriptor.
+ * @see        SecurityManager#checkRead(java.io.FileDescriptor)
+ */
+public FileInputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkRead(fdObj);
+    }
+    fd = fdObj;
+    path = null;
+
+    /*
+     * FileDescriptor is being shared by streams.
+     * Register this stream with FileDescriptor tracker.
+     */
+    fd.attach(this);
+}
+</code></pre><h3 id="2-2-FileOutputStream源码分析"><a href="#2-2-FileOutputStream源码分析" class="headerlink" title="2.2 FileOutputStream源码分析"></a>2.2 FileOutputStream源码分析</h3><h4 id="2-1-1-构造方法-1"><a href="#2-1-1-构造方法-1" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><pre><code>public FileOutputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null, false);
+}
+
+/**
+ * Creates a file output stream to write to the file with the specified
+ * name.  If the second argument is &lt;code&gt;true&lt;/code&gt;, then
+ * bytes will be written to the end of the file rather than the beginning.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is created to represent this
+ * file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with &lt;code&gt;name&lt;/code&gt; as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param     name        the system-dependent file name
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason.
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since     JDK1.1
+ */
+public FileOutputStream(String name, boolean append)
+        throws FileNotFoundException
+{
+    this(name != null ? new File(name) : null, append);
+}
+
+public FileOutputStream(File file) throws FileNotFoundException {
+    this(file, false);
+}
+
+/**
+ * Creates a file output stream to write to the file represented by
+ * the specified &lt;code&gt;File&lt;/code&gt; object. If the second argument is
+ * &lt;code&gt;true&lt;/code&gt;, then bytes will be written to the end of the file
+ * rather than the beginning. A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is
+ * created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file               the file to be opened for writing.
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityException
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since 1.4
+ */
+public FileOutputStream(File file, boolean append)
+        throws FileNotFoundException
+{
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkWrite(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    this.fd = new FileDescriptor();
+    fd.attach(this);
+    this.append = append;
+    this.path = name;
+
+    open(name, append);
+}
+
+/**
+ * Creates a file output stream to write to the specified file
+ * descriptor, which represents an existing connection to an actual
+ * file in the file system.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for writing
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies
+ *               write access to the file descriptor
+ * @see        java.lang.SecurityManager#checkWrite(java.io.FileDescriptor)
+ */
+public FileOutputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkWrite(fdObj);
+    }
+    this.fd = fdObj;
+    this.append = false;
+    this.path = null;
+
+    fd.attach(this);
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_07.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_07.html
+</a><br>[2] <a href="http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/" target="_blank" rel="noopener"><br>http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java:_synchronized详解，静态同步方法，普通同步方法，同步代码块/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java_IO：IO框架/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

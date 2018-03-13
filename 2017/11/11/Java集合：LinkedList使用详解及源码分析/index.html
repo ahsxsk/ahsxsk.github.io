@@ -1,0 +1,454 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java集合：LinkedList使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="1 使用方法LinkedList基于双端链表实现，可以作为栈、队列或者双端队列使用。
+public class LinkedList&amp;lt;E&amp;gt;
+    extends AbstractSequentialList&amp;lt;E&amp;gt;
+    implements List&amp;lt;E&amp;gt;, ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java集合：LinkedList使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java集合：LinkedList使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>LinkedList基于双端链表实现，可以作为栈、队列或者双端队列使用。</p>
+<pre><code>public class LinkedList&lt;E&gt;
+    extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+</code></pre><p>LinkedList继承了AbstractSequentialList，实现了get等方法；<br>LinkedList实现了Deque接口，可以作为双端队列使用；<br>LinkedList实现Cloneable接口重写了接口定义的clone()方法，可以使用clone()复制链表。<br>LinkedList实现 java.io.Serializable接口使LinkedList支持序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>LinkedList提供了增加，弹出，获取元素等操作，具体提供的方法如下：</p>
+<pre><code>boolean       add(E object)  //在末尾增加一个元素
+void          add(int location, E object) //在指定位置增加元素
+boolean       addAll(Collection&lt;? extends E&gt; collection) //在末尾加入一组元素
+boolean       addAll(int location, Collection&lt;? extends E&gt; collection) //从指定位置开始加一组元素
+void          addFirst(E object) //在表头增加一个元素
+void          addLast(E object) //在表尾增加一个元素
+void          clear() //清空链表
+Object        clone() //复制一个元素
+boolean       contains(Object object) //判断是否包含object
+Iterator&lt;E&gt;   descendingIterator() //逆序迭代器
+E             element() //获取链表第一个元素,不存在会抛出异常
+E             get(int location) //获取location位置的元素,不存在会抛出异常
+E             getFirst() //获取链表第一个元素,不存在会抛出异常
+E             getLast() //获取链表最后一个元素,不存在会抛出异常
+int           indexOf(Object object) //获取object第一次出现的位置
+int           lastIndexOf(Object object) //获取object最后一次出现的位置
+ListIterator&lt;E&gt;     listIterator(int location) //从location开始的迭代器
+boolean       offer(E o) //在末尾增加一个元素
+boolean       offerFirst(E e) //在表头增加一个元素
+boolean       offerLast(E e) //在表尾增加一个元素
+E             peek() //获取表头元素,不存在不会抛出异常
+E             peekFirst() //获取表头元素,不存在不会抛出异常
+E             peekLast() //获取表尾元素,不存在不会抛出异常
+E             poll() //弹出表头元素
+E             pollFirst() //弹出表头元素
+E             pollLast() //弹出表尾元素
+E             pop() //弹出表头元素,不存在会抛异常
+void          push(E e) //在表头增加一个元素
+E             remove() //删除最后一个元素
+E             remove(int location) //删除location位置的元素
+boolean       remove(Object object) //删除第一个出现的object
+E             removeFirst() //删除第一个元素
+boolean       removeFirstOccurrence(Object o) //删除第一个出现的o
+E             removeLast() //删除最后一个元素
+boolean       removeLastOccurrence(Object o) //删除最后一个出现的o
+E             set(int location, E object) //将location位置设置为object
+int           size() //链表大小
+&lt;T&gt; T[]       toArray(T[] contents) //转换为T类型的数组
+Object[]     toArray() //转换为Object类型的数组
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestLinkedList {
+    public void testLinkedList() throws Exception {
+        LinkedList&lt;String&gt; linkedList = new LinkedList&lt;String&gt;();
+        linkedList.add(&quot;a&quot;); //在表尾增加元素
+        linkedList.add(&quot;b&quot;);
+        printLinkedList(linkedList);
+        linkedList.addFirst(&quot;pre-a&quot;); //在表头增加元素
+        System.out.println(&quot;链表中包含 &apos;a&apos; 元素:&quot; + linkedList.contains(&quot;a&quot;)); //包含元素判断
+        System.out.println(&quot;链表的第一个元素: &quot; + linkedList.peek());
+        System.out.println(&quot;链表的最后一个元素: &quot; + linkedList.peekLast());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取删除链表的第一个元素: &quot; + linkedList.poll());
+        printLinkedList(linkedList);
+        System.out.println(&quot;获取并弹出链表的最后一个元素&quot; + linkedList.pollLast());
+        printLinkedList(linkedList);
+        linkedList.offer(&quot;d&quot;);
+        linkedList.offer(&quot;e&quot;);
+        linkedList.offer(&quot;f&quot;);
+        printLinkedList(linkedList);
+        System.out.println(&quot;第三个元素为: &quot; + linkedList.get(2)); //获取第三个元素
+        System.out.println(&quot;将第四个元素设置为g: &quot; + linkedList.set(3, &quot;g&quot;));
+        printLinkedList(linkedList);
+        //转换成数组
+        String[] arr = (String[]) linkedList.toArray(new String[0]);
+        for (String e: arr) {
+            System.out.print(e + &quot; &quot;);
+        }
+    }
+
+    protected void printLinkedList(LinkedList&lt;String&gt; linkedList) {
+        Iterator&lt;String&gt; iterator = linkedList.iterator();
+        System.out.print(&quot;linkList包含的元素有: &quot;);
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + &quot; &quot;);
+        }
+        System.out.println(&quot;\n&quot;);
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>linkList包含的元素有: a b
+
+链表中包含 &apos;a&apos; 元素:true
+链表的第一个元素: pre-a
+链表的最后一个元素: b
+linkList包含的元素有: pre-a a b
+
+获取删除链表的第一个元素: pre-a
+linkList包含的元素有: a b
+
+获取并弹出链表的最后一个元素b
+linkList包含的元素有: a
+
+linkList包含的元素有: a d e f
+
+第三个元素为: e
+将第四个元素设置为g: f
+linkList包含的元素有: a d e g
+
+a d e g 
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1-add方法"><a href="#2-1-add方法" class="headerlink" title="2.1 add方法"></a>2.1 add方法</h3><pre><code>public boolean add(E e) { //在末尾增加一个元素
+    linkLast(e);
+    return true;
+}
+
+void linkLast(E e) {
+    final Node&lt;E&gt; l = last; //末尾元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(l, e, null); //申请一个值为e的元素,前一个元素为l,后一个为null
+    last = newNode; //新元素为最后一个元素
+    if (l == null) //空链表
+        first = newNode;
+    else
+        l.next = newNode;
+    size++; //链表长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-2-addFirst方法"><a href="#2-2-addFirst方法" class="headerlink" title="2.2 addFirst方法"></a>2.2 addFirst方法</h3><pre><code>public void addFirst(E e) { //在表头增加元素
+    linkFirst(e);
+}
+
+private void linkFirst(E e) {
+    final Node&lt;E&gt; f = first; //表头元素
+    final Node&lt;E&gt; newNode = new Node&lt;&gt;(null, e, f); //申请一个值为e的元素,前一个元素为null,后一个元素为f
+    first = newNode; //新元素为表头元素
+    if (f == null) //空链表
+        last = newNode;
+    else
+        f.prev = newNode;
+    size++; //长度增加
+    modCount++;
+}
+</code></pre><h3 id="2-3-peek方法"><a href="#2-3-peek方法" class="headerlink" title="2.3 peek方法"></a>2.3 peek方法</h3><pre><code>public E peek() {
+        final Node&lt;E&gt; f = first; //获取表头元素
+        return (f == null) ? null : f.item; //返回null或者表头元素的值
+}
+</code></pre><h3 id="2-4-poll方法"><a href="#2-4-poll方法" class="headerlink" title="2.4 poll方法"></a>2.4 poll方法</h3><pre><code>public E poll() {
+    final Node&lt;E&gt; f = first;
+    return (f == null) ? null : unlinkFirst(f);
+}
+
+private E unlinkFirst(Node&lt;E&gt; f) {
+    // assert f == first &amp;&amp; f != null;
+    final E element = f.item; //获取第一个元素的值
+    final Node&lt;E&gt; next = f.next; //获取第二个元素
+    f.item = null; //将第一个元素置为null
+    f.next = null; // help GC,
+    first = next; //将原有的第二个元素设为头元素
+    if (next == null) //原链表只有一个元素,此时链表为空
+        last = null;
+    else
+        next.prev = null; //头元素的前置元素为null
+    size--;
+    modCount++;
+    return element;
+}
+</code></pre><h3 id="2-5-toArray-T-contents-方法"><a href="#2-5-toArray-T-contents-方法" class="headerlink" title="2.5 toArray(T[] contents) 方法"></a>2.5 toArray(T[] contents) 方法</h3><pre><code>public &lt;T&gt; T[] toArray(T[] a) {
+    if (a.length &lt; size) //a长度小于链表长度,则重新申请一个长度为size的数组
+        a = (T[])java.lang.reflect.Array.newInstance(
+                a.getClass().getComponentType(), size);
+    int i = 0;
+    Object[] result = a;
+    for (Node&lt;E&gt; x = first; x != null; x = x.next) //为数组赋值
+        result[i++] = x.item;
+
+    if (a.length &gt; size) //如果长度大于链表长度,最后一个元素后一个设为null,表示数组结束
+        a[size] = null;
+
+    return a;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://blog.csdn.net/crave_shy/article/details/17440835" target="_blank" rel="noopener"> http://blog.csdn.net/crave_shy/article/details/17440835
+</a><br>[2] <a href="http://blog.csdn.net/wanghao109/article/details/13287877" target="_blank" rel="noopener"> http://blog.csdn.net/wanghao109/article/details/13287877
+</a><br>[3] <a href="http://fjohnny.iteye.com/blog/696750" target="_blank" rel="noopener"> http://fjohnny.iteye.com/blog/696750
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java集合：集合框架/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java集合：Vector使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

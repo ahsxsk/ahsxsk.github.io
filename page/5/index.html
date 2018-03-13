@@ -1,0 +1,1607 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Page 5 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header page-header-inverse ">
+  <h1 class="title title-inverse ">史可的博客</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+        <!-- render top articles firstly -->
+        
+        <!-- render other articles -->
+        
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/mysql_explain_解释器中的字段含义/" >mysql_explain_解释器中的字段含义</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>explain是mysql常用的分析select的查询行为的分析器，解析的内容如下：</p>
+<p>id | select_type | table        | type | possible_keys | key  | key_len | ref<br>| rows    | Extra       |<br>+—-+————-+————–+——+—————+——+———+—<br>—+———+————-+<br>|  1 | SIMPLE      | TradeBalance | ALL  | NULL          | NULL | NULL    |<br>NULL | 3418948 | Using where |  </p>
+<p>接下来就着重分析下每一个字段的含义：</p>
+<p>type 字段包含：执行计划包含的信息</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117000267.png" alt=""></p>
+<h2 id="id"><a href="#id" class="headerlink" title=" id  "></a><strong> id  </strong></h2><p>包含一组数字，表示查询中执行select子句或操作表的顺序</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116184696.png" alt=""></p>
+<p>id相同，执行顺序由上至下</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116211146.png" alt=""></p>
+<p>如果是子查询，id的序号会递增，id值越大优先级越高，越先被执行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116243320.png" alt=""></p>
+<p>id如果相同，可以认为是一组，从上往下顺序执行；在所有组中，id值越大，优先级越高，越先执行</p>
+<h2 id="select-type"><a href="#select-type" class="headerlink" title=" select_type  "></a><strong> select_type  </strong></h2><p>表示查询中每个select子句的类型（简单 OR复杂）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116514450.png" alt=""></p>
+<p>a.SIMPLE：查询中不包含子查询或者UNION</p>
+<p>b.查询中若包含任何复杂的子部分，最外层查询则被标记为：PRIMARY</p>
+<p>c.在SELECT或WHERE列表中包含了子查询，该子查询被标记为：SUBQUERY</p>
+<p>d.在FROM列表中包含的子查询被标记为：DERIVED（衍生）</p>
+<p>e.若第二个SELECT出现在UNION之后，则被标记为UNION；若UNION包含在  FROM子句的子查询中，外层SELECT将被标记为：DERIVED</p>
+<p>f.从UNION表获取结果的SELECT被标记为：UNION RESULT</p>
+<h2 id="type"><a href="#type" class="headerlink" title=" type  "></a><strong> type  </strong></h2><p>表示MySQL在表中找到所需行的方式，又称“访问类型”，常见类型如下：</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116263147.png" alt=""></p>
+<p>由左至右，由最差到最好</p>
+<p>a.ALL：Full Table Scan， MySQL将遍历全表以找到匹配的行</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116293337.png" alt=""></p>
+<p>b.index：Full Index Scan，index与ALL区别为index类型只遍历索引树</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116302815.png" alt=""></p>
+<p>c.range：索引范围扫描，对索引的扫描开始于某一点，返回匹配值域的行，常见于between、&lt;、&gt;等的查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117005638.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116330793.png" alt=""></p>
+<p>range访问类型的不同形式的索引访问性能差异</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111116345790.png" alt=""></p>
+<p>d.ref：非唯一性索引扫描，返回匹配某个单独值的所有行。常见于使用非唯一索引即唯一索引的非唯一前缀进行的查找</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117044259.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117021262.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117071015.png" alt=""></p>
+<p>e.eq_ref：唯一性索引扫描，对于每个索引键，表中只有一条记录与之匹配。常见于主键或唯一索引扫描</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117082458.png" alt=""></p>
+<p>f.const、system：当MySQL对查询某部分进行优化，并转换为一个常量时，使用这些类型访问。如将主键置于where列表中，MySQL就能将该查询转<br>换为一个常量</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117100041.png" alt=""></p>
+<p>system是const类型的特例，当查询的表只有一行的情况下， 使用system</p>
+<p>g.NULL：MySQL在优化过程中分解语句，执行时甚至不用访问表或索引</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117105768.png" alt=""></p>
+<h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title=" possible_keys  "></a><strong> possible_keys  </strong></h2><p>指出MySQL能使用哪个索引在表中找到行，查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用</p>
+<h2 id="key"><a href="#key" class="headerlink" title=" key  "></a><strong> key  </strong></h2><p>显示MySQL在查询中实际使用的索引，若没有使用索引，显示为NULL</p>
+<p>TIPS：查询中若使用了覆盖索引，则该索引仅出现在key列表中</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117131391.png" alt=""></p>
+<h2 id="key-len"><a href="#key-len" class="headerlink" title=" key_len  "></a><strong> key_len  </strong></h2><p>表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117150784.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117165474.png" alt=""></p>
+<p>key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的</p>
+<h2 id="ref"><a href="#ref" class="headerlink" title=" ref  "></a><strong> ref  </strong></h2><p>表示上述表的连接匹配条件，即哪些列或常量被用于查找索引列上的值</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117181192.png" alt=""></p>
+<p>本例中，由key_len可知t1表的idx_col1_col2被充分使用，col1匹配t2表的col1，col2匹配了一个常量，即 ’ac’</p>
+<p>rows</p>
+<p>表示MySQL根据表统计信息及索引选用情况，估算的找到所需的记录所需要读取的行数</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117190265.png" alt=""></p>
+<h2 id="Extra"><a href="#Extra" class="headerlink" title=" Extra  "></a><strong> Extra  </strong></h2><p>包含不适合在其他列中显示但十分重要的额外信息</p>
+<p>a.Using index</p>
+<p>该值表示相应的select操作中使用了覆盖索引（Covering Index）</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117202882.png" alt=""></p>
+<p>TIPS：覆盖索引（Covering Index）</p>
+<p>MySQL可以利用索引返回select列表中的字段，而不必根据索引再次读取数据文件</p>
+<p>包含所有满足查询需要的数据的索引称为 <strong> 覆盖索引 </strong> （Covering Index）</p>
+<p>注意：</p>
+<p>如果要使用覆盖索引，一定要注意select列表中只取出需要的列，不可select *，因为如果将所有字段一起做索引会导致索引文件过大，查询性能下降</p>
+<p>b.Using where</p>
+<p>表示MySQL服务器在存储引擎受到记录后进行“后过滤”（Post-filter）,</p>
+<p>如果查询未能使用索引，Using where的作用只是提醒我们MySQL将用where子句来过滤结果集</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117220955.png" alt=""></p>
+<p>c.Using temporary</p>
+<p>表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117225748.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117230687.png" alt=""></p>
+<p>d.Using filesort</p>
+<p>MySQL中无法利用索引完成的排序操作称为“文件排序”</p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117235757.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117242290.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117244986.png" alt=""></p>
+<p><img src="http://pic002.cnblogs.com/images/2012/360373/2012111117245862.png" alt=""></p>
+<h2 id="MySQL执行计划的局限"><a href="#MySQL执行计划的局限" class="headerlink" title=" MySQL执行计划的局限  "></a><strong> MySQL执行计划的局限  </strong></h2><p>•EXPLAIN不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况</p>
+<p>•EXPLAIN不考虑各种Cache</p>
+<p>•EXPLAIN不能显示MySQL在执行查询时所作的优化工作</p>
+<p>•部分统计信息是估算的，并非精确值</p>
+<p>•EXPALIN只能解释SELECT操作，其他操作要重写为SELECT后查看执行计划</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title=" 最后  "></a><strong> 最后  </strong></h2><p>本文是我从简朝阳推荐的ppt转换为网页版的，原ppt下载: <a href="http://files.cnblogs.com/ggjucheng/mysqlexplain.ppt" target="_blank" rel="noopener"> 下载地址
+</a></p>
+<p>原文链接 <a href="http://isky000.com/database/mysql-explain-detail" target="_blank" rel="noopener">http://isky000.com/database/mysql-explain-detail</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/mysql_explain_解释器中的字段含义/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：BufferedInputStream使用详解及源码分析/" >Java_IO：BufferedInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：BufferedInputStream使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>BufferedInputStream继承于FilterInputStream，提供缓冲输入流功能。缓冲输入流相对于普通输入流的优势是，它提供了一个缓冲数组<br>，每次调用read方法的时候，它首先尝试从缓冲区里读取数据，若读取失败（缓冲区无可读数据），则选择从物理数据源（譬如文件）读取新数据（这里会尝试尽可能读取多<br>的字节）放入到缓冲区中，最后再将缓冲区中的内容部分或全部返回给用户.由于从缓冲区里读取数据远比直接从物理数据源（譬如文件）读取速度快。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>BufferedInputStream提供的API如下：</p>
+<pre><code>//构造方法
+BufferedInputStream(InputStream in)
+BufferedInputStream(InputStream in, int size)
+
+//下一字节是否可读
+synchronized int     available()
+//关闭
+void     close()
+//标记, readlimit为mark后最多可读取的字节数
+synchronized void     mark(int readlimit)
+//是否支持mark, true
+boolean     markSupported()
+//读取一个字节
+synchronized int     read()
+//读取多个字节到b
+synchronized int     read(byte[] b, int off, int len)
+//重置会mark位置
+synchronized void     reset()
+//跳过n个字节
+synchronized long     skip(long n)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testBufferedInput() {
+    try {
+        /**
+         * 建立输入流 BufferedInputStream, 缓冲区大小为8
+         * buffer.txt内容为
+         * abcdefghij
+         */
+        InputStream in = new BufferedInputStream(new FileInputStream(new File(&quot;buff.txt&quot;)), 8);
+        /*从字节流中读取5个字节*/
+        byte [] tmp = new byte[5];
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流的前5个字节为: &quot; + new String(tmp));
+        /*标记测试*/
+        in.mark(6);
+        /*读取5个字节*/
+        in.read(tmp, 0, 5);
+        System.out.println(&quot;字节流中第6到10个字节为: &quot; +  new String(tmp));
+        /*reset*/
+        in.reset();
+        System.out.printf(&quot;reset后读取的第一个字节为: %c&quot; , in.read());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>字节流的前5个字节为: abcde
+字节流中第6到10个字节为: fghij
+reset后读取的第一个字节为: f
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>BufferedInputStream的构造方法有两个，区别是缓冲区大小设置。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use. An internal
+ * buffer array is created and  stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in   the underlying input stream.
+ */
+public BufferedInputStream(InputStream in) {
+    this(in, DEFAULT_BUFFER_SIZE); //默认8192, 8M
+}
+
+/**
+ * Creates a &lt;code&gt;BufferedInputStream&lt;/code&gt;
+ * with the specified buffer size,
+ * and saves its  argument, the input stream
+ * &lt;code&gt;in&lt;/code&gt;, for later use.  An internal
+ * buffer array of length  &lt;code&gt;size&lt;/code&gt;
+ * is created and stored in &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   in     the underlying input stream.
+ * @param   size   the buffer size.
+ * @exception IllegalArgumentException if {@code size &lt;= 0}.
+ */
+public BufferedInputStream(InputStream in, int size) {
+    super(in);
+    if (size &lt;= 0) {
+        throw new IllegalArgumentException(&quot;Buffer size &lt;= 0&quot;);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="read方法"><a href="#read方法" class="headerlink" title="read方法"></a>read方法</h3><p>read方法有每次读取一个字节和一次读取多个字节两种重载。下面主要分析读取多个字节的read方法。 <strong> <em> 重点在于fill()方法 </em> </strong> 。</p>
+<pre><code>/**
+ * Reads bytes from this byte-input stream into the specified byte array,
+ * starting at the given offset.
+ *
+ * &lt;p&gt; This method implements the general contract of the corresponding
+ * &lt;code&gt;{@link InputStream#read(byte[], int, int) read}&lt;/code&gt; method of
+ * the &lt;code&gt;{@link InputStream}&lt;/code&gt; class.  As an additional
+ * convenience, it attempts to read as many bytes as possible by repeatedly
+ * invoking the &lt;code&gt;read&lt;/code&gt; method of the underlying stream.  This
+ * iterated &lt;code&gt;read&lt;/code&gt; continues until one of the following
+ * conditions becomes true: &lt;ul&gt;
+ *
+ * @param      b     destination buffer.
+ * @param      off   offset at which to start storing bytes.
+ * @param      len   maximum number of bytes to read.
+ * @return     the number of bytes read, or &lt;code&gt;-1&lt;/code&gt; if the end of the stream has been reached.
+ * @exception  IOException  if this input stream has been closed by invoking its {@link #close()} method,
+ *                   or an I/O error occurs.
+ */
+public synchronized int read(byte b[], int off, int len)
+        throws IOException
+{
+    getBufIfOpen(); // Check for closed stream
+    if ((off | len | (off + len) | (b.length - (off + len))) &lt; 0) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return 0;
+    }
+
+    int n = 0;
+    for (;;) {
+        int nread = read1(b, off + n, len - n); //读取len长度的字节到b中
+        if (nread &lt;= 0)
+            return (n == 0) ? nread : n;
+        n += nread;
+        if (n &gt;= len)
+            return n;
+        // if not closed but no bytes available, return
+        InputStream input = in;
+        if (input != null &amp;&amp; input.available() &lt;= 0)
+            return n;
+    }
+}
+
+/**
+ * Check to make sure that buffer has not been nulled out due to
+ * close; if not return it;
+ */
+private byte[] getBufIfOpen() throws IOException {
+    byte[] buffer = buf;
+    if (buffer == null)
+        throw new IOException(&quot;Stream closed&quot;);
+    return buffer;
+}
+
+/**
+ * Read characters into a portion of an array, reading from the underlying
+ * stream at most once if necessary.
+ */
+private int read1(byte[] b, int off, int len) throws IOException {
+    int avail = count - pos; //缓冲区中可读字节数
+    if (avail &lt;= 0) { //没可读字节
+        /* If the requested length is at least as large as the buffer, and
+           if there is no mark/reset activity, do not bother to copy the
+           bytes into the local buffer.  In this way buffered streams will
+           cascade harmlessly. */
+        if (len &gt;= getBufIfOpen().length &amp;&amp; markpos &lt; 0) { //没mark并且请求长度大于buff长度
+            return getInIfOpen().read(b, off, len); //直接从文件中读取,不走缓冲区
+        }
+        fill(); //修改或者扩展缓冲区
+        avail = count - pos; //可读字节数
+        if (avail &lt;= 0) return -1;
+    }
+    int cnt = (avail &lt; len) ? avail : len; //取最小值, 缓冲区中可能没有足够可读的字节
+    System.arraycopy(getBufIfOpen(), pos, b, off, cnt); //复制
+    pos += cnt;
+    return cnt;
+}
+
+/**
+ * Fills the buffer with more data, taking into account
+ * shuffling and other tricks for dealing with marks.
+ * Assumes that it is being called by a synchronized method.
+ * This method also assumes that all data has already been read in,
+ * hence pos &gt; count.
+ */
+private void fill() throws IOException {
+    /**
+     * 填充字符时如果没有mark标记, 则直接清空缓冲区,然后将输入流的数据写入缓冲区
+     * 如果有mark标记,则分如下几种情况
+     * 1 普通mark,直接将标记以前的字符用标记以后的字符覆盖,剩余的空间读取输入流的内容填充
+     * 2 当前位置pos &gt;= buffer的长度 &gt;= marklimit,说明mark已经失效,直接清空缓冲区,然后读取输入流内容
+     * 3 buffer长度超出限制,抛出异常
+     * 4 marklimit比buffer的长度还大,此时mark还没失效,则扩大buffer空间
+     */
+    byte[] buffer = getBufIfOpen();
+    if (markpos &lt; 0)
+        pos = 0;            /* no mark: throw away the buffer */
+    else if (pos &gt;= buffer.length)  /* no room left in buffer */
+        if (markpos &gt; 0) {  /* can throw away early part of the buffer */
+            int sz = pos - markpos;
+            System.arraycopy(buffer, markpos, buffer, 0, sz);
+            pos = sz;
+            markpos = 0;
+        } else if (buffer.length &gt;= marklimit) {
+            markpos = -1;   /* buffer got too big, invalidate mark */
+            pos = 0;        /* drop buffer contents */
+        } else if (buffer.length &gt;= MAX_BUFFER_SIZE) {
+            throw new OutOfMemoryError(&quot;Required array size too large&quot;);
+        } else {            /* grow buffer */
+            int nsz = (pos &lt;= MAX_BUFFER_SIZE - pos)
+                    pos * 2 : MAX_BUFFER_SIZE; //扩大后的大小
+            if (nsz &gt; marklimit)
+                nsz = marklimit;
+            byte nbuf[] = new byte[nsz];
+            System.arraycopy(buffer, 0, nbuf, 0, pos); //将buffer的数据复制到nbuf中
+            if (!bufUpdater.compareAndSet(this, buffer, nbuf)) {
+                // Can&apos;t replace buf if there was an async close.
+                // Note: This would need to be changed if fill()
+                // is ever made accessible to multiple threads.
+                // But for now, the only way CAS can fail is via close.
+                // assert buf == null;
+                throw new IOException(&quot;Stream closed&quot;);
+            }
+            buffer = nbuf; //修改缓冲区
+        }
+    count = pos;
+    int n = getInIfOpen().read(buffer, pos, buffer.length - pos); //读取输入流中内容填充缓冲区
+    if (n &gt; 0)
+        count = n + pos;
+}
+</code></pre><h3 id="mark-reset方法"><a href="#mark-reset方法" class="headerlink" title="mark\reset方法"></a>mark\reset方法</h3><pre><code>/**
+ * See the general contract of the &lt;code&gt;mark&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ *
+ * @param   readlimit   the maximum limit of bytes that can be read before
+ *                      the mark position becomes invalid.
+ * @see     java.io.BufferedInputStream#reset()
+ */
+public synchronized void mark(int readlimit) {
+    marklimit = readlimit;
+    markpos = pos;
+}
+
+/**
+ * See the general contract of the &lt;code&gt;reset&lt;/code&gt;
+ * method of &lt;code&gt;InputStream&lt;/code&gt;.
+ * &lt;p&gt;
+ * If &lt;code&gt;markpos&lt;/code&gt; is &lt;code&gt;-1&lt;/code&gt;
+ * (no mark has been set or the mark has been
+ * invalidated), an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown. Otherwise, &lt;code&gt;pos&lt;/code&gt; is
+ * set equal to &lt;code&gt;markpos&lt;/code&gt;.
+ *
+ * @exception  IOException  if this stream has not been marked or,
+ *                  if the mark has been invalidated, or the stream
+ *                  has been closed by invoking its {@link #close()}
+ *                  method, or an I/O error occurs.
+ * @see        java.io.BufferedInputStream#mark(int)
+ */
+public synchronized void reset() throws IOException {
+    getBufIfOpen(); // Cause exception if closed
+    if (markpos &lt; 0)
+        throw new IOException(&quot;Resetting to invalid mark&quot;);
+    pos = markpos;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://zhhphappy.iteye.com/blog/1562427" target="_blank" rel="noopener"> http://zhhphappy.iteye.com/blog/1562427
+</a><br>[2] <a href="http://blog.sina.com.cn/s/blog_67f995260101huxz.html" target="_blank" rel="noopener"> http://blog.sina.com.cn/s/blog_67f995260101huxz.html
+</a><br>[3] <a href="http://www.cnblogs.com/skywang12345/p/io_12.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_12.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：BufferedInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/mysql技术内幕学习笔记-查询优化器及索引（一）/" >mysql技术内幕学习笔记-查询优化器及索引（一）</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h3 id="1、查询优化器工作目标"><a href="#1、查询优化器工作目标" class="headerlink" title="1、查询优化器工作目标"></a>1、查询优化器工作目标</h3><p>查询优化器最主要的工作目标是尽可能的使用索引，并且要使用条件最严格的索引来尽可能多、尽可能快得排除不符合索引的数据行。<br>例如：要查询员工表中年龄为25的男性姓名。<br>SELECT  name FROM staff WHERE   sex = ‘M’ AND age = 25;<br>假设年龄为25的又100， 男性有600个，25岁的男性员工有10个。查询优化器会首先从age开始匹配，首先排除900人，然后再从100个25岁的员工中找出<br>男性。如果先从sex开始匹配，那么需要从600个男性员工中查找25岁的员工，查询效率低于先排除900个年龄不是25的员工。<br>mysql在将一个索引项中的值与常数进行比较，优化器会假设索引中的键值是均匀的，并且会检查估算查询会用到多少个索引项。</p>
+<h3 id="2、索引"><a href="#2、索引" class="headerlink" title="2、索引"></a>2、索引</h3><h4 id="2-1、-为什么要索引"><a href="#2-1、-为什么要索引" class="headerlink" title="2.1、 为什么要索引"></a>2.1、 为什么要索引</h4><p>直接引用参考文献1的说法“除了词典，生活中随处可见索引的例子，如火车站的车次表、图书的目录等。它们的原理都是一样的，通过不断的缩小想要获得数据的范围来筛选出<br>最终想要的结果，同时把随机的事件变成顺序的事件，也就是我们总是通过同一种查找方式来锁定数据。数据库也是一样，但显然要复杂许多，因为不仅面临着等值查询，还有范<br>围查询(&gt;、&lt;、between、in)、模糊查询(like)、并集查询(or)等等。数据库应该选择怎么样的方式来应对所有的问题呢？我们回想字典的例子，能不能<br>把数据分成段，然后分段查询呢？最简单的如果1000条数据，1到100分成第一段，101到200分成第二段，201到300分成第三段……这样查第250<br>条数据，只要找第三段就可以了，一下子去除了90%的无效数据。但如果是1千万的记录呢，分成几段比较好？稍有算法基础的同学会想到搜索树，其平均复杂度是lgN，具<br>有不错的查询性能。”</p>
+<h4 id="2-2、-索引的数据结构"><a href="#2-2、-索引的数据结构" class="headerlink" title="2.2、 索引的数据结构"></a>2.2、 索引的数据结构</h4><p>目前大多数的数据库采用b数或者b+树。一般索引本身比较大，无法全部存储在内存中，在查询过程中就会产生I/O消耗。磁盘每次预读都会加载一个页大小的数据，数据库<br>设计者利用这个原理将节点大小也设置为1页，那么每个节点就只需要1次I/O。高度为h的的b树，最多只需要h次I/O就可以实现查找，由于数据库中根节点常驻内存<br>，所以只需要h-<br>1次即可完成查找。同样，我们可以使用红黑树等其他数据结构实现索引，但是由于相同节点数红黑树等树的高度较大等原因，导致I/O较多，效率没有b数高。</p>
+<h4 id="2-3-MyISAM及InnoDB索引实现"><a href="#2-3-MyISAM及InnoDB索引实现" class="headerlink" title="2.3 MyISAM及InnoDB索引实现"></a>2.3 MyISAM及InnoDB索引实现</h4><h5 id="2-3-1-MyISAM索引"><a href="#2-3-1-MyISAM索引" class="headerlink" title="2.3.1 MyISAM索引"></a>2.3.1 MyISAM索引</h5><p>MyISAM索引为非聚簇索引，也就是索引和数据表不是同一文件。下图为b+数实现的MyISAM索引结构。</p>
+<p><img src="http://img.blog.csdn.net/20151202134926444?watermark/2/text/aHR0cDovL2Jsb2
+cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravit
+y/Center" alt="">  </p>
+<p>MyISAM索引结构</p>
+<p>从图中可以看出，MyISAM索引的节点并没有存储真正的数据，它存储了真正数据航所在的地址，然后通过地址到数据表文件中取出数据。</p>
+<h5 id="2-3-2-InnoDB索引"><a href="#2-3-2-InnoDB索引" class="headerlink" title="2.3.2 InnoDB索引"></a>2.3.2 InnoDB索引</h5><p><img src="http://img.blog.csdn.net/20151202141244540?watermark/2/text/aHR0cDovL2Jsb2
+cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravit
+y/Center" alt="">  </p>
+<p>InnoDB索引结构</p>
+<p>InnoDB索引为聚簇索引，即索引和数据在同一个文件。下图为b+数实现的InnoDB索引结构。<br>从图中可以看出，InnoDB索引的节点存储了真正的数据，索引和数  据存  放在  一起。</p>
+<h3 id="3、索引失效情况"><a href="#3、索引失效情况" class="headerlink" title="3、索引失效情况"></a>3、索引失效情况</h3><h4 id="3-1-带索引的数据列在表达式中应单独出现，不要在索引列进行运算"><a href="#3-1-带索引的数据列在表达式中应单独出现，不要在索引列进行运算" class="headerlink" title="3.1 带索引的数据列在表达式中应单独出现，不要在索引列进行运算"></a>3.1 带索引的数据列在表达式中应单独出现，不要在索引列进行运算</h4><p>例如 score 列为索引列</p>
+<p>WHERE score * 1.2 &lt; 90    与      WHERE score &lt; 90 /<br>1.2表达的意思完全相同，但是查询效率完全不同。第一个语句会全表扫描，将所有数据乘以1.2然后和90比<br>较，无法使用索引；第二个语句将会通过索引查询score 小于 90/1.2的数据，查询效率较高。</p>
+<h4 id="3-2-联合索引中范围查询导致索引失效"><a href="#3-2-联合索引中范围查询导致索引失效" class="headerlink" title="3.2 联合索引中范围查询导致索引失效"></a>3.2 联合索引中范围查询导致索引失效</h4><p>例如联合索引（a, b, c）</p>
+<p>WHERE a BETWEEN 1 AND 10  AND b = 100;这个语句只会使用联合索引中的a部分，b部分无法使用。</p>
+<h3 id="4、参考"><a href="#4、参考" class="headerlink" title="4、参考:"></a>4、参考:</h3><p>[1] <a href="http://tech.meituan.com/mysql-index.html" target="_blank" rel="noopener">http://tech.meituan.com/mysql-index.html</a></p>
+<p>[2] <a href="http://www.uml.org.cn/sjjm/201107145.asp#nav-2-1" target="_blank" rel="noopener"> http://www.uml.org.cn/sjjm/201107145.asp#nav-2-1
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/mysql技术内幕学习笔记-查询优化器及索引（一）/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/【LeetCode】加油站问题_gas_station/" ></a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>【LeetCode】加油站问题 gas station</p>
+<p>加油站问题解释和分析请看陈立人待字闺中博客 <a href="http://mp.weixin.qq.co
+m/s?__biz=MjM5ODIzNDQ3Mw==&amp;mid=200400990&amp;idx=1&amp;sn=fad0aaa933a5fdf0f62dcead4a4c
+b877#rd" target="_blank" rel="noopener"> http://mp.weixin.qq.com/s?__biz=MjM5ODIzNDQ3Mw==&amp;mid=2<br>00400990&amp;idx=1&amp;sn=fad0aaa933a5fdf0f62dcead4a4cb877#rd </a></p>
+<p>核心思想是：</p>
+<p>1、总加油量要大于总消耗量。</p>
+<p>2、如果在第 i 站无法到达第 i + 1 站，那么从 i-1，i-2……等第 i 站前面的站开始出发必然都到不了第 i+1<br>站。所以只有可能从第i+1站开始，才有可能走一圈。</p>
+<p>3、如果低 i+1站能够到达第n站，并且总加油量大于总消耗量，那么从 i+1站到第n站结余的油量必然能够满足从0站到 i+1站的需求。（0和n是同一个站）。</p>
+<p>下面是C++代码。</p>
+<pre><code>/**************************************************
+*INPUT
+*    gas[i]:第i站加油量
+*    cost:从i站到i+1站消耗量
+*    len:加油站个数
+*RETURN
+*    -1：失败
+*    start：从第i站出发可以走一圈
+****************************************************/
+int canCompleteCircuit(int* gas, int* cost, int len)
+{
+    if(gas == NULL || cosr == NULL || len &lt;= 0)
+        return -1;
+    int tank = 0;    //邮箱油量
+    int total = 0;  //总加油量-消耗量
+    int start = 0;  //出发站
+    for(int i = 0; i &lt; len; i++)
+    {
+        tank = gas[i] - cost[i];
+        total = gas[i] - cost[i];
+        if(tank &lt; 0)
+        {
+            start = (i + 1) % len;
+            tank = 0
+        }
+    }
+    if(total &lt; 0)
+        return -1;
+    else
+        return start;
+}
+</code></pre><p>参考资料：</p>
+<p><a href="http://blog.csdn.net/jellyyin/article/details/12245429" target="_blank" rel="noopener"> http://blog.csdn.net/jellyyin/article/details/12245429
+</a>  </p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MjM5ODIzNDQ3
+Mw==&amp;mid=200400990&amp;idx=1&amp;sn=fad0aaa933a5fdf0f62dcead4a4cb877#rd" target="_blank" rel="noopener"> http://mp.weixin.qq.com/s?__biz=MjM5ODIzNDQ3Mw==&amp;mid=200400990&amp;idx=1&amp;sn=fad0<br>aaa933a5fdf0f62dcead4a4cb877#rd </a>  </p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/【LeetCode】加油站问题_gas_station/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java集合：TreeMap使用详解及源码分析/" >Java集合：TreeMap使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>TreeMap和HashMap一样是散列表，但是他们内部实现完全不同，TreeMap基于红黑树实现，是一个有序的散列表，而HashMap使用数组加链表实现是<br>无序的。</p>
+<pre><code>public class TreeMap&lt;K,V&gt;
+        extends AbstractMap&lt;K,V&gt;
+        implements NavigableMap&lt;K,V&gt;, Cloneable, java.io.Serializable {}
+</code></pre><p>TreeMap继承了AbstractMap，储的是key-value键值对；<br>TreeMap实现了NavigableMap接口，支持多种导航方法，可以精准的获得键值对；<br>TreeMap和HashMap一样实现了Cloneable和Serializable接口，可以复制和序列化。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>TreeMap提供的API主要有如下：</p>
+<pre><code>Entry&lt;K, V&gt;                ceilingEntry(K key) //返回键不小于key的最小键值对entry
+K                          ceilingKey(K key) //返回键不小于key的最小键
+void                       clear() //清空TreeMap
+Object                     clone() //克隆TreeMap
+Comparator&lt;? super K&gt;      comparator() //比较器
+boolean                    containsKey(Object key) //是否包含键为key的键值对
+NavigableSet&lt;K&gt;            descendingKeySet() //获取降序排列key的Set集合
+NavigableMap&lt;K, V&gt;         descendingMap() //获取降序排列的Map
+Set&lt;Entry&lt;K, V&gt;&gt;           entrySet() //获取键值对entry的Set集合
+Entry&lt;K, V&gt;                firstEntry() //第一个entry
+K                          firstKey() //第一个key
+Entry&lt;K, V&gt;                floorEntry(K key) //获取不大于key的最大键值对
+K                          floorKey(K key) //获取不大于key的最大Key
+V                          get(Object key) //获取键为key的值value
+NavigableMap&lt;K, V&gt;         headMap(K to, boolean inclusive) //获取从第一个节点开始到to的子Map, inclusive表示是否包含to节点
+SortedMap&lt;K, V&gt;            headMap(K toExclusive) //获取从第一个节点开始到to的子Map, 不包括toExclusive
+Entry&lt;K, V&gt;                higherEntry(K key) //获取键大于key的最小键值对
+K                          higherKey(K key) //获取键大于key的最小键
+boolean                    isEmpty() //判空
+Set&lt;K&gt;                     keySet() //获取key的Set集合
+Entry&lt;K, V&gt;                lastEntry() //最后一个键值对
+K                          lastKey() //最后一个键
+Entry&lt;K, V&gt;                lowerEntry(K key) //键小于key的最大键值对
+K                          lowerKey(K key) //键小于key的最大键值对
+NavigableSet&lt;K&gt;            navigableKeySet() //返回key的Set集合
+Entry&lt;K, V&gt;                pollFirstEntry() //获取第一个节点,并删除
+Entry&lt;K, V&gt;                pollLastEntry() //获取最后一个节点并删除
+V                          put(K key, V value) //插入一个节点
+V                          remove(Object key) //删除键为key的节点
+int                        size() //Map大小
+SortedMap&lt;K, V&gt;            subMap(K fromInclusive, K toExclusive) //获取从fromInclusive到toExclusive子Map,前闭后开
+NavigableMap&lt;K, V&gt;         subMap(K from, boolean fromInclusive, K to, boolean toInclusive)
+NavigableMap&lt;K, V&gt;         tailMap(K from, boolean inclusive) //获取从from开始到最后的子Map,inclusive标志是否包含from
+SortedMap&lt;K, V&gt;            tailMap(K fromInclusive)
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testTreeMap() {
+    //新建treeMap
+    TreeMap treeMap = new TreeMap();
+    //添加元素
+    treeMap.put(11, &quot;eleven&quot;);
+    treeMap.put(1, &quot;one&quot;);
+    treeMap.put(2, &quot;two&quot;);
+    treeMap.put(3, &quot;three&quot;);
+    treeMap.put(4, &quot;four&quot;);
+    //打印元素
+    this.printMapByEntrySet(treeMap);
+    //获取大小
+    System.out.println(&quot;treeMap的大小为: &quot; + treeMap.size());
+    //是否包含key为4的元素
+    System.out.println(&quot;treeMap是否包含key为4的元素: &quot; + treeMap.containsKey(4));
+    //是否包含值为5的元素
+    System.out.println(&quot;treeMap是否包含value为two的元素: &quot; + treeMap.containsValue(&quot;two&quot;));
+
+    treeMap.put(5, &quot;five&quot;);
+    treeMap.put(6, &quot;six&quot;);
+    treeMap.put(9, &quot;nine&quot;);
+    treeMap.put(11, &quot;eleven&quot;);
+
+    //获取treeMap中键不小于8最小的entry
+    System.out.println(&quot;treeMap中键不小于8的最小entry为: &quot; + treeMap.ceilingEntry(8));
+    //获取第一个entry
+    System.out.println(&quot;treeMap中第一个entry为: &quot; + treeMap.firstEntry());
+    //获取从from开始到to结束的子map,前闭后开
+    System.out.println(&quot;从2开始到9结束的子map为: &quot; + treeMap.subMap(2,9));
+    //删除元素
+    System.out.println(&quot;删除key为2的元素: &quot; + treeMap.remove(2));
+    //获取并删除最后一个元素
+    System.out.println(&quot;获取并删除最后一个元素&quot; + treeMap.pollLastEntry());
+    //打印元素
+    this.printMapByKeySet(treeMap);
+    //clone
+    TreeMap cloneMap = (TreeMap) treeMap.clone();
+    //打印克隆map
+    System.out.println(&quot;cloneMap的元素为: &quot; + cloneMap);
+    //清空map
+    treeMap.clear();
+    //判空
+    System.out.println(&quot;treeMap是否为空: &quot; + treeMap.isEmpty());
+}
+
+/**
+ * 根据entrySet()获取Entry集合,然后遍历Set集合获取键值对
+ * @param map
+ */
+private void printMapByEntrySet(TreeMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.entrySet().iterator(); //
+    System.out.print(&quot;treeMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        Map.Entry entry = (Map.Entry) iterator.next();
+        key = (Integer) entry.getKey();
+        value = (String) entry.getValue();
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+
+/**
+ * 使用keySet获取key的Set集合,利用key获取值
+ * @param map
+ */
+private void printMapByKeySet(TreeMap map) {
+    Integer key = null;
+    String value = null;
+    Iterator iterator = map.keySet().iterator();
+    System.out.print(&quot;treeMap中含有的元素有: &quot;);
+    while (iterator.hasNext()) {
+        key = (Integer) iterator.next();
+        value = (String) map.get(key);
+        System.out.print(&quot;key/value : &quot; + key + &quot;/&quot; + value + &quot; &quot;);
+    }
+    System.out.println();
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>treeMap中含有的元素有: key/value : 1/one key/value : 2/two key/value : 3/three key/value : 4/four key/value : 11/eleven
+treeMap的大小为: 5
+treeMap是否包含key为4的元素: true
+treeMap是否包含value为two的元素: true
+treeMap中键不小于8的最小entry为: 9=nine
+treeMap中第一个entry为: 1=one
+从2开始到9结束的子map为: {2=two, 3=three, 4=four, 5=five, 6=six}
+删除key为2的元素: two
+获取并删除最后一个元素11=eleven
+treeMap中含有的元素有: key/value : 1/one key/value : 3/three key/value : 4/four key/value : 5/five key/value : 6/six key/value : 9/nine
+cloneMap的元素为: {1=one, 3=three, 4=four, 5=five, 6=six, 9=nine}
+treeMap是否为空: true
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>TreeMap有四个构造函数，这四个构造函数的区别在于使用什么样的构造器，以及是否要初始化，源码中有注释解释。</p>
+<pre><code>/**
+ * Constructs a new, empty tree map, using the natural ordering of its
+ * keys.  All keys inserted into the map must implement the {@link
+ * Comparable} interface.  Furthermore, all such keys must be
+ * &lt;em&gt;mutually comparable&lt;/em&gt;: {@code k1.compareTo(k2)} must not throw
+ * a {@code ClassCastException} for any keys {@code k1} and
+ * {@code k2} in the map.  If the user attempts to put a key into the
+ * map that violates this constraint (for example, the user attempts to
+ * put a string key into a map whose keys are integers), the
+ * {@code put(Object key, Object value)} call will throw a
+ * {@code ClassCastException}.
+ */
+public TreeMap() {
+    comparator = null;
+}
+
+/**
+ * Constructs a new, empty tree map, ordered according to the given
+ * comparator.  All keys inserted into the map must be &lt;em&gt;mutually
+ * comparable&lt;/em&gt; by the given comparator: {@code comparator.compare(k1,
+ * k2)} must not throw a {@code ClassCastException} for any keys
+ * {@code k1} and {@code k2} in the map.  If the user attempts to put
+ * a key into the map that violates this constraint, the {@code put(Object
+ * key, Object value)} call will throw a
+ * {@code ClassCastException}.
+ *
+ * @param comparator the comparator that will be used to order this map.
+ *        If {@code null}, the {@linkplain Comparable natural
+ *        ordering} of the keys will be used.
+ */
+public TreeMap(Comparator&lt;? super K&gt; comparator) {
+    this.comparator = comparator;
+}
+
+/**
+ * Constructs a new tree map containing the same mappings as the given
+ * map, ordered according to the &lt;em&gt;natural ordering&lt;/em&gt; of its keys.
+ * All keys inserted into the new map must implement the {@link
+ * Comparable} interface.  Furthermore, all such keys must be
+ * &lt;em&gt;mutually comparable&lt;/em&gt;: {@code k1.compareTo(k2)} must not throw
+ * a {@code ClassCastException} for any keys {@code k1} and
+ * {@code k2} in the map.  This method runs in n*log(n) time.
+ *
+ * @param  m the map whose mappings are to be placed in this map
+ * @throws ClassCastException if the keys in m are not {@link Comparable},
+ *         or are not mutually comparable
+ * @throws NullPointerException if the specified map is null
+ */
+public TreeMap(Map&lt;? extends K, ? extends V&gt; m) {
+    comparator = null;
+    putAll(m);
+}
+
+/**
+ * Constructs a new tree map containing the same mappings and
+ * using the same ordering as the specified sorted map.  This
+ * method runs in linear time.
+ *
+ * @param  m the sorted map whose mappings are to be placed in this map,
+ *         and whose comparator is to be used to sort this map
+ * @throws NullPointerException if the specified map is null
+ */
+public TreeMap(SortedMap&lt;K, ? extends V&gt; m) {
+    comparator = m.comparator();
+    try {
+        buildFromSorted(m.size(), m.entrySet().iterator(), null, null);
+    } catch (java.io.IOException cannotHappen) {
+    } catch (ClassNotFoundException cannotHappen) {
+    }
+}
+###2.2 put方法
+/*
+* Associates the specified value with the specified key in this map.
+* If the map previously contained a mapping for the key, the old
+* value is replaced.
+*
+        * @param key key with which the specified value is to be associated
+* @param value value to be associated with the specified key
+*
+        * @return the previous value associated with {@code key}, or
+*         {@code null} if there was no mapping for {@code key}.
+        *         (A {@code null} return can also indicate that the map
+*         previously associated {@code null} with {@code key}.)
+        * @throws ClassCastException if the specified key cannot be compared
+*         with the keys currently in the map
+* @throws NullPointerException if the specified key is null
+        *         and this map uses natural ordering, or its comparator
+*         does not permit null keys
+*/
+}
+public V put(K key, V value) {
+    Entry&lt;K,V&gt; t = root;
+    if (t == null) { //空树,插入根节点
+        compare(key, key); // type (and possibly null) check
+
+        root = new Entry&lt;&gt;(key, value, null);
+        size = 1;
+        modCount++;
+        return null;
+    }
+    int cmp;
+    Entry&lt;K,V&gt; parent; //父节点
+    // split comparator and comparable paths
+    Comparator&lt;? super K&gt; cpr = comparator;
+    if (cpr != null) { //如果有自定义的比较器则使用自定义比较器比较key
+        do {
+            parent = t;
+            cmp = cpr.compare(key, t.key); //首先比较父节点
+            if (cmp &lt; 0) //比父节点小,则比较左孩子
+                t = t.left;
+            else if (cmp &gt; 0) //比父节点大比较则比较右孩子
+                t = t.right;
+            else
+                return t.setValue(value); //键相同则替换原value
+        } while (t != null); //t==null时则找到要插入的节点
+    }
+    else {
+        if (key == null) //同上
+            throw new NullPointerException();
+        @SuppressWarnings(&quot;unchecked&quot;)
+        Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+        do {
+            parent = t;
+            cmp = k.compareTo(t.key);
+            if (cmp &lt; 0)
+                t = t.left;
+            else if (cmp &gt; 0)
+                t = t.right;
+            else
+                return t.setValue(value);
+        } while (t != null);
+    }
+    Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent); //插入的节点
+    if (cmp &lt; 0) //比较为小于0,则将新节点设为上一个t的左孩子,反之右孩子
+        parent.left = e;
+    else
+        parent.right = e;
+    fixAfterInsertion(e); //恢复红黑数的特性
+    size++;
+    modCount++;
+    return null;
+}
+</code></pre><h3 id="2-3-get方法"><a href="#2-3-get方法" class="headerlink" title="2.3 get方法"></a>2.3 get方法</h3><pre><code>/**
+ * Returns the value to which the specified key is mapped,
+ * or {@code null} if this map contains no mapping for the key.
+ *
+ * &lt;p&gt;More formally, if this map contains a mapping from a key
+ * {@code k} to a value {@code v} such that {@code key} compares
+ * equal to {@code k} according to the map&apos;s ordering, then this
+ * method returns {@code v}; otherwise it returns {@code null}.
+ * (There can be at most one such mapping.)
+ *
+ * &lt;p&gt;A return value of {@code null} does not &lt;em&gt;necessarily&lt;/em&gt;
+ * indicate that the map contains no mapping for the key; it&apos;s also
+ * possible that the map explicitly maps the key to {@code null}.
+ * The {@link #containsKey containsKey} operation may be used to
+ * distinguish these two cases.
+ *
+ * @throws ClassCastException if the specified key cannot be compared
+ *         with the keys currently in the map
+ * @throws NullPointerException if the specified key is null
+ *         and this map uses natural ordering, or its comparator
+ *         does not permit null keys
+ */
+public V get(Object key) {
+    Entry&lt;K,V&gt; p = getEntry(key);
+    return (p==null ? null : p.value);
+}
+
+final Entry&lt;K,V&gt; getEntry(Object key) {
+    // Offload comparator-based version for sake of performance
+    if (comparator != null)
+        return getEntryUsingComparator(key); //有比较器,大部分情况下都是没有比较器的,所以拆出来
+    if (key == null)
+        throw new NullPointerException();
+    @SuppressWarnings(&quot;unchecked&quot;)
+    Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;
+    Entry&lt;K,V&gt; p = root;
+    while (p != null) {
+        int cmp = k.compareTo(p.key);
+        if (cmp &lt; 0)
+            p = p.left;
+        else if (cmp &gt; 0)
+            p = p.right;
+        else
+            return p;
+    }
+    return null;
+}
+
+/**
+ * Version of getEntry using comparator. Split off from getEntry
+ * for performance. (This is not worth doing for most methods,
+ * that are less dependent on comparator performance, but is
+ * worthwhile here.)
+ */
+final Entry&lt;K,V&gt; getEntryUsingComparator(Object key) {
+    @SuppressWarnings(&quot;unchecked&quot;)
+    K k = (K) key;
+    Comparator&lt;? super K&gt; cpr = comparator;
+    if (cpr != null) {
+        Entry&lt;K,V&gt; p = root;
+        while (p != null) {
+            int cmp = cpr.compare(k, p.key);
+            if (cmp &lt; 0)
+                p = p.left;
+            else if (cmp &gt; 0)
+                p = p.right;
+            else
+                return p;
+        }
+    }
+    return null;
+}
+</code></pre><p>2.4 remove方法</p>
+<pre><code>/**
+ * Removes the mapping for this key from this TreeMap if present.
+ *
+ * @param  key key for which mapping should be removed
+ * @return the previous value associated with {@code key}, or
+ *         {@code null} if there was no mapping for {@code key}.
+ *         (A {@code null} return can also indicate that the map
+ *         previously associated {@code null} with {@code key}.)
+ * @throws ClassCastException if the specified key cannot be compared
+ *         with the keys currently in the map
+ * @throws NullPointerException if the specified key is null
+ *         and this map uses natural ordering, or its comparator
+ *         does not permit null keys
+ */
+public V remove(Object key) {
+    Entry&lt;K,V&gt; p = getEntry(key); //获取节点
+    if (p == null)
+        return null;
+
+    V oldValue = p.value;
+    deleteEntry(p); //删除节点
+    return oldValue;
+}
+
+/**
+ * Delete node p, and then rebalance the tree.
+ */
+private void deleteEntry(Entry&lt;K,V&gt; p) {
+    modCount++;
+    size--;
+
+    // If strictly internal, copy successor&apos;s element to p and then make p
+    // point to successor.
+    if (p.left != null &amp;&amp; p.right != null) { //有左右孩子, 则将后继节点的值复制给父节点,然后处理他的后继节点
+        Entry&lt;K,V&gt; s = successor(p); //获取后继节点
+        p.key = s.key;
+        p.value = s.value;
+        p = s;
+    } // p has 2 children
+
+    // Start fixup at replacement node, if it exists.
+    Entry&lt;K,V&gt; replacement = (p.left != null ? p.left : p.right);
+
+    if (replacement != null) { //后继节点有子节点
+        // Link replacement to parent
+        replacement.parent = p.parent; //将 后继节点的子节点的父节点 设置为后继节点的父节点
+        if (p.parent == null) //后继节点为根节点
+            root = replacement;
+        else if (p == p.parent.left)
+            p.parent.left  = replacement;
+        else
+            p.parent.right = replacement;
+
+        // Null out links so they are OK to use by fixAfterDeletion.
+        p.left = p.right = p.parent = null; //删除掉后继节点, help GC
+
+        // Fix replacement
+        if (p.color == BLACK) //如果后继节点的颜色为黑色
+            //根据红黑树的特性&quot;从一个节点到该节点的子孙节点的所有路径上包含相同数目的黑节点&quot;, 删除的黑节点,会破坏平衡性
+            fixAfterDeletion(replacement); //重新染色, 平衡的红黑树
+    } else if (p.parent == null) { // return if we are the only node.
+        root = null;
+    } else { //  No children. Use self as phantom replacement and unlink.
+        if (p.color == BLACK)
+            fixAfterDeletion(p);
+
+        if (p.parent != null) {
+            if (p == p.parent.left)
+                p.parent.left = null;
+            else if (p == p.parent.right)
+                p.parent.right = null;
+            p.parent = null;
+        }
+    }
+}
+
+/**
+ * 红黑树的后继节点为
+ * 1 如果有右孩子, 则为右孩子的最深左孩子
+ * 2 如果没有右孩子, 则为最浅的以t为右子树节点的节点
+ * Returns the successor of the specified Entry, or null if no such.
+ */
+static &lt;K,V&gt; TreeMap.Entry&lt;K,V&gt; successor(Entry&lt;K,V&gt; t) {
+    if (t == null)
+        return null;
+    else if (t.right != null) {
+        Entry&lt;K,V&gt; p = t.right;
+        while (p.left != null)
+            p = p.left;
+        return p;
+    } else {
+        Entry&lt;K,V&gt; p = t.parent;
+        Entry&lt;K,V&gt; ch = t;
+        while (p != null &amp;&amp; ch == p.right) {
+            ch = p;
+            p = p.parent;
+        }
+        return p;
+    }
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/3310928.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/3310928.html
+</a></p>
+<p>[2] <a href="http://blog.csdn.net/ns_code/article/details/36421085" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/36421085
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java集合：TreeMap使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-01 </div>
+			<div class="article-title"><a href="/2015/01/01/节约内存：Instagram的Redis实践/" >节约内存：Instagram的Redis实践</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Instagram  可以说是网拍App的始祖级应用，也是当前最火热的拍照App之一，Instagram的照片数量已经达到3亿，而在Instagram里，我们需要知道每一张照片的作者是谁，下面就是Instagram团队如何使用Redis来解决这个问题并进行内存优化的。</p>
+<p>首先，这个通过图片ID反查用户UID的应用有以下几点需求：</p>
+<ul>
+<li>查询速度要足够快 </li>
+<li>数据要能全部放到内存里，最好是一台EC2的 high-memory 机型就能存储（17GB或者34GB的，68GB的太浪费了） </li>
+<li>要合适Instagram现有的架构（Instagram对  <a href="http://blog.nosqlfan.com/categories/redis" target="_blank" rel="noopener"> Redis </a> 有一定的使用经验，比如 <a href="http://blog.nosqlfan.com/html/2007.html" target="_blank" rel="noopener"> 这个应用 </a> ） </li>
+<li>支持持久化，这样在服务器重启后不需要再预热 </li>
+</ul>
+<p>Instagram的开发者首先否定了数据库存储的方案，他们保持了KISS原则（Keep It Simple and<br>Stupid），因为这个应用根本用不到数据库的update功能，事务功能和关联查询等等牛X功能，所以不必为这些用不到的功能去选择维护一个数据库。</p>
+<p>于是他们选择了Redis，Redis是一个支持持久化的内存数据库，所有的数据都被存储在内存中（忘掉VM吧<br>），而最简单的实现就是使用Redis的String结构来做一个key-value存储就行了。像这样：</p>
+<pre><code>SET media:1155315 939
+GET media:1155315
+&gt; 939
+</code></pre><p>其中1155315是图片ID，939是用户ID，我们将每一张图片ID为作key，用户uid作为value来存成key-value对。然后他们进行了测试，将数<br>据按上面的方法存储，1,000,000数据会用掉70MB内存，300,000,000张照片就会用掉21GB的内存。对比预算的17GB还是超支了。</p>
+<p>（  NoSQLFan：  其实这里我们可以看到一个优化点，我们可以将key值前面相同的media去掉，只存数字，这样key的长度就减少了，减少key值对内<br>存的开销【注：Redis的key值不会做字符串到数字的转换，所以这里节省的，仅仅是media:这6个字节的开销】。经过实验，  <a href="http://blog.nosqlfan.com/categories/%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8" target="_blank" rel="noopener"> 内存占用
+</a><br>会降到50MB，总的内存占用是15GB，是满足需求的，但是Instagram后面的改进任然有必要  ）</p>
+<p>于是Instagram的开发者向Redis的开发者之一 <a href="https://twitter.com/#!/pnoordhuis" target="_blank" rel="noopener"> Pieter Noordhuis
+</a> 询问优化方案，得到的回复是使用Hash结构。具体的做法就是将数据分段，每一段使用一<br>个Hash结构存储，由于Hash结构会在单个Hash元素在不足一定数量时进行压缩存储，所以可以大量  <a href="http://blog.nosqlfan.com/categories/%E8%8A%82%E7%BA%A6%E5%86%85%E5%AD%98" target="_blank" rel="noopener"> 节约内存
+</a><br>。这一点在上面的String结构里是不存在的。而这个一定数量是由配置文件中的  <a href="http://blog.nosqlfan.com/categories/hash" target="_blank" rel="noopener"> hash
+</a> -zipmap-max-entries参数来控制的。经过开发者们的实验<br>，将hash-zipmap-max-entries设置为1000时，性能比较好，超过1000后HSET命令就会导致CPU消耗变得非常大。</p>
+<p>于是他们改变了方案，将数据存成如下结构：</p>
+<pre><code>HSET &quot;mediabucket:1155&quot; &quot;1155315&quot; &quot;939&quot;
+HGET &quot;mediabucket:1155&quot; &quot;1155315&quot;
+&gt; &quot;939&quot;
+</code></pre><p>通过取7位的图片ID的前四位为Hash结构的key值，保证了每个Hash内部只包含3位的key，也就是1000个。</p>
+<p>再做一次实验，结果是每1,000,000个key只消耗了16MB的内存。总内存使用也降到了5GB，满足了应用需求。</p>
+<p>（  NoSQLFan：同样的，这里我们还是可以再进行优化，首先是将Hash结构的key值变成纯数字，这样key长度减少了12个字节，其次是将Hash结构中<br>的subkey值变成三位数，这又减少了4个字节的开销，如下所示。经过实验，内存占用量会降到10MB，总内存占用为3GB  ）</p>
+<pre><code>HSET &quot;1155&quot; &quot;315&quot; &quot;939&quot;
+HGET &quot;1155&quot; &quot;315&quot;
+&gt; &quot;939&quot;
+</code></pre><p>优化无止境，只要肯琢磨。希望你在使用存储产品时也能如此爱惜内存。</p>
+<p>来源： <a href="http://instagram-
+engineering.tumblr.com/post/12202313862/storing-hundreds-of-millions-of-
+simple-key-value-pairs" target="_blank" rel="noopener"> instagram-engineering.tumblr.com </a></p>
+<p>From: <a href="http://blog.nosqlfan.com/html/3379.html" target="_blank" rel="noopener">http://blog.nosqlfan.com/html/3379.html</a></p>
+
+	
+	</div>
+  <a type="button" href="/2015/01/01/节约内存：Instagram的Redis实践/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2015-01-01 </div>
+			<div class="article-title"><a href="/2015/01/01/正则表达式DFA构造方法/" >正则表达式DFA构造方法</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>陈梓瀚 <a href="mailto:vczh@163.com" target="_blank" rel="noopener"> vczh@163.com </a> <a href="http://www.cppblog.com/vczh/" target="_blank" rel="noopener"> http://www.cppblog.com/vczh/
+</a></p>
+<p><strong> 1、问题概述  </strong></p>
+<hr>
+<p>随着计算机语言的结构越来越复杂，为了开发优秀的编译器，人们已经渐渐感到将词法分析独立出来做研究的重要性。不过词法分析器的作用却不限于此。回想一下我们的老师刚<br>刚开始向我们讲述程序设计的时候，总是会出一道题目：给出一个填入了四则运算式子的字符串，写程序计算该式子的结果。除此之外，我们有时候建立了比较复杂的配置文件，<br>譬如XML的时候，分析器首先也要对该文件进行词法分析，把整个字符串断成了一个一个比较短小的记号(指的是具有某种属性的字符串)，之后才进行结构上的分析。再者，<br>在实现某种控制台应用程序的时候，程序需要分析用户打进屏幕的命令。如果该命令足够复杂的话，我们也首先要对这个命令进行词法分析，之后得到的结果会大大方便进行接下<br>去的工作。</p>
+<p>当然，这些问题大部分已经得到了解决，而且历史上也有人做出了各种各样专门的或者通用的工具(Lex、正则表达式引擎等)来解决这一类问题。我们在使用这种工具的时候<br>，为了更加高效地书写配置，或者我们在某种特殊情况下需要自己制作类似的工具，就需要了解词法分析背后的原理。本文将给出一个构造通用词法分析工具所需要的原理。由于<br>实现的代码过长，本文将不附带实现。</p>
+<p>究竟什么是“把一个字符串断成一些记号”呢？我们先从四则运算式子入手。一个四则运算式子是一个字符数列，可是我们关心的对象实际上是操作符、括号和数字。于是此法分<br>析的作用就是把一个字符串断开成我们关心的带有属性的记号。举个例子：(11+22)<em>(33+44)是一个合法的四则运算式子，如果输入是(左括号,”(“)<br>(数字,”11”) (一级操作符,”+”) (数字,”22”) (右括号,”)”) (二级操作符,”</em>”) (左括号,”(“) (数字,”33”)<br>(一级操作符,”+”) (数字,”44”) (右括号,”)”)的话，我们在检查结构的时候只需要关心这个记号的属性(也就是左括号、右括号、数字、操作符等)就行<br>了，具体计算的时候才需要关心这个记号实际上的内容。如果式子里边有空格的话，我们也仅仅需要把空格当成是一种记号类型，在词法分析得出结果之后，将具有空格属性的记<br>号丢弃掉就可以了，接下去的步骤不需变化。</p>
+<p>但需要注意的是，词法分析得到的结果是没有层次结构的，所有的记号都是等价的对象。我们在计算表达式的时候把+和*看成了不同层次的操作符，类似的结构是具有嵌套的层<br>次的。词法分析不能得出嵌套层次结构的信息，最多只能得到关于重复结构的信息。</p>
+<p><strong> 2、正则表达式  </strong></p>
+<p>我们现在需要寻找一种可以描述记号类型的工具，在此之前我们首先研究一下常见的记号的结构。为了表示出具有某种共性的字符串的集合，我们需要书写出一些能代表字符串集<br>合的规则。这个集合中的所有成员都将被认为是一种特定类型的记号。</p>
+<p><strong> 首先，规则可以把一个特定的字符或者是空字符串认为是一种类型的记号的全部。 </strong> 上文所说到的四则运算式子的例子，“左括号”这种类型的记号就仅仅对应着字符”(“，其他的字符或者字符串都不可能是“左括号”这个类型的记号。 </p>
+<p><strong> 其次，规则可以进行串联。 </strong> 串联的意思是这样的，我们可以让一个字符串的前缀符合某一个指定的规则，剩下的部分的前缀符合第二个规则，剩下的部分的前缀符合第三个规则等等，一直到最后一个部分的全部要符合最后一个规则。如果我们把”function”这个字符串作为一个记号类型来处理的话，我们可以把”function”这个字符串替换成8个串联的规则：”f”,”u”,”n”,”c”,”t”,”i”,”o”,”n”。首先，字符串”function”的前缀”f”符合规则”f”，剩下的部分”unction”的前缀”u”符合规则”u”，等等，一直到最后一个部分”n”的全部符合规则”n”。 </p>
+<p><strong> 第三，规则可以进行并联。 </strong> 并联的意思就是，如果一个字符串符合一系列规则中的其中一个的话，我们就说这个字符串符合这一些规则的并联。于是这些规则的并联就构成了一个新的规则。一个典型的例子就是判断一个字符串是否关键字。关键字可以是”if”，可以是”else”，可以是”while”等等。当然，一个关键字是不可能同时符合这些规则的，不过只要一个字符串符合这些规则的其中一个的话，我们就说这个字符串是关键字。于是，关键字这个规则就是”if”、”else”、”while”等规则的并联。 </p>
+<p><strong> 第四，一个规则可以是可选的。 </strong> 可选的规则实际上是属于并联的一种特殊形式。加入我们需要规则”abc”和”abcde”并联，我们会发现这两个规则有着相同的前缀”abc”，而且这个前缀恰好就是其中的一个规则。于是我们可以把规则改写成”abc”与””和”de”的并联的串联。但是规则””指定的规则是空串，因此这个规则与”de”的并联就可以看成是一个可选的规则”de”。 </p>
+<p><strong> 第五，规则可以被重复。 </strong> 有限次的重复可以使用串联表示，但是如果我们不想限制重复的次数的话，串联就没法表示这个规则了，于是我们引入了“重复”。一个典型的例子就是程序设计语言的标识符。标识符可以是一个变量的名字或者是其他东西。一门语言通常没有规定变量名的最大长度。因此为了表示这个规则，就需要将52个字母进行并联，然后对这个规则进行重复。 </p>
+<p>上述的5种构造规则的方法中，后面的4个方法被用于把规则组合成为更大的规则。为了给出这种规则的形式化表示，我们引入了一种范式。这种范式有以下语法：</p>
+<p>1：字符用双引号包围起来，空串使用ε代替。</p>
+<p>2：两个规则头尾连接代表规则的串联。</p>
+<p>3：两个规则使用 | 隔开代表规则的并联。</p>
+<p>4：规则使用[]包围代表该规则是可选的，规则使用{}包围代表该规则是重复的。</p>
+<p>5：规则使用()包围代表该规则是一个整体，通常用于改变操作符 | 的优先级。</p>
+<p>举个例子，一个实数的规则书写如下：</p>
+<p>{“0”|”1”|”2”|”3”|”4”|”5”|”6”|”7”|”8”|”9”}”.”[{“0”|”1”|”2”|”3”|”4”|”5”|”6”|”7”|<br>”8”|”9”}]。</p>
+<p>但是，我们如何表示“不是数字的其他字符呢”？字符的数量是有限的，因此我们可以使用规则的并联来表示。但是所有的字符实在是太多（ASCII字符集有127个字符<br>，UTF-16字符集有65535个字符），因此后来人们想出了各种各样的简化规则书写的办法。比较著名的有BNF范式。BNF范式经常被用于理论研究，但是更加实用<br>的是正则表达式。</p>
+<p>正则表达式的字符不需要用双引号括起来，但是如果需要表示一些被定义了的字符(如 “|” )的话，就使用转义字符的方法表示(如 “/|”)。其次，X?代表[X]<br>，X+代表{X}，X*代表[{X}]。字符集合可以用区间来表示，[0-9]可以表示“0”|”1”|”2”|”3”|”4”|”5”|”6”|”7”|”8”|”<br>9”，[^0-9]则表示“除了数字以外的其他字符”。正则表达式还有各种各样的其他规则来简化我们的书写，不过由于本文并不是“精通正则表达式”，因此我们只保留若<br>干比较本质的操作来进行词法分析原理的描述。</p>
+<p>正则表达式的表达能力极强，小数的规则可以使用[0-9]+.[0-9]来表示，C语言的注释可以表示为//<em>([^/</em>]|/<em>+[^/</em>/])<em>/</em>+/来表示。</p>
+<p>3、有穷状态自动机</p>
+<p>人阅读正则表达式会比较简单，但是机器阅读正则表达式就是一件非常困难的事情了。而且，直接使用正则表达式进行匹配配的话，不仅工作量大，而且速度缓慢。因此我们还需<br>要另外一种专门为机器设计的表达方式。本文在以后的章节中会给出一种算法把正则表达式转换为机器可以阅读的形式，就是这一章节所描述的有穷状态自动机。</p>
+<p>有穷状态自动机这个名字听起来比较可怕，不过实际上这种自动机并没有想象中的那么复杂。状态机的这种概念被广泛的应用在各种各样的领域中。软件工程的统一建模语言(U<br>ML)有状态图，数字逻辑中也有状态转移图。不过这些各种各样的图在本质上都跟状态机没有什么区别。我将会通过一个例子来讲述状态的实际意义。</p>
+<p>假设我们现在需要检查一个字符串中a的数量和b的数量是否都是偶数。当然我们可以用一个正则表达式来描述它。不过对于这个问题来说，用正则表达式来描述远远不如构造状<br>态机方便。我们可以设计出一个状态的集合，然后指定集合中的某一个元素为“起始状态”。其实状态就是在工作还没开始的时候，分析器所处的状态。分析器在每一次进行一项<br>新的工作的时候，都要把状态重置为起始状态。分析器每读入一个字符就修改一次状态，修改的方法我们也可以指定。分析器在读完所有的字符以后，必然停留在一个确定的状态<br>中。如果这个状态跟我们所期望的状态一致的话，我们就说这个分析器接受了这个字符串，否则我们就说这个分析器拒绝了这个字符串。</p>
+<p>如何通过设计状态及其转移方法来实现一个分析器呢？当然，如果一个字符串仅仅包含a或者b的话，那么分析器的状态只有四种：“奇数a奇数b”、“奇数a偶数b”、“偶<br>数a奇数b”、“偶数a偶数 b”。我们把这些状态依次命名为aa、aB、Ab、AB。大写代表偶数，小写代表奇数。当工作还没开始的时候，分析器已经读入的字符串是<br>空串，那么理所当然的起始状态应当是AB。当分析器读完所有字符的时候，我们期望读入的字符串的a和b的数量都是偶数，那么结束的状态也应该是AB。于是我们给出这样<br>的一个状态图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image001_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image001_thumb.jpg" alt="clip_image001"> </a></p>
+<p>图3.1</p>
+<p>检查一个字符串是否由偶数个a和偶数个b组成的状态图</p>
+<p>在这个状态图里，有一个短小的箭头指向了AB，代表AB这个状态是初始状态。AB状态有粗的边缘，代表AB这个状态是结束的可接受状态。一个状态图的结束状态可以是一<br>个或者多个。在这个例子里，起始状态和结束状态刚好是同一个状态。标有字符”a”的箭头从AB指向aB，代表如果分析器处于状态AB并且读入的字符是a的话，就转移到<br>状态aB上。</p>
+<p>我们把这个状态图应用在两个字符串上，分别是”abaabbba”和”aababbaba”。其中，第一个字符串是可以接受的，第二个字符串是不可接受的(因为有5个<br>a和4个b)。</p>
+<p>分析第一个字符串的时候，状态机所经过的状态是：</p>
+<p><strong> AB </strong> [a]aB[b]ab[a]Ab[a]ab[b]aB[b]ab[b]aB[a] <strong> AB </strong></p>
+<p>分析第二个字符串的时候，状态机所经过的状态是：</p>
+<p><strong> AB </strong> [a]aB[a] <strong> AB </strong> [b]Ab[a]ab[b]aB[b]ab[a]Ab[b] <strong> AB </strong> [a]aB </p>
+<p>第一个字符串”abaabbba”让状态机在状态AB上停了下来，于是这个字符串是可以接受的。第二个字符串”aababbaba”让状态机在状态aB上停了下来，于<br>是这个字符串是不可以接受的。</p>
+<p>在机器内部表示这个状态图的话，我们可以使用一种比较简单的方法。这种方法仅仅把状态与状态之间的箭头、起始状态和结束状态集合记录下来。对应于这个状态图的话，我们<br>就可以把这个状态图表示成以下形式：</p>
+<p>起始状态：AB</p>
+<p>结束状态集合：AB</p>
+<p>(AB,a,aB)</p>
+<p>(AB,b,Ab)</p>
+<p>(aB,a,AB)</p>
+<p>(aB,b,ab)</p>
+<p>(Ab,a,ab)</p>
+<p>(Ab,b,AB)</p>
+<p>(ab,a,Ab)</p>
+<p>(ab,b,aB)</p>
+<p>用一个状态图来表示状态机的时候有时候会遇到确定性与非确定性的问题。所谓的确定性就是指对于任何一个状态，输入一个字符都可以跳转到另一个确定的状态中去。确定性和<br>非确定性的区别有一个直观的描述：状态图的任何一个状态都可以有不定数量的边指向另一个状态，如果在这些边里面，存在两条边，它们所承载的字符如果相同，那么这个状态<br>输入这个就字符可以跳转到另外两个状态中去，于是该状态机就是不确定的。如图所示：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image002_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image002_thumb.jpg" alt="clip_image002"> </a></p>
+<p>图3.2</p>
+<p>正则表达式ba*b的一个确定的状态机表示</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image003_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image003_thumb.jpg" alt="clip_image003"> </a></p>
+<p>图3.3</p>
+<p>正则表达式ba*b的一个非确定的状态机表示</p>
+<p>图3.3中的状态机的起始状态读入字符b后可以跳转到中间的两个状态里，因此这个状态机是非确定的。相反，图3.2中的状态机，虽然功能跟图3.3的状态机一致，但却<br>是确定的。我们还可以使用一种特殊的边来进行状态的转换。我们用ε边来表示一个状态可以 <strong> 不读入字符就跳转到另一个状态 </strong><br>上。下图给出了一个跟图3.3功能一致的包含ε边的非确定的状态机：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image005_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image005_thumb.jpg" alt="clip_image005"> </a></p>
+<p>图3.4</p>
+<p>正则表达式ba*b的一个带有ε边的非确定的状态机</p>
+<p>在教科书中，通常把确定的有穷状态自动机(有穷状态自动机也就是本文讨论的这种状态机)称为DFA，把非确定的有穷状态自动机称为NFA<br>，把带有ε边的非确定的状态机称为ε-NFA。下文中也将采用这几个术语来指示各种类型的有穷状态自动机。</p>
+<p>在刚刚接触到ε边的时候，一个通常的疑问就是这种边存在的理由。事实上如果是人直接画状态机的话，有时候也可以直接画出一个确定的状态机，复杂一点的话也可以画出一个<br>非确定的状态机，在有些极端的情况下我们需要使用ε边来更加简洁的表示我们的意图。不过ε边存在的最大的理由就是<br>：我们可以通过使用ε边来给出一个简洁的算法把一个正则表达式转换成ε-NFA。</p>
+<p>4、从正则表达式到ε-NFA</p>
+<p>通过第二节所描述的内容，我们知道一个正则表达式的基本元素就是字符集。通过对规则的串联、并联、重复、可选等操作，我们可以构造除更复杂的正则表达式。如果从正则表<br>达式构造状态机的时候也可以用这几种操作对状态图进行组合的话，那么方法将会变得很简单。接下来我们将一一对这5个构造正则表达式的方法进行讨论<br>。使用下文描述的算法构造出来的所有ε-NFA都 <strong> 有且只有一个结束状态 </strong> 。</p>
+<p><strong> 1：字符集 </strong></p>
+<p>字符集是正则表达式最基本的元素，因此反映到状态图上，字符集也会是构成状态图的基本元素。对于字符集C，如果有一个规则只接受C的话，这个规则对应的状态图将会被构<br>造成以下形式：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image006_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image006_thumb.jpg" alt="clip_image006"> </a></p>
+<p>图4.1</p>
+<p>这个状态图的初始状态是Start，结束状态是End。Start状态读入字符集C跳转到End状态，不接受其他字符集。</p>
+<p><strong> 2：串联 </strong></p>
+<p>如果我们使用A⊙B表示规则A和规则B的串联，我们可以很容易的知道串联这个操作具有结合性，也就是说(A⊙B)⊙C=A⊙(B⊙C)。因此对于n个规则的串联<br>，我们只需要先将前n-1个规则进行串连，然后把得到的规则看成一个整体，跟最后一个规则进行串联，那么就得到了所有规则的串联。如果我们知道如何将两个规则串联起来<br>的话，也就等于知道了如何把n个规则进行串联。</p>
+<p>为了将两个串联的规则转换成一个状态图，我们只需要先将这两个规则转换成状态图，然后让第一个状态的结束状态跳转到第二个状态图的起始状态。这种跳转必须是不读入字符<br>的跳转，也就是令这两个状态等价。因此，第一个状态图跳转到了结束状态的时候，就可以当成第二个状态图的起始状态，继续第二个规则的检查。因此我们使用了ε边连接两个<br>状态图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image007_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image007_thumb.jpg" alt="clip_image007"> </a></p>
+<p>图4.2</p>
+<p><strong> 3：并联 </strong></p>
+<p>并联的方法跟串联类似。为了可以在起始状态读入一个字符的时候就知道这个字符可能走的是并联的哪一些分支并进行跳转，我们需要先把所有分支的状态图构造出来，然后把起<br>始状态连接到所有分支的起始状态上。而且，在某个分支成功接受了一段字符串之后，为了让那个状态图的结束状态反映在整个状态图的结束状态上，我们也把所有分支的结束状<br>态都连接到大规则的结束状态上。如下所示：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image009_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image009_thumb.jpg" alt="clip_image009"> </a></p>
+<p>图4.3</p>
+<p><strong> 4：重复 </strong></p>
+<p>对于一个重复，我们可以设立两个状态。第一个状态是起始状态，第二个状态是结束状态。当状态走到结束状态的时候，如果遇到一个可以让规则接受的字符串，则再次回到结束<br>状态。这样的话就可以用一个状态图来表示重复了。于是对于重复，我们可以构造状态图如下所示：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image010_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image010_thumb.jpg" alt="clip_image010"> </a></p>
+<p>图4.4</p>
+<p><strong> 5：可选 </strong></p>
+<p>为可选操作建立状态图比较简单。为了完成可选操作，我们需要在接受一个字符的时候，如果字符串的前缀被当前规则接受则走当前规则的状态图，如果可选规则的后续规则接受<br>了字符串则走后续规则的状态图，如果都接受的话就两个图都要走。为了达到这个目的，我们把规则的状态图的起始状态和结束状态连接起来，得到了如下状态图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image011_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image011_thumb.jpg" alt="clip_image011"> </a></p>
+<p>图4.5</p>
+<p>如果重复使用的是0次以上重复，也就是原来的重复加上可选的结果，那么可以简单地把图4.4的Start状态去掉，让End状态同时拥有起始状态和结束状态两个角色，<br>[Start]和[End]则保持原状。</p>
+<p>至此，我们已经将5种构造状态图的办法都对应到了5种构造规则的办法上了。对于任意的一个正则表达式，我们仅需要把这个表达式还原成那5种构造的嵌套，然后把每一步构<br>造都对应到一个状态图的构造上，就可以将一个正则表达式转换成一个ε-NFA了。举个例子，我们使用正则表达式来表达“一个字符串仅包含偶数个a和偶数个b<br>”，然后把它转换成ε-NFA。</p>
+<p>我们先对这个问题进行分析。如果一个字符串仅包含偶数个a和偶数个b的话，那么这个字符串一定是偶数长度的。于是我们可以把这个字符串分割成两个两个的字符段。而且这<br>些字符段只有四种：aa、bb、ab和ba。对于aa和bb来说，无论出现多少次都不会影响字符串中a和b的数量的奇偶性(理由：在一个模2加法系统里，0是不变项，<br>也就是说对于任何属于模2加法的数X有X+0 = 0+X = X)。对于ab和ba的话，如果一个字符串的开始和结束是ab或者ba，中间的部分是aa或者bb的任<br>意组合，这个字符串也是具有偶数个a和偶数个b的。我们现在得到了两种构造偶数个a和偶数个b的字符串的方法。把串联、并联、可选、重复等操作应用在这些字符串上，仍<br>然会得到具有偶数个a和偶数个b的字符串。于是我们可以把正则表达式书写成以下形式：</p>
+<p>((aa|bb)|((ab|ba)(aa|bb)<em>(ab|ba)))</em></p>
+<p>根据上文提到的方法，我们可以把这个正则表达式转换成以下状态机：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image013_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image013_thumb.jpg" alt="clip_image013"> </a></p>
+<p>图4.6</p>
+<p>至此，我们已经得到了把一个正则表达式转换为ε-NFA的方法了。但是只得到ε-NFA还是不行的，因为ε-NFA的不确定性太大了，直接根据ε-<br>NFA跑的话，每一次都会得到大量的临时状态集合，会极大地降低效率。因此，我们还需要一个办法消除一个状态机的非确定性。</p>
+<p>5、消除非确定性</p>
+<p><strong> 消除ε边算法  </strong></p>
+<p>我们见到的有穷状态自动机一共有三种：ε-NFA、NFA和DFA。现在我们需要将ε-NFA转换为DFA。一个DFA中不可能出现ε边，所以我们首先要消除ε边。消<br>除ε边算法基于一个很简单的想法：如果状态A通过ε边到达状态B的话，那么状态A无需读入字符就可以直达状态B。如果状态B需要读入字符x才可以到达状态C的话，那么<br>状态A读入x也可以到达状态C。因为从A到C的路径是A B C，其中A到B不需要读入字符。</p>
+<p>于是我们会得到一个很自然的想法：消除从状态A出发的ε边，只需要寻找所有从A开始仅通过ε边就可以到达的状态，并把从这些状态触出发的非ε边复制到A上即可。剩下的<br>工作就是删除所有的ε边和一些因为消除ε边而变得不可到达的状态。为了更加形象地描述消除ε边算法，我们从正则表达式(ab|cd)*构造一个ε-<br>NFA，并在此状态机上应用消除ε边算法。</p>
+<p>正则表达式(ab|cd)*的状态图如下所示：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image015_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image015_thumb.jpg" alt="clip_image015"> </a></p>
+<p>图5.1</p>
+<p><strong> 1：找到所有有效状态。 </strong></p>
+<p>有效状态就是在完成了消除ε边算法之后仍然存在的状态。我们可以在开始整个算法之前就预先计算出所有有效状态。有效状态的特点是存在非ε边的输入。同时，起始状态也是<br>一个有效状态。结束状态不一定是有效状态，但是如果存在一个有效状态可以仅通过ε边到达结束状态的话，那么这个状态应该被标记为结束状态。因此对一个ε-<br>NFA应用消除ε边算法产生的NFA可能出现多个结束状态。不过起始状态仍然只有一个。</p>
+<p>我们可以把“存在非ε边的输入或者起始状态”这个判断方法应用在图5.1每一个状态上，计算出图5.1中所有的有效状态。结果如下图所示。</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image017_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image017_thumb.jpg" alt="clip_image017"> </a></p>
+<p>图5.2</p>
+<p>所有非有效状态的标签都被删除</p>
+<p>如果一个状态同时具有ε边和非ε边输入的话，那么这个状态仍然是有效状态。因为所有的有效状态在下一步的操作中，都会得到新的输出和新的输入。</p>
+<p><strong> 2：添加所有必要的边 </strong></p>
+<p>接下来我们要对所有的有效状态都应用一个算法。这个算法分成两步。第一步是寻找一个状态的ε闭包，第二步是把这个状态的ε闭包看成一个整体，把所有从这个闭包中输出的<br>边全部复制到当前状态上。从标记有效状态的结果我们得到了图5.1状态图的有效状态集合是{S/E 3 5 7<br>9}。我们依次对这些状态应用上述算法。第一步，计算S/E状态的ε闭包。 <strong> 所谓一个状态的ε闭包就是从这个状态出发，仅通过ε边就可以到达的所有状态的集合。
+</strong> 下图中标记出了状态S/E的ε闭包：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image019_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image019_thumb.jpg" alt="clip_image019"> </a></p>
+<p>图5.3</p>
+<p>现在，我们把状态S/E从状态S/E的ε闭包中排除出去。因为从状态A输出的非ε边都属于从状态A的ε闭包中输出的非ε边，复制这些边是没有任何价值的。接下来就是找<br>到从状态S/E的ε闭包中输出的非ε边。在图5.3我们可以很容易地发现，从状态1和状态6(见图5.1的状态标签)分别输出到状态3和状态7的标记了a或者b的边，<br>就是我们所要寻找的边。接下来我们把这些边复制到状态S/E上，边的目标状态仍然保持不变，可以得到下图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image021_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image021_thumb.jpg" alt="clip_image021"> </a></p>
+<p>图5.4</p>
+<p>至此，这个算法在S/E上的应用就结束了，接下来我们分别对剩下的有效状态{3 5 7 9}分别应用此算法，可以得到下图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image023_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image023_thumb.jpg" alt="clip_image023"> </a></p>
+<p>图5.5</p>
+<p>红色的边为新增加的边</p>
+<p><strong> 3：删除所有ε边和无效状态 </strong></p>
+<p>这一步操作是消除ε边算法的最后步骤。我们只需要删除所有的ε边和无效状态就完成了整个消除ε边算法。现在我们对图5.5的状态机应用第三步，得到如下状态图：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image024_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image024_thumb.jpg" alt="clip_image024"> </a></p>
+<p>图5.6</p>
+<p>不过并不是只有新增的边才不被删除。根据定义，所有从有效状态出发的非ε边都是不能删除的边。</p>
+<p>我们通过把消除ε边算法应用在图5.1的状态机上，得到了图5.6这个DFA。但是 <strong> 并不是所有的消除ε边算法都可以直接从ε-NFA直接得到DFA </strong><br>，这个其实跟正则表达式本身有关。至于什么正则表达式可以达到这个效果这里就不深究了。但是因为有可能产生NFA，所以我们还需要一个算法把NFA转换成DFA。</p>
+<p><strong> 从NFA到DFA </strong></p>
+<p>NFA是非确定性的状态机，DFA是确定性的状态机。确定性和非确定性的最大区别就是：从一个状态读入一个字符，确定性的状态机得到一个状态，而非确定性的状态机得到<br>一个状态的集合。如果我们把NFA的起始状态S看成一个集合{S}的话，对于一个状态集合S’，给定一个输入，就可以用NFA计算出对应的状态集合T’。因此我们在构<br>造DFA的时候，只需要把起始状态对应到S’，并且找到所有可能在NFA同时出现的状态集合，把这些集合都转换成DFA的一个状态，那么任务就完成了。因为NFA的状<br>态是有限的，所以NFA所有状态的集合的幂集的元素个数也是有限的，因此使用这个方法构造DFA是完全可能的。</p>
+<p>为了形象地表达出这个算法的过程，我们将构造一个正则表达式，然后给出该正则表达式转换成NFA的结果，并把构造DFA的算法应用在NFA上。假设一个字符串只有a、<br>b和c三种字符，判断一个字符串是不是以abc开始并且以cba结束正则表达式如下：</p>
+<p>abc(a|b|c)*cba</p>
+<p>通过上文的算法，可以得出如下图所示的NFA：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image026_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image026_thumb.jpg" alt="clip_image026"> </a></p>
+<p>图5.7</p>
+<p>现在我们开始构造DFA，具体算法如下：</p>
+<p>1：把{S}放进队列L和集合D中。其中S是NFA的起始状态。队列L放置的是未被处理的已经创建了的DFA状态，集合D放置的是已经存在的DFA状态。根据上文的讨<br>论，DFA的每一个状态都对应着NFA的一些状态。</p>
+<p>2：从队列L中取出一个状态，计算从这个状态输出的所有边所接受的字符集的并集，然后对该集合中的每一个字符寻找接受这个字符的边，把这些边的目标状态的并集T计算出<br>来。如果T∈D则代表当前字符指向了一个已知的DFA状态。否则则代表当前字符指向了一个未创建的DFA状态，这个时候就把T放进L和D中。在这个步骤里有两层循环：<br>第一层是 <strong> 遍历 </strong> 所有接受的字符的并集，第二层是对每一个可以接受的字符 <strong> 遍历 </strong> 所有输出的边计算目标DFA状态所包含的NFA状态的集合。</p>
+<p>3：如果L非空则跳到2。</p>
+<p>现在我们开始对图5.7的状态机应用DFA构造算法。</p>
+<p>首先执行第一步，我们得到：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image028_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image028_thumb.jpg" alt="clip_image028"> </a></p>
+<p>图5.8</p>
+<p>从上到下分别是队列L、集合D和DFA的当前状态。就这样一直执行该算法直到状态3进入集合D，我们得到：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image030_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image030_thumb.jpg" alt="clip_image030"> </a></p>
+<p>图5.9</p>
+<p>现在从队列L中取出{3}，经过分析得到状态集合{3}接受的字符集合为{a b c}。{3}读入a到达{4}，读入b到达{5}，读入c到达{6<br>7}。因为{4}、{5}和{6 7}都不属于D，所以把它们都放入队列L和集合D：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image032_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image032_thumb.jpg" alt="clip_image032"> </a></p>
+<p>图5.10</p>
+<p>从队列中取出4进行计算，我们得到：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image034_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image034_thumb.jpg" alt="clip_image034"> </a></p>
+<p>图5.11</p>
+<p>显然，对于状态{4}的处理并没有发现新的DFA状态。于是处理{5}和{6 7}，我们可以得到：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image036_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image036_thumb.jpg" alt="clip_image036"> </a></p>
+<p>图5.12</p>
+<p>在处理状态{5}的时候没有发现新的DFA状态，处理{6 7}在输入{a c}之后的跳转也没有发现新的DFA状态，但是我们发现了{6<br>7}输入b却得到了新的DFA状态{5 8}。把算法执行完，我们得到一个DFA：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image038_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image038_thumb.jpg" alt="clip_image038"> </a></p>
+<p>图5.13</p>
+<p>至此，对图5.7的状态机应用DFA构造算法的流程就结束了，我们得到了图5.13的DFA，其功能与图5.7的NFA等价。在DFA中，起始状态是0，结束状态是4<br>E。凡是包含了NFA的结束状态的DFA状态都必须是结束状态。</p>
+<p>6、使用正则表达式构造词法分析器</p>
+<p>判断一个字符串是否属于某规则的算法介绍到这里就结束了。回到我们一开始的问题上，我们需要使用一些规则来吧一个长的字符串断开成记号，然后计算出每一个记号对应的规<br>则。在解决这个问题之前，我们先考察一下能够成功地被词法分析器接受的字符串应该是什么样子的。</p>
+<p>假设我们现在有规则A、B、C和D，分别对应于四种记号类型，那么被词法分析器接受的字符串就是A、B、C和D的任意组合，也就是(A|B|C|D)*。如果规定了输<br>入的字符串不能为空的话，那么被词法分析器接受的字符串就是(A|B|C|D)+。但是单纯地使用(A|B|C|D)+作为一个规则去应用在输入的字符串的话，我们只<br>能够判断字符串是否是词法分析器能够接受的字符串。因此我们需要对这个方法进行修改。</p>
+<p>首先按照上文的方法，把每一个记号类型对应的规则的正则表达式转换成DFA，然后使用并联的方法将他们组合起来，但是并不使用“重复”。但是这次我们要做一点修改，<br><strong> 我们要把新的DFA的每一个状态对应的规则的DFA状态集合记住 </strong> 。</p>
+<p>这里给出一个例子，我们假设需要一个简单语言的词法分析器，规则如下：</p>
+<p>I：[a-zA-Z_][a-zA-Z_0-9]*</p>
+<p>N：[0-9]+</p>
+<p>R：[0-9]+.[0-9]+</p>
+<p>O：[=&gt;+-*/|&amp;]</p>
+<p>按照规则构造出四个DFA并将它们组合起来：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image039_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image039_thumb.jpg" alt="clip_image039"> </a></p>
+<p>图6.1</p>
+<p>我们构造出了I|N|R|O的DFA，并且标识出了哪些状态包含了原DFA的结束状态。这样做的一个好处是，当我们把一个字符串放进这样的一个DFA之后，我们就一直<br>等待整个字符串被接受，或者失败。如果字符串被接受的话，我们就把当前的结束状态记下来。如果失败的话，我们就把这个状态机在分析字符串的时候经过的最后一个结束状态<br>记下来。这个时候，结束状态所代表的原DFA结束状态的相应记号类型就是我们所需要的信息了。如果得不到任何结束状态的话，输入的字符串就是不背词法分析其接受的。</p>
+<p>举个例子，使用上述状态机分析”123.ABC”。</p>
+<p>首先从状态0开始，依次经过状态N N N 2，然后宣告失败。最后一个N(结束状态)以及当时被接受的字符串”123”被识别，结果为(N，”123”)。然后从”<br>.ABC”开始，输入第一个记号就失败了，于是”.”被识别为不可接受字串。最后输入”ABC”，依次经过状态0 1 I<br>I，然后字符串结束并且被接受，于是输出(I，”ABC”)。</p>
+<p>为什么我们在构造状态机的时候不使用“重复”呢？因为在每一个记号被识别出的时候，我们都要做一些额外的工作。如果我们使用“重复”来构造词法分析器的状态机，我们将<br>无从知道一个记号被识别出来的确切时间。</p>
+<p>算法到这里基本上就结束了，不过还存在一些小问题需要在细节上解决。一般来说我们给出的一些构成词法分析器的规则很少有冲突，不过偶尔会出现两个规则所代表的字符串集<br>合存在交集的情况。有了DFA这个工具，我们可以很轻易地识别出规则冲突。</p>
+<p>假如我们的词法分析器有A和B两个状态，那么我们构造词法分析器A|B的时候，将会得到一些包含DFA(A)和DFA(B)的结束状态的新状态。我们只需要检查这些状<br>态是否具有以下特征，就可以判断A和B的关系。我们假设DFA(A)为规则A的状态机，DFA(B)为规则B的状态机，DFA(L)为词法分析器A|B的状态机：</p>
+<p>1：如果DFA(L)存在一个或多个状态同时包含了DFA(A)和DFA(B)的结束状态，那么A和B所代表的字符串存在交集。</p>
+<p>2：如果DFA(L)不存在同时包含了DFA(A)和DFA(B)的结束状态的状态，那么A和B所代表的字符串不存在交集。</p>
+<p>3：如果DFA(L)的某些状态包含了DFA(A)的结束状态，并且这些状态都无一例外地包含了DFA(B)的结束状态的话，那么A是B的子集。</p>
+<p>4：如果DFA(L)的某些状态包含了DFA(A)的结束状态，但是这些状态并没有无一例外地包含DFA(B)的结束状态的话，那么A不是B的子集。</p>
+<p>在图6.1的词法分析器中，我们可以很清楚地看出I、N、R和O四个规则两两之间都不存在交集。我们可以尝试构造一个冲突的规则，并看一看词法分析器的DFA是什么样<br>子的：</p>
+<p>假设词法分析器包含以下规则：</p>
+<p>A：”if”</p>
+<p>B：[a-z]+</p>
+<p>对A|B构造DFA，我们将会得到如下状态机：</p>
+<p><a href="http://p.blog.csdn.net/images/p_blog_csdn_net/s
+ealyao/594039/o_clip_image040_2.jpg" target="_blank" rel="noopener"> <img src="http://p.blog.csdn.net/images/p_blog_csdn_net/sealyao/59403
+9/o_clip_image040_thumb.jpg" alt="clip_image040"> </a></p>
+<p>图6.2</p>
+<p>通过图6.2我们可以看出，这个状态图满足了上述的条件3：包含了状态A的结束状态的状态都包含了B的结束状态，因此A是B的子集。显然”if”是[a-z]+的一个<br>子集。在处理这种有冲突的规则的时候，既可以报错，也可以根据指定的优先级进行挑选。</p>
+<p><strong> 7、尾声  </strong></p>
+<p>使用DFA的方法完成的可配置词法分析器的性能是相当好的。笔者前不久曾经做过实验，首先使用本文提到的算法开发一个这样的词法分析器，然后在一份C++代码(这份代<br>码经过多次复制而成件，一共有3.12M)中抽取所有数字、标识符和注释，吞吐速度高达46万记号/秒（笔者的台式电脑配置是奔腾4的超线程2.99GHz处理器，1<br>G内存），其中抽取出来的记号一共有22万个。在分析的过程中，只有10%的时间花在了DFA上，90%的时间花在了处理结果的工作上。DFA本身造成的消耗是很小的<br>。不过词法分析的性能在很大程度上跟DFA的实现有很大关系。三个月前笔者也实现过一个同类的程序，但是吞吐速度仅有1.1万记号/秒。</p>
+<p>一般来说，比较高性能的DFA的实现是一张二维的表。行代表字符，列代表DFA的状态，单元格代表该状态经输入某个字符之后进行转移的目标状态。此外还有一张表用来记<br>录哪些状态对应哪些规则的结束状态。笔者的词法分析器是基于UTF-16编码的字符串，一张表一共有65535行显然是不现实的，因此还有另一张表把字符转换成字符类<br>。字符类是这样定义的：假设现在已经存在了65535行的一张大表，如果在某个字符区间所对应的子表内，任意一列的单元格的数据都一样的话，那么这个区间内的所有字符<br>就可以被视为是等价的，这些字符就属于同一个字符类。于是仅需要另外一张65535个单元的表用来把一个字符映射到字符类。这种做法可以大大的压缩DFA所需要的空间<br>。在笔者的程序里，识别字符类的算法被融入了DFA的构造算法中</p>
+
+	
+	</div>
+  <a type="button" href="/2015/01/01/正则表达式DFA构造方法/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+    	<li class="prev"><a href="/page/4/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i> Prev</a></li>
+  		
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+          <li class="next disabled"><a>Next<i class="fa fa-arrow-circle-o-right"></i></a></li>
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

@@ -1,0 +1,609 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java_IO：PipedReader和PipedWriter使用详解及源码分析 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="Java IO：PipedReader和PipedWriter使用详解及源码分析
+使用方法PipedReader和PipedWriter即管道输入流和输出流，可用于线程间管道通信。它们和PipedInputStream/PipedOutputStream区别是前者操作的是字符后者是字节。
+方法介绍P">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Java_IO：PipedReader和PipedWriter使用详解及源码分析"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> Java_IO：PipedReader和PipedWriter使用详解及源码分析</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>Java IO：PipedReader和PipedWriter使用详解及源码分析</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>PipedReader和PipedWriter即管道输入流和输出流，可用于线程间管道通信。它们和PipedInputStream/PipedOutputSt<br>ream区别是前者操作的是字符后者是字节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>PipedReader提供的API如下：</p>
+<pre><code>//构造方法
+PipedReader(PipedWriter src)    //使用默认的buf的大小和传入的pw构造pr
+PipedReader(PipedWriter src, int pipeSize)      //使用指定的buf的大小和传入的pw构造pr
+PipedReader()       //使用默认大小构造pr
+PipedReader(int pipeSize)       //使用指定大小构造pr
+
+//关闭流
+void close()
+//绑定Writer
+void connect(PipedWriter src)
+//是否可读
+synchronized boolean ready()
+//读取一个字符
+synchronized int read()
+//读取多个字符到cbuf
+synchronized int read(char cbuf[], int off, int len)
+//Writer调用, 向Reader缓冲区写数据
+synchronized void receive(int c)
+synchronized void receive(char c[], int off, int len)
+synchronized void receivedLast()
+</code></pre><p>PipedWriter提供的API如下：</p>
+<pre><code>//构造方法
+PipedWriter(PipedReader snk)
+PipedWriter()
+
+//绑定Reader Writer
+synchronized void connect(PipedReader snk)
+//关闭流
+void close()
+//刷新流,唤醒Reader
+synchronized void flush()
+//写入1个字符,实际是写到绑定Reader的缓冲区
+void write(int c)
+//写入多个字符到Reader缓冲区
+void write(char cbuf[], int off, int len)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>/**
+ * 写线程
+ */
+public class Producer extends Thread {
+    //输出流
+    private PipedWriter writer = new PipedWriter();
+    public Producer(PipedWriter writer) {
+        this.writer = writer;
+    }
+
+    @Override
+    public void run() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(&quot;Hello World!&quot;);
+            writer.write(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+/**
+ * 读取线程
+ */
+public class Consumer extends Thread{
+    //输入流
+    private PipedReader reader = new PipedReader();
+
+    public Consumer(PipedReader reader) {
+        this.reader = reader;
+    }
+
+    @Override
+    public void run() {
+        try {
+            char [] cbuf = new char[20];
+            reader.read(cbuf, 0, cbuf.length);
+            System.out.println(&quot;管道流中的数据为: &quot; + new String(cbuf));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+@org.junit.Test
+public void testPipedReaderWriter() {
+    /**
+     * 管道流通信核心是,Writer和Reader公用一块缓冲区,缓冲区在Reader中申请,
+     * 由Writer调用和它绑定的Reader的Receive方法进行写.
+     *
+     * 线程间通过管道流通信的步骤为
+     * 1 建立输入输出流
+     * 2 绑定输入输出流
+     * 3 Writer写
+     * 4 Reader读
+     */
+    PipedReader reader = new PipedReader();
+    PipedWriter writer = new PipedWriter();
+    Producer producer = new Producer(writer);
+    Consumer consumer = new Consumer(reader);
+
+    try {
+        writer.connect(reader);
+        producer.start();
+        consumer.start();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>管道流中的数据为: Hello World!
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>按照演示程序运行过程分析源码，主要有 <strong> 构造方法、connect、writer写、reader读 </strong> 等。</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><h4 id="PipedWriter构造方法"><a href="#PipedWriter构造方法" class="headerlink" title="PipedWriter构造方法"></a>PipedWriter构造方法</h4><p>PipedWriter构造方法有两个，区别是是否指定需要连接的PipedReader对象。</p>
+<pre><code>/**
+ * Creates a piped writer connected to the specified piped
+ * reader. Data characters written to this stream will then be
+ * available as input from &lt;code&gt;snk&lt;/code&gt;.
+ *
+ * @param      snk   The piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public PipedWriter(PipedReader snk)  throws IOException {
+    connect(snk);
+}
+
+/**
+ * Creates a piped writer that is not yet connected to a
+ * piped reader. It must be connected to a piped reader,
+ * either by the receiver or the sender, before being used.
+ *
+ * @see     java.io.PipedReader#connect(java.io.PipedWriter)
+ * @see     java.io.PipedWriter#connect(java.io.PipedReader)
+ */
+public PipedWriter() {
+}
+</code></pre><h4 id="PipedReader-构造方法"><a href="#PipedReader-构造方法" class="headerlink" title="PipedReader 构造方法"></a>PipedReader 构造方法</h4><p>PipedReader构造方法有四个，区别是是否指定要连接的PipedWriter对象以及缓冲区大小设置，默认缓冲区大小为1024。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is connected
+ * to the piped writer &lt;code&gt;src&lt;/code&gt; and uses the specified
+ * pipe size for the pipe&apos;s buffer. Data written to &lt;code&gt;src&lt;/code&gt;
+ * will then be  available as input from this stream.
+
+ * @param      src       the stream to connect to.
+ * @param      pipeSize  the size of the pipe&apos;s buffer.
+ * @exception  IOException  if an I/O error occurs.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(PipedWriter src, int pipeSize) throws IOException {
+    initPipe(pipeSize); //设置缓冲区大小
+    connect(src);  //连接对应的PipedWriter
+}
+
+public PipedReader(PipedWriter src) throws IOException {
+    this(src, DEFAULT_PIPE_SIZE); //默认缓冲区大小
+}
+
+/**
+ * Creates a &lt;code&gt;PipedReader&lt;/code&gt; so that it is not yet
+ * {@link #connect(java.io.PipedWriter) connected} and uses
+ * the specified pipe size for the pipe&apos;s buffer.
+ * It must be  {@linkplain java.io.PipedWriter#connect(
+ * java.io.PipedReader) connected} to a &lt;code&gt;PipedWriter&lt;/code&gt;
+ * before being used.
+ *
+ * @param   pipeSize the size of the pipe&apos;s buffer.
+ * @exception  IllegalArgumentException if {@code pipeSize &lt;= 0}.
+ * @since      1.6
+ */
+public PipedReader(int pipeSize) {
+    initPipe(pipeSize); //指定大小
+}
+
+public PipedReader() {
+    initPipe(DEFAULT_PIPE_SIZE); //默认1024
+}
+</code></pre><h3 id="connect方法"><a href="#connect方法" class="headerlink" title="connect方法"></a>connect方法</h3><p>PipedWriter和PipedReader都有connect方法，两者作用相同。实际上PipedReader的connect方法是调用PipedWrit<br>er中connect方法实现的。</p>
+<h4 id="PipedWriter-connect方法"><a href="#PipedWriter-connect方法" class="headerlink" title="PipedWriter connect方法"></a>PipedWriter connect方法</h4><pre><code>/**
+ * Connects this piped writer to a receiver. If this object
+ * is already connected to some other piped reader, an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;snk&lt;/code&gt; is an unconnected piped reader and
+ * &lt;code&gt;src&lt;/code&gt; is an unconnected piped writer, they may
+ * be connected by either the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * src.connect(snk)&lt;/pre&gt;&lt;/blockquote&gt;
+ * or the call:
+ * &lt;blockquote&gt;&lt;pre&gt;
+ * snk.connect(src)&lt;/pre&gt;&lt;/blockquote&gt;
+ * The two calls have the same effect.
+ *
+ * @param      snk   the piped reader to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void connect(PipedReader snk) throws IOException {
+    if (snk == null) {
+        throw new NullPointerException();
+    } else if (sink != null || snk.connected) {
+        throw new IOException(&quot;Already connected&quot;);
+    } else if (snk.closedByReader || closed) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    }
+
+    sink = snk; //绑定对应的PipedReader
+    snk.in = -1; //写入操作下标
+    snk.out = 0; //读取操作下标
+    snk.connected = true; //连接状态
+}
+</code></pre><h4 id="PipedReader-connect方法"><a href="#PipedReader-connect方法" class="headerlink" title="PipedReader connect方法"></a>PipedReader connect方法</h4><pre><code>/**
+ * Causes this piped reader to be connected
+ * to the piped  writer &lt;code&gt;src&lt;/code&gt;.
+ * If this object is already connected to some
+ * other piped writer, an &lt;code&gt;IOException&lt;/code&gt;
+ * is thrown.
+ * @param      src   The piped writer to connect to.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public void connect(PipedWriter src) throws IOException {
+    src.connect(this); //调用PipedWriter的方法
+}
+</code></pre><h3 id="PipedWriter-write方法"><a href="#PipedWriter-write方法" class="headerlink" title="PipedWriter write方法"></a>PipedWriter write方法</h3><p>write有写入一个字符和写入多个字符两种重载方法，实现原理都一样，调用和它绑定的PipedReader的receive方法向缓冲区写数据，下面分析写入多个<br>字符的write方法。</p>
+<pre><code>/**
+ * Writes the specified &lt;code&gt;char&lt;/code&gt; to the piped output stream.
+ * If a thread was reading data characters from the connected piped input
+ * stream, but the thread is no longer alive, then an
+ * &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * Implements the &lt;code&gt;write&lt;/code&gt; method of &lt;code&gt;Writer&lt;/code&gt;.
+ *
+ * @param      c   the &lt;code&gt;char&lt;/code&gt; to be written.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedOutputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedReader) unconnected}, closed
+ *          or an I/O error occurs.
+ */
+public void write(int c)  throws IOException {
+    if (sink == null) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    }
+    sink.receive(c); //调用PipedReader的receive方法
+}
+
+/**
+ * Receives a char of data. This method will block if no input is
+ * available.
+ */
+synchronized void receive(int c) throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByWriter || closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (readSide != null &amp;&amp; !readSide.isAlive()) {
+        throw new IOException(&quot;Read end dead&quot;);
+    }
+
+    writeSide = Thread.currentThread(); //获取当前线程
+    while (in == out) { //满，唤醒读者。（有点疑惑）
+        if ((readSide != null) &amp;&amp; !readSide.isAlive()) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* full: kick any waiting readers */
+        notifyAll();
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    if (in &lt; 0) {
+        in = 0;
+        out = 0;
+    }
+    buffer[in++] = (char) c;
+    if (in &gt;= buffer.length) {
+        in = 0;
+    }
+}
+</code></pre><h3 id="PipedReader-read方法"><a href="#PipedReader-read方法" class="headerlink" title="PipedReader read方法"></a>PipedReader read方法</h3><p>read方法同样有读取一个字符和读取多个字符两种重载方法，下面分析读取一个字符的read。</p>
+<pre><code>/**
+ * Reads the next character of data from this piped stream.
+ * If no character is available because the end of the stream
+ * has been reached, the value &lt;code&gt;-1&lt;/code&gt; is returned.
+ * This method blocks until input data is available, the end of
+ * the stream is detected, or an exception is thrown.
+ *
+ * @return     the next character of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the
+ *             stream is reached.
+ * @exception  IOException  if the pipe is
+ *          &lt;a href=PipedInputStream.html#BROKEN&gt; &lt;code&gt;broken&lt;/code&gt;&lt;/a&gt;,
+ *          {@link #connect(java.io.PipedWriter) unconnected}, closed,
+ *          or an I/O error occurs.
+ */
+public synchronized int read()  throws IOException {
+    if (!connected) {
+        throw new IOException(&quot;Pipe not connected&quot;);
+    } else if (closedByReader) {
+        throw new IOException(&quot;Pipe closed&quot;);
+    } else if (writeSide != null &amp;&amp; !writeSide.isAlive()
+            &amp;&amp; !closedByWriter &amp;&amp; (in &lt; 0)) {
+        throw new IOException(&quot;Write end dead&quot;);
+    }
+
+    readSide = Thread.currentThread();
+    int trials = 2;
+    while (in &lt; 0) { //缓冲区为空
+        if (closedByWriter) {
+            /* closed by writer, return EOF */
+            return -1;
+        }
+        if ((writeSide != null) &amp;&amp; (!writeSide.isAlive()) &amp;&amp; (--trials &lt; 0)) {
+            throw new IOException(&quot;Pipe broken&quot;);
+        }
+        /* might be a writer waiting */
+        notifyAll(); //唤醒写者
+        try {
+            wait(1000);
+        } catch (InterruptedException ex) {
+            throw new java.io.InterruptedIOException();
+        }
+    }
+    int ret = buffer[out++]; //读
+    if (out &gt;= buffer.length) {
+        out = 0;
+    }
+    if (in == out) { //所有字符都被读取
+        /* now empty */
+        in = -1;
+    }
+    return ret;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.2cto.com/kf/201312/263319.html" target="_blank" rel="noopener"> http://www.2cto.com/kf/201312/263319.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_20.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_20.html
+</a></p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/Java_IO：PipedOutputStream和PipedInputStream使用详解及源码分析/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/Java字符串：StringBuffer使用详解及源码分析/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

@@ -1,0 +1,2066 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>史可的博客</title>
+  <meta name="author" content="shike">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 <div class="page-header page-header-inverse ">
+  <h1 class="title title-inverse ">史可的博客</h1>
+</div>
+
+<div class="row page">
+
+	
+	<div class="col-md-9">
+	
+
+		<div class="slogan">
+      <i class="fa fa-heart"></i>
+      
+</div>    
+		<div id="top_search"></div>
+		<div class="mypage">
+		
+		<!-- title and entry -->
+        <!-- render top articles firstly -->
+        
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+            
+		
+        
+        <!-- render other articles -->
+        
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2018-03-13 </div>
+			<div class="article-title"><a href="/2018/03/13/Java中的自动装箱与拆箱/" >Java中的自动装箱与拆箱</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p><a href="https://droidyue.com/blog/2015/04/07/autoboxing-and-autounboxing-in-java/" target="_blank" rel="noopener">Java 中的自动装箱与拆箱原文</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul>
+<li>JDK 1.5以后提供了自动装箱、拆箱功能，也就是我们在基本类型和包装类型转换的时候不再需要显示调用Integer.valueOf()、Integer.intValue()等方法。</li>
+<li>基本类型和<strong>对应的</strong>包装类型之间在赋值以及方法调用传参时发生自动装箱、拆箱。</li>
+<li>如果有基本类型参数和对应包装类型参数两个重载方法时，参数不发生自动装箱、拆箱。</li>
+<li>循环体内如果使用包装类型作为局部变量，可能会造成产生大量的中间对象。</li>
+<li>包装类型可以和基本类型进行值得比较。</li>
+<li>包装类型“==”操作判断的是两个对象是否为同一个对象，“equals”方法比较的是对象对应的基本类型值是否相等。</li>
+<li>Integer会缓存值-128~127之间的对象。两个Integer对象如果值在-128~127之间，并且值相等，那么这两个对象是同一个对象。Long、Byte、Short对象缓存也是-128~127之间，Character为0-127。</li>
+<li>包装类型没初始化或者为Null的情况下自动拆箱会报NPE。</li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2018/03/13/Java中的自动装箱与拆箱/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2018-03-12 </div>
+			<div class="article-title"><a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" >如何进行高质量的代码审查-来自LinkedIn的实践提示</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p><a href="https://thenewstack.io/linkedin-code-review/" target="_blank" rel="noopener">LinkedIn 代码审查实践原文 LinkedIn’s Tips for Highly Effective Code Review
+</a></p>
+<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul>
+<li>LinkedIn将Code Review作为员工日常工作之一，并且是员工晋升的重要考核因素。借此，LinkedIn建立了健康的反馈文化：工程师在各个领域都对提出和接受反馈持开放态度。</li>
+<li>Do I Understand the “Why”?<br>负责审查的同学必须提前了解到代码改动的原因，而不是从代码改动中推测原因。</li>
+<li>Am I Giving Positive Feedback?<br>代码审查不仅要给出代码的问题，更要尽量给出代码写的优秀的地方，这样能给工程师带来鼓励，使其更有动力。</li>
+<li>Is My Code Review Comment Explained Well?<br>提出的Review意见必须是能够使被review的同学清晰理解的。宁可花费大量文字去过度解释review意见，也绝不简单输入可能会造成别人理解困惑的意见。</li>
+<li>Do I Appreciate the Submitter’s Effort?<br>我们需要充分肯定和尊重工程师所做的努力，即使代码有需要改进的地方。这有助于建立起一个强大的、具有很高积极性的团队。</li>
+<li>Would This Review Comment Be Useful to Me?<br>确保我们提出的Review意见都是有用的，如果我们自己都觉得没用，那么只会给被审查人带来额外的负担。例如：代码格式问题，这个需要通过自动化工具来解决而不是通过review来解决。</li>
+<li>Is the “Testing Done” Section Thorough Enough?<br>提交Review的代码必须经过充分的测试，这个充分的测试根据修改的复杂度而不同。</li>
+<li>Am I Too Pedantic in My Review?<br>防止大量不重要的小修改意见淹没重要的review意见</li>
+</ul>
+
+	
+	</div>
+  <a type="button" href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" >Java并发编程：阻塞队列及实现生产者-消费者模式</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-什么是阻塞队列"><a href="#1-什么是阻塞队列" class="headerlink" title="1 什么是阻塞队列"></a>1 什么是阻塞队列</h2><p>JDK 1.5的java.util.concurrent包提供了多种阻塞队列。阻塞队列相对于PriorityQueue、LinkedList等非阻塞队列的特<br>点是提供了，队列阻塞的操作，优化了队列为空向队列取数据或者队列满向队列加数据时的阻塞操作。 <strong> 以生产者-<br>消费者模式为例，当队列为空时消费者线程会被挂起，等到队列中有数据时会自动的恢复并消费。 </strong><br><!--阅读全文--></p>
+<h3 id="1-1-常见的阻塞队列"><a href="#1-1-常见的阻塞队列" class="headerlink" title="1.1 常见的阻塞队列"></a>1.1 常见的阻塞队列</h3><p>BlockingQueue接口的主要实现有如下几种：<br><strong> ArrayBlockingQueue </strong> ：基于数组的有界阻塞队列，构造时可以指定队列大小，默认为非公平（不保证等待最久的任务最先处理）。<br><strong> LinkedBlockingQueue </strong> ：基于链表的有界阻塞队列，如果不指定大小则默认为Integer.MAX_VALUE，基本可以认为是无界的。<br><strong> PriorityBlockingQueue </strong> ：优先级排序的无界阻塞队列，元素出队列的顺序按照优先级排序。<br><strong> DelayQueue </strong> ：基于优先级队列的无界阻塞队列。队列中的元素只有到达规定的延时才能从队列中取出。<br><strong> SynchronousQueue </strong> ：不存储元素的阻塞队列，只有前一个将队列中的元素取走时才能加入新的元素。 </p>
+<h3 id="1-2-阻塞队列常见的方法"><a href="#1-2-阻塞队列常见的方法" class="headerlink" title="1.2 阻塞队列常见的方法"></a>1.2 阻塞队列常见的方法</h3><p>常见的非阻塞队列的操作列表如下：<br><strong> add(E e) </strong> :将元素e插入到队列末尾，如果插入成功，则返回true；如果插入失败（即队列已满），则会抛出异常；<br><strong> remove() </strong> ：移除队首元素，若移除成功，则返回true；如果移除失败（队列为空），则会抛出异常；<br><strong> offer(E e) </strong> ：将元素e插入到队列末尾，如果插入成功，则返回true；如果插入失败（即队列已满），则返回false；<br><strong> poll() </strong> ：移除并获取队首元素，若成功，则返回队首元素；否则返回null；<br><strong> peek() </strong> ：获取队首元素，若成功，则返回队首元素；否则返回null<br>阻塞队列实现了非阻塞队列的操作方法，为了实现“阻塞”提供了take和put方法。<br><strong> take() </strong> ：获取并移除队首元素，如果队列为空则阻塞直到队列中有元素。<br><strong> put() </strong> ：向队尾添加元素，如果队列满则等待直到可以添加。 </p>
+<h2 id="2-LinkedBlockingQueue源码分析"><a href="#2-LinkedBlockingQueue源码分析" class="headerlink" title="2 LinkedBlockingQueue源码分析"></a>2 LinkedBlockingQueue源码分析</h2><p>LinkedBlockingQueue是阻塞队列中比较常用的，ThreadPoolExecutor类的实现中多是用的这个队列。下面通过源码分下阻塞队列的工作<br>原理。</p>
+<h3 id="2-1-构造方法源码分析"><a href="#2-1-构造方法源码分析" class="headerlink" title="2.1 构造方法源码分析"></a>2.1 构造方法源码分析</h3><p>LinkedBlockingQueue共有三个构造方法，分别功能为默认大小，指定大小以及带初始化的构造方法。</p>
+<pre><code>/**
+     * Creates a {@code LinkedBlockingQueue} with a capacity of
+     * {@link Integer#MAX_VALUE}.
+     */
+    public LinkedBlockingQueue() {
+        this(Integer.MAX_VALUE); //无参的构造函数,最大容量为Integer(4字节)的最大表示值
+    }
+
+    /**
+     * Creates a {@code LinkedBlockingQueue} with the given (fixed) capacity.
+     *
+     * @param capacity the capacity of this queue
+     * @throws IllegalArgumentException if {@code capacity} is not greater
+     *         than zero
+     */
+    public LinkedBlockingQueue(int capacity) { //指定容量的构造函数,大小为capacity
+        if (capacity &lt;= 0) throw new IllegalArgumentException();
+        this.capacity = capacity;
+        last = head = new Node&lt;E&gt;(null);
+    }
+
+    /**
+     * Creates a {@code LinkedBlockingQueue} with a capacity of
+     * {@link Integer#MAX_VALUE}, initially containing the elements of the
+     * given collection,
+     * added in traversal order of the collection&apos;s iterator.
+     *
+     * @param c the collection of elements to initially contain
+     * @throws NullPointerException if the specified collection or any
+     *         of its elements are null
+     */
+    public LinkedBlockingQueue(Collection&lt;? extends E&gt; c) { //带初始化的构造方法,可以将指定集合中的元素初始化到阻塞队列中
+        this(Integer.MAX_VALUE);  //最大容量为Integer(4字节)的最大表示值 
+        final ReentrantLock putLock = this.putLock;
+        putLock.lock(); // Never contended, but necessary for visibility
+        try {
+            int n = 0;
+            for (E e : c) {
+                if (e == null)
+                    throw new NullPointerException();
+                if (n == capacity)
+                    throw new IllegalStateException(&quot;Queue full&quot;);
+                enqueue(new Node&lt;E&gt;(e));
+                ++n;
+            }
+            count.set(n);
+        } finally {
+            putLock.unlock();
+        }
+    }
+}
+</code></pre><h3 id="2-2-put方法源码分析"><a href="#2-2-put方法源码分析" class="headerlink" title="2.2 put方法源码分析"></a>2.2 put方法源码分析</h3><p>put方法内部通过Condition的await和signal方法实现了线程之间的同步，和使用线程同步实现生产者消费者的代码逻辑差不多。同步队列采用了两把锁<br>，读锁（takeLock）和写锁（putLock）。</p>
+<pre><code>/**
+ * Inserts the specified element at the tail of this queue, waiting if
+ * necessary for space to become available.
+ *
+ * @throws InterruptedException {@inheritDoc}
+ * @throws NullPointerException {@inheritDoc}
+ */
+public void put(E e) throws InterruptedException {
+    if (e == null) throw new NullPointerException();
+    // Note: convention in all put/take/etc is to preset local var
+    // holding count negative to indicate failure unless set.
+    int c = -1;
+    Node&lt;E&gt; node = new Node&lt;E&gt;(e);
+    final ReentrantLock putLock = this.putLock; //定义可重入   写锁
+    final AtomicInteger count = this.count; //原子类
+    putLock.lockInterruptibly(); //进入临界区,他和lock的区别是lockInterruptibly不处理中断而是向上层抛出异常
+    try {
+        /*
+         * Note that count is used in wait guard even though it is
+         * not protected by lock. This works because count can
+         * only decrease at this point (all other puts are shut
+         * out by lock), and we (or some other waiting put) are
+         * signalled if it ever changes from capacity. Similarly
+         * for all other uses of count in other wait guards.
+         */
+        while (count.get() == capacity) { //容量已满,线程进入阻塞状态,交出锁并且交出CPU
+            notFull.await();  //写锁的Condition
+        }
+        enqueue(node); //加入队列
+        c = count.getAndIncrement();
+        if (c + 1 &lt; capacity) //队列未满,唤醒一个等待写入的线程
+            notFull.signal();
+    } finally {
+        putLock.unlock();
+    }
+    if (c == 0) //队列第一次不为空,唤醒一个等待读取的线程
+        signalNotEmpty(); 
+}
+</code></pre><h3 id="2-3-take方法源码分析"><a href="#2-3-take方法源码分析" class="headerlink" title="2.3 take方法源码分析"></a>2.3 take方法源码分析</h3><pre><code>public E take() throws InterruptedException {
+    E x;
+    int c = -1;
+    final AtomicInteger count = this.count;
+    final ReentrantLock takeLock = this.takeLock; //定义可重入锁  读锁
+    takeLock.lockInterruptibly(); //进入临界区,他和lock的区别是lockInterruptibly不处理中断而是向上层抛出异常
+    try {
+        while (count.get() == 0) { //如果队列为空, 读取线程进入阻塞状态,交出读锁和CPU
+            notEmpty.await();
+        }
+        x = dequeue(); //获取队首元素
+        c = count.getAndDecrement();
+        if (c &gt; 1) //如果取完队列中还存在数据,则唤醒其他等待读取的线程
+            notEmpty.signal();
+    } finally {
+        takeLock.unlock();
+    }
+    if (c == capacity) //没取之前队列为满的,取完之后要唤醒一个写入线程
+        signalNotFull();
+    return x;
+}
+</code></pre><h2 id="3-生产者-消费者模式实现"><a href="#3-生产者-消费者模式实现" class="headerlink" title="3 生产者-消费者模式实现"></a>3 生产者-消费者模式实现</h2><p>使用阻塞队列实现生产者-<br>消费者模式不需要我们自己编码控制读写线程的阻塞和唤醒操作，由上节分析的take()、put()方法可知，阻塞队列内部替我们实现了线程的阻塞和唤醒操作。</p>
+<pre><code>public class BlockingQueue {
+    private static LinkedBlockingQueue&lt;Integer&gt; queue = new LinkedBlockingQueue&lt;Integer&gt;(); //阻塞队列
+
+    public static class Consumer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                    Integer element = queue.take();
+                    System.out.println(Thread.currentThread().getName() + &quot;消费了一个产品...&quot;);
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static class Producer implements Runnable {
+        @Override
+        public void run() {
+            try {
+                queue.put(1);
+                System.out.println(Thread.currentThread().getName() + &quot;生产了一个产品...&quot;);
+            } catch (InterruptedException e) {}
+        }
+    }
+
+    public static void main(String[] args) {
+        ExecutorService comsumerPool = Executors.newSingleThreadExecutor();
+        ExecutorService producerPool = Executors.newSingleThreadExecutor();
+        Producer producer = new Producer();
+        Consumer consumer = new Consumer();
+        int i = 0;
+        while (true) {
+            comsumerPool.execute(consumer);
+            producerPool.execute(producer);
+            if (i++ &gt; 200) {
+                break;
+            }
+        }
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {}
+
+        comsumerPool.shutdownNow();
+        producerPool.shutdownNow();
+    }
+}
+</code></pre><p>部分执行结果如下：</p>
+<pre><code>pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+pool-1-thread-1消费了一个产品...
+pool-2-thread-1生产了一个产品...
+</code></pre><p>由执行结果看出，阻塞队列很好的完成了生产者消费者模型，并且代码实现简单。</p>
+<h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/dolphin0520/p/3932906.html" target="_blank" rel="noopener"> http://www.cnblogs.com/dolphin0520/p/3932906.html
+</a><br>[2] <a href="http://www.infoq.com/cn/articles/java-blocking-queue" target="_blank" rel="noopener"> http://www.infoq.com/cn/articles/java-blocking-queue
+</a><br>[3] <a href="http://blog.csdn.net/ghsau/article/details/8108292" target="_blank" rel="noopener"> http://blog.csdn.net/ghsau/article/details/8108292
+</a><br>[4] <a href="http://blog.csdn.net/ns_code/article/details/17511147" target="_blank" rel="noopener"> http://blog.csdn.net/ns_code/article/details/17511147
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" >Java_IO：ByteArrayInputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read<br>方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte<br>数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray()和 toString()获取数据。</p>
+<h3 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h3><p>ByteArrayInputStream提供的API如下：</p>
+<pre><code>// 构造函数
+    ByteArrayInputStream(byte[] buf)
+    ByteArrayInputStream(byte[] buf, int offset, int length)
+
+    synchronized int         available() //能否读取字节流的下一字节
+    void                     close() //关闭字节流
+    synchronized void        mark(int readlimit) //保存当前位置
+    boolean                  markSupported() //是否支持mark
+    synchronized int         read() //读取下一字节
+    synchronized int         read(byte[] buffer, int offset, int length) //将字节流写入buffer数组
+    synchronized void        reset() //重置索引到mark位置
+    synchronized long        skip(long byteCount) //跳过n个字节
+}
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public class TestByteArray {
+    // 对应英文字母“abcddefghijklmnopqrsttuvwxyz”
+    private final byte[] ArrayLetters = {
+            0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x6B, 0x6C, 0x6D, 0x6E, 0x6F,
+            0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A
+    };
+
+    public void testByteArrayInputStream() {
+        //创建字节流,以ArrayLetters初始化
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(ArrayLetters);
+
+        //读取5个字节
+        int i = 0;
+        System.out.print(&quot;前5个字节为: &quot;);
+        while (i++ &lt; 5) {
+            //是否可读
+            if (inputStream.available() &gt;= 0) {
+                int buf = inputStream.read();
+                System.out.printf(&quot;0x%s &quot;, Integer.toHexString(buf));
+            }
+        }
+        System.out.println();
+
+        //是否支持标记
+        if (!inputStream.markSupported()) {
+            System.out.println(&quot;该字节流不支持标记&quot;);
+        } else {
+            System.out.println(&quot;该字节流支持标记&quot;);
+        }
+
+        //标记, 已经读取5个字节,标记处为0x66
+        System.out.println(&quot;标记该字节流为位置为0x66(f)&quot;);
+        inputStream.mark(0);
+
+        //跳过2个字节
+        inputStream.skip(2);
+
+        //读取5个字节到buffer
+        byte [] buffer = new byte[5];
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;buffer: &quot; + new String(buffer));
+
+        //重置
+        inputStream.reset();
+        inputStream.read(buffer, 0, 5);
+        System.out.println(&quot;重置后读取5个字符为: &quot; + new String(buffer));
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>前5个字节为: 0x61 0x62 0x63 0x64 0x65
+该字节流支持标记
+标记该字节流为位置为0x66(f)
+buffer: hijkl
+重置后读取5个字符为: fghij
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ByteArrayInputStream有两个构造函数，区别是初始化内容选择。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * so that it  uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array.
+ * The buffer array is not copied.
+ * The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;0&lt;/code&gt; and the initial value
+ * of  &lt;code&gt;count&lt;/code&gt; is the length of
+ * &lt;code&gt;buf&lt;/code&gt;.
+ *
+ * @param   buf   the input buffer.
+ */
+public ByteArrayInputStream(byte buf[]) {
+    this.buf = buf; //缓冲数组
+    this.pos = 0; //当前位置
+    this.count = buf.length; //输入流字节数
+}
+
+/**
+ * Creates &lt;code&gt;ByteArrayInputStream&lt;/code&gt;
+ * that uses &lt;code&gt;buf&lt;/code&gt; as its
+ * buffer array. The initial value of &lt;code&gt;pos&lt;/code&gt;
+ * is &lt;code&gt;offset&lt;/code&gt; and the initial value
+ * of &lt;code&gt;count&lt;/code&gt; is the minimum of &lt;code&gt;offset+length&lt;/code&gt;
+ * and &lt;code&gt;buf.length&lt;/code&gt;.
+ * The buffer array is not copied. The buffer&apos;s mark is
+ * set to the specified offset.
+ *
+ * @param   buf      the input buffer.
+ * @param   offset   the offset in the buffer of the first byte to read.
+ * @param   length   the maximum number of bytes to read from the buffer.
+ */
+public ByteArrayInputStream(byte buf[], int offset, int length) {
+    this.buf = buf; //缓冲数组
+    this.pos = offset; //当前位置为传入buf的offset
+    this.count = Math.min(offset + length, buf.length); //输入流字节数
+    this.mark = offset; //标记
+}
+</code></pre><h3 id="2-2-read方法"><a href="#2-2-read方法" class="headerlink" title="2.2 read方法"></a>2.2 read方法</h3><p>read方法有两个，不带参数的read()每次读取字节流中一个字节，带参数的read(byte b[], int off, int<br>len)将字节流从当前位置开始，写入len个字节到b中，写入开始位置为off。</p>
+<pre><code>/**
+ * 读取字节流当前字节
+ * @return 一个字节
+ */
+public synchronized int read() {
+    return (pos &lt; count) ? (buf[pos++] &amp; 0xff) : -1; //&amp;0xff为限制返回值为一个字节,即8位
+}
+
+/**
+ * 将字节流当前位置开始的len个字节写入到 b从off开始的len个位置
+ * @param b
+ * @param off
+ * @param len
+ * @return
+ */
+public synchronized int read(byte b[], int off, int len) {
+    if (b == null) {
+        throw new NullPointerException();
+    } else if (off &lt; 0 || len &lt; 0 || len &gt; b.length - off) {
+        throw new IndexOutOfBoundsException();
+    }
+
+    if (pos &gt;= count) { //超出字节流范围
+        return -1;
+    }
+
+    int avail = count - pos; //可读取的字节数量
+    if (len &gt; avail) {
+        len = avail;
+    }
+    if (len &lt;= 0) {
+        return 0;
+    }
+    System.arraycopy(buf, pos, b, off, len); //将buf从pos位置开始的字节复制到b从off开始的位置,共复制len长
+    pos += len;
+    return len;
+}
+</code></pre><h3 id="2-4-skip方法"><a href="#2-4-skip方法" class="headerlink" title="2.4 skip方法"></a>2.4 skip方法</h3><pre><code>/**
+ * Skips &lt;code&gt;n&lt;/code&gt; bytes of input from this input stream. Fewer
+ * bytes might be skipped if the end of the input stream is reached.
+ * The actual number &lt;code&gt;k&lt;/code&gt;
+ * of bytes to be skipped is equal to the smaller
+ * of &lt;code&gt;n&lt;/code&gt; and  &lt;code&gt;count-pos&lt;/code&gt;.
+ * The value &lt;code&gt;k&lt;/code&gt; is added into &lt;code&gt;pos&lt;/code&gt;
+ * and &lt;code&gt;k&lt;/code&gt; is returned.
+ *
+ * @param   n   the number of bytes to be skipped.
+ * @return  the actual number of bytes skipped.
+ */
+public synchronized long skip(long n) {
+    long k = count - pos; //剩余字节数
+    if (n &lt; k) {
+        k = n &lt; 0 ? 0 : n;
+    }
+
+    pos += k;
+    return k;
+}
+</code></pre><h3 id="2-5-mark和reset方法"><a href="#2-5-mark和reset方法" class="headerlink" title="2.5 mark和reset方法"></a>2.5 mark和reset方法</h3><pre><code>/**
+ * Set the current marked position in the stream.
+ * ByteArrayInputStream objects are marked at position zero by
+ * default when constructed.  They may be marked at another
+ * position within the buffer by this method.
+ * &lt;p&gt;
+ * If no mark has been set, then the value of the mark is the
+ * offset passed to the constructor (or 0 if the offset was not
+ * supplied).
+ *
+ * &lt;p&gt; Note: The &lt;code&gt;readAheadLimit&lt;/code&gt; for this class
+ *  has no meaning.
+ *
+ * @since   JDK1.1
+ */
+public void mark(int readAheadLimit) {
+    mark = pos;
+}
+
+/**
+ * Resets the buffer to the marked position.  The marked position
+ * is 0 unless another position was marked or an offset was specified
+ * in the constructor.
+ */
+public synchronized void reset() {
+    pos = mark;
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_02.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_03.html
+</a><br>[3] <a href="http://blog.csdn.net/rcoder/article/details/6118313" target="_blank" rel="noopener"> http://blog.csdn.net/rcoder/article/details/6118313
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" >Java_IO：CharArrayWriter使用及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>CharArrayWriter即字符数组输出流，用于向输出流写写入字符，和ByteArrayOutputStream的区别就是前者写入的是字符后者写入的是字<br>节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>CharArrayWriter提供的API如下：</p>
+<pre><code>//构造方法
+CharArrayWriter()
+CharArrayWriter(int initialSize)
+
+//追加写
+CharArrayWriter     append(CharSequence csq, int start, int end)
+CharArrayWriter     append(char c)
+CharArrayWriter     append(CharSequence csq)
+//关闭,未做实现
+void     close()
+//未做实现
+void     flush()
+//清空输出流
+void     reset()
+//输出流大小
+int     size()
+//返回char数组
+char[]     toCharArray()
+//返回String
+String     toString()
+//写入
+void     write(char[] buffer, int offset, int len)
+void     write(int oneChar)
+void     write(String str, int offset, int count)
+//写入到其他Writer
+void     writeTo(Writer out)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testCharArrayWriter() {
+    try {
+        char [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        //创建输出流Writer
+        CharArrayWriter writer = new CharArrayWriter();
+        //写入&apos;1&apos;
+        writer.write(&apos;1&apos;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入字符串&apos;2345&apos;
+        writer.write(&quot;2345&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //追加4567
+        writer.append(&quot;456&quot;).append(&quot;7&quot;);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+        //写入abc
+        writer.write(letters, 0, 3);
+        System.out.println(&quot;输出流的内容为: &quot; + writer);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>输出流的内容为: 1
+输出流的内容为: 12345
+输出流的内容为: 123454567
+输出流的内容为: 123454567abc
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>CharArrayWriter的构造方法有两个，区别是字符数组大小设置。</p>
+<pre><code>/**
+ * Creates a new CharArrayWriter.
+ */
+public CharArrayWriter() {
+    this(32);
+}
+
+/**
+ * Creates a new CharArrayWriter with the specified initial size.
+ *
+ * @param initialSize  an int specifying the initial buffer size.
+ * @exception IllegalArgumentException if initialSize is negative
+ */
+public CharArrayWriter(int initialSize) {
+    if (initialSize &lt; 0) {
+        throw new IllegalArgumentException(&quot;Negative initial size: &quot;
+                + initialSize);
+    }
+    buf = new char[initialSize];
+}
+</code></pre><h3 id="write方法"><a href="#write方法" class="headerlink" title="write方法"></a>write方法</h3><p>write有多种重载方法，重点分析其中一种。</p>
+<pre><code>/**
+ * Writes characters to the buffer.
+ * @param c the data to be written
+ * @param off       the start offset in the data
+ * @param len       the number of chars that are written
+ */
+public void write(char c[], int off, int len) {
+    if ((off &lt; 0) || (off &gt; c.length) || (len &lt; 0) ||
+            ((off + len) &gt; c.length) || ((off + len) &lt; 0)) {
+        throw new IndexOutOfBoundsException();
+    } else if (len == 0) {
+        return;
+    }
+    synchronized (lock) { //线程安全
+        int newcount = count + len;
+        if (newcount &gt; buf.length) {
+            //数组扩容方案是: 2倍和实际需要大小中的最大值
+            buf = Arrays.copyOf(buf, Math.max(buf.length &lt;&lt; 1, newcount));
+        }
+        System.arraycopy(c, off, buf, count, len); //写入
+        count = newcount;
+    }
+}
+</code></pre><h3 id="append方法"><a href="#append方法" class="headerlink" title="append方法"></a>append方法</h3><p>将要追加的字符（串）写在输出流最后。</p>
+<pre><code>/**
+ * Appends the specified character sequence to this writer.
+ * @param  csq
+ *         The character sequence to append.  If &lt;tt&gt;csq&lt;/tt&gt; is
+ *         &lt;tt&gt;null&lt;/tt&gt;, then the four characters &lt;tt&gt;&quot;null&quot;&lt;/tt&gt; are
+ *         appended to this writer.
+ *
+ * @return  This writer
+ *
+ * @since  1.5
+ */
+public CharArrayWriter append(CharSequence csq) {
+    String s = (csq == null ? &quot;null&quot; : csq.toString());
+    write(s, 0, s.length()); //写入
+    return this; //可以拼接追加
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_19.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_19.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：CharArrayReader使用及源码分析/" >Java_IO：CharArrayReader使用及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>CharArrayReader即字符数组输入流，用于从输入流读取字符，和ByteArrayInputStream的区别就是前者以字符为单位后者是字节。</p>
+<h3 id="方法介绍"><a href="#方法介绍" class="headerlink" title="方法介绍"></a>方法介绍</h3><p>CharArrayReader提供的API如下：</p>
+<pre><code>//构造方法
+CharArrayReader(char[] buf)
+CharArrayReader(char[] buf, int offset, int length)
+//关闭输入流
+void      close()
+//mark
+void      mark(int readLimit)
+boolean   markSupported()
+//读取下一个字符
+int       read()
+//读取多个字符
+int       read(char[] b, int off, int len)
+//是否可读
+boolean   ready()
+//返回mark的位置
+void      reset()
+//跳过n个字符
+long      skip(long n)
+</code></pre><h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><pre><code>public void testCharArrayReader() {
+    try {
+        char [] letters = {&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;,&apos;f&apos;,&apos;g&apos;,&apos;h&apos;,&apos;i&apos;,&apos;j&apos;,&apos;k&apos;,&apos;l&apos;,&apos;m&apos;,&apos;n&apos;};
+        //创建输入流
+        CharArrayReader reader = new CharArrayReader(letters);
+        //读取第一个字符
+        System.out.printf(&quot;第一个字符为: %c\n&quot;, reader.read());
+        //mark
+        reader.mark(10);
+        //读取bcd到tmp
+        char [] tmp = new char[3];
+        reader.read(tmp, 0, 3);
+        System.out.println(&quot;读取三个字符到tmp: &quot; + new String(tmp));
+        //读取reset后的第一个字符(b)
+        reader.reset();
+        System.out.printf(&quot;reset后第一个字符为: %c\n&quot;, reader.read());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>第一个字符为: a
+读取三个字符到tmp: bcd
+reset后第一个字符为: b
+</code></pre><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>CharArrayReader的构造方法有两个，区别是初始化输入流的内容不同。</p>
+<pre><code>/**
+ * Creates a CharArrayReader from the specified array of chars.
+ * 以buf中所有字符初始化输入流
+ * @param buf       Input buffer (not copied)
+ */
+public CharArrayReader(char buf[]) {
+    this.buf = buf;
+    this.pos = 0;
+    this.count = buf.length;
+}
+
+/**
+ * Creates a CharArrayReader from the specified array of chars.
+ * 以buf中部分字符为输入流
+ * @throws IllegalArgumentException
+ *         If &lt;tt&gt;offset&lt;/tt&gt; is negative or greater than
+ *         &lt;tt&gt;buf.length&lt;/tt&gt;, or if &lt;tt&gt;length&lt;/tt&gt; is negative, or if
+ *         the sum of these two values is negative.
+ *
+ * @param buf       Input buffer (not copied)
+ * @param offset    Offset of the first char to read
+ * @param length    Number of chars to read
+ */
+public CharArrayReader(char buf[], int offset, int length) {
+    if ((offset &lt; 0) || (offset &gt; buf.length) || (length &lt; 0) ||
+            ((offset + length) &lt; 0)) {
+        throw new IllegalArgumentException();
+    }
+    //以buf中从offset开始length长度的字符初始化输入流
+    this.buf = buf;
+    this.pos = offset;
+    this.count = Math.min(offset + length, buf.length);
+    this.markedPos = offset;
+}
+</code></pre><h3 id="read方法"><a href="#read方法" class="headerlink" title="read方法"></a>read方法</h3><p>read方法有读取下一个字符和读取多个字符两种重载方法，下面分析读取多个字符的源码。</p>
+<pre><code>/**
+ * Reads characters into a portion of an array.
+ * @param b  Destination buffer
+ * @param off  Offset at which to start storing characters
+ * @param len   Maximum number of characters to read
+ * @return  The actual number of characters read, or -1 if
+ *          the end of the stream has been reached
+ *
+ * @exception   IOException  If an I/O error occurs
+ */
+public int read(char b[], int off, int len) throws IOException {
+    synchronized (lock) {
+        ensureOpen(); //确保输入流正常
+        if ((off &lt; 0) || (off &gt; b.length) || (len &lt; 0) ||
+                ((off + len) &gt; b.length) || ((off + len) &lt; 0)) {
+            throw new IndexOutOfBoundsException();
+        } else if (len == 0) {
+            return 0;
+        }
+
+        if (pos &gt;= count) { //没有可读字符
+            return -1;
+        }
+        if (pos + len &gt; count) { //可读字符不足len,只读剩下的字符
+            len = count - pos;
+        }
+        if (len &lt;= 0) {
+            return 0;
+        }
+        System.arraycopy(buf, pos, b, off, len); //读取
+        pos += len;
+        return len;
+    }
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_18.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_18.html
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：CharArrayReader使用及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：ByteArrayOutputStream使用详解及源码分析/" >Java_IO：ByteArrayOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>ByteArrayInputStream 包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪 read<br>方法要提供的下一个字节。ByteArrayOutputStream实现了一个输出流，其中的数据被写入一个 byte<br>数组。缓冲区会随着数据的不断写入而自动增长。可使用 toByteArray()和 toString()获取数据。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>ByteArrayOutputStream提供的API如下：</p>
+<pre><code>// 构造函数
+    ByteArrayOutputStream()
+    ByteArrayOutputStream(int size)
+
+    void    close() //关闭字节流
+    synchronized void    reset() //重置计数器
+    int     size() //获取当前计数
+    synchronized byte[]  toByteArray() //将字节流转换为字节数组
+    String  toString(int hibyte) //将字节流转换为String
+    String  toString(String charsetName)
+    String  toString()
+    synchronized void    write(byte[] buffer, int offset, int len) //写入字节数组buffer到字节流, offset是buffer的起始位置
+    synchronized void    write(int oneByte) //写入一个字节到字节流
+    synchronized void    writeTo(OutputStream out) //写输出流到其他输出流out
+}
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>public void testByteArrayOutputStream() {
+    byte [] letter = {&apos;h&apos;, &apos;i&apos;, &apos;j&apos;, &apos;k&apos;};
+    //新建字节流
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    //写入abcdefg
+    int i = &apos;a&apos;; //a
+    while (i &lt; &apos;h&apos;) {
+        outputStream.write(i);
+        i++;
+    }
+    System.out.println(&quot;当前字节流中的内容有: &quot; + outputStream.toString());
+
+    //写入多个
+    outputStream.write(letter, 1, 3);
+    System.out.println(&quot;写入letter数组中的第2,3,4个字母字节流中的内容有: &quot; + outputStream.toString());
+    System.out.println(&quot;当前output字节流中的字节数为: &quot; + outputStream.size());
+
+    byte [] byteArr = outputStream.toByteArray();
+    i = 0;
+    System.out.print(&quot;byte数组内容为: &quot;);
+    while (i &lt; byteArr.length) {
+        System.out.print(byteArr[i++] + &quot; &quot;);
+    }
+    System.out.println();
+
+    OutputStream cloneOut = new ByteArrayOutputStream();
+    try {
+        outputStream.writeTo(cloneOut);
+        System.out.println(&quot;cloneOut的内容为: &quot; + cloneOut.toString());
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>当前字节流中的内容有: abcdefg
+写入letter数组中的第2,3,4个字母字节流中的内容有: abcdefgijk
+当前output字节流中的字节数为: 10
+byte数组内容为: 97 98 99 100 101 102 103 105 106 107
+cloneOut的内容为: abcdefgijk
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1构造函数"><a href="#2-1构造函数" class="headerlink" title="2.1构造函数"></a>2.1构造函数</h3><p>ByteArrayOutputStream有两个构造函数,区别是初始大小不同。</p>
+<pre><code>/**
+ * Creates a new byte array output stream. The buffer capacity is
+ * initially 32 bytes, though its size increases if necessary.
+ */
+public ByteArrayOutputStream() {
+    this(32);
+}
+
+/**
+ * Creates a new byte array output stream, with a buffer capacity of
+ * the specified size, in bytes.
+ *
+ * @param   size   the initial size.
+ * @exception  IllegalArgumentException if size is negative.
+ */
+public ByteArrayOutputStream(int size) {
+    if (size &lt; 0) {
+        throw new IllegalArgumentException(&quot;Negative initial size: &quot;
+                + size);
+    }
+    buf = new byte[size];
+}
+</code></pre><h3 id="2-2-write方法"><a href="#2-2-write方法" class="headerlink" title="2.2 write方法"></a>2.2 write方法</h3><pre><code>/**
+ * Writes the specified byte to this byte array output stream.
+ *
+ * @param   b   the byte to be written.
+ */
+public synchronized void write(int b) {
+    ensureCapacity(count + 1); //增加容量, 容量不够则加倍
+    buf[count] = (byte) b; //写入字节
+    count += 1;
+}
+
+/**
+ * Writes &lt;code&gt;len&lt;/code&gt; bytes from the specified byte array
+ * starting at offset &lt;code&gt;off&lt;/code&gt; to this byte array output stream.
+ *
+ * @param   b     the data.
+ * @param   off   the start offset in the data.
+ * @param   len   the number of bytes to write.
+ */
+public synchronized void write(byte b[], int off, int len) {
+    if ((off &lt; 0) || (off &gt; b.length) || (len &lt; 0) ||
+            ((off + len) - b.length &gt; 0)) {
+        throw new IndexOutOfBoundsException();
+    }
+    ensureCapacity(count + len); //增加容量,容量不够则加倍
+    System.arraycopy(b, off, buf, count, len); //写入字节数组
+    count += len;
+}
+</code></pre><h3 id="2-3-writeTo方法"><a href="#2-3-writeTo方法" class="headerlink" title="2.3 writeTo方法"></a>2.3 writeTo方法</h3><pre><code>/**
+ * Writes the complete contents of this byte array output stream to
+ * the specified output stream argument, as if by calling the output
+ * stream&apos;s write method using &lt;code&gt;out.write(buf, 0, count)&lt;/code&gt;.
+ *
+ * @param      out   the output stream to which to write the data.
+ * @exception  IOException  if an I/O error occurs.
+ */
+public synchronized void writeTo(OutputStream out) throws IOException {
+    out.write(buf, 0, count); //将 当前OutputStream的buf中内容写到out中
+}
+</code></pre><h3 id="2-4-toString-toByteArray方法"><a href="#2-4-toString-toByteArray方法" class="headerlink" title="2.4 toString , toByteArray方法"></a>2.4 toString , toByteArray方法</h3><pre><code>/**
+ * Creates a newly allocated byte array. Its size is the current
+ * size of this output stream and the valid contents of the buffer
+ * have been copied into it.
+ *
+ * @return  the current contents of this output stream, as a byte array.
+ * @see     java.io.ByteArrayOutputStream#size()
+ */
+public synchronized byte toByteArray()[] {
+    return Arrays.copyOf(buf, count); //返回信得数组
+}
+
+/**
+ * Converts the buffer&apos;s contents into a string decoding bytes using the
+ * platform&apos;s default character set. The length of the new &lt;tt&gt;String&lt;/tt&gt;
+ * is a function of the character set, and hence may not be equal to the
+ * size of the buffer.
+ *
+ * &lt;p&gt; This method always replaces malformed-input and unmappable-character
+ * sequences with the default replacement string for the platform&apos;s
+ * default character set. The {@linkplain java.nio.charset.CharsetDecoder}
+ * class should be used when more control over the decoding process is
+ * required.
+ *
+ * @return String decoded from the buffer&apos;s contents.
+ * @since  JDK1.1
+ */
+public synchronized String toString() {
+    return new String(buf, 0, count); //返回String对象
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_02.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_02.html
+</a><br>[2] <a href="http://www.cnblogs.com/skywang12345/p/io_03.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_03.html
+</a><br>[3] <a href="http://blog.csdn.net/rcoder/article/details/6118313" target="_blank" rel="noopener"> http://blog.csdn.net/rcoder/article/details/6118313
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：ByteArrayOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java:_synchronized详解，静态同步方法，普通同步方法，同步代码块/" >Java:_synchronized详解，静态同步方法，普通同步方法，同步代码块</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>摘自： <a href="http://topmanopensource.iteye.com/blog/1738178" target="_blank" rel="noopener"> http://topmanopensource.iteye.com/blog/1738178
+</a></p>
+<p>对代码进行同步控制我们可以选择同步方法，也可以选择同步块，这两种方式各有优缺点，至于具体选择什么方式，就见仁见智了，同步块不仅可以更加精确的控制对象锁，也就<br>是控制锁的作用域，何谓锁的作用域？锁的作用域就是从锁被获取到其被释放的时间。而且可以选择要获取哪个对象的对象锁。但是如果在使用同步块机制时，如果使用过多的锁<br>也会容易引起死锁问题，同时获取和释放所也有代价，而同步方法，它们所拥有的锁就是该方法所属的类的对象锁，换句话说，也就是this对象，而且锁的作用域也是整个方<br>法，这可能导致其锁的作用域可能太大，也有可能引起死锁，同时因为可能包含了不需要进行同步的代码块在内，也会降低程序的运行效率。而不管是同步方法还是同步块，我们<br>都不应该在他们的代码块内包含无限循环，如果代码内部要是有了无限循环，那么这个同步方法或者同步块在获取锁以后因为代码会一直不停的循环着运行下去，也就没有机会释<br>放它所获取的锁，而其它等待这把锁的线程就永远无法获取这把锁，这就造成了一种死锁现象。</p>
+<p>详细解说一下同步方法的锁，同步方法分为静态同步方法与非静态同步方法。</p>
+<p><strong> 所有的非静态同步方法用的都是同一把锁——实例对象本身 </strong> ，也就是说如果一个实例对象的非静态同步方法获取锁后，该实例对象的其他非静态同步方法必须等待获取锁的方法释放锁后才能获取锁，可是别的实例对象的非静态同步方法因为跟该实例对象的非静态同步方法用的是不同的锁，所以毋须等待该实例对象已获取锁的非静态同步方法释放锁就可以获取他们自己的锁。 </p>
+<p><strong> 而所有的静态同步方法用的也是同一把锁——类对象本身 </strong> ，这两把锁是两个不同的对象，所以静态同步方法与非静态同步方法之间是不会有竞态条件的。但是一旦一个静态同步方法获取锁后，其他的静态同步方法都必须等待该方法释放锁后才能获取锁，而不管是同一个实例对象的静态同步方法之间，还是不同的实例对象的静态同步方法之间，只要它们同一个类的实例对象！ </p>
+<p><strong> 而对于同步块，由于其锁是可以选择的 </strong> ，所以只有使用同一把锁的同步块之间才有着竞态条件，这就得具体情况具体分析了，但这里有个需要注意的地方，同步块的锁是可以选择的，但是不是可以任意选择的！！！！这里必须要注意一个物理对象和一个引用对象的实例变量之间的区别！使用一个引用对象的实例变量作为锁并不是一个好的选择，因为同步块在执行过程中可能会改变它的值，其中就包括将其设置为null，而对一个null对象加锁会产生异常，并且对不同的对象加锁也违背了同步的初衷！这看起来是很清楚的，但是一个经常发生的错误就是选用了错误的锁对象，因此必须注意：同步是基于实际对象而不是对象引用的！多个变量可以引用同一个对象，变量也可以改变其值从而指向其他的对象，因此，当选择一个对象锁时，我们要根据实际对象而不是其引用来考虑！作为一个原则，不要选择一个可能会在锁的作用域中改变值的实例变量作为锁对象！！！！ </p>
+<h3 id="一、同步问题提出"><a href="#一、同步问题提出" class="headerlink" title="一、同步问题提出"></a>一、同步问题提出</h3><p>线程的同步是为了防止多个线程访问一个数据对象时，对数据造成的破坏。<br>例如：两个线程ThreadA、ThreadB都操作同一个对象Foo对象，并修改Foo对象上的数据。</p>
+<pre><code>public class Foo { 
+    private int x = 100; 
+
+    public int getX() { 
+        return x; 
+    } 
+
+    public int fix(int y) { 
+        x = x - y; 
+        return x; 
+    } 
+}
+
+public class MyRunnable implements Runnable { 
+    private Foo foo = new Foo(); 
+
+    public static void main(String[] args) { 
+        MyRunnable r = new MyRunnable(); 
+        Thread ta = new Thread(r, &quot;Thread-A&quot;); 
+        Thread tb = new Thread(r, &quot;Thread-B&quot;); 
+        ta.start(); 
+        tb.start(); 
+    } 
+
+    public void run() { 
+        for (int i = 0; i &lt; 3; i++) { 
+            this.fix(30); 
+            try { 
+                Thread.sleep(1); 
+            } catch (InterruptedException e) { 
+                e.printStackTrace(); 
+            } 
+            System.out.println(Thread.currentThread().getName() + &quot; : 当前foo对象的x值= &quot; + foo.getX()); 
+        } 
+    } 
+
+    public int fix(int y) { 
+        return foo.fix(y); 
+    } 
+}
+</code></pre><p>运行结果：</p>
+<pre><code>Thread-A : 当前foo对象的x值= 40 
+Thread-B : 当前foo对象的x值= 40 
+Thread-B : 当前foo对象的x值= -20 
+Thread-A : 当前foo对象的x值= -50 
+Thread-A : 当前foo对象的x值= -80 
+Thread-B : 当前foo对象的x值= -80 
+
+Process finished with exit code 0
+</code></pre><p>从结果发现，这样的输出值明显是不合理的。原因是两个线程不加控制的访问Foo对象并修改其数据所致。<br>如果要保持结果的合理性，只需要达到一个目的，就是将对Foo的访问加以限制，每次只能有一个线程在访问。这样就能保证Foo对象中数据的合理性了。</p>
+<p>在具体的Java代码中需要完成一下两个操作：<br>把竞争访问的资源类Foo变量x标识为private；<br>同步哪些修改变量的代码，使用synchronized关键字同步方法或代码。</p>
+<h3 id="二、同步和锁定"><a href="#二、同步和锁定" class="headerlink" title="二、同步和锁定"></a>二、同步和锁定</h3><h4 id="1、锁的原理"><a href="#1、锁的原理" class="headerlink" title="1、锁的原理"></a>1、锁的原理</h4><p>Java中每个对象都有一个内置锁</p>
+<p>当程序运行到非静态的synchronized同步方法上时，自动获得与正在执行代码类的当前实例（this实例）有关的锁。获得一个对象的锁也称为获取锁、锁定对象<br>、在对象上锁定或在对象上同步。</p>
+<p>当程序运行到synchronized同步方法或代码块时才该对象锁才起作用。</p>
+<p>一个对象只有一个锁。所以，如果一个线程获得该锁，就没有其他线程可以获得锁，直到第一个线程释放（或返回）锁。这也意味着任何其他线程都不能进入该对象上的sync<br>hronized方法或代码块，直到该锁被释放。</p>
+<p>释放锁是指持锁线程退出了synchronized同步方法或代码块。</p>
+<p>关于锁和同步，有以下几个要点：<br>1）、只能同步方法，而不能同步变量和类；<br>2）、每个对象只有一个锁；当提到同步时，应该清楚在什么上同步？也就是说，在哪个对象上同步？<br>3）、不必同步类中所有的方法，类可以同时拥有同步和非同步方法。<br>4）、如果两个线程要执行一个类中的synchronized方法，并且两个线程使用相同的实例来调用方法，那么一次只能有一个线程能够执行方法，另一个需要等待，直<br>到锁被释放。也就是说：如果一个线程在对象上获得一个锁，就没有任何其他线程可以进入（该对象的）类中的任何一个同步方法。<br>5）、如果线程拥有同步和非同步方法，则非同步方法可以被多个线程自由访问而不受锁的限制。<br>6）、线程睡眠时，它所持的任何锁都不会释放。<br>7）、线程可以获得多个重进入（synchronized ）锁。比如，在一个对象的同步方法里面调用另外一个对象的同步方法，则获取了两个对象的同步锁。<br>8）、同步损害并发性，应该尽可能缩小同步范围。同步不但可以同步整个方法，还可以同步方法中一部分代码块。<br>9）、在使用同步代码块时候，应该指定在哪个对象上同步，也就是说要获取哪个对象的锁。例如：</p>
+<pre><code>public int fix(int y) {
+    synchronized (this) {
+        x = x - y;
+    }
+    return x;
+}
+  当然，同步方法也可以改写为非同步方法，但功能完全一样的，例如：
+
+public synchronized int getX() {
+    return x++;
+}
+与
+
+public int getX() {
+    synchronized (this) {
+        return x;
+    }
+}
+</code></pre><p>效果是完全一样的。</p>
+<h3 id="三、静态方法同步"><a href="#三、静态方法同步" class="headerlink" title="三、静态方法同步"></a>三、静态方法同步</h3><p>要同步静态方法，需要一个用于整个类对象的锁，这个对象是就是这个类（XXX.class)。<br>例如：</p>
+<pre><code>public static synchronized int setName(String name){
+      Xxx.name = name;
+}
+等价于
+
+public static int setName(String name){
+      synchronized(Xxx.class){
+            Xxx.name = name;
+      }
+}
+</code></pre><h3 id="四、如果线程不能不能获得锁会怎么样"><a href="#四、如果线程不能不能获得锁会怎么样" class="headerlink" title="四、如果线程不能不能获得锁会怎么样"></a>四、如果线程不能不能获得锁会怎么样</h3><p>如果线程试图进入同步方法，而其锁已经被占用，则线程在该对象上被阻塞。实质上，线程进入该对象的的一种池中，必须在哪里等待，直到其锁被释放，该线程再次变为可运行<br>或运行为止。</p>
+<p>当考虑阻塞时，一定要注意哪个对象正被用于锁定：<br>1、调用同一个对象中非静态同步方法的线程将彼此阻塞。如果是不同对象，则每个线程有自己的对象的锁，线程间彼此互不干预。</p>
+<p>2、调用同一个类中的静态同步方法的线程将彼此阻塞，它们都是锁定在相同的Class对象上。</p>
+<p>3、静态同步方法和非静态同步方法将永远不会彼此阻塞，因为静态方法锁定在Class对象上，非静态方法锁定在该类的对象上。</p>
+<p>4、对于同步代码块，要看清楚什么对象已经用于锁定（synchronized后面括号的内容）。在同一个对象上进行同步的线程将彼此阻塞，在不同对象上锁定的线程将<br>永远不会彼此阻塞。</p>
+<h3 id="五、何时需要同步"><a href="#五、何时需要同步" class="headerlink" title="五、何时需要同步"></a>五、何时需要同步</h3><p>在多个线程同时访问互斥（可交换）数据时，应该同步以保护数据，确保两个线程不会同时修改更改它。</p>
+<p>对于非静态字段中可更改的数据，通常使用非静态方法访问。<br>对于静态字段中可更改的数据，通常使用静态方法访问。</p>
+<p>如果需要在非静态方法中使用静态字段，或者在静态字段中调用非静态方法，问题将变得非常复杂。已经超出SJCP考试范围了。</p>
+<h3 id="六、线程安全类"><a href="#六、线程安全类" class="headerlink" title="六、线程安全类"></a>六、线程安全类</h3><p>当一个类已经很好的同步以保护它的数据时，这个类就称为“线程安全的”。<br>即使是线程安全类，也应该特别小心，因为操作的线程是间仍然不一定安全。</p>
+<p>举个形象的例子，比如一个集合是线程安全的，有两个线程在操作同一个集合对象，当第一个线程查询集合非空后，删除集合中所有元素的时候。第二个线程也来执行与第一个线<br>程相同的操作，也许在第一个线程查询后，第二个线程也查询出集合非空，但是当第一个执行清除后，第二个再执行删除显然是不对的，因为此时集合已经为空了。<br>看个代码：</p>
+<pre><code>public class NameList { 
+    private List nameList = Collections.synchronizedList(new LinkedList()); 
+
+    public void add(String name) { 
+        nameList.add(name); 
+    } 
+
+    public String removeFirst() { 
+        if (nameList.size() &gt; 0) { 
+            return (String) nameList.remove(0); 
+        } else { 
+            return null; 
+        } 
+    } 
+}
+
+public class Test { 
+    public static void main(String[] args) { 
+        final NameList nl = new NameList(); 
+        nl.add(&quot;aaa&quot;); 
+        class NameDropper extends Thread{ 
+            public void run(){ 
+                String name = nl.removeFirst(); 
+                System.out.println(name); 
+            } 
+        } 
+
+        Thread t1 = new NameDropper(); 
+        Thread t2 = new NameDropper(); 
+        t1.start(); 
+        t2.start(); 
+    } 
+}
+</code></pre><p>虽然集合对象<br>private List nameList = Collections.synchronizedList(new<br>LinkedList());是同步的，但是程序还不是线程安全的。出现这种事件的原因是，上例中一个线程操作列表过程中无法阻止另外一个线程对列表的其他操作。</p>
+<p>解决上面问题的办法是，在操作集合对象的NameList上面做一个同步。改写后的代码如下：</p>
+<pre><code>public class NameList { 
+    private List nameList = Collections.synchronizedList(new LinkedList()); 
+
+    public synchronized void add(String name) { 
+        nameList.add(name); 
+    } 
+
+    public synchronized String removeFirst() { 
+        if (nameList.size() &gt; 0) { 
+            return (String) nameList.remove(0); 
+        } else { 
+            return null; 
+        } 
+    } 
+}
+</code></pre><p>这样，当一个线程访问其中一个同步方法时，其他线程只有等待。</p>
+<h3 id="七、线程死锁"><a href="#七、线程死锁" class="headerlink" title="七、线程死锁"></a>七、线程死锁</h3><p>死锁对Java程序来说，是很复杂的，也很难发现问题。当两个线程被阻塞，每个线程在等待另一个线程时就发生死锁。</p>
+<p>还是看一个比较直观的死锁例子：</p>
+<pre><code>public class DeadlockRisk { 
+    private static class Resource { 
+        public int value; 
+    } 
+
+    private Resource resourceA = new Resource(); 
+    private Resource resourceB = new Resource(); 
+
+    public int read() { 
+        synchronized (resourceA) { 
+            synchronized (resourceB) { 
+                return resourceB.value + resourceA.value; 
+            } 
+        } 
+    } 
+
+    public void write(int a, int b) { 
+        synchronized (resourceB) { 
+            synchronized (resourceA) { 
+                resourceA.value = a; 
+                resourceB.value = b; 
+            } 
+        } 
+    } 
+}
+</code></pre><p>假设read()方法由一个线程启动，write()方法由另外一个线程启动。读线程将拥有resourceA锁，写线程将拥有resourceB锁，两者都坚持等待<br>的话就出现死锁。</p>
+<p>实际上，上面这个例子发生死锁的概率很小。因为在代码内的某个点，CPU必须从读线程切换到写线程，所以，死锁基本上不能发生。</p>
+<p>但是，无论代码中发生死锁的概率有多小，一旦发生死锁，程序就死掉。有一些设计方法能帮助避免死锁，包括始终按照预定义的顺序获取锁这一策略。已经超出SCJP的考试<br>范围。</p>
+<h3 id="八、线程同步小结"><a href="#八、线程同步小结" class="headerlink" title="八、线程同步小结"></a>八、线程同步小结</h3><p>1、线程同步的目的是为了保护多个线程反问一个资源时对资源的破坏。<br>2、线程同步方法是通过锁来实现，每个对象都有切仅有一个锁，这个锁与一个特定的对象关联，线程一旦获取了对象锁，其他访问该对象的线程就无法再访问该对象的其他同步<br>方法。<br>3、对于静态同步方法，锁是针对这个类的，锁对象是该类的Class对象。静态和非静态方法的锁互不干预。一个线程获得锁，当在一个同步方法中访问另外对象上的同步方<br>法时，会获取这两个对象锁。<br>4、对于同步，要时刻清醒在哪个对象上同步，这是关键。<br>5、编写线程安全的类，需要时刻注意对多个线程竞争访问资源的逻辑和安全做出正确的判断，对“原子”操作做出分析，并保证原子操作期间别的线程无法访问竞争资源。<br>6、当多个线程等待一个对象锁时，没有获取到锁的线程将发生阻塞。<br>7、死锁是线程间相互等待锁锁造成的，在实际中发生的概率非常的小。真让你写个死锁程序，不一定好使，呵呵。但是，一旦程序发生死锁，程序将死掉。</p>
+<pre><code>package com.etrip.concurrent.executor;   
+
+import java.util.Collections;   
+import java.util.HashMap;   
+import java.util.Iterator;   
+import java.util.Map;   
+import java.util.Map.Entry;   
+import java.util.Set;   
+/**  
+ * 非静态同步方法，静态同步方法，同步语句块的使用  
+ *   
+ *   
+ * 进行多线程编程，同步控制是非常重要的，而同步控制就涉及到了锁。   
+
+       对代码进行同步控制我们可以选择同步方法，也可以选择同步块，这两种方式各有优缺点，至于具体选择什么方式，就见仁见智了，同步块不仅可以更加精确的控制对象锁，也就是控制锁的作用域，何谓锁的作用域？锁的作用域就是从锁被获取到其被释放的时间。而且可以选择要获取哪个对象的对象锁。但是如果在使用同步块机制时，如果使用过多的锁也会容易引起死锁问题，同时获取和释放所也有代价，而同步方法，它们所拥有的锁就是该方法所属的类的对象锁，换句话说，也就是this对象，而且锁的作用域也是整个方法，这可能导致其锁的作用域可能太大，也有可能引起死锁，同时因为可能包含了不需要进行同步的代码块在内，也会降低程序的运行效率。而不管是同步方法还是同步块，我们都不应该在他们的代码块内包含无限循环，如果代码内部要是有了无限循环，那么这个同步方法或者同步块在获取锁以后因为代码会一直不停的循环着运行下去，也就没有机会释放它所获取的锁，而其它等待这把锁的线程就永远无法获取这把锁，这就造成了一种死锁现象。   
+ *   
+ * @author longgangbai  
+ */  
+public class StaticInstanceLock {   
+
+
+    private   int count;   
+    private  static  StaticInstanceLock  instance=null;   
+    private StaticInstanceLock(){   
+    }   
+    /**  
+     * 静态方法的锁  
+     *   
+     * @return  
+     */  
+    public static synchronized StaticInstanceLock getInstance(){   
+        if(instance==null){   
+            instance=new  StaticInstanceLock();   
+        }   
+        return instance;   
+    }   
+
+    /**  
+     * 非静态方法的锁  
+     * @return  
+     */  
+    public synchronized int getCount(){   
+        return count;   
+    }   
+
+    public synchronized  void setCount(int count){   
+        this.count=count;   
+    }   
+    /**  
+     * 同步语句块的使用  
+     *   
+     */  
+    public void synmethod(){   
+              //HashMap为非安全性Map   
+              HashMap&lt;String,String&gt; hashmap = new HashMap&lt;String,String&gt;();   
+              hashmap.put(&quot;ZH&quot;,&quot;中国&quot;);   
+              hashmap.put(&quot;EN&quot;,&quot;英国&quot;);   
+              hashmap.put(&quot;AM&quot;,&quot;美国&quot;);   
+              hashmap.put(&quot;FR&quot;,&quot;法国&quot;);   
+
+              //创建一个同步的对象Map   
+              Map&lt;String,String&gt; m = Collections.synchronizedMap(hashmap);   
+              Set&lt;String&gt; s = m.keySet();  // Needn&apos;t be in synchronized block   
+              //这里同步的对象均为需要使用同步的对象如Map而非Set   
+              synchronized(m) {  // Synchronizing on m, not s!   
+                  Iterator&lt;String&gt; i = s.iterator(); // Must be in synchronized block   
+                  while (i.hasNext()){   
+                      foo(i.next());   
+                  }   
+              }   
+    }   
+
+    public void foo(String entry){   
+        System.out.println(&quot;StaticInstanceLock =&quot;+entry);   
+    }   
+
+    public static void main(String[] args) {   
+
+        StaticInstanceLock instance=StaticInstanceLock.getInstance();   
+        instance.setCount(7);   
+        int count = instance.getCount();   
+        instance.synmethod();   
+    }   
+
+}  
+</code></pre>
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java:_synchronized详解，静态同步方法，普通同步方法，同步代码块/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：FileInputStream和FileOutputStream使用详解及源码分析/" >Java_IO：FileInputStream和FileOutputStream使用详解及源码分析</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<h2 id="1-使用方法"><a href="#1-使用方法" class="headerlink" title="1 使用方法"></a>1 使用方法</h2><p>FileInputStream即文件输入流，使用它从文件中获得字节流，FileOutputStream即问价输出流，使用它将字节流写入文件。</p>
+<h2 id="1-1-方法介绍"><a href="#1-1-方法介绍" class="headerlink" title="1.1 方法介绍"></a>1.1 方法介绍</h2><p>FileInputStream提供的API如下：</p>
+<pre><code>FileInputStream(File file)         // 创建“File对象”对应的“文件输入流”
+FileInputStream(FileDescriptor fd) // 创建“文件描述符”对应的“文件输入流”
+FileInputStream(String path)       // 创建“文件(路径为path)”对应的“文件输入流”
+
+int      available()             // 返回“剩余的可读取的字节数”或者“skip的字节数”
+void     close()                 // 关闭“文件输入流”
+FileChannel      getChannel()    // 返回“FileChannel”
+final FileDescriptor     getFD() // 返回“文件描述符”
+int      read()                  // 返回“文件输入流”的下一个字节
+int      read(byte[] buffer, int off, int len) // 读取“文件输入流”的数据并存在到buffer，从off开始存储，存储长度是len。
+long     skip(long n)    // 跳过n个字节
+</code></pre><p>FileOutputStream提供的API如下：</p>
+<pre><code>FileOutputStream(File file)                   // 创建“File对象”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(File file, boolean append)   // 创建“File对象”对应的“文件输入流”；指定“追加模式”。
+FileOutputStream(FileDescriptor fd)           // 创建“文件描述符”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path)                 // 创建“文件(路径为path)”对应的“文件输入流”；默认“追加模式”是false，即“写到输出的流内容”不是以追加的方式添加到文件中。
+FileOutputStream(String path, boolean append) // 创建“文件(路径为path)”对应的“文件输入流”；指定“追加模式”。
+
+void                    close()      // 关闭“输出流”
+FileChannel             getChannel() // 返回“FileChannel”
+final FileDescriptor    getFD()      // 返回“文件描述符”
+void                    write(byte[] buffer, int off, int len) // 将buffer写入到“文件输出流”中，从buffer的off开始写，写入长度是len。
+void                    write(int n)  // 写入字节n到“文件输出流”中
+</code></pre><h3 id="1-2-使用示例"><a href="#1-2-使用示例" class="headerlink" title="1.2 使用示例"></a>1.2 使用示例</h3><pre><code>/**
+ * 在源码所在目录生成一个test.txt,并写入abcdefghijklmn123456
+ */
+public void testFileOutputStream() {
+    try {
+        byte [] content = {&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;, &apos;f&apos;, &apos;g&apos;, &apos;h&apos;, &apos;i&apos;, &apos;j&apos;, &apos;k&apos;, &apos;l&apos;, &apos;m&apos;, &apos;n&apos;};
+        //床架test.txt文件
+        File file = new File(&quot;test.txt&quot;);
+        //创建文件输出流
+        FileOutputStream outputStream = new FileOutputStream(file);
+        outputStream.write(content, 0, 14);
+        //PrintStream写入方便
+        PrintStream printStream = new PrintStream(outputStream);
+        printStream.print(&quot;123456&quot;);
+        printStream.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+/**
+ * 测试文件输入流
+ */
+public void testFileInputStream() {
+    try {
+        //新建输入流,文件中的内容为abcdefghijklmn123456
+        FileInputStream inputStream = new FileInputStream(&quot;test.txt&quot;);
+        //读取一个字节a
+        System.out.println(&quot;读取一个字节: &quot; + inputStream.read());
+        //跳过两个字节 b c
+        inputStream.skip(2);
+        //读取三个字节到buff中def
+        byte [] buff = new byte[3];
+        inputStream.read(buff, 0, 3);
+        System.out.println(&quot;buff中的内容为: &quot; + new String(buff));
+        inputStream.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+</code></pre><p>运行结果如下：</p>
+<pre><code>读取一个字节: 97
+buff中的内容为: def
+</code></pre><h2 id="2-源码分析"><a href="#2-源码分析" class="headerlink" title="2 源码分析"></a>2 源码分析</h2><h3 id="2-1FileInputStream源码分析"><a href="#2-1FileInputStream源码分析" class="headerlink" title="2.1FileInputStream源码分析"></a>2.1FileInputStream源码分析</h3><h4 id="2-1-1-构造方法"><a href="#2-1-1-构造方法" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><p>FileInputStream提供三个构造方法，区别是传入的参数类型（文件路径，FIle对象，文件描述符对象）。</p>
+<pre><code>/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the path name &lt;code&gt;name&lt;/code&gt;
+ * in the file system.  A new &lt;code&gt;FileDescriptor&lt;/code&gt;
+ * object is created to represent this file
+ * connection.
+ * &lt;p&gt;
+ * First, if there is a security
+ * manager, its &lt;code&gt;checkRead&lt;/code&gt; method
+ * is called with the &lt;code&gt;name&lt;/code&gt; argument
+ * as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      name   the system-dependent file name.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by
+ * opening a connection to an actual file,
+ * the file named by the &lt;code&gt;File&lt;/code&gt;
+ * object &lt;code&gt;file&lt;/code&gt; in the file system.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object
+ * is created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager,
+ * its &lt;code&gt;checkRead&lt;/code&gt; method  is called
+ * with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the named file does not exist, is a directory rather than a regular
+ * file, or for some other reason cannot be opened for reading then a
+ * &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file   the file to be opened for reading.
+ * @exception  FileNotFoundException  if the file does not exist,
+ *                   is a directory rather than a regular file,
+ *                   or for some other reason cannot be opened for
+ *                   reading.
+ * @exception  SecurityException      if a security manager exists and its
+ *               &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityManager#checkRead(java.lang.String)
+ */
+public FileInputStream(File file) throws FileNotFoundException {
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkRead(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    fd = new FileDescriptor();
+    fd.attach(this);
+    path = name;
+    open(name);
+}
+/**
+ * Creates a &lt;code&gt;FileInputStream&lt;/code&gt; by using the file descriptor
+ * &lt;code&gt;fdObj&lt;/code&gt;, which represents an existing connection to an
+ * actual file in the file system.
+ * &lt;p&gt;
+ * If there is a security manager, its &lt;code&gt;checkRead&lt;/code&gt; method is
+ * called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt; as its argument to
+ * see if it&apos;s ok to read the file descriptor. If read access is denied
+ * to the file descriptor a &lt;code&gt;SecurityException&lt;/code&gt; is thrown.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for reading.
+ * @throws     SecurityException      if a security manager exists and its
+ *                 &lt;code&gt;checkRead&lt;/code&gt; method denies read access to the
+ *                 file descriptor.
+ * @see        SecurityManager#checkRead(java.io.FileDescriptor)
+ */
+public FileInputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkRead(fdObj);
+    }
+    fd = fdObj;
+    path = null;
+
+    /*
+     * FileDescriptor is being shared by streams.
+     * Register this stream with FileDescriptor tracker.
+     */
+    fd.attach(this);
+}
+</code></pre><h3 id="2-2-FileOutputStream源码分析"><a href="#2-2-FileOutputStream源码分析" class="headerlink" title="2.2 FileOutputStream源码分析"></a>2.2 FileOutputStream源码分析</h3><h4 id="2-1-1-构造方法-1"><a href="#2-1-1-构造方法-1" class="headerlink" title="2.1.1 构造方法"></a>2.1.1 构造方法</h4><pre><code>public FileOutputStream(String name) throws FileNotFoundException {
+    this(name != null ? new File(name) : null, false);
+}
+
+/**
+ * Creates a file output stream to write to the file with the specified
+ * name.  If the second argument is &lt;code&gt;true&lt;/code&gt;, then
+ * bytes will be written to the end of the file rather than the beginning.
+ * A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is created to represent this
+ * file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with &lt;code&gt;name&lt;/code&gt; as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param     name        the system-dependent file name
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason.
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since     JDK1.1
+ */
+public FileOutputStream(String name, boolean append)
+        throws FileNotFoundException
+{
+    this(name != null ? new File(name) : null, append);
+}
+
+public FileOutputStream(File file) throws FileNotFoundException {
+    this(file, false);
+}
+
+/**
+ * Creates a file output stream to write to the file represented by
+ * the specified &lt;code&gt;File&lt;/code&gt; object. If the second argument is
+ * &lt;code&gt;true&lt;/code&gt;, then bytes will be written to the end of the file
+ * rather than the beginning. A new &lt;code&gt;FileDescriptor&lt;/code&gt; object is
+ * created to represent this file connection.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the path represented by the &lt;code&gt;file&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If the file exists but is a directory rather than a regular file, does
+ * not exist but cannot be created, or cannot be opened for any other
+ * reason then a &lt;code&gt;FileNotFoundException&lt;/code&gt; is thrown.
+ *
+ * @param      file               the file to be opened for writing.
+ * @param     append      if &lt;code&gt;true&lt;/code&gt;, then bytes will be written
+ *                   to the end of the file rather than the beginning
+ * @exception  FileNotFoundException  if the file exists but is a directory
+ *                   rather than a regular file, does not exist but cannot
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *                   be created, or cannot be opened for any other reason
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies write access
+ *               to the file.
+ * @see        java.io.File#getPath()
+ * @see        java.lang.SecurityException
+ * @see        java.lang.SecurityManager#checkWrite(java.lang.String)
+ * @since 1.4
+ */
+public FileOutputStream(File file, boolean append)
+        throws FileNotFoundException
+{
+    String name = (file != null ? file.getPath() : null);
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+        security.checkWrite(name);
+    }
+    if (name == null) {
+        throw new NullPointerException();
+    }
+    if (file.isInvalid()) {
+        throw new FileNotFoundException(&quot;Invalid file path&quot;);
+    }
+    this.fd = new FileDescriptor();
+    fd.attach(this);
+    this.append = append;
+    this.path = name;
+
+    open(name, append);
+}
+
+/**
+ * Creates a file output stream to write to the specified file
+ * descriptor, which represents an existing connection to an actual
+ * file in the file system.
+ * &lt;p&gt;
+ * First, if there is a security manager, its &lt;code&gt;checkWrite&lt;/code&gt;
+ * method is called with the file descriptor &lt;code&gt;fdObj&lt;/code&gt;
+ * argument as its argument.
+ * &lt;p&gt;
+ * If &lt;code&gt;fdObj&lt;/code&gt; is null then a &lt;code&gt;NullPointerException&lt;/code&gt;
+ * is thrown.
+ * &lt;p&gt;
+ * This constructor does not throw an exception if &lt;code&gt;fdObj&lt;/code&gt;
+ * is {@link java.io.FileDescriptor#valid() invalid}.
+ * However, if the methods are invoked on the resulting stream to attempt
+ * I/O on the stream, an &lt;code&gt;IOException&lt;/code&gt; is thrown.
+ *
+ * @param      fdObj   the file descriptor to be opened for writing
+ * @exception  SecurityException  if a security manager exists and its
+ *               &lt;code&gt;checkWrite&lt;/code&gt; method denies
+ *               write access to the file descriptor
+ * @see        java.lang.SecurityManager#checkWrite(java.io.FileDescriptor)
+ */
+public FileOutputStream(FileDescriptor fdObj) {
+    SecurityManager security = System.getSecurityManager();
+    if (fdObj == null) {
+        throw new NullPointerException();
+    }
+    if (security != null) {
+        security.checkWrite(fdObj);
+    }
+    this.fd = fdObj;
+    this.append = false;
+    this.path = null;
+
+    fd.attach(this);
+}
+</code></pre><h2 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h2><p>[1] <a href="http://www.cnblogs.com/skywang12345/p/io_07.html" target="_blank" rel="noopener"> http://www.cnblogs.com/skywang12345/p/io_07.html
+</a><br>[2] <a href="http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/" target="_blank" rel="noopener"><br>http://wangkuiwu.github.io/2012/05/07/FileInputStreamAndFileOutputStream/
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：FileInputStream和FileOutputStream使用详解及源码分析/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+           
+			  
+	
+	<!-- display as entry -->	
+		<h3 class="title">
+			<div class="date"> 2017-11-11 </div>
+			<div class="article-title"><a href="/2017/11/11/Java_IO：IO框架/" >Java_IO：IO框架</a></div>						
+		</h3>
+	
+
+
+			  <div class="entry">
+  <div class="row">
+	
+	
+		<p>Java IO：IO框架</p>
+<p>Java 流处理分为字节流和字符流。字节流处理的单位是byte，而字符流处理的单位是以2个字节为单位的Unicode编码字符。字符流的操作效率比字节流高，字<br>符流按字符处理，字节流一次只能处理一个字节。下面是网上盗用的图（ <a href="http://blog.csdn.net/yczz/article/details/38761237" target="_blank" rel="noopener"><br>http://blog.csdn.net/yczz/article/details/38761237
+</a> ）<br><img src="http://img.blog.csdn.net/20160324162626046" alt="IO框架图"></p>
+<h2 id="1-字节流-InputStream-OutputStream（创建一个输入-输出的Stream流）"><a href="#1-字节流-InputStream-OutputStream（创建一个输入-输出的Stream流）" class="headerlink" title="1 字节流 InputStream/OutputStream（创建一个输入/输出的Stream流）"></a>1 字节流 InputStream/OutputStream（创建一个输入/输出的Stream流）</h2><p>InputStream是字节输入流的基类，是一个抽象类，它提供的方法有：<br>int available() //返回stream中的可读字节数，inputstream类中的这个方法始终返回的是0，这个方法需要子类去实现。</p>
+<pre><code>void close() //关闭stream方法，这个是每次在用完流之后必须调用的方法。
+int read() //方法是读取一个byte字节,但是返回的是int。
+int read(byte[]) //一次性读取内容到缓冲字节数组
+int read(byte[],int,int) //从数据流中的哪个位置offset开始读长度为len的内容到缓冲字节数组
+long skip(long) //从stream中跳过long类型参数个位置
+synchronized void mark(int) //用于标记stream的作用
+boolean markSupported() //返回的是boolean类型，因为不是所有的stream都可以调用mark方法的，这个方法就是用来判断stream是否可以调用mark方法和reset方法
+synchronized void reset() //这个方法和mark方法一起使用的，让stream回到mark的位置。
+</code></pre><p>OutputStream是一个输出字节流，是一个抽象类，他提供的方法有：</p>
+<pre><code>void write(int) //写入一个字节到stream中
+void write(byte[]) //写入一个byte数组到stream中
+void write(byte[],int,int) //把byte数组中从offset开始处写入长度为len的数据
+void close() //关闭流，这个是在操作完stream之后必须要调用的方法
+void flush() //这个方法是用来刷新stream中的数据，让缓冲区中的数据强制的输出
+</code></pre><h3 id="1-1-FileInputStream-FileOutputStream"><a href="#1-1-FileInputStream-FileOutputStream" class="headerlink" title="1.1 FileInputStream/FileOutputStream"></a>1.1 FileInputStream/FileOutputStream</h3><p>把一个文件作为InputStream/OutputStream，实现对文件的读写操作。</p>
+<h3 id="1-2-FilterInputStream-FilterOutputStream"><a href="#1-2-FilterInputStream-FilterOutputStream" class="headerlink" title="1.2 FilterInputStream/FilterOutputStream"></a>1.2 FilterInputStream/FilterOutputStream</h3><p>一个提供过滤功能的InputStream/OutputStream，并不常用，常用的是他们的子类BufferedInputStream、DataInputS<br>tream、BufferedOutputStream、DataOutputStream和PrintStream。<br>BufferedInputStream提供了将原始数据分批加载到内存的功能，提高处理效率。<br>DataInputStream提供了允许应用程序以与机器无关方式从底层输入流中读取基本 Java 数据类型。<br>BufferedOutputStream通过字节数组来缓冲数据，当缓冲区满或者用户调用flush()函数时，它就会将缓冲区的数据写入到输出流中。<br>DataOutputStream提供了允许应用程序以与机器无关方式从底层输入流中写入基本 Java 数据类型。<br>PrintStream是用来装饰其它输出流。它能为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。</p>
+<h3 id="1-3-ObjectInputStream-ObjectOutputStream"><a href="#1-3-ObjectInputStream-ObjectOutputStream" class="headerlink" title="1.3 ObjectInputStream/ObjectOutputStream"></a>1.3 ObjectInputStream/ObjectOutputStream</h3><p>对基本数据或对象进行序列化操作。</p>
+<h3 id="1-4-PipedInputStream-PipedOutputStream"><a href="#1-4-PipedInputStream-PipedOutputStream" class="headerlink" title="1.4 PipedInputStream/PipedOutputStream"></a>1.4 PipedInputStream/PipedOutputStream</h3><p>它们的作用是让多线程可以通过管道进行线程间的通讯。在使用管道通信时，必须将PipedOutputStream和PipedInputStream配套使用。<br>使用管道通信时，大致的流程是：我们在线程A中向PipedOutputStream中写入数据，这些数据会自动的发送到与PipedOutputStream对应的<br>PipedInputStream中，进而存储在PipedInputStream的缓冲中；此时，线程B通过读取PipedInputStream中的数据。就可以<br>实现，线程A和线程B的通信。</p>
+<h3 id="1-5-ByteArrayInputStream-ByteArrayOutputStream"><a href="#1-5-ByteArrayInputStream-ByteArrayOutputStream" class="headerlink" title="1.5 ByteArrayInputStream/ByteArrayOutputStream"></a>1.5 ByteArrayInputStream/ByteArrayOutputStream</h3><p>ByteArrayInputStream它包含一个内部缓冲区，该缓冲区包含从流中读取的字节;<br>ByteArrayOutputStream中的数据被写入一个 byte 数组。</p>
+<h2 id="2-字符流-Reader-Writer"><a href="#2-字符流-Reader-Writer" class="headerlink" title="2 字符流 Reader/Writer"></a>2 字符流 Reader/Writer</h2><p>Reader/Writer和InputStream/OutputStream功能类似，Reader/Writer操作的是字符char而InputStream<br>/OutputStream操作的是字节byte。</p>
+<h3 id="2-1-FileReader-FileWriter"><a href="#2-1-FileReader-FileWriter" class="headerlink" title="2.1 FileReader/FileWriter"></a>2.1 FileReader/FileWriter</h3><p>和FileInputStream/FileOutputStream对应。</p>
+<h3 id="2-2-BufferedReader-BufferedWriter"><a href="#2-2-BufferedReader-BufferedWriter" class="headerlink" title="2.2 BufferedReader/BufferedWriter"></a>2.2 BufferedReader/BufferedWriter</h3><p>和BufferedInputStream/BufferedOutputStream对应。</p>
+<h3 id="2-3-PipedReader-PipedWriter"><a href="#2-3-PipedReader-PipedWriter" class="headerlink" title="2.3 PipedReader/PipedWriter"></a>2.3 PipedReader/PipedWriter</h3><p>和PipedInputStream/PipedOutputStream对应。</p>
+<h3 id="2-4-InputStreamReader-OutputStreamWriter"><a href="#2-4-InputStreamReader-OutputStreamWriter" class="headerlink" title="2.4 InputStreamReader/OutputStreamWriter"></a>2.4 InputStreamReader/OutputStreamWriter</h3><p>实现InputStream/OutputStream和Reader/Writer转换。</p>
+<h3 id="2-5-CharArrayReader-CharArrayWriter"><a href="#2-5-CharArrayReader-CharArrayWriter" class="headerlink" title="2.5 CharArrayReader/CharArrayWriter"></a>2.5 CharArrayReader/CharArrayWriter</h3><p>和ByteArrayInputStream/ByteArrayOutputStream对应。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1] <a href="http://blog.csdn.net/yczz/article/details/38761237" target="_blank" rel="noopener"> http://blog.csdn.net/yczz/article/details/38761237
+</a><br>[2] <a href="http://blog.csdn.net/jiangwei0910410003/article/details/22376895" target="_blank" rel="noopener"> http://blog.csdn.net/jiangwei0910410003/article/details/22376895
+</a></p>
+
+	
+	</div>
+  <a type="button" href="/2017/11/11/Java_IO：IO框架/#more" class="btn btn-default more">Read More</a>
+</div>
+
+           
+		
+
+		</div>
+
+		<!-- pagination -->
+		<div>
+  		<center>
+		<div class="pagination">
+<ul class="pagination">
+	 
+		
+          <li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+        
+
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+
+		
+		   <li class="next"> <a href="/page/2/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a> </li>          
+        
+	
+</ul>
+</div>
+
+  		</center>
+		</div>
+
+		
+		
+	</div> <!-- col-md-9 -->
+
+	
+		<div class="col-md-3">
+	<div id="sidebar">
+	
+			
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="Search" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
+
+
+		
+			<div class="widget">
+    
+</div>
+
+		
+			
+	<div class="widget">
+		<h4>Categories</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/分类/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/分类/Java-IO/">Java_IO<span>10</span></a></li>
+		
+			<li><a href="/分类/Java字符串/">Java字符串<span>4</span></a></li>
+		
+			<li><a href="/分类/Java并发编程/">Java并发编程<span>9</span></a></li>
+		
+			<li><a href="/分类/Java集合/">Java集合<span>7</span></a></li>
+		
+			<li><a href="/分类/LeetCode/">LeetCode<span>2</span></a></li>
+		
+			<li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+		
+			<li><a href="/分类/Redis/">Redis<span>5</span></a></li>
+		
+			<li><a href="/分类/以前/">以前<span>1</span></a></li>
+		
+			<li><a href="/分类/技术文摘/">技术文摘<span>2</span></a></li>
+		
+		</ul>
+	</div>
+
+		
+			
+	<div class="widget">
+		<h4>Tag Cloud</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/Java/">Java<span>1</span></a></li>
+		
+			<li><a href="/tags/自动装箱/">自动装箱<span>1</span></a></li>
+		
+			<li><a href="/tags/Integer-缓存/">Integer 缓存<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
+
+		
+			
+<div class="widget">
+  <h4>Recent Posts</h4>
+  <ul class="entry list-unstyled">
+    
+      <li>
+        <a href="/2018/03/13/Java中的自动装箱与拆箱/" ><i class="fa fa-file-o"></i>Java中的自动装箱与拆箱</a>
+      </li>
+    
+      <li>
+        <a href="/2018/03/12/如何进行高质量的代码审查-来自LinkedIn的实践提示/" ><i class="fa fa-file-o"></i>如何进行高质量的代码审查-来自LinkedIn的实践提示</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java并发编程：阻塞队列及实现生产者-消费者模式/" ><i class="fa fa-file-o"></i>Java并发编程：阻塞队列及实现生产者-消费者模式</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：ByteArrayInputStream使用详解及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：ByteArrayInputStrea...</a>
+      </li>
+    
+      <li>
+        <a href="/2017/11/11/Java_IO：CharArrayWriter使用及源码分析/" ><i class="fa fa-file-o"></i>Java_IO：CharArrayWriter使用及源...</a>
+      </li>
+    
+  </ul>
+</div>
+
+		
+			
+<div class="widget">
+	<h4>Links</h4>
+	<ul class="blogroll list-unstyled">
+	
+		<li><i class="fa fa-github"></i><a href="https://github.com/wzpan/freemind/" title="Freemind's Github repository." target="_blank"]);">Freemind</a></li>
+	
+		<li><i class="fa fa-github"></i><a href="http://www.github.com/ahsxsk" title="My Github account." target="_blank"]);">My Github</a></li>
+	
+	</ul>
+</div>
+
+
+		
+	</div> <!-- sidebar -->
+</div> <!-- col-md-3 -->
+
+	
+	
+</div> <!-- row-fluid -->
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>

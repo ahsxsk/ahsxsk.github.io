@@ -1,0 +1,565 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL中的两种临时表 | 史可的博客</title>
+  <meta name="author" content="shike">
+  
+  <meta name="description" content="转自：  http://mysql.taobao.org/monthly/2016/06/07/
+
+外部临时表 通过CREATE TEMPORARY TABLE 创建的临时表，这种临时表称为外部临时表。这种临时表只对当前用户可见，当前会话结束的时候，该临时表会自动关闭。这种临时表的命名与非临时表可以">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="MySQL中的两种临时表"/>
+  <meta property="og:site_name" content="史可的博客"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+  
+    <link href="/favicon.png" rel="icon">
+  
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/themes/cerulean.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight-default.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/comment.css" media="screen" type="text/css">
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+  <![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  
+  <!-- analytics -->
+  
+
+
+
+</head>
+
+ <body>  
+  <nav id="main-nav" class="navbar navbar-inverse navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <button type="button" class="navbar-header navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+       <a class="navbar-brand" href="/">史可的博客</a>
+      <div class="collapse navbar-collapse nav-menu">
+		<ul class="nav navbar-nav">
+		  
+		  <li>
+			<a href="/archives" title="All the articles.">
+			  <i class="fa fa-archive"></i>Archives
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/categories" title="All the categories.">
+			  <i class="fa fa-folder"></i>Categories
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/tags" title="All the tags.">
+			  <i class="fa fa-tags"></i>Tags
+			</a>
+		  </li>
+		  
+		  <li>
+			<a href="/about" title="About me.">
+			  <i class="fa fa-user"></i>About
+			</a>
+		  </li>
+		  
+		</ul>
+      </div>
+    </div> <!-- container -->
+</nav>
+<div class="clearfix"></div>
+
+  <div class="container">
+  	<div class="content">
+    	 
+
+
+	
+		<div class="page-header page-header-inverse ">		
+			<h1 class="title title-inverse "> MySQL中的两种临时表</h1>
+		</div>		
+	
+
+
+
+
+
+
+<div class="row post">
+	<!-- cols -->
+	
+	<div id="top_meta"></div>
+	<div class="col-md-9">
+	
+
+	<!-- content -->
+	<div class="mypage">		
+	  		
+
+	  <p>转自： <a href="http://mysql.taobao.org/monthly/2016/06/07/" target="_blank" rel="noopener"> http://mysql.taobao.org/monthly/2016/06/07/
+</a></p>
+<h2 id="外部临时表"><a href="#外部临时表" class="headerlink" title="外部临时表"></a>外部临时表</h2><p><strong> 通过CREATE TEMPORARY TABLE </strong><br>创建的临时表，这种临时表称为外部临时表。这种临时表只对当前用户可见，当前会话结束的时候，该临时表会自动关闭。这种临时表的命名与非临时表可以同名（同名后非临时<br>表将对当前会话不可见，直到临时表被删除）。</p>
+<h2 id="内部临时表"><a href="#内部临时表" class="headerlink" title="内部临时表"></a>内部临时表</h2><p>内部临时表是一种特殊轻量级的临时表，用来进行性能优化。这种临时表会被MySQL自动创建并用来存储某些操作的中间结果。这些操作可能包括在优化阶段或者执行阶段。<br>这种内部表对用户来说是不可见的，但是通过EXPLAIN或者SHOW<br>STATUS可以查看MYSQL是否使用了内部临时表用来帮助完成某个操作。内部临时表在SQL语句的优化过程中扮演着非常重要的角色， MySQL中的很多操作都要<br>依赖于内部临时表来进行优化。但是使用内部临时表需要创建表以及中间数据的存取代价，所以用户在写SQL语句的时候应该尽量的去避免使用临时表。</p>
+<p>内部临时表有两种类型：一种是 <strong> HEAP临时表 </strong> ，这种临时表的所有数据都会存在内存中，对于这种表的操作不需要IO操作。另一种是 <strong><br>OnDisk临时表 </strong> ，顾名思义，这种临时表会将数据存储在磁盘上。OnDisk临时表用来处理 <strong> 中间结果比较大的操作 </strong> 。如果HEAP临时表存储<br>的数据大于MAX_HEAP_TABLE_SIZE（详情请参考MySQL手册中系统变量部分），HEAP临时表将会被自动转换成OnDisk临时表。OnDisk临<br>时表在5.7中可以通过INTERNAL_TMP_DISK_STORAGE_ENGINE系统变量选择使用MyISAM引擎或者InnoDB引擎。</p>
+<p>本篇文章主要介绍哪些操作可能会利用到内部临时表。如果用户在书写SQL语句的时候能够尽量少的使用内部临时表进行查询优化，将有效的提高查询执行的效率。</p>
+<p>首先我们定义一个表t1，</p>
+<pre><code>CREATE TABLE t1( a int, b int); INSERT INTO t1 VALUES(1,2),(3,4);
+</code></pre><p>下面所有的操作都是基于表t1进行举例的。</p>
+<p>在SQL语句中使用SQL_BUFFER_RESULT hint<br>SQL_BUFFER_RESULT主要用来让MySQL尽早的释放表上的锁。因为如果数据量很大的话，需要较长时间将数据发送到客户端，通过将数据缓冲到临时表中可<br>以有效的减少读锁对表的占用时间。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select SQL_BUFFER_RESULT * from t1;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.00&quot;
+    },
+    &quot;buffer_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table&quot;: {
+        &quot;table_name&quot;: &quot;t1&quot;,
+        &quot;access_type&quot;: &quot;ALL&quot;,
+    ...
+</code></pre><p>如果SQL语句中包含了DERIVED_TABLE。<br>在5.7中，由于采用了新的优化方式，我们需要使用 set optimizer_switch=’derived_merge=off’来禁止derived<br>table合并到外层的Query中。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from (select * from t1) as tt;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.40&quot;
+    },
+    &quot;table&quot;: {
+      &quot;table_name&quot;: &quot;tt&quot;,
+      &quot;access_type&quot;: &quot;ALL&quot;,
+      ...
+      &quot;materialized_from_subquery&quot;: {
+        &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果我们查询系统表的话，系统表的数据将被存储到内部临时表中。<br>我们当前不能使用EXPLAIN来查看是否读取系统表数据需要利用到内部临时表，但是可以通过SHOW STATUS来查看是否利用到了内部临时表。<br>例如：</p>
+<pre><code>mysql&gt; select * from information_schema.character_sets;
+mysql&gt; show status like &apos;CREATE%&apos;;
+</code></pre><p>如果DISTINCT语句没有被优化掉，即DISTINCT语句被优化转换为GROUP BY操作或者利用UNIQUE INDEX消除DISTINCT,<br>内部临时表将会被使用。</p>
+<pre><code>mysql&gt; explain format=json select distinct a from t1;
+EXPLAIN
+{
+{
+  &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.60&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>如果查询带有ORDER BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行排序。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)<br>例如：</p>
+<p>1))BNL默认是打开的</p>
+<pre><code>mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+  &quot;query_block&quot;: {
+  &quot;select_id&quot;: 1,
+  &quot;cost_info&quot;: {
+    &quot;query_cost&quot;: &quot;22.00&quot;
+  },
+  &quot;ordering_operation&quot;: {
+    &quot;using_temporary_table&quot;: true,
+  ...
+</code></pre><p>2))关掉BNL后，ORDER BY将直接使用filesort。</p>
+<pre><code>mysql&gt; set optimizer_switch=&apos;block_nested_loop=off&apos;;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; explain format=json select * from t1, t1 as t2 order by t1.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+    ...
+</code></pre><p>2）ORDER BY的列不属于执行计划中第一个连接表的列。<br>例如：</p>
+<pre><code>mysql&gt; explain format=json select * from t as t1, t as t2 order by t2.a;
+EXPLAIN
+{
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;25.00&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ...
+</code></pre><p>3）如果ORDER BY的表达式是个复杂表达式。</p>
+<p>那么什么样的ORDER BY表达式，MySQL认为是复杂表达式呢？</p>
+<p>1))如果排序表达式是SP或者UDF。<br>例如：</p>
+<pre><code>drop function if exists func1;
+delimiter |
+create function func1(x int)
+returns int deterministic
+begin
+declare z1, z2 int;
+set z1 = x;
+set z2 = z1+2;
+return z2;
+end|
+delimiter ;
+explain format=json select * from t1 order by func1(a);
+{
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;2.20&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+    ..
+</code></pre><p>2))ORDER BY的列包含聚集函数</p>
+<p>为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>create index idx1 on t1(a);
+explain format=json SELECt a FROM t1 group by a order by sum(a);
+| {
+     &quot;query_block&quot;: {
+      &quot;select_id&quot;: 1,
+      &quot;cost_info&quot;: {
+        &quot;query_cost&quot;: &quot;1.20&quot;
+      },
+      &quot;ordering_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: true,
+        &quot;grouping_operation&quot;: {
+          &quot;using_filesort&quot;: false,
+      ...
+drop index idx1 on t1;
+</code></pre><p>3))ORDER BY的列中包含有SCALAR SUBQUERY,当然该SCALAR SUBQUERY没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select rand() from t1 limit 1) as a from t1 order by a;     
+| {
+      &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.20&quot;
+        },
+        &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+            ...
+</code></pre><p>4) 如果查询既带有ORDER BY同时也有GROUP BY语句，但是两个语句使用的列不相同。</p>
+<p>注意: 如果是5.7，我们需要将sql_mode设置为非only_full_group_by模式，否则会报错。</p>
+<p>同样为了简化执行计划，我们利用INDEX来优化GROUP BY语句。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+create index idx1 on t1(b);
+explain format=json select t1.a from t1 group by t1.b order by 1;
+| {
+     &quot;query_block&quot;: {
+        &quot;select_id&quot;: 1,
+        &quot;cost_info&quot;: {
+          &quot;query_cost&quot;: &quot;1.40&quot;
+        },
+    &quot;ordering_operation&quot;: {
+          &quot;using_temporary_table&quot;: true,
+          &quot;using_filesort&quot;: true,
+          &quot;grouping_operation&quot;: {
+            &quot;using_filesort&quot;: false,
+    ...
+drop index idx1 on t1;
+</code></pre><p>如果查询带有GROUP BY语句，并且不能被优化掉。下面几种情况会利用到内部临时表缓存中间数据，然后对中间数据进行GROUP BY。<br>1）如果连接表使用BNL（Batched Nestloop）/BKA(Batched Key Access)。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t1.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+    ...
+</code></pre><p>2) 如果GROUP BY的列不属于执行计划中的第一个连接表。<br>例如：</p>
+<pre><code>explain format=json select t2.a from t1, t1 as t2 group by t2.a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;8.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;nested_loop&quot;: [
+    ...
+</code></pre><p>3) 如果GROUP BY语句使用的列与ORDER BY语句使用的列不同。<br>例如：</p>
+<pre><code>set sql_mode=&apos;&apos;;
+explain format=json select t1.a from t1 group by t1.b order by t1.a;
+| {
+   &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;1.40&quot;
+    },
+    &quot;ordering_operation&quot;: {
+      &quot;using_filesort&quot;: true,
+      &quot;grouping_operation&quot;: {
+        &quot;using_temporary_table&quot;: true,
+        &quot;using_filesort&quot;: false,
+    ...
+</code></pre><p>4) 如果GROUP BY带有ROLLUP并且是基于多表外连接。<br>例如：</p>
+<pre><code>explain format=json select sum(t1.a) from t1 left join t1 as t2 on true group by t1.a with rollup;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;7.20&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;4.00&quot;
+      },
+    ...
+</code></pre><p>5) 如果GROUP BY语句使用的列来自于SCALAR SUBQUERY，并且没有被优化掉。<br>例如：</p>
+<pre><code>explain format=json select (select avg(a) from t1) as a from t1 group by a;
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;3.40&quot;
+    },
+    &quot;grouping_operation&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;using_filesort&quot;: true,
+      &quot;cost_info&quot;: {
+        &quot;sort_cost&quot;: &quot;2.00&quot;
+      },
+    ...
+</code></pre><p>IN表达式转换为semi-join进行优化<br>1) 如果semi-join执行方式为Materialization<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off,duplicateweedout=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+| {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;5.60&quot;
+    },
+    &quot;nested_loop&quot;: [
+      {
+         &quot;rows_examined_per_scan&quot;: 1,
+              &quot;materialized_from_subquery&quot;: {
+                &quot;using_temporary_table&quot;: true,
+                &quot;query_block&quot;: {
+                  &quot;table&quot;: {
+                    &quot;table_name&quot;: &quot;t1&quot;,
+                    &quot;access_type&quot;: &quot;ALL&quot;,
+
+    ... 
+</code></pre><p>2) 如果semi-join执行方式为Duplicate Weedout<br>例如：</p>
+<pre><code>set optimizer_switch=&apos;firstmatch=off&apos;;
+explain format=json select * from t1 where a in (select b from t1);
+ | {
+    &quot;query_block&quot;: {
+    &quot;select_id&quot;: 1,
+    &quot;cost_info&quot;: {
+      &quot;query_cost&quot;: &quot;4.80&quot;
+    },
+    &quot;duplicates_removal&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;nested_loop&quot;: [
+            {
+    ...
+</code></pre><p>如果查询语句带有UNION，MySQL将利用内部临时表帮助UNION操作消除重复。<br>例如：</p>
+<pre><code>explain format=json select * from t1 union select * from t1;
+| {
+    &quot;query_block&quot;: {
+    &quot;union_result&quot;: {
+      &quot;using_temporary_table&quot;: true,
+      &quot;table_name&quot;: &quot;&lt;union1,2&gt;&quot;,
+    ...
+</code></pre><p>如果查询语句使用多表更新。<br>这里Explain不能看到内部临时表被利用，所以需要查看status。<br>例如：</p>
+<pre><code>update t1, t1 as t2 set t1.a=3;
+show status like &apos;CREATE%&apos;;
+</code></pre><p>如果聚集函数中包含如下函数，内部临时表也会被利用。<br>1) count(distinct *)<br>例如：</p>
+<pre><code>explain format=json select count(distinct a) from t1;
+</code></pre><p>2) group_concat<br>例如：</p>
+<pre><code>explain format=json select group_concat(b) from t1;
+</code></pre><p>总之，上面列出了10种情况，MySQL将利用内部临时表进行中间结果缓存，如果数据量比较大的话，内部临时表将会把数据存储在磁盘上，这样显然会对性能有所影响。<br><strong> 为了尽可能的减少性能损失，我们需要尽量避免上述情况的出现 </strong> 。</p>
+	  
+	</div>
+
+	<!-- recommended posts -->
+	
+
+	<div>
+  	<center>
+	<div class="pagination">
+<ul class="pagination">
+	 
+				
+    	<li class="prev"><a href="/2017/11/11/LeetCode:Fraction_to_Recurring_Decimal/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>Prev</a></li>
+  		
+
+        <li><a href="/archives"><i class="fa fa-archive"></i>Archive</a></li>
+
+		
+		   <li class="next"><a href="/2017/11/11/MySQL事务介绍及原理/" class="alignright next">Next<i class="fa fa-arrow-circle-o-right"></i></a></li>         
+        
+	
+</ul>
+</div>
+
+    </center>
+	</div>
+
+    <!-- share -->
+    
+        
+    <div class="bdsharebuttonbox">
+        <a href="#" class="bds_more" data-cmd="more"></a>
+        <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+        <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+        <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+        <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+        <a href="#" class="bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+        <a href="#" class="bds_evernotecn" data-cmd="evernotecn" title="分享到印象笔记"></a>
+        <a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+        <a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+    </div>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+
+
+        
+
+    
+	
+	<!-- comment -->
+	
+<section id="comment">
+  <h2 class="title">Comments</h2>
+  
+</section>
+
+
+	</div> <!-- col-md-9/col-md-12 -->
+		
+	
+	<div id="side_meta">
+		<div class="col-md-3" id="post_meta"> 
+
+	<!-- date -->
+	
+	<div class="meta-widget">
+	<i class="fa fa-clock-o"></i>
+	2017-11-11 
+	</div>
+	
+
+	<!-- categories -->
+    
+	<div class="meta-widget">
+	<a data-toggle="collapse" data-target="#categorys"><i class="fa fa-folder"></i></a>	
+    <ul id="categorys" class="tag_box list-unstyled collapse in">
+          
+  <li>
+    <li><a href="/分类/MySQL/">MySQL<span>5</span></a></li>
+  </li>
+
+    </ul>
+	</div>
+	
+
+	<!-- tags -->
+	
+
+	<!-- toc -->
+	<div class="meta-widget">
+	
+	</div>
+	
+    <hr>
+	
+</div><!-- col-md-3 -->
+
+	</div>
+		
+
+</div><!-- row -->
+
+
+
+	</div>
+  </div>
+  <div class="container-narrow">
+  <footer> <p>
+  &copy; 2018 shike
+  
+      with help from <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a>. Theme by <a href="http://github.com/wzpan/hexo-theme-freemind/">Freemind</a>.    
+</p> </footer>
+</div> <!-- container-narrow -->
+  
+
+
+  
+<a id="gotop" href="#">   
+  <span>▲</span> 
+</a>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script> 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+<!-- syntax highlighting -->
+
+
+</body>
+   </html>
